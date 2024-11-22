@@ -8,19 +8,15 @@
     "./code": "./src/code.tsx"
   },
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "2.3.1",
     "@types/node": "22.9.1",
-    "@types/eslint": "9.6.1",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
-    "eslint": "8.57.1",
     "typescript": "5.6.3"
   },
   "dependencies": {

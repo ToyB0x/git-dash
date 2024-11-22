@@ -6,10 +6,11 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format-and-lint": "biome check .",
+    "format-and-lint:fix": "biome check . --write"
   },
   "devDependencies": {
-    "prettier": "3.3.3",
+    "@biomejs/biome": "1.9.4",
     "turbo": "2.3.1",
     "typescript": "5.6.3"
   },
