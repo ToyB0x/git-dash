@@ -37,8 +37,8 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
-      - name: Lint check
-        run: pnpm lint
+      - name: Lint / Format check
+        run: pnpm format-and-lint
 
       - name: Type check
         run: pnpm typecheck
