@@ -38,6 +38,9 @@
     "vite-tsconfig-paths": "4.3.2"
   },
   "engines": {
-    "node": "23.3.0"
+    "node": "22.11.0"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }
