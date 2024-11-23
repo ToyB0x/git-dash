@@ -88,8 +88,6 @@ importers:
         specifier: 4.3.2
         version: 4.3.2(typescript@5.7.2)(vite@5.4.11(@types/node@22.9.2))
 
-  packages/typescript-config: {}
-
   packages/ui:
     dependencies:
       react:
@@ -99,9 +97,9 @@ importers:
         specifier: 19.0.0-rc-fb9a90fa48-20240614
         version: 19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614)
     devDependencies:
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
       '@turbo/gen':
         specifier: 2.3.1
         version: 2.3.1(@types/node@22.9.2)(typescript@5.7.2)
@@ -890,6 +888,9 @@ packages:
 
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+
+  '@tsconfig/strictest@2.0.5':
+    resolution: {integrity: sha512-ec4tjL2Rr0pkZ5hww65c+EEPYwxOi4Ryv+0MtjeaSQRJyq322Q27eOQiFbuNgw2hpL4hB1/W/HBGk3VKS43osg==}
 
   '@turbo/gen@2.3.1':
     resolution: {integrity: sha512-QlxmNhrgH9vkI8e13O3Wd3wnLLb+JbGBeifaYywORN9bY29YmObhxLvBTCYGoYFED1nHRxB19mTJBQjPdejskA==}
@@ -4750,6 +4751,8 @@ snapshots:
   '@tsconfig/node14@1.0.3': {}
 
   '@tsconfig/node16@1.0.4': {}
+
+  '@tsconfig/strictest@2.0.5': {}
 
   '@turbo/gen@2.3.1(@types/node@22.9.2)(typescript@5.7.2)':
     dependencies:
