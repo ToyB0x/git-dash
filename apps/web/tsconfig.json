@@ -1,4 +1,5 @@
 {
+  "extends": "@tsconfig/strictest",
   "include": [
     "**/*.ts",
     "**/*.tsx",
