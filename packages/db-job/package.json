@@ -5,7 +5,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "init": "prisma migrate dev --name init",
+    "migrate:dev": "prisma migrate dev",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
