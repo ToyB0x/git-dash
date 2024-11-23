@@ -58,6 +58,7 @@ const resources = [
     href: "https://remix.run/start/quickstart",
     text: "Quick Start (5 min)",
     icon: (
+      // biome-ignore lint: ignore remix default setup
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -79,6 +80,7 @@ const resources = [
     href: "https://remix.run/start/tutorial",
     text: "Tutorial (30 min)",
     icon: (
+      // biome-ignore lint: ignore remix default setup
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -100,6 +102,7 @@ const resources = [
     href: "https://remix.run/docs",
     text: "Remix Docs",
     icon: (
+      // biome-ignore lint: ignore remix default setup
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -120,6 +123,7 @@ const resources = [
     href: "https://rmx.as/discord",
     text: "Join Discord",
     icon: (
+      // biome-ignore lint: ignore remix default setup
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
