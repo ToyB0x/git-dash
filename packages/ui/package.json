@@ -12,11 +12,11 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "2.3.1",
     "@types/node": "22.9.2",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
+    "@tsconfig/strictest": "2.0.5",
     "typescript": "5.7.2"
   },
   "dependencies": {
