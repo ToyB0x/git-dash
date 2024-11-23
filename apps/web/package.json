@@ -1,5 +1,5 @@
 {
-  "name": "web-remix",
+  "name": "@repo/web",
   "private": true,
   "sideEffects": false,
   "type": "module",
