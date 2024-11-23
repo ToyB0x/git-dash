@@ -10,18 +10,130 @@ datasource db {
   url      = env("DB_URL_JOB")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Organization {
+  id             String          @id // derived from the GitHub API
+  login          String          @unique // The organization's login name (ensure uniqueness by github)
+  Repositories   Repository[]
+  Prs            Pr[]
+  Commits        Commit[]
+  Reviews        Review[]
+  Releases       Release[]
+  Users          User[]
+  ReviewRequests ReviewRequest[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model User {
+  id             String   @id
+  // type        String // membersWithRole returns a list of real users (not bots)
+  // TODO: userは複数組織に所属するため以下フィールドはRLS目的では使わない(代わりにClientId等でテナント分離)
+  // https://github.com/users/ToyB0x/projects/1?pane=issue&itemId=33405590
+  organizationId String
+  login          String // not unique, because sync delays can cause duplicates login ids
+  name           String?
+  avatarUrl      String
+  Prs            Pr[]
+  Commits        Commit[]
+  Reviews        Review[]
+  // Comments       Comment[]
+
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  RequestUsers   ReviewRequest[] @relation("RequestUser")
+  RequestedUsers ReviewRequest[] @relation("RequestedUser")
+}
+
+model Repository {
+  id                            String    @id // derived from the GitHub API
+  name                          String
+  hasVulnerabilityAlertsEnabled Boolean
+  vulnerabilityAlertsTotalCount Int
+  pushedAt                      DateTime? // if no push has happened, this will be null
+  organizationId                String
+
+  prs Pr[]
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model Release {
+  id             String   @id // derived from the GitHub API
+  tagName        String
+  url            String
+  publishedAt    DateTime
+  organizationId String
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+model Pr {
+  id             String @id
+  organizationId String
+  repositoryId   String
+  authorId       String
+  title          String
+  url            String
+
+  additions    Int
+  deletions    Int
+  changedFiles Int
+
+  commentsTotalCount Int
+
+  merged Boolean
+  closed Boolean
+
+  createdAt DateTime
+  closedAt  DateTime?
+  mergedAt  DateTime?
+
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  repository     Repository      @relation(fields: [repositoryId], references: [id])
+  user           User            @relation(fields: [authorId], references: [id])
+  Reviews        Review[]
+  reviewRequests ReviewRequest[]
+
+  @@index([organizationId, createdAt])
+}
+
+model Commit {
+  id             String   @id
+  organizationId String
+  url            String
+  committedDate  DateTime
+  authorId       String
+
+  user         User         @relation(fields: [authorId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, committedDate])
+}
+
+model Review {
+  id             String   @id
+  organizationId String
+  prId           String
+  url            String
+  authorId       String
+  createdAt      DateTime
+
+  user         User         @relation(fields: [authorId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  pr           Pr           @relation(fields: [prId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, authorId])
+}
+
+model ReviewRequest {
+  id              String   @id
+  organizationId  String
+  prId            String
+  requestUserId   String
+  requestedUserId String
+  createdAt       DateTime
+
+  requestUser   User         @relation(fields: [requestUserId], references: [id], name: "RequestUser")
+  requestedUser User         @relation(fields: [requestedUserId], references: [id], name: "RequestedUser")
+  organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  pr            Pr           @relation(fields: [prId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, requestedUserId])
 }
