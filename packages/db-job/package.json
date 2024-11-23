@@ -1,0 +1,23 @@
+{
+  "name": "@repo/db-job",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "migrate:dev": "prisma migrate dev",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@prisma/client": "5.22.0"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "22.9.2",
+    "prisma": "5.22.0",
+    "typescript": "5.7.2"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}
