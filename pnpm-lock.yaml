@@ -18,7 +18,7 @@ importers:
         specifier: 5.7.2
         version: 5.7.2
 
-  apps/web-remix:
+  apps/web:
     dependencies:
       '@remix-run/node':
         specifier: 2.15.0
