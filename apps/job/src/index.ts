@@ -1,10 +1,9 @@
 import { Command } from "commander";
-import { makeAggregateCommand, makeMigrateCommand } from "./commands";
+import { makeAggregateCommand } from "./commands";
 
 const main = async () => {
   const program = new Command();
   program.addCommand(makeAggregateCommand());
-  program.addCommand(makeMigrateCommand());
 
   try {
     await program.parseAsync();

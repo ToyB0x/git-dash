@@ -1,7 +1,6 @@
 import { sleep } from "@repo/utils";
 import { GraphQLClient } from "graphql-request";
 import { getEnv, getSingleTenantPrismaClient } from "../../../../utils";
-import { maxOld } from "../aggregateByOrganization";
 import { getFirstPage } from "./getFirstPage";
 import { paginate } from "./paginate";
 

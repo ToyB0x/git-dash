@@ -10,7 +10,7 @@ export type UserPR = {
     id: string;
     avatarUrl: string;
     login: string;
-    name: string | undefined | null;
+    name: string | null;
     __typename: "User";
   };
   comments: {
@@ -51,7 +51,7 @@ export type UserPR = {
             id: string;
             login: string;
             avatarUrl: string;
-            name: string | undefined | null;
+            name: string | null;
           };
         };
       };
@@ -59,12 +59,12 @@ export type UserPR = {
   };
   createdAt: string;
   merged: boolean;
-  mergedAt: string | undefined | null;
+  mergedAt: string | null;
   additions: number;
   deletions: number;
   changedFiles: number;
   closed: boolean;
-  closedAt: string | undefined | null;
+  closedAt: string | null;
 };
 
 export const getFirstPage = async (
