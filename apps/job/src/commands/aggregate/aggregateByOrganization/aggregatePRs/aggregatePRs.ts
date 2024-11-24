@@ -70,7 +70,8 @@ export const aggregatePRs = async (
     });
 
     if (repositories.length !== 1) throw Error("invalid repository");
-    const repositoryId = repositories[0].id;
+    const repositoryId = repositories[0]?.id;
+    if (!repositoryId) throw Error("invalid repositoryId");
 
     // upsert repositories (because repository name can be changed)
     await Promise.all(
@@ -244,12 +245,12 @@ export const aggregatePRs = async (
                 prId: pr.id,
                 url: review.url,
                 createdAt: review.createdAt,
-                authorId: author.id,
+                authorId: author?.id || "",
               },
               update: {
                 url: review.url,
                 createdAt: review.createdAt,
-                authorId: author.id,
+                authorId: author?.id || "",
               },
             });
           }),
