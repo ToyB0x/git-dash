@@ -1,6 +1,7 @@
 {
   "name": "@repo/jobs",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsup",
     "codegen": "graphql-codegen --config codegen.ts",
