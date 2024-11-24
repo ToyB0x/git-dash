@@ -15,6 +15,7 @@
     "commander": "12.1.0",
     "graphql": "16.9.0",
     "zod": "3.23.8",
+    "@graphql-typed-document-node/core": "3.2.0",
     "graphql-request": "7.1.2"
   },
   "devDependencies": {
