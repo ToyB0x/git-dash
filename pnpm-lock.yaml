@@ -60,9 +60,6 @@ importers:
       tsup:
         specifier: 8.3.0
         version: 8.3.0(jiti@2.4.0)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.6.2)(yaml@2.6.1)
-      tsx:
-        specifier: latest
-        version: 4.19.2
       typescript:
         specifier: 5.6.2
         version: 5.6.2
@@ -7607,6 +7604,7 @@ snapshots:
   get-tsconfig@4.8.1:
     dependencies:
       resolve-pkg-maps: 1.0.0
+    optional: true
 
   get-uri@6.0.3:
     dependencies:
@@ -9201,7 +9199,8 @@ snapshots:
 
   resolve-from@5.0.0: {}
 
-  resolve-pkg-maps@1.0.0: {}
+  resolve-pkg-maps@1.0.0:
+    optional: true
 
   resolve.exports@2.0.2: {}
 
@@ -9738,6 +9737,7 @@ snapshots:
       get-tsconfig: 4.8.1
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   turbo-darwin-64@2.3.1:
     optional: true
