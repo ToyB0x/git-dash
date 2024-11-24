@@ -1,1 +1,1 @@
-export * from './aggregateByOrganization'
+export * from "./aggregateByOrganization";

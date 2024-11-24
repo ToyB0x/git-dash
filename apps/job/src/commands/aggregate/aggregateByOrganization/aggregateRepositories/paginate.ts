@@ -1,5 +1,5 @@
-import { GraphQLClient } from 'graphql-request'
-import { graphql } from '../../../../../generated/gql'
+import type { GraphQLClient } from "graphql-request";
+import { graphql } from "../../../../../generated/gql";
 
 export const paginate = async (
   graphQLClient: GraphQLClient,
@@ -43,7 +43,7 @@ export const paginate = async (
         }
       }
     }
-  `)
+  `);
 
   const paginateRepositoriesResult = await graphQLClient.request(
     paginateRepositoriesQuery,
@@ -51,17 +51,18 @@ export const paginate = async (
       organization: orgName,
       after: cursor,
     },
-  )
+  );
 
-  if (!paginateRepositoriesResult.organization) throw Error('null organization')
+  if (!paginateRepositoriesResult.organization)
+    throw Error("null organization");
 
   if (!paginateRepositoriesResult.organization.repositories.edges)
-    throw Error('null edges')
+    throw Error("null edges");
 
   const paginatedRepositories =
     paginateRepositoriesResult.organization.repositories.edges.map((e) => {
-      if (!e) throw Error('null edge')
-      if (!e.node) throw Error('null node')
+      if (!e) throw Error("null edge");
+      if (!e.node) throw Error("null node");
       return {
         id: e.node.id,
         name: e.node.name,
@@ -72,10 +73,10 @@ export const paginate = async (
                 (
                   n,
                 ): n is {
-                  id: string
-                  url: string
-                  tagName: string
-                  publishedAt: string
+                  id: string;
+                  url: string;
+                  tagName: string;
+                  publishedAt: string;
                 } => !!n?.publishedAt,
               )
               .map((n) => ({
@@ -89,11 +90,11 @@ export const paginate = async (
         vulnerabilityAlertsTotalCount: e.node.vulnerabilityAlerts
           ? e.node.vulnerabilityAlerts.totalCount
           : 0,
-      }
-    })
+      };
+    });
 
   if (!paginateRepositoriesResult.organization.repositories.pageInfo.endCursor)
-    throw Error('falsy endCursor')
+    throw Error("falsy endCursor");
 
   return {
     repositories: paginatedRepositories,
@@ -101,5 +102,5 @@ export const paginate = async (
       paginateRepositoriesResult.organization.repositories.pageInfo.hasNextPage,
     cursor:
       paginateRepositoriesResult.organization.repositories.pageInfo.endCursor,
-  }
-}
+  };
+};

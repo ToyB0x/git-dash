@@ -7,7 +7,12 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["**/node_modules/**", "**/.next/**", "**/.turbo/**"]
+    "ignore": [
+      "**/node_modules/**",
+      "**/build/**",
+      "**/dist/**",
+      "**/.turbo/**"
+    ]
   },
   "formatter": {
     "enabled": true,

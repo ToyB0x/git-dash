@@ -1,80 +1,80 @@
-import { GraphQLClient } from 'graphql-request'
-import { graphql } from '../../../../../generated/gql'
-import { PrsQuery } from '../../../../../generated/gql/graphql'
+import type { GraphQLClient } from "graphql-request";
+import { graphql } from "../../../../../generated/gql";
+import type { PrsQuery } from "../../../../../generated/gql/graphql";
 
 export type UserPR = {
-  id: string
-  title: string
-  url: string
+  id: string;
+  title: string;
+  url: string;
   author: {
-    id: string
-    avatarUrl: string
-    login: string
-    name: string | undefined | null
-    __typename: 'User'
-  }
+    id: string;
+    avatarUrl: string;
+    login: string;
+    name: string | undefined | null;
+    __typename: "User";
+  };
   comments: {
-    totalCount: number
-  }
+    totalCount: number;
+  };
   reviews: {
     nodes: {
-      id: string
-      url: string
-      createdAt: string
+      id: string;
+      url: string;
+      createdAt: string;
       author: {
-        login: string
-      }
-    }[]
-  }
+        login: string;
+      };
+    }[];
+  };
   timelineItems: {
     nodes: {
-      id: string
+      id: string;
       actor: {
-        id: string
-      }
-      createdAt: string
+        id: string;
+      };
+      createdAt: string;
       requestedReviewer: {
-        id: string
-      }
-    }[]
-  }
+        id: string;
+      };
+    }[];
+  };
   commits: {
-    totalCount: number
+    totalCount: number;
     nodes: {
-      id: string
+      id: string;
       commit: {
-        id: string
-        url: string
-        committedDate: string
+        id: string;
+        url: string;
+        committedDate: string;
         author: {
           user: {
-            id: string
-            login: string
-            avatarUrl: string
-            name: string | undefined | null
-          }
-        }
-      }
-    }[]
-  }
-  createdAt: string
-  merged: boolean
-  mergedAt: string | undefined | null
-  additions: number
-  deletions: number
-  changedFiles: number
-  closed: boolean
-  closedAt: string | undefined | null
-}
+            id: string;
+            login: string;
+            avatarUrl: string;
+            name: string | undefined | null;
+          };
+        };
+      };
+    }[];
+  };
+  createdAt: string;
+  merged: boolean;
+  mergedAt: string | undefined | null;
+  additions: number;
+  deletions: number;
+  changedFiles: number;
+  closed: boolean;
+  closedAt: string | undefined | null;
+};
 
 export const getFirstPage = async (
   graphQLClient: GraphQLClient,
   orgName: string,
   repositoryName: string,
 ): Promise<{
-  prs: UserPR[]
-  hasNextPage: boolean
-  cursor: string | undefined | null
+  prs: UserPR[];
+  hasNextPage: boolean;
+  cursor: string | undefined | null;
 }> => {
   const prsQuery = graphql(/* GraphQL */ `
     query prs($owner: String!, $name: String!) {
@@ -167,32 +167,32 @@ export const getFirstPage = async (
         }
       }
     }
-  `)
+  `);
 
-  const maxRetry = 5
-  let tryCount = 0
-  let prsResult: PrsQuery | null = null
+  const maxRetry = 5;
+  let tryCount = 0;
+  let prsResult: PrsQuery | null = null;
   while (tryCount < maxRetry) {
     try {
       prsResult = await graphQLClient.request(prsQuery, {
         owner: orgName,
         name: repositoryName,
-      })
-      break
+      });
+      break;
     } catch (e) {
-      console.error(e)
+      console.error(e);
     } finally {
-      tryCount++
+      tryCount++;
     }
   }
 
-  if (!prsResult) throw Error('null prsResult')
-  if (!prsResult?.repository) throw Error('null repository')
-  if (!prsResult.repository.pullRequests.edges) throw Error('null edges')
+  if (!prsResult) throw Error("null prsResult");
+  if (!prsResult?.repository) throw Error("null repository");
+  if (!prsResult.repository.pullRequests.edges) throw Error("null edges");
 
   const prs = prsResult.repository.pullRequests.edges
     .map((e) => e?.node)
-    .filter<UserPR>((n): n is UserPR => n?.author?.__typename === 'User')
+    .filter<UserPR>((n): n is UserPR => n?.author?.__typename === "User")
     .map((userPr) => {
       return {
         id: userPr.id,
@@ -203,7 +203,7 @@ export const getFirstPage = async (
           login: userPr.author.login,
           name: userPr.author.name,
           avatarUrl: userPr.author.avatarUrl,
-          __typename: 'User' as const,
+          __typename: "User" as const,
         },
         comments: {
           totalCount: userPr.comments.totalCount,
@@ -211,8 +211,8 @@ export const getFirstPage = async (
         timelineItems: userPr.timelineItems,
         reviews: {
           nodes: userPr.reviews.nodes
-            .filter<UserPR['reviews']['nodes'][0]>(
-              (n): n is UserPR['reviews']['nodes'][0] => !!n.author,
+            .filter<UserPR["reviews"]["nodes"][0]>(
+              (n): n is UserPR["reviews"]["nodes"][0] => !!n.author,
             )
             .map((n) => ({
               id: n.id,
@@ -226,8 +226,8 @@ export const getFirstPage = async (
         commits: {
           totalCount: userPr.commits.totalCount,
           nodes: userPr.commits.nodes
-            .filter<UserPR['commits']['nodes'][0]>(
-              (n): n is UserPR['commits']['nodes'][0] =>
+            .filter<UserPR["commits"]["nodes"][0]>(
+              (n): n is UserPR["commits"]["nodes"][0] =>
                 !!n.commit.author?.user?.id,
             )
             .map((n) => ({
@@ -255,12 +255,12 @@ export const getFirstPage = async (
         changedFiles: userPr.changedFiles,
         closed: userPr.closed,
         closedAt: userPr.closedAt,
-      }
-    })
+      };
+    });
 
   return {
     prs,
     hasNextPage: prsResult.repository.pullRequests.pageInfo.hasNextPage,
     cursor: prsResult.repository.pullRequests.pageInfo.endCursor,
-  }
-}
+  };
+};
