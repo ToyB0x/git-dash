@@ -1,2 +1,2 @@
-export * from './aggregate'
-export * from './migrate'
+export * from "./aggregate";
+export * from "./migrate";

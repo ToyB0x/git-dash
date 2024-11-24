@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["**/node_modules/**", "**/.next/**", "**/.turbo/**"]
+    "ignore": [
+      "**/node_modules/**",
+      "**/build/**",
+      "**/dist/**",
+      "**/.turbo/**",
+      "**/generated/**",
+      "apps/job/schema.docs.graphql"
+    ]
   },
   "formatter": {
     "enabled": true,

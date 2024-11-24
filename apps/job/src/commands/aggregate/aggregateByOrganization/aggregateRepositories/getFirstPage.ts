@@ -1,5 +1,5 @@
-import { GraphQLClient } from 'graphql-request'
-import { graphql } from '../../../../../generated/gql'
+import type { GraphQLClient } from "graphql-request";
+import { graphql } from "../../../../../generated/gql";
 
 export const getFirstPage = async (
   graphQLClient: GraphQLClient,
@@ -42,21 +42,21 @@ export const getFirstPage = async (
         }
       }
     }
-  `)
+  `);
 
   const repositoriesResult = await graphQLClient.request(repositoriesQuery, {
     organization: orgName,
-  })
+  });
 
-  if (!repositoriesResult.organization) throw Error('null organization')
+  if (!repositoriesResult.organization) throw Error("null organization");
 
   if (!repositoriesResult.organization.repositories.edges)
-    throw Error('null edges')
+    throw Error("null edges");
 
   const repositories = repositoriesResult.organization.repositories.edges.map(
     (e) => {
-      if (!e) throw Error('null edge')
-      if (!e.node) throw Error('null node')
+      if (!e) throw Error("null edge");
+      if (!e.node) throw Error("null node");
       return {
         id: e.node.id,
         name: e.node.name,
@@ -67,10 +67,10 @@ export const getFirstPage = async (
                 (
                   n,
                 ): n is {
-                  id: string
-                  url: string
-                  tagName: string
-                  publishedAt: string
+                  id: string;
+                  url: string;
+                  tagName: string;
+                  publishedAt: string;
                 } => !!n?.publishedAt,
               )
               .map((n) => ({
@@ -84,14 +84,14 @@ export const getFirstPage = async (
         vulnerabilityAlertsTotalCount: e.node.vulnerabilityAlerts
           ? e.node.vulnerabilityAlerts.totalCount
           : 0,
-      }
+      };
     },
-  )
+  );
 
   return {
     repositories,
     hasNextPage:
       repositoriesResult.organization.repositories.pageInfo.hasNextPage,
     cursor: repositoriesResult.organization.repositories.pageInfo.endCursor,
-  }
-}
+  };
+};
