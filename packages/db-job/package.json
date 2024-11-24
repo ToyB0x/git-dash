@@ -1,10 +1,11 @@
 {
   "name": "@repo/db-job",
   "private": true,
-  "exports": {
-    ".": "./src/index.ts"
-  },
+  "type": "module",
+  "types": "./src/index.ts",
   "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
     "generate:db": "prisma generate",
     "migrate:dev": "prisma migrate dev",
     "typecheck": "tsc --noEmit"
@@ -16,7 +17,8 @@
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "22.9.3",
     "prisma": "5.22.0",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "tsup": "8.3.5"
   },
   "volta": {
     "extends": "../../package.json"
