@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "types": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",

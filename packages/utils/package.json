@@ -1,9 +1,9 @@
 {
   "name": "@repo/utils",
   "private": true,
-  "version": "0.0.1",
   "type": "module",
   "types": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
