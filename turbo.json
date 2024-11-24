@@ -2,20 +2,25 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    "generate:db": {
+      "dependsOn": ["^generate:db"],
+      "cache": false
+    },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["generate:db"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "outputs": [
+        "dist/**", // tsup outputs
+        "build/**" // remix outputs
+      ]
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "dependsOn": ["generate:db"]
+    },
+    "typecheck": {
+      "dependsOn": ["generate:db"]
     },
     "//#format-and-lint": {},
     "//#format-and-lint:fix": {
