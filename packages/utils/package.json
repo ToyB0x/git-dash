@@ -1,0 +1,16 @@
+{
+  "name": "@repo/utils",
+  "private": true,
+  "version": "0.0.1",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "22.9.3",
+    "typescript": "5.7.2"
+  }
+}
