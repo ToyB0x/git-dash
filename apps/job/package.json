@@ -1,0 +1,32 @@
+{
+  "name": "@repo/jobs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "jobs": "node dist/index.js",
+    "jobs:dev": "pnpm build && pnpm jobs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/db-job": "workspace:*",
+    "@repo/utils": "workspace:*",
+    "commander": "12.1.0",
+    "graphql": "16.9.0",
+    "zod": "3.23.8",
+    "graphql-request": "7.1.2"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "2.0.5",
+    "@graphql-codegen/cli": "5.0.2",
+    "@graphql-codegen/client-preset": "4.5.0",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@types/node": "20.17.0",
+    "tsup": "8.3.0",
+    "typescript": "5.6.2"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}
