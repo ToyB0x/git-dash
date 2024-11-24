@@ -11,7 +11,9 @@
       "**/node_modules/**",
       "**/build/**",
       "**/dist/**",
-      "**/.turbo/**"
+      "**/.turbo/**",
+      "**/generated/**",
+      "apps/job/schema.docs.graphql"
     ]
   },
   "formatter": {
