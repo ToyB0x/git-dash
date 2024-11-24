@@ -1,4 +1,3 @@
-import { getSingleTenantPrismaClient } from "../../../utils";
 import { aggregateOrganization } from "./aggregateOrganization";
 import { aggregatePRs } from "./aggregatePRs";
 import { aggregateRepositories } from "./aggregateRepositories";
