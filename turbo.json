@@ -2,12 +2,12 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
-    "generate-db-job": {
-      "dependsOn": ["^generate-db-job"],
+    "generate:db": {
+      "dependsOn": ["^generate:db"],
       "cache": false
     },
     "build": {
-      "dependsOn": ["generate-db-job"],
+      "dependsOn": ["generate:db"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [
         "dist/**", // tsup outputs
@@ -17,10 +17,10 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["generate-db-job"]
+      "dependsOn": ["generate:db"]
     },
     "typecheck": {
-      "dependsOn": ["generate-db-job"]
+      "dependsOn": ["generate:db"]
     },
     "//#format-and-lint": {},
     "//#format-and-lint:fix": {
