@@ -1,5 +1,5 @@
-import { createInterface } from "readline";
-import process from "process";
+import process from "node:process";
+import { createInterface } from "node:readline";
 
 /**
  * ユーザーに値を入力させる

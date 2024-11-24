@@ -3,34 +3,35 @@ export const execWithScrubbedLog = (
   command: string,
 ): void => {
   try {
-    const stdout = execSync(command)
-    console.log(stdout.toString())
-    console.log('Command completed successfully.')
-  } catch (e: any & { stdout: Buffer; stderr: Buffer }) {
+    const stdout = execSync(command);
+    console.log(stdout.toString());
+    console.log("Command completed successfully.");
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  } catch (e: any) {
     // NOTE: hide DATABASE_URL on error for security reasons
     if (
-      e.stdout.toString().includes('DATABASE_URL') ||
-      e.stdout.toString().includes('postgresql://')
+      e.stdout.toString().includes("DATABASE_URL") ||
+      e.stdout.toString().includes("postgresql://")
     ) {
       console.info(
         "Log is masked because this error message includes 'DATABASE_URL' or 'postgresql://'.",
-        '**********',
-      )
+        "**********",
+      );
     } else {
-      console.info(e.stdout.toString())
+      console.info(e.stdout.toString());
     }
 
     if (
-      e.stderr.toString().includes('DATABASE_URL') ||
-      e.stderr.toString().includes('postgresql://')
+      e.stderr.toString().includes("DATABASE_URL") ||
+      e.stderr.toString().includes("postgresql://")
     ) {
       console.error(
         "Log is masked because this error message includes 'DATABASE_URL' or 'postgresql://'.",
-        '**********',
-      )
+        "**********",
+      );
     } else {
-      console.error(e.stderr.toString())
+      console.error(e.stderr.toString());
     }
-    process.exit(1)
+    process.exit(1);
   }
-}
+};

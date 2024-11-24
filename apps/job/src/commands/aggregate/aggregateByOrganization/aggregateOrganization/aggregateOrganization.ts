@@ -9,8 +9,7 @@ export const aggregateOrganization = async (
 
   const githubClient = new GraphQLClient("https://api.github.com/graphql", {
     headers: {
-      Authorization:
-        "Bearer " + getEnv().APPS_JOBS_GITHUB_PERSONAL_ACCESS_TOKEN,
+      Authorization: `Bearer ${getEnv().APPS_JOBS_GITHUB_PERSONAL_ACCESS_TOKEN}`,
       "X-Github-Next-Global-ID": "1",
     },
   });
@@ -43,8 +42,6 @@ export const aggregateOrganization = async (
       },
     });
     return organizationResult.organization.id;
-  } catch (err) {
-    throw err;
   } finally {
     await prismaSingleTenantClient.$disconnect();
   }
