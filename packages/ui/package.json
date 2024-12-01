@@ -4,10 +4,17 @@
   "exports": {
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx"
+    "./code": "./src/code.tsx",
+    "./Skeleton": "./src/Skeleton.tsx"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "2.2.1",
+    "@chakra-ui/react": "2.10.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
     "@types/node": "22.10.1",
@@ -15,9 +22,5 @@
     "@types/react-dom": "18.3.1",
     "@tsconfig/strictest": "2.0.5",
     "typescript": "5.7.2"
-  },
-  "dependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
   }
 }

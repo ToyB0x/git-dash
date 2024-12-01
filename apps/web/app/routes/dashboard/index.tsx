@@ -1,3 +1,4 @@
+import { Skeleton } from "@repo/ui/Skeleton";
 import { Button } from "@repo/ui/button";
 import type { Route } from "../dashboard/+types/index";
 
@@ -34,6 +35,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       {JSON.stringify(teams)}
       <br />
       <Button appName="home">Click me</Button>
+      <br />
+      <Skeleton h={32} w={32} />
     </>
   );
 }
