@@ -16,13 +16,13 @@ type DashboardData = {
 };
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  await auth.authStateReady();
-
   if (params.projectId === "demo") {
     return {
       panelPRs: [{ count: 10 }],
     } satisfies DashboardData;
   }
+
+  await auth.authStateReady();
 
   if (!auth.currentUser) {
     location.href = "/login";
