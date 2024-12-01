@@ -2,11 +2,9 @@
   "name": "@repo/ui",
   "private": true,
   "exports": {
-    "./button": "./src/button.tsx",
-    "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx",
     "./Skeleton": "./src/Skeleton.tsx",
-    "./SidebarProject": "./src/SidebarProject.tsx"
+    "./SidebarProject": "./src/SidebarProject.tsx",
+    "./StatCard": "./src/StatCard.tsx"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
