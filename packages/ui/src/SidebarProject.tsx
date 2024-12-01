@@ -20,6 +20,7 @@ type Props = {
 export const SidebarProject: FC<Props> = ({ projectId }) => {
   return (
     <Box
+      h="100vh"
       w="12rem"
       pos="sticky"
       py={2}
