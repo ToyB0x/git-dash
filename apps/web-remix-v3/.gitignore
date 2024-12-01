@@ -5,3 +5,7 @@
 build
 node_modules
 *.tsbuildinfo
+
+# Environment variables symlink (Vite)
+!.env.development.local
+!.env.production.local
