@@ -10,11 +10,15 @@
     "typecheck": "react-router typegen && tsc --build --noEmit"
   },
   "dependencies": {
-    "@repo/ui": "workspace:*",
+    "@chakra-ui/react": "2.10.1",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@react-router/node": "7.0.1",
     "@react-router/serve": "7.0.1",
-    "isbot": "5.1.17",
+    "@repo/ui": "workspace:*",
     "firebase": "11.0.2",
+    "framer-motion": "^6",
+    "isbot": "5.1.17",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router": "7.0.1",
