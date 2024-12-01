@@ -64,7 +64,7 @@ importers:
         specifier: 5.7.2
         version: 5.7.2
 
-  apps/web-remix-v3:
+  apps/web:
     dependencies:
       '@react-router/node':
         specifier: 7.0.1
