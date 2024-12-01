@@ -7,11 +7,9 @@
     "./code": "./src/code.tsx"
   },
   "scripts": {
-    "generate:component": "turbo gen react-component",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@turbo/gen": "2.3.3",
     "@types/node": "22.10.1",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
