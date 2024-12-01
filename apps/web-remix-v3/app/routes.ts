@@ -6,6 +6,6 @@ export default [
   // dashboard layout
   layout("routes/dashboard/layout.tsx", [
     route("/", "routes/dashboard/index.tsx"),
-    route("/:teamId", "routes/dashboard/$teamId/index.tsx"),
+    route("/:projectId", "routes/dashboard/$projectId/index.tsx"),
   ]),
 ] satisfies RouteConfig;
