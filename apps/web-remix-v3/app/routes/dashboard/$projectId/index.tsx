@@ -1,5 +1,5 @@
 import { auth } from "~/.client";
-import type { Route } from "../../dashboard/$teamId/+types/index";
+import type { Route } from "../../dashboard/$projectId/+types/index";
 
 // biome-ignore lint: remix default setup
 export function meta({}: Route.MetaArgs) {
@@ -18,7 +18,7 @@ type DashboardData = {
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
 
-  if (params.teamId === "demo") {
+  if (params.projectId === "demo") {
     return {
       panelPRs: [{ count: 10 }],
     } satisfies DashboardData;
@@ -29,7 +29,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   }
 
   // NOTE: fetch data from server
-  // const data = await fetch(`/api/teams/${params.teamId}/dashboard`);
+  // const data = await fetch(`/api/teams/${params.projectId}/dashboard`);
   // return data satisfies DashboardData;
   return {
     panelPRs: [{ count: 0 }],
