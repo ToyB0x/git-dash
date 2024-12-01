@@ -25,6 +25,18 @@ type DashboardDataV0 = {
   };
 };
 
+// 1 panel: 1 inner loader: 1 type definition
+// UI側は常に最新バージョンをMainにマージしていき、個別のloaderがJsonを取得できなければUIを半透明にするだけ
+// const mergedCountPanelV1 = <div>panel</div>;
+// const mergedCountLoaderV1 = async () =>
+//   fetch("/path/to/mergedCount/v1/data.json");
+// type MergedCountDataV1 = {
+//   version: "1.0";
+//   count: number;
+//   createdAt: string;
+// };
+// if (data.version !== "1.0") return null;
+
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.projectId === "demo") {
     return {
@@ -97,11 +109,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         icon={<BsStar size="3rem" />}
       />
 
-      <StatCard
-        title="脆弱なパッケージ"
-        stat={statCards.vulnCount.toString()}
-        icon={<GiBiohazard size="3rem" />}
-      />
+      <div className="opacity-60">
+        <StatCard
+          title="脆弱なパッケージ"
+          stat="collecting..."
+          icon={<GiBiohazard size="3rem" />}
+        />
+      </div>
     </div>
   );
 }
