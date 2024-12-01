@@ -9,4 +9,4 @@ const firebaseConfigsBrowser = {
 
 const firebaseAppBrowser = initializeApp(firebaseConfigsBrowser);
 
-export const firebaseAuthBrowser = getAuth(firebaseAppBrowser);
+export const auth = getAuth(firebaseAppBrowser);
