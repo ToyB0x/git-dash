@@ -1,4 +1,5 @@
 import { Skeleton } from "@repo/ui/Skeleton";
+import { auth } from "~/.client";
 import type { Route } from "../dashboard/+types/index";
 
 // biome-ignore lint: remix default setup
@@ -17,14 +18,14 @@ type HomeData = {
 };
 
 export async function clientLoader() {
-  const isNotAuthorized = true;
-  if (isNotAuthorized) {
-    return {
-      teams: [{ teamId: "demo", teamName: "Demo Team" }],
-    } satisfies HomeData;
+  await auth.authStateReady();
+  if (!auth.currentUser) {
+    location.href = "/login";
   }
 
-  return { teams: [] } satisfies HomeData;
+  return {
+    teams: [{ teamId: "demo", teamName: "Demo Team" }],
+  } satisfies HomeData;
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {

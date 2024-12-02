@@ -33,10 +33,18 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   if (hasLoggedIn) return null;
 
   return (
-    <Form method="post" className="flex flex-col">
-      <input name="email" type="email" placeholder="email" />
-      <input name="password" type="password" placeholder="password" />
-      <button type="submit">login</button>
-    </Form>
+    <div>
+      <Form method="post" className="flex flex-col">
+        <input name="email" type="email" placeholder="email" />
+        <input name="password" type="password" placeholder="password" />
+        <button type="submit">login</button>
+      </Form>
+
+      <div>
+        Demoページを見てみる
+        <br />
+        <a href="/demo">Demo</a>
+      </div>
+    </div>
   );
 }
