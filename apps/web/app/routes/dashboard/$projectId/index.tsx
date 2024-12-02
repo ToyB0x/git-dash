@@ -1,3 +1,4 @@
+import type { StatMergedSchema } from "@repo/schema/statMerged";
 import { StatCard } from "@repo/ui/StatCard";
 import { BsStar } from "react-icons/bs";
 import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";
@@ -17,7 +18,7 @@ export function meta({}: Route.MetaArgs) {
 
 type DashboardDataV0 = {
   statCards: {
-    mergedCount: number;
+    mergedCount: StatMergedSchema;
     reviewCount: number;
     waitingCount: number;
     releaseCount: number;
@@ -41,7 +42,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.projectId === "demo") {
     return {
       statCards: {
-        mergedCount: 10,
+        mergedCount: {
+          name: "statMerged",
+          version: "1.0",
+          data: [
+            { login: "user1", count: 10 },
+            { login: "user2", count: 10 },
+          ],
+        },
         reviewCount: 10,
         waitingCount: 10,
         releaseCount: 10,
@@ -59,7 +67,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // TODO: fetch data from server
   return {
     statCards: {
-      mergedCount: 10,
+      mergedCount: {
+        name: "statMerged",
+        version: "1.0",
+        data: [
+          { login: "user1", count: 10 },
+          { login: "user2", count: 10 },
+        ],
+      },
       reviewCount: 10,
       waitingCount: 10,
       releaseCount: 10,
@@ -81,13 +96,22 @@ export default function Page({ loaderData }: Route.ComponentProps) {
     >
       <StatCard
         title="マージ済みPR"
-        stat={`${statCards.mergedCount}/month`}
+        stat={`${statCards.mergedCount.data.reduce(
+          (acc, user) => acc + user.count,
+          0,
+        )}/month`}
         icon={<IoIosGitPullRequest size="3rem" />}
       />
 
       <StatCard
         title="マージ速度"
-        stat={`${Math.round(statCards.mergedCount / (30 - 8))}/day`}
+        stat={`${Math.round(
+          statCards.mergedCount.data.reduce(
+            (acc, user) => acc + user.count,
+            0,
+          ) /
+            (30 - 8),
+        )}/day`}
         icon={<SlSpeedometer size="3rem" />}
       />
 
