@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Spacer, Stack } from "@chakra-ui/react";
 import type { FC } from "react";
 import { Link } from "react-router";
 
@@ -19,7 +19,7 @@ type Props = {
 
 export const SidebarProject: FC<Props> = ({ projectId }) => {
   return (
-    <Box
+    <Stack
       h="100vh"
       w="12rem"
       pos="sticky"
@@ -28,19 +28,23 @@ export const SidebarProject: FC<Props> = ({ projectId }) => {
       borderRight="1px"
       borderRightColor="gray.200"
     >
-      <Link to="/">
-        <Box fontSize="4xl" fontWeight="bold" fontFamily="monospace">
-          git-dash
-        </Box>
-      </Link>
-
-      {linkItems.map((link) => (
-        <Link to={`${projectId}/${link.href}`} key={link.name}>
-          <Box ml={1} my={2} display="block" fontSize="lg">
-            {link.name}
+      <Box>
+        <Link to="/">
+          <Box fontSize="4xl" fontWeight="bold" fontFamily="monospace">
+            git-dash
           </Box>
         </Link>
-      ))}
-    </Box>
+
+        {linkItems.map((link) => (
+          <Link to={`${projectId}/${link.href}`} key={link.name}>
+            <Box ml={1} my={2} display="block" fontSize="lg">
+              {link.name}
+            </Box>
+          </Link>
+        ))}
+      </Box>
+      <Spacer />
+      <Box>version (0.0.1-alpha)</Box>
+    </Stack>
   );
 };
