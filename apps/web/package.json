@@ -18,7 +18,7 @@
     "@repo/ui": "workspace:*",
     "@repo/schema": "workspace:*",
     "firebase": "11.0.2",
-    "framer-motion": "11.12.0",
+    "framer-motion": "11.13.1",
     "isbot": "5.1.17",
     "react": "18.3.1",
     "react-dom": "18.3.1",
