@@ -1,6 +1,9 @@
 name = "gdash-api"
 main = "src/index.ts"
 compatibility_date = "2024-12-04"
+routes = [
+    { pattern = "api.git-dash.com", custom_domain = true }
+]
 
 # compatibility_flags = [ "nodejs_compat" ]
 

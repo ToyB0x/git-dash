@@ -48,3 +48,7 @@ runs:
       shell: bash
       env:
         TARGET_REPOSITORIES: ${{ inputs.target-repositories }}
+
+    - name: Curl test
+      run: curl api.git-dash.com
+      shell: bash
