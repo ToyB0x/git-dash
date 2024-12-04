@@ -5,8 +5,9 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "preview": "vite preview",
+    "start:preview": "vite preview",
+    "deploy": "pnpm build && wrangler pages deploy",
+    "deploy:prd": "wrangler pages deploy --branch main",
     "typecheck": "react-router typegen && tsc --build --noEmit"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "postcss": "8.4.49",
     "tailwindcss": "3.4.16",
     "typescript": "5.7.2",
+    "wrangler": "3.92.0",
     "vite": "5.4.11",
     "vite-tsconfig-paths": "5.1.3"
   }
