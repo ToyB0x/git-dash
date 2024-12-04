@@ -8,6 +8,7 @@ import {
 } from "react-router";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import { publicViteEnv } from "~/env";
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
@@ -24,6 +25,24 @@ export const links: Route.LinksFunction = () => [
   },
   { rel: "stylesheet", href: stylesheet },
 ];
+
+export const meta: Route.MetaFunction = () => {
+  const sharedMeta: Route.MetaDescriptors = [];
+  const previewMeta: Route.MetaDescriptors = [
+    {
+      name: "robots",
+      content: "noindex",
+    },
+    {
+      name: "robots",
+      content: "nofollow",
+    },
+  ];
+
+  return publicViteEnv.VITE_PUBLIC_FIREBASE_PROJECT_ID.endsWith("-prd")
+    ? sharedMeta
+    : [...sharedMeta, ...previewMeta];
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
