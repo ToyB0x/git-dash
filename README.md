@@ -4,15 +4,16 @@ This is a git analysis tool.
 
 # Project Status
 
-Currently, the sample implementation as Proof of Concept has been completed.
+Currently, the sample implementation as Proof of Concept has been completed.  
 We are working on the practical implementation.
 
 # Github Actions
 
-We currently actively develop the following Github Actions.
+We currently provide Github Actions with the following features:  
+(Includes implementation in progress)
 
-- collect repositories activity: WIP
-- report activity to backend server (for UI display in the browser): WIP
+- Collect repository activity: WIP
+- Report activity to backend server (for displaying UI in browser): WIP
 
 # Architecture
 
