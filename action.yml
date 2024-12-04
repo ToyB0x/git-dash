@@ -22,6 +22,8 @@ runs:
   steps:
     - name: Check out
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      with:
+        repository: 'ToyB0x/git-dash'
 
     - name: Enable corepack for pnpm
       run: corepack enable pnpm
@@ -29,19 +31,23 @@ runs:
 
     - name: Setup & Restore Node cache
       uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
+      working-directory: 'git-dash'
       with:
         cache: 'pnpm'
         node-version-file: 'package.json'
 
     - name: Install all packages
+      working-directory: 'git-dash'
       run: pnpm install --frozen-lockfile
       shell: bash
 
     - name: Build all packages
+      working-directory: 'git-dash'
       run: pnpm build
       shell: bash
 
     - name: Echo
+      working-directory: 'git-dash'
       run: echo $TARGET_REPOSITORIES
       shell: bash
       env:
