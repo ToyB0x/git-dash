@@ -40,7 +40,7 @@ runs:
       shell: bash
 
     - name: Build all packages
-      run: pnpm build
+      run: pnpm turbo build --filter=@repo/jobs
       shell: bash
 
     - name: Echo
