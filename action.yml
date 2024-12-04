@@ -36,17 +36,14 @@ runs:
         node-version-file: 'package.json'
 
     - name: Install all packages
-      working-directory: 'git-dash'
       run: pnpm install --frozen-lockfile
       shell: bash
 
     - name: Build all packages
-      working-directory: 'git-dash'
       run: pnpm build
       shell: bash
 
     - name: Echo
-      working-directory: 'git-dash'
       run: echo $TARGET_REPOSITORIES
       shell: bash
       env:
