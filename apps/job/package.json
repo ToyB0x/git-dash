@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsup",
     "codegen": "graphql-codegen --config codegen.ts",
-    "jobs": "dotenv -- node --enable-source-maps dist/index.js",
+    "jobs": "dotenv -e ../../.env -- node --enable-source-maps dist/index.js",
     "jobs:dev": "pnpm build && pnpm jobs",
     "typecheck": "tsc --noEmit"
   },
