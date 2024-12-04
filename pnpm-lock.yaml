@@ -24,6 +24,9 @@ importers:
       '@cloudflare/workers-types':
         specifier: ^4.20241112.0
         version: 4.20241202.0
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
       wrangler:
         specifier: ^3.88.0
         version: 3.92.0(@cloudflare/workers-types@4.20241202.0)
@@ -103,6 +106,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
       firebase:
         specifier: 11.0.2
         version: 11.0.2
