@@ -31,10 +31,9 @@ runs:
 
     - name: Setup & Restore Node cache
       uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
-      working-directory: 'git-dash'
       with:
         cache: 'pnpm'
-        node-version-file: 'package.json'
+        node-version-file: 'git-dash/package.json'
 
     - name: Install all packages
       working-directory: 'git-dash'
