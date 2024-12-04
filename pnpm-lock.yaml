@@ -18,17 +18,17 @@ importers:
   apps/api:
     dependencies:
       hono:
-        specifier: ^4.6.12
+        specifier: 4.6.12
         version: 4.6.12
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^4.20241112.0
+        specifier: 4.20241202.0
         version: 4.20241202.0
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
       wrangler:
-        specifier: ^3.88.0
+        specifier: 3.92.0
         version: 3.92.0(@cloudflare/workers-types@4.20241202.0)
 
   apps/job:
