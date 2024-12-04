@@ -14,9 +14,9 @@ routes = [
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = "REPORT_BUCKET"
+bucket_name = "report-prd"
 
 # [[d1_databases]]
 # binding = "DB"
