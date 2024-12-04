@@ -33,7 +33,7 @@ runs:
       uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
       with:
         cache: 'pnpm'
-        node-version-file: 'git-dash/package.json'
+        node-version-file: 'package.json'
 
     - name: Install all packages
       working-directory: 'git-dash'
