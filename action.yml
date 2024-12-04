@@ -1,6 +1,9 @@
 name: 'git-dash.com'
 author: 'ToyB0x'
 description: 'Analyze git activity'
+branding:
+  color: 'blue'
+  icon: 'activity'
 inputs:
   target-repositories:
     description: |-
@@ -14,9 +17,6 @@ inputs:
         OWNER/REPO2
       ```
     required: true
-branding:
-  color: 'blue'
-  icon: 'activity'
 runs:
   using: "composite"
   steps:
