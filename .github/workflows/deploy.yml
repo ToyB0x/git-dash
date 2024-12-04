@@ -1,7 +1,9 @@
 name: Deploy
 
 on:
-  push
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -14,8 +16,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/api"
-      - name: Deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: "apps/web"
+#      - name: Deploy
+#        uses: cloudflare/wrangler-action@v3
+#        with:
+#          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+#          workingDirectory: "apps/web"
