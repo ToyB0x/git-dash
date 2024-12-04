@@ -5,8 +5,9 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "preview": "vite preview",
+    "start:preview": "vite preview",
+    "deploy": "pnpm build && wrangler pages deploy",
+    "deploy:prd": "wrangler pages deploy --branch main",
     "typecheck": "react-router typegen && tsc --build --noEmit"
   },
   "dependencies": {
