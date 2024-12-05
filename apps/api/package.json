@@ -6,6 +6,8 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@hono/valibot-validator": "^0.5.1",
+    "@repo/schema": "workspace:*",
     "hono": "4.6.12"
   },
   "devDependencies": {
