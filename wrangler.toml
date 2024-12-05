@@ -25,7 +25,7 @@ bucket_name = "report-prd"
 binding = "DB_API"
 database_name = "gdash-prd" # just management displayName (not used programatically)
 database_id = "34cdcf5e-6899-41ff-b694-40d85e68d6e3"
-migrations_dir = "drizzle/migrations" # load as symlink from packages/[db-package-name]/wrangler.toml
+migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrangler.toml
 
 # [ai]
 # binding = "AI"
