@@ -2,6 +2,7 @@
   "name": "@repo/schema",
   "private": true,
   "exports": {
+    "./path": "./src/path.ts",
     "./statMerged": "./src/statMerged.ts"
   },
   "scripts": {

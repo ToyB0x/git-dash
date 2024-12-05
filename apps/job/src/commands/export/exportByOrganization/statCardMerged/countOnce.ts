@@ -25,7 +25,10 @@ export const countOnce = async (organizationId: string, days: number) => {
   });
 
   return {
-    name: "statMerged",
+    // TODO: use real  teamId / reportId
+    teamId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
+    reportId: "4a9534d0-3f69-4164-abd8-1830310832ce",
+    type: "statMerged",
     version: "1.0",
     data: usersWithMergeCount.map((user) => ({
       login: user.login,
