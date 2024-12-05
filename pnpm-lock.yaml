@@ -18,7 +18,7 @@ importers:
   apps/api:
     dependencies:
       '@hono/valibot-validator':
-        specifier: ^0.5.1
+        specifier: 0.5.1
         version: 0.5.1(hono@4.6.12)(valibot@0.42.1(typescript@5.7.2))
       '@repo/schema':
         specifier: workspace:*
