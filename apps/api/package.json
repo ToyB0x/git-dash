@@ -1,7 +1,7 @@
 {
   "name": "@repo/api",
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --persist-to ../../.emu-cloudflare",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types"
   },
