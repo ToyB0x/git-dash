@@ -2,4 +2,5 @@
 
 interface Env {
   REPORT_BUCKET: R2Bucket;
+  DB_API: D1Database;
 }

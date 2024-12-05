@@ -14,7 +14,8 @@
       "**/.turbo/**",
       "**/generated/**",
       "**/.react-router/**",
-      "apps/job/schema.docs.graphql"
+      "apps/job/schema.docs.graphql",
+      "packages/db-api/drizzle/**"
     ]
   },
   "formatter": {
