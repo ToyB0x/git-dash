@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "valibot": "0.42.1"
+    "valibot": "1.0.0-beta.9"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
