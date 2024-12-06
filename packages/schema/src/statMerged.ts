@@ -1,10 +1,10 @@
 import * as v from "valibot";
 
 export const statMergedSchema = v.object({
-  reportId: v.pipe(v.string(), v.uuid()),
+  reportId: v.number(),
   teamId: v.pipe(v.string(), v.uuid()),
   type: v.literal("statMerged"),
-  version: v.literal("1.0"),
+  version: v.literal("1.0"), // latest version
   data: v.array(
     v.object({
       login: v.string(),
@@ -17,7 +17,7 @@ export type StatMergedSchema = v.InferInput<typeof statMergedSchema>;
 
 export const statMergedFixture = {
   teamId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
-  reportId: "4a9534d0-3f69-4164-abd8-1830310832ce",
+  reportId: 1,
   type: "statMerged",
   version: "1.0",
   data: [

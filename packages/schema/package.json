@@ -3,6 +3,7 @@
   "private": true,
   "exports": {
     "./path": "./src/path.ts",
+    "./report-meta": "./src/report-meta.ts",
     "./statMerged": "./src/statMerged.ts"
   },
   "scripts": {

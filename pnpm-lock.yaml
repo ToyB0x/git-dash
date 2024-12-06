@@ -19,13 +19,22 @@ importers:
     dependencies:
       '@hono/valibot-validator':
         specifier: 0.5.1
-        version: 0.5.1(hono@4.6.12)(valibot@0.42.1(typescript@5.7.2))
+        version: 0.5.1(hono@4.6.12)(valibot@1.0.0-beta.9(typescript@5.7.2))
+      '@repo/db-api':
+        specifier: workspace:*
+        version: link:../../packages/db-api
       '@repo/schema':
         specifier: workspace:*
         version: link:../../packages/schema
+      drizzle-orm:
+        specifier: 0.37.0
+        version: 0.37.0(@cloudflare/workers-types@4.20241202.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.13)(prisma@6.0.1)(react@18.3.1)
       hono:
         specifier: 4.6.12
         version: 4.6.12
+      valibot:
+        specifier: 1.0.0-beta.9
+        version: 1.0.0-beta.9(typescript@5.7.2)
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20241202.0
@@ -60,6 +69,9 @@ importers:
       graphql-request:
         specifier: 7.1.2
         version: 7.1.2(graphql@16.9.0)
+      hono:
+        specifier: 4.6.12
+        version: 4.6.12
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -73,6 +85,9 @@ importers:
       '@graphql-codegen/introspection':
         specifier: 4.0.3
         version: 4.0.3(graphql@16.9.0)
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
       '@repo/schema':
         specifier: workspace:*
         version: link:../../packages/schema
@@ -4709,6 +4724,14 @@ packages:
       typescript:
         optional: true
 
+  valibot@1.0.0-beta.9:
+    resolution: {integrity: sha512-yEX8gMAZ2R1yI2uwOO4NCtVnJQx36zn3vD0omzzj9FhcoblvPukENIiRZXKZwCnqSeV80bMm8wNiGhQ0S8fiww==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
@@ -6723,10 +6746,10 @@ snapshots:
       protobufjs: 7.4.0
       yargs: 17.7.2
 
-  '@hono/valibot-validator@0.5.1(hono@4.6.12)(valibot@0.42.1(typescript@5.7.2))':
+  '@hono/valibot-validator@0.5.1(hono@4.6.12)(valibot@1.0.0-beta.9(typescript@5.7.2))':
     dependencies:
       hono: 4.6.12
-      valibot: 0.42.1(typescript@5.7.2)
+      valibot: 1.0.0-beta.9(typescript@5.7.2)
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -9482,6 +9505,10 @@ snapshots:
       typescript: 5.7.2
 
   valibot@0.42.1(typescript@5.7.2):
+    optionalDependencies:
+      typescript: 5.7.2
+
+  valibot@1.0.0-beta.9(typescript@5.7.2):
     optionalDependencies:
       typescript: 5.7.2
 

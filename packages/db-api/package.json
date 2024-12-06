@@ -2,11 +2,12 @@
   "name": "@repo/db-api",
   "private": true,
   "exports": {
-    "./schema": "./src/db/schema.ts"
+    "./schema": "./src/schema/index.ts"
   },
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:status:local": "wrangler d1 migrations list DB_API --local --persist-to ../../.emu-cloudflare",
+    "db:apply:local": "wrangler d1 migrations apply DB_API --local --persist-to ../../.emu-cloudflare",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
