@@ -13,13 +13,13 @@
     "@biomejs/biome": "1.9.4",
     "turbo": "2.3.3"
   },
-  "packageManager": "pnpm@9.14.4",
+  "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": "22.12.0"
   },
   "volta": {
     "node": "22.12.0",
-    "pnpm": "9.14.4"
+    "pnpm": "9.15.0"
   },
   "author": "ToyB0x",
   "license": " Fair Source Definition: Functional Source License, Version 1.1, MIT Future License",
