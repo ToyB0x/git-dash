@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "wrangler dev --persist-to ../../.emu-cloudflare",
     "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hono/valibot-validator": "0.5.1",
