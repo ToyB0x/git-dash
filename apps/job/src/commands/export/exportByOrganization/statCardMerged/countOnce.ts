@@ -1,7 +1,11 @@
 import type { StatMergedSchema } from "@repo/schema/statMerged";
 import { getSingleTenantPrismaClient } from "../../../../utils";
 
-export const countOnce = async (organizationId: string, days: number) => {
+export const countOnce = async (
+  organizationId: string,
+  reportId: number,
+  days: number,
+) => {
   const prisma = getSingleTenantPrismaClient();
   const usersWithMergeCount = await prisma.user.findMany({
     where: {
@@ -26,8 +30,8 @@ export const countOnce = async (organizationId: string, days: number) => {
 
   return {
     // TODO: use real  teamId / reportId
+    reportId,
     teamId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
-    reportId: "4a9534d0-3f69-4164-abd8-1830310832ce",
     type: "statMerged",
     version: "1.0",
     data: usersWithMergeCount.map((user) => ({
