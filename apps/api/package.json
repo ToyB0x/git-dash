@@ -1,8 +1,19 @@
 {
   "name": "@repo/api",
   "types": "./src/index.ts",
+  "exports": {
+    "./hc": {
+      "import": {
+        "default": "./dist/hc.js",
+        "types": "./dist/hc.d.ts"
+      }
+    }
+  },
   "scripts": {
-    "dev": "wrangler dev --persist-to ../../.emu-cloudflare",
+    "dev": "pnpm --filter @repo/api --parallel \"/^dev:.*/\"",
+    "dev:tsc": "tsc -p tsconfig.build.json --watch",
+    "dev:wrangler": "wrangler dev --persist-to ../../.emu-cloudflare",
+    "build": "tsc -p tsconfig.build.json",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types",
     "typecheck": "tsc --noEmit"
