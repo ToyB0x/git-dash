@@ -18,8 +18,8 @@ const handlers = factory.createHandlers(async (c) => {
     .orderBy(desc(reportTbl.createdAt))
     .limit(1);
 
-  if (lastReportMeta.length === 0) {
-    return c.json(null);
+  if (lastReportMeta.length === 0 || !lastReportMeta[0]?.id) {
+    throw Error("No report found");
   }
 
   // TODO: use real teamId / type / version
