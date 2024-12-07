@@ -5,5 +5,6 @@ import type { app } from "./app";
 const client = hc<typeof app>("");
 export type Client = typeof client;
 
+// ref: https://github.com/m-shaka/hono-rpc-perf-tips-example/tree/main
 export const hcWithType = (...args: Parameters<typeof hc>): Client =>
   hc<typeof app>(...args);
