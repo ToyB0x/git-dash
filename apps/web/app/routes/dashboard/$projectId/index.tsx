@@ -43,8 +43,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return {
       statCards: {
         mergedCount: {
+          reportId: 1,
           teamId: "teamId1",
-          reportId: "reportId1",
           type: "statMerged",
           version: "1.0",
           data: [
@@ -70,8 +70,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return {
     statCards: {
       mergedCount: {
+        reportId: 1,
         teamId: "teamId1",
-        reportId: "reportId1",
         type: "statMerged",
         version: "1.0",
         data: [
