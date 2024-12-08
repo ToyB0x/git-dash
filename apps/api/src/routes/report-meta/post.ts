@@ -10,14 +10,14 @@ const handlers = factory.createHandlers(
   async (c) => {
     // TODO: Implement your business logic here
     // - authenticated user
-    // - extract teamId and other params from request
+    // - extract groupId and other params from request
 
     const db = drizzle(c.env.DB_API);
     const result = await db
       .insert(reportTbl)
       .values({
         publicId: generateNewReportId(),
-        groupId: Number(c.req.param("teamId")),
+        groupId: Number(c.req.param("groupId")),
         status: "RUNNING",
         createdAt: new Date(),
         updatedAt: new Date(),

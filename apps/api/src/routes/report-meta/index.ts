@@ -4,6 +4,6 @@ import { patchHandler } from "./patch";
 import { postHandler } from "./post";
 
 export const reportMetaRoute = new Hono()
-  .get(":teamId", ...getHandler)
-  .post("public/:teamId", ...postHandler)
+  .get(":groupId", ...getHandler)
+  .post("public/:groupId", ...postHandler)
   .patch("public", ...patchHandler);
