@@ -16,7 +16,7 @@ const handlers = factory.createHandlers(
     const result = await db
       .insert(reportTbl)
       .values({
-        id: generateNewReportId(),
+        publicId: generateNewReportId(),
         status: "RUNNING",
         createdAt: new Date(),
         updatedAt: new Date(),

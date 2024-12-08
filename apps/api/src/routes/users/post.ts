@@ -13,7 +13,7 @@ const handlers = factory.createHandlers(async (c) => {
   if (!idToken.email) throw Error("Email is missing in idToken");
 
   await db.insert(userTbl).values({
-    id: generateNewUserId(),
+    publicId: generateNewUserId(),
     email: idToken.email,
     firebaseUid: idToken.uid,
   });
