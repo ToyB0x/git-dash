@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "pnpm --filter @repo/api --parallel \"/^dev:.*/\"",
     "dev:tsc": "tsc -p tsconfig.build.json --watch",
-    "dev:wrangler": "wrangler dev --persist-to ../../.emu-cloudflare",
+    "dev:wrangler": "FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9099' wrangler dev --persist-to ../../.emu-cloudflare",
     "build": "tsc -p tsconfig.build.json",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types",
