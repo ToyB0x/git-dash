@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "start:emulator": "firebase emulators:start",
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",
@@ -11,6 +12,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "firebase-tools": "13.28.0",
     "turbo": "2.3.3"
   },
   "packageManager": "pnpm@9.15.0",
