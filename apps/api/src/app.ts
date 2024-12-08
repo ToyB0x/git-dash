@@ -25,9 +25,12 @@ export const app = new Hono<{ Bindings: VerifyFirebaseAuthEnv }>()
     "/*",
     except("/*/public/*", (c, next) => {
       const config: VerifyFirebaseAuthConfig = {
-        projectId: "local",
-        firebaseEmulatorHost: "http://127.0.0.1:9099",
+        projectId: c.env.PUBLIC_FIREBASE_PROJECT_ID || "local",
       };
+
+      if (!c.env.PUBLIC_FIREBASE_PROJECT_ID) {
+        config.firebaseEmulatorHost = "http://127.0.0.1:9099";
+      }
 
       return verifyFirebaseAuth(config)(c, next);
     }),
