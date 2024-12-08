@@ -25,5 +25,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true
-  }
+  },
+  "exclude": ["node_modules", "build"]
 }
