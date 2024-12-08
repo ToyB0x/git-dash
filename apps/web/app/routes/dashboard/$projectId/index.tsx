@@ -5,6 +5,7 @@ import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";
 import { GoCommentDiscussion } from "react-icons/go";
 import { IoIosGitPullRequest } from "react-icons/io";
 import { SlSpeedometer } from "react-icons/sl";
+import { redirect } from "react-router";
 import { auth } from "~/.client";
 import type { Route } from "../../dashboard/$projectId/+types/index";
 import { fetchReport } from "./fetchers/statMerged";
@@ -55,8 +56,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
 
   if (!auth.currentUser) {
-    location.href = "/login";
-    return;
+    throw redirect("/login");
   }
 
   const token = await auth.currentUser.getIdToken();

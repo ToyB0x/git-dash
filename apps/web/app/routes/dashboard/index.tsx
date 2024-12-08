@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, redirect } from "react-router";
 import { auth } from "~/.client";
 import type { Route } from "../dashboard/+types/index";
 
@@ -20,7 +20,7 @@ type HomeData = {
 export async function clientLoader() {
   await auth.authStateReady();
   if (!auth.currentUser) {
-    location.href = "/login";
+    throw redirect("/login");
   }
 
   return {
