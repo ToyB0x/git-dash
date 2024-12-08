@@ -15,6 +15,13 @@
       "when": 1733638953303,
       "tag": "0001_sour_warlock",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1733641177872,
+      "tag": "0002_naive_husk",
+      "breakpoints": true
     }
   ]
 }
