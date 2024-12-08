@@ -1,6 +1,5 @@
 {
   "name": "@repo/api",
-  "types": "./src/index.ts",
   "exports": {
     "./hc": {
       "import": {
