@@ -23,7 +23,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   if (typeof password !== "string") throw Error("password is invalid");
 
   await signInWithEmailAndPassword(auth, email, password);
-  location.href = "/";
+  redirect("/");
 }
 
 export default function Page() {
