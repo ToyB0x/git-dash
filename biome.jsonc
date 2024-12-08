@@ -14,6 +14,7 @@
       "**/.turbo/**",
       "**/generated/**",
       "**/.react-router/**",
+      "apps/api/worker-configuration.d.ts",
       "apps/job/schema.docs.graphql",
       "packages/db-api/drizzle/**"
     ]
