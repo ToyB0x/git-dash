@@ -12,7 +12,7 @@ const handlers = factory.createHandlers(async (c) => {
 
   const db = drizzle(c.env.DB_API);
 
-  const belongingTeams = await db
+  const belongingGroups = await db
     .select({ publicId: groupTbl.publicId, displayName: groupTbl.displayName })
     .from(usersToGroups)
     .leftJoin(userTbl, eq(usersToGroups.userId, userTbl.id))
@@ -20,9 +20,9 @@ const handlers = factory.createHandlers(async (c) => {
     .where(eq(userTbl.firebaseUid, idToken.uid));
 
   return c.json(
-    belongingTeams.filter(
-      (team): team is { publicId: string; displayName: string } =>
-        !team.publicId || !team.displayName,
+    belongingGroups.filter(
+      (group): group is { publicId: string; displayName: string } =>
+        !group.publicId || !group.displayName,
     ),
   );
 });

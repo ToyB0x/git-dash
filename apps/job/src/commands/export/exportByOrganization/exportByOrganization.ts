@@ -3,9 +3,9 @@ import { getSingleTenantPrismaClient } from "../../../utils";
 import { countOnce } from "./statCardMerged";
 
 export const exportByOrganization = async (orgName: string): Promise<void> => {
-  const resPostMeta = await client["reports-meta"].public[":teamId"].$post({
+  const resPostMeta = await client["reports-meta"].public[":groupId"].$post({
     param: {
-      teamId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
+      groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
     },
   });
   if (!resPostMeta.ok) throw Error("Failed to create report");
@@ -25,7 +25,7 @@ export const exportByOrganization = async (orgName: string): Promise<void> => {
   await client["reports-meta"].public.$patch({
     json: {
       reportPublicId,
-      teamId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
+      groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
       status: "FINISHED",
     },
   });

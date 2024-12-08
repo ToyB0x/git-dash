@@ -1,7 +1,7 @@
-// teams/{teamId}/reports/{reportId}/types/{type}/data.json
+// groups/{groupId}/reports/{reportId}/types/{type}/data.json
 export const getR2Path = ({
-  teamId,
+  groupId,
   reportId,
   type,
-}: { teamId: string; reportId: string; type: string; version: string }) =>
-  `teams/${teamId}/reports/${reportId}/types/${type}/data.json`;
+}: { groupId: string; reportId: string; type: string; version: string }) =>
+  `groups/${groupId}/reports/${reportId}/types/${type}/data.json`;

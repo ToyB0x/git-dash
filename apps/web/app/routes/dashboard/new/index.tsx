@@ -24,7 +24,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
   const token = await auth.currentUser.getIdToken();
 
-  await client.teams.$post(
+  await client.groups.$post(
     {
       json: {
         displayName,
@@ -44,7 +44,7 @@ export default function Page() {
   return (
     <div>
       <Form method="post" className="flex flex-col">
-        <input name="display-name" placeholder="team name" />
+        <input name="display-name" placeholder="group name" />
         <button type="submit">send</button>
       </Form>
     </div>

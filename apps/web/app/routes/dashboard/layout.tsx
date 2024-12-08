@@ -1,4 +1,4 @@
-import { SidebarProject } from "@repo/ui/SidebarProject";
+import { SidebarGroup } from "@repo/ui/SidebarGroup";
 import { Outlet, redirect } from "react-router";
 import { auth } from "~/.client";
 
@@ -12,7 +12,7 @@ export async function clientLoader() {
 export default function Layout() {
   return (
     <div className="flex">
-      <SidebarProject projectId="demo" />
+      <SidebarGroup groupId="demo" />
       <div className="p-4">
         <Outlet />
       </div>

@@ -7,7 +7,7 @@ import { IoIosGitPullRequest } from "react-icons/io";
 import { SlSpeedometer } from "react-icons/sl";
 import { redirect } from "react-router";
 import { auth } from "~/.client";
-import type { Route } from "../../dashboard/$projectId/+types/index";
+import type { Route } from "../../dashboard/$groupId/+types/index";
 import { fetchReport } from "./fetchers/statMerged";
 
 // biome-ignore lint: remix default setup
@@ -41,7 +41,7 @@ type DashboardDataV0 = {
 // if (data.version !== "1.0") return null;
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  if (params.projectId === "demo") {
+  if (params.groupId === "demo") {
     return {
       statCards: {
         mergedCount: statMerged.fixture,
@@ -63,7 +63,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const fetchReportResult = await fetchReport(
     token,
     statMerged.type,
-    params.projectId,
+    params.groupId,
   );
   // TODO: parse処理をClient側に移動
   if (!fetchReportResult.success) throw Error("Failed to fetch report");

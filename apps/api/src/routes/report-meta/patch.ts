@@ -14,7 +14,7 @@ const validator = vValidator(
   "json",
   v.object({
     reportPublicId: v.string(),
-    teamId: v.pipe(v.string(), v.uuid()),
+    groupId: v.pipe(v.string(), v.uuid()),
     status: v.picklist(status),
   }),
 );
@@ -25,7 +25,7 @@ const handlers = factory.createHandlers(
   async (c) => {
     // TODO: Implement your business logic here
     // - authenticated user
-    // - extract teamId and other params from request
+    // - extract groupId and other params from request
     const validated = c.req.valid("json");
 
     const db = drizzle(c.env.DB_API);

@@ -8,7 +8,7 @@ const factory = createFactory<{ Bindings: Env }>();
 const handlers = factory.createHandlers(async (c) => {
   // TODO: Implement your business logic here
   // - authenticated user
-  // - extract teamId and other params from request
+  // - extract groupId and other params from request
   // - store r2 meta data to db
 
   const type = c.req.param("type");
@@ -17,7 +17,7 @@ const handlers = factory.createHandlers(async (c) => {
   const lastReportMeta = await db
     .select({ id: reportTbl.id })
     .from(reportTbl)
-    .where(eq(reportTbl.groupId, Number(c.req.param("teamId"))))
+    .where(eq(reportTbl.groupId, Number(c.req.param("groupId"))))
     .orderBy(desc(reportTbl.createdAt))
     .limit(1);
 
@@ -25,9 +25,9 @@ const handlers = factory.createHandlers(async (c) => {
     return c.json(null);
   }
 
-  // TODO: use real teamId / type / version
+  // TODO: use real groupId / type / version
   const obj = await c.env.REPORT_BUCKET.get(
-    `teams/2edd4c47-b01c-49eb-9711-5e8106bbabcf/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
+    `groups/2edd4c47-b01c-49eb-9711-5e8106bbabcf/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
   );
 
   const j = await obj?.json();

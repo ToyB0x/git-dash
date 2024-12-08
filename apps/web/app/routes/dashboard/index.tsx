@@ -12,7 +12,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 type HomeData = {
-  teams: {
+  groups: {
     publicId: string;
     displayName: string;
   }[];
@@ -30,7 +30,7 @@ export async function clientLoader() {
     throw redirect("/login");
   }
 
-  const teams = await client.teams.$get(
+  const groups = await client.groups.$get(
     {},
     {
       headers: {
@@ -39,20 +39,20 @@ export async function clientLoader() {
     },
   );
 
-  if (!teams.ok) throw Error("Failed to fetch");
+  if (!groups.ok) throw Error("Failed to fetch");
 
   return {
-    teams: await teams.json(),
+    groups: await groups.json(),
   } satisfies HomeData;
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { teams } = loaderData;
+  const { groups } = loaderData;
   return (
     <ul>
-      {teams.map((team) => (
-        <li key={team.publicId}>
-          <Link to={team.publicId}>{team.displayName}</Link>
+      {groups.map((group) => (
+        <li key={group.publicId}>
+          <Link to={group.publicId}>{group.displayName}</Link>
         </li>
       ))}
     </ul>

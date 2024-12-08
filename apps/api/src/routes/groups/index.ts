@@ -2,6 +2,6 @@ import { Hono } from "hono";
 import { getHandler } from "./get";
 import { postHandler } from "./post";
 
-export const teamRoute = new Hono()
+export const groupRoute = new Hono()
   .get("", ...getHandler)
   .post("", ...postHandler);

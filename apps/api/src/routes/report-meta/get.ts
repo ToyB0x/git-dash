@@ -8,7 +8,7 @@ const factory = createFactory<{ Bindings: Env }>();
 const handlers = factory.createHandlers(async (c) => {
   // TODO: Implement your business logic here
   // - authenticated user
-  // - extract teamId and other params from request
+  // - extract groupId and other params from request
   // - store r2 meta data to db
 
   const db = drizzle(c.env.DB_API);
@@ -16,7 +16,7 @@ const handlers = factory.createHandlers(async (c) => {
     .select({ id: reportTbl.id })
     .from(reportTbl)
     .orderBy(desc(reportTbl.createdAt))
-    .where(eq(reportTbl.groupId, Number(c.req.param("teamId"))))
+    .where(eq(reportTbl.groupId, Number(c.req.param("groupId"))))
     .limit(1);
 
   if (lastReportMeta.length === 0) {
