@@ -1,0 +1,12 @@
+{
+  "name": "@repo/e2e-internal",
+  "scripts": {
+    "setup": "pnpm exec playwright install",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.0",
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "22.10.1"
+  }
+}
