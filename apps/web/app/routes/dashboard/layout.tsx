@@ -12,7 +12,7 @@ export async function clientLoader() {
 export default function Layout() {
   return (
     <div className="flex">
-      <SidebarProject projectId="demo" />
+      <SidebarProject groupId="demo" />
       <div className="p-4">
         <Outlet />
       </div>
