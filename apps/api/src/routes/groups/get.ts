@@ -22,7 +22,7 @@ const handlers = factory.createHandlers(async (c) => {
   return c.json(
     belongingGroups.filter(
       (group): group is { publicId: string; displayName: string } =>
-        !group.publicId || !group.displayName,
+        !!group.publicId && !!group.displayName,
     ),
   );
 });
