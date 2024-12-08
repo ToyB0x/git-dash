@@ -3,7 +3,7 @@
   "private": true,
   "exports": {
     "./Skeleton": "./src/Skeleton.tsx",
-    "./SidebarProject": "./src/SidebarProject.tsx",
+    "./SidebarGroup": "./src/SidebarGroup.tsx",
     "./StatCard": "./src/StatCard.tsx"
   },
   "scripts": {

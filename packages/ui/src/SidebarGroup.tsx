@@ -17,7 +17,7 @@ type Props = {
   groupId: string;
 };
 
-export const Sidebargroup: FC<Props> = ({ groupId }) => {
+export const SidebarGroup: FC<Props> = ({ groupId }) => {
   return (
     <Stack
       h="100vh"
