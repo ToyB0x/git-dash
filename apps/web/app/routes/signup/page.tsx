@@ -1,7 +1,8 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Form, redirect } from "react-router";
 import { auth } from "~/.client";
-import type { Route } from "../login/+types/page";
+import { client } from "~/.client/hono";
+import type { Route } from "../signup/+types/page";
 
 export async function clientLoader() {
   await auth.authStateReady();
@@ -22,8 +23,17 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const password = formData.get("password");
   if (typeof password !== "string") throw Error("password is invalid");
 
-  await signInWithEmailAndPassword(auth, email, password);
-  location.href = "/";
+  const cred = await createUserWithEmailAndPassword(auth, email, password);
+  await client.users.$post(
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${await cred.user.getIdToken()}`,
+      },
+    },
+  );
+
+  return redirect("/");
 }
 
 export default function Page() {
