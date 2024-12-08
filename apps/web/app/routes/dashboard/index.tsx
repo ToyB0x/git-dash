@@ -1,4 +1,4 @@
-import { Skeleton } from "@repo/ui/Skeleton";
+import { Link } from "react-router";
 import { auth } from "~/.client";
 import type { Route } from "../dashboard/+types/index";
 
@@ -31,10 +31,12 @@ export async function clientLoader() {
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { teams } = loaderData;
   return (
-    <>
-      {JSON.stringify(teams)}
-      <br />
-      <Skeleton h={32} w={32} />
-    </>
+    <ul>
+      {teams.map((team) => (
+        <li key={team.teamId}>
+          <Link to={team.teamId}>{team.teamName}</Link>
+        </li>
+      ))}
+    </ul>
   );
 }
