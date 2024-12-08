@@ -1,10 +1,9 @@
 {
-  "name": "turbo-init",
+  "name": "@repo/root",
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
-    "start:emulator": "firebase emulators:start",
+    "dev": "firebase emulators:exec 'turbo dev'",
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",

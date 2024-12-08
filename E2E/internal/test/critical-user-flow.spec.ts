@@ -18,3 +18,10 @@ test("get started link", async ({ page }) => {
     page.getByRole("heading", { name: "Installation" }),
   ).toBeVisible();
 });
+
+test("can read", async ({ page }) => {
+  await page.goto("http://localhost:10000");
+
+  // Confirm redirect to login page when not authenticated.
+  await expect(page).toHaveTitle("Login");
+});

@@ -56,7 +56,7 @@ jobs:
         working-directory: E2E/internal
 
       - name: Run Playwright tests
-        run: pnpm e2e
+        run: pnpm start-servers:test
         working-directory: E2E/internal
 
       - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4

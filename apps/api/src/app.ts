@@ -6,9 +6,16 @@ import {
 import { Hono } from "hono";
 import { except } from "hono/combine";
 import { cors } from "hono/cors";
-import { groupRoute, reportMetaRoute, reportRoute, userRoute } from "./routes";
+import {
+  groupRoute,
+  healthRoute,
+  reportMetaRoute,
+  reportRoute,
+  userRoute,
+} from "./routes";
 
 export const app = new Hono<{ Bindings: VerifyFirebaseAuthEnv }>()
+  .route("/health", healthRoute)
   .use(
     cors({
       origin: ["http://localhost:10000"],

@@ -3,6 +3,10 @@ import { Form, redirect } from "react-router";
 import { auth } from "~/.client";
 import type { Route } from "../login/+types/page";
 
+export function meta() {
+  return [{ title: "Login" }];
+}
+
 export async function clientLoader() {
   await auth.authStateReady();
 
