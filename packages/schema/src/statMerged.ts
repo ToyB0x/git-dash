@@ -1,9 +1,11 @@
 import * as v from "valibot";
 
+export const statMergedSchemaType = "statMerged";
+
 export const statMergedSchema = v.object({
   reportId: v.number(),
   teamId: v.pipe(v.string(), v.uuid()),
-  type: v.literal("statMerged"),
+  type: v.literal(statMergedSchemaType),
   version: v.literal("1.0"), // latest version
   data: v.array(
     v.object({
