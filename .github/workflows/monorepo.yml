@@ -45,11 +45,11 @@ jobs:
       - name: Lint / Format check
         run: pnpm format-and-lint
 
-      - name: Build check
-        run: pnpm build
-
       - name: Type check
         run: pnpm typecheck
+
+      - name: Build check
+        run: pnpm build
 
       - name: deploy api
         run: pnpm run deploy

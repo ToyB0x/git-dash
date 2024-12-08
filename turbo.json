@@ -7,7 +7,8 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["generate:db"],
+      "cache": false,
+      "dependsOn": ["generate:db", "^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [
         "dist/**", // tsup outputs
@@ -20,7 +21,10 @@
       "dependsOn": ["generate:db"]
     },
     "typecheck": {
-      "dependsOn": ["generate:db"]
+      "dependsOn": [
+        "generate:db",
+        "build" // need api type definitions build
+      ]
     },
     "//#format-and-lint": {},
     "//#format-and-lint:fix": {
