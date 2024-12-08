@@ -1,7 +1,11 @@
 {
   "name": "@repo/e2e-internal",
   "scripts": {
-    "setup": "pnpm exec playwright install",
+    "e2e": "pnpm exec playwright test",
+    "e2e:ui": "pnpm exec playwright test --ui",
+    "e2e:debug": "pnpm exec playwright test --debug",
+    "e2e:setup": "pnpm exec playwright install",
+    "codegen": "pnpm exec playwright codegen",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
