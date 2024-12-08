@@ -43,16 +43,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.projectId === "demo") {
     return {
       statCards: {
-        mergedCount: {
-          reportId: 1,
-          teamId: "teamId1",
-          type: "statMerged",
-          version: "1.0",
-          data: [
-            { login: "user1", count: 10 },
-            { login: "user2", count: 10 },
-          ],
-        },
+        mergedCount: statMerged.fixture,
         reviewCount: 10,
         waitingCount: 10,
         releaseCount: 10,
