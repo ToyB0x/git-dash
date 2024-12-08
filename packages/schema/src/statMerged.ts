@@ -1,11 +1,11 @@
 import * as v from "valibot";
 
-export const statMergedSchemaType = "statMerged";
+const typeName = "statMerged";
 
-export const statMergedSchema = v.object({
+const schema = v.object({
   reportId: v.number(),
   teamId: v.pipe(v.string(), v.uuid()),
-  type: v.literal(statMergedSchemaType),
+  type: v.literal(typeName),
   version: v.literal("1.0"), // latest version
   data: v.array(
     v.object({
@@ -15,9 +15,7 @@ export const statMergedSchema = v.object({
   ),
 });
 
-export type StatMergedSchema = v.InferInput<typeof statMergedSchema>;
-
-export const statMergedFixture = {
+const fixture = {
   teamId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
   reportId: 1,
   type: "statMerged",
@@ -27,3 +25,11 @@ export const statMergedFixture = {
     { login: "user2", count: 10 },
   ],
 } satisfies StatMergedSchema;
+
+export const statMerged = {
+  type: typeName,
+  schema,
+  fixture,
+};
+
+export type StatMergedSchema = v.InferInput<typeof schema>;
