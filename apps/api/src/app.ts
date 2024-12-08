@@ -6,7 +6,7 @@ import {
 import { Hono } from "hono";
 import { except } from "hono/combine";
 import { cors } from "hono/cors";
-import { reportMetaRoute, reportRoute } from "./routes";
+import { reportMetaRoute, reportRoute, userRoute } from "./routes";
 
 export const app = new Hono<{ Bindings: VerifyFirebaseAuthEnv }>()
   .use(
@@ -24,4 +24,5 @@ export const app = new Hono<{ Bindings: VerifyFirebaseAuthEnv }>()
     }),
   )
   .route("/reports", reportRoute)
-  .route("/reports-meta", reportMetaRoute);
+  .route("/reports-meta", reportMetaRoute)
+  .route("/users", userRoute);
