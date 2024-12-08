@@ -7,8 +7,10 @@
       "cache": false
     },
     "build": {
-      "cache": false,
-      "dependsOn": ["generate:db", "^build"],
+      "dependsOn": [
+        "generate:db", // need prisma initialization
+        "^build" //  need api type definitions build (web / jobs packages depend on api type build (^build run all build tasks of dependencies))
+      ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [
         "dist/**", // tsup outputs

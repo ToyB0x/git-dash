@@ -12,7 +12,7 @@
     "dev": "pnpm --filter @repo/api --parallel \"/^dev:.*/\"",
     "dev:tsc": "tsc -p tsconfig.build.json --watch",
     "dev:wrangler": "wrangler dev --persist-to ../../.emu-cloudflare",
-    "build": "sleep 5 && tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types",
     "typecheck": "tsc --noEmit"
