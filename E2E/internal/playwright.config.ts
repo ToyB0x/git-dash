@@ -16,7 +16,7 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./test",
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
   forbidOnly: !!process.env["CI"],

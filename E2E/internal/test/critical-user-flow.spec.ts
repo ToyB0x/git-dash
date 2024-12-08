@@ -27,7 +27,7 @@ test("can sign up and redirect", async ({ page }) => {
 
   // Confirm SignUp and redirect to dashboard page.
   await page.goto("http://localhost:10000/signup");
-  await page.getByPlaceholder("email").fill("test1234sxxasdfasd@example.com");
+  await page.getByPlaceholder("email").fill("test@example.com");
   await page.getByPlaceholder("password").fill("password1234X");
   await page.getByRole("button", { name: "sign up" }).click();
   await expect(page).toHaveTitle("Dashboard");
@@ -38,7 +38,7 @@ test("can sign up and redirect", async ({ page }) => {
 
   // Confirm can re-login and redirect to dashboard page.
   await page.goto("http://localhost:10000/login");
-  await page.getByPlaceholder("email").fill("test1234sxxasdfasd@example.com");
+  await page.getByPlaceholder("email").fill("test@example.com");
   await page.getByPlaceholder("password").fill("password1234X");
   await page.getByRole("button", { name: "login" }).click();
   await expect(page).toHaveTitle("Dashboard");
