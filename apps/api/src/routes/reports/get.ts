@@ -27,7 +27,7 @@ const handlers = factory.createHandlers(async (c) => {
 
   // TODO: use real groupId / type / version
   const obj = await c.env.REPORT_BUCKET.get(
-    `teams/2edd4c47-b01c-49eb-9711-5e8106bbabcf/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
+    `groups/2edd4c47-b01c-49eb-9711-5e8106bbabcf/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
   );
 
   const j = await obj?.json();

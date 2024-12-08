@@ -13,7 +13,7 @@ import * as v from "valibot";
 
 const factory = createFactory<{ Bindings: Env }>();
 
-// TODO: use team schema
+// TODO: use group schema
 const validator = vValidator(
   "json",
   v.object({
