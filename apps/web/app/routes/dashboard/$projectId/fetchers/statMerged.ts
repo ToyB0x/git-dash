@@ -14,14 +14,14 @@ type Result<T> =
 export const fetchReport = async (
   token: string,
   type: string,
-  teamId: string,
+  groupId: string,
 ): Promise<Result<StatMergedSchema>> => {
   try {
-    const res = await client.reports[":teamId"][":type"].$get(
+    const res = await client.reports[":groupId"][":type"].$get(
       {
         param: {
           type,
-          teamId,
+          groupId,
         },
       },
       {
