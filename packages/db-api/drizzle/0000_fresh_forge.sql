@@ -1,6 +1,6 @@
 CREATE TABLE `group` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`public_id` text(8),
+	`public_id` text(8) NOT NULL,
 	`displayName` text(24) NOT NULL,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL
@@ -9,7 +9,7 @@ CREATE TABLE `group` (
 CREATE UNIQUE INDEX `uq_group_public_id` ON `group` (`public_id`);--> statement-breakpoint
 CREATE TABLE `report` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`public_id` text(12),
+	`public_id` text(12) NOT NULL,
 	`status` text NOT NULL,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL
@@ -18,7 +18,7 @@ CREATE TABLE `report` (
 CREATE UNIQUE INDEX `uq_report_public_id` ON `report` (`public_id`);--> statement-breakpoint
 CREATE TABLE `user` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`public_id` text(8),
+	`public_id` text(8) NOT NULL,
 	`email` text(256) NOT NULL,
 	`firebase_uid` text(36) NOT NULL,
 	`createdAt` integer NOT NULL,

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "63762cb4-bea3-4117-b5e2-70a46ac21689",
+  "id": "317163d8-f777-4f8a-b566-b50e5da03c98",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "group": {
@@ -18,7 +18,7 @@
           "name": "public_id",
           "type": "text(8)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "displayName": {
@@ -71,7 +71,7 @@
           "name": "public_id",
           "type": "text(12)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "status": {
@@ -124,7 +124,7 @@
           "name": "public_id",
           "type": "text(8)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "email": {
