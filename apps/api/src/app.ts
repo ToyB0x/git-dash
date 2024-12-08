@@ -25,7 +25,7 @@ export const app = new Hono<{ Bindings: VerifyFirebaseAuthEnv }>()
     "/*",
     except("/*/public/*", (c, next) => {
       const config: VerifyFirebaseAuthConfig = {
-        projectId: c.env.PUBLIC_FIREBASE_PROJECT_ID,
+        projectId: c.env.PUBLIC_FIREBASE_PROJECT_ID || "local",
       };
 
       if (c.env.PUBLIC_FIREBASE_PROJECT_ID === "local") {
