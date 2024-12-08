@@ -1,5 +1,12 @@
-CREATE TABLE `user` (
+CREATE TABLE `report` (
 	`id` text(12) PRIMARY KEY NOT NULL,
+	`status` text NOT NULL,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE `user` (
+	`id` text(8) PRIMARY KEY NOT NULL,
 	`email` text(256) NOT NULL,
 	`firebase_uid` text(36) NOT NULL,
 	`createdAt` integer NOT NULL,

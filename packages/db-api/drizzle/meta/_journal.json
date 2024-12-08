@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1733427805884,
-      "tag": "0000_bitter_khan",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1733638953303,
-      "tag": "0001_sour_warlock",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1733641177872,
-      "tag": "0002_naive_husk",
+      "when": 1733641307745,
+      "tag": "0000_chilly_psylocke",
       "breakpoints": true
     }
   ]
