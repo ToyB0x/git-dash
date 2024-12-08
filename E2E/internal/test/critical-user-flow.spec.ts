@@ -33,7 +33,7 @@ test("can sign up and redirect", async ({ page }) => {
   await expect(page).toHaveTitle("Dashboard");
 
   // Confirm Logout
-  await page.goto("http://localhost:10000/signup");
+  await page.goto("http://localhost:10000/signout");
 
   // Confirm can re-login and redirect to dashboard page.
   await page.goto("http://localhost:10000/login");
