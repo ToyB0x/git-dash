@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "firebase emulators:exec 'turbo dev'",
+    "dev": "firebase emulators:exec --ui 'turbo dev'",
+    "emulator": "firebase emulators:start",
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",
