@@ -29,9 +29,9 @@ export const countOnce = async (
   });
 
   return {
-    // TODO: use real  teamId / reportId
+    // TODO: use real  groupId / reportId
     reportId,
-    teamId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
+    groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
     type: "statMerged",
     version: "1.0",
     data: usersWithMergeCount.map((user) => ({
