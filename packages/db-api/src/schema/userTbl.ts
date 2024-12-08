@@ -15,7 +15,10 @@ const idAlphabet =
 export const userTbl = sqliteTable(
   "user",
   {
-    id: text({ length: idLength }).primaryKey(),
+    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: false }),
+    publicId: text("public_id", { length: idLength }).unique(
+      "uq_user_public_id",
+    ),
     email: text("email", { length: 256 }).notNull(),
     firebaseUid: text("firebase_uid", { length: 36 })
       .unique("uq_user_firebase_uid")
