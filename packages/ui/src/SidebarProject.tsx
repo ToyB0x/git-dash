@@ -14,10 +14,10 @@ const linkItems: LinkItem[] = [
 ];
 
 type Props = {
-  projectId: string;
+  groupId: string;
 };
 
-export const SidebarProject: FC<Props> = ({ projectId }) => {
+export const Sidebargroup: FC<Props> = ({ groupId }) => {
   return (
     <Stack
       h="100vh"
@@ -36,7 +36,7 @@ export const SidebarProject: FC<Props> = ({ projectId }) => {
         </Link>
 
         {linkItems.map((link) => (
-          <Link to={`${projectId}/${link.href}`} key={link.name}>
+          <Link to={`${groupId}/${link.href}`} key={link.name}>
             <Box ml={1} my={2} display="block" fontSize="lg">
               {link.name}
             </Box>
