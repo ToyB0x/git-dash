@@ -3,7 +3,10 @@ import { connectAuthEmulator, getAuth } from "firebase/auth";
 import { publicViteEnv } from "~/env";
 
 const firebaseConfigsBrowser = {
-  projectId: publicViteEnv.VITE_PUBLIC_FIREBASE_PROJECT_ID,
+  projectId:
+    publicViteEnv.MODE === "development"
+      ? "local"
+      : publicViteEnv.VITE_PUBLIC_FIREBASE_PROJECT_ID,
   apiKey: publicViteEnv.VITE_PUBLIC_FIREBASE_BROWSER_API_KEY,
 } satisfies FirebaseOptions;
 
