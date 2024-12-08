@@ -40,3 +40,6 @@ yarn-error.log*
 
 # Cloudflare emulator
 .emu-cloudflare
+
+# Cloudflare env
+.dev.vars
