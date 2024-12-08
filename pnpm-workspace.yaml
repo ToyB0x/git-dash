@@ -1,3 +1,4 @@
 packages:
+  - "E2E/*"
   - "apps/*"
   - "packages/*"
