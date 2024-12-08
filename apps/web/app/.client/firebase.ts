@@ -15,8 +15,10 @@ const firebaseConfigsBrowser = {
 
 const firebaseAppBrowser = initializeApp(firebaseConfigsBrowser);
 
-export const auth = getAuth(firebaseAppBrowser);
+const _auth = getAuth(firebaseAppBrowser);
 
 if (publicViteEnv.MODE === "development") {
-  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectAuthEmulator(_auth, "http://127.0.0.1:9099");
 }
+
+export const auth = _auth;

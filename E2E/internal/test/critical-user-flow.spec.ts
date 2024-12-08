@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { expect, test } from "@playwright/test";
 
 test("has title", async ({ page }) => {
@@ -27,9 +26,8 @@ test("can sign up and redirect", async ({ page }) => {
   await expect(page).toHaveTitle("Login");
 
   // Confirm SignUp and redirect to dashboard page.
-  const user = randomUUID();
   await page.goto("http://localhost:10000/signup");
-  await page.getByPlaceholder("email").fill(`${user}@example.com`);
+  await page.getByPlaceholder("email").fill("test@example.com");
   await page.getByPlaceholder("password").fill("password1234X");
   await page.getByRole("button", { name: "sign up" }).click();
   await expect(page).toHaveTitle("Dashboard");
@@ -40,7 +38,7 @@ test("can sign up and redirect", async ({ page }) => {
 
   // Confirm can re-login and redirect to dashboard page.
   await page.goto("http://localhost:10000/login");
-  await page.getByPlaceholder("email").fill(`${user}@example.com`);
+  await page.getByPlaceholder("email").fill("test@example.com");
   await page.getByPlaceholder("password").fill("password1234X");
   await page.getByRole("button", { name: "login" }).click();
   await expect(page).toHaveTitle("Dashboard");
