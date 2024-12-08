@@ -16,9 +16,9 @@ export const userTbl = sqliteTable(
   "user",
   {
     id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: false }),
-    publicId: text("public_id", { length: idLength }).unique(
-      "uq_user_public_id",
-    ),
+    publicId: text("public_id", { length: idLength })
+      .unique("uq_user_public_id")
+      .notNull(),
     email: text("email", { length: 256 }).notNull(),
     firebaseUid: text("firebase_uid", { length: 36 })
       .unique("uq_user_firebase_uid")

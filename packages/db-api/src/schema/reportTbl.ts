@@ -10,9 +10,9 @@ const idAlphabet =
 
 export const reportTbl = sqliteTable("report", {
   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: false }),
-  publicId: text("public_id", { length: idLength }).unique(
-    "uq_report_public_id",
-  ),
+  publicId: text("public_id", { length: idLength })
+    .unique("uq_report_public_id")
+    .notNull(),
   status: text({
     enum: ["RUNNING", "FINISHED", "ABORTED", "FAILED"],
   }).notNull(),

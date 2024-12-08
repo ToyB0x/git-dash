@@ -7,9 +7,9 @@ const idAlphabet =
 
 export const groupTbl = sqliteTable("group", {
   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: false }),
-  publicId: text("public_id", { length: idLength }).unique(
-    "uq_group_public_id",
-  ),
+  publicId: text("public_id", { length: idLength })
+    .unique("uq_group_public_id")
+    .notNull(),
   displayName: text({ length: 24 }).notNull(),
   createdAt: integer({ mode: "timestamp_ms" })
     .notNull()

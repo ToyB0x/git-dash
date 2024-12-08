@@ -1,4 +1,4 @@
 export * from "./groupTbl";
-export * from "./userTbl";
+export * from "./reportTbl";
 export * from "./userTbl";
 export * from "./userToGroupTbl";
