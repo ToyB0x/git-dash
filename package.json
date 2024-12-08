@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "pnpm --filter @repo/db-api db:reset:local && firebase emulators:exec --ui 'turbo dev'",
+    "dev": "pnpm --filter @repo/db-api db:reset:local && firebase emulators:exec 'turbo dev'",
     "emulator": "firebase emulators:start",
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",

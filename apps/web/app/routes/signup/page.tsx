@@ -42,7 +42,7 @@ export default function Page() {
       <Form method="post" className="flex flex-col">
         <input name="email" type="email" placeholder="email" />
         <input name="password" type="password" placeholder="password" />
-        <button type="submit">login</button>
+        <button type="submit">sign up</button>
       </Form>
 
       <div>

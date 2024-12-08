@@ -29,7 +29,7 @@ test("can sign up and redirect", async ({ page }) => {
   await page.goto("http://localhost:10000/signup");
   await page.getByPlaceholder("email").fill("test@example.com");
   await page.getByPlaceholder("password").fill("password1234X");
-  await page.getByRole("button", { name: "login" }).click();
+  await page.getByRole("button", { name: "sign up" }).click();
   await expect(page).toHaveTitle("Dashboard");
 
   // Confirm Logout
