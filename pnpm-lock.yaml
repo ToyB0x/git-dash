@@ -19,13 +19,22 @@ importers:
     dependencies:
       '@hono/valibot-validator':
         specifier: 0.5.1
-        version: 0.5.1(hono@4.6.13)(valibot@0.42.1(typescript@5.7.2))
+        version: 0.5.1(hono@4.6.13)(valibot@1.0.0-beta.9(typescript@5.7.2))
+      '@repo/db-api':
+        specifier: workspace:*
+        version: link:../../packages/db-api
       '@repo/schema':
         specifier: workspace:*
         version: link:../../packages/schema
+      drizzle-orm:
+        specifier: 0.37.0
+        version: 0.37.0(@cloudflare/workers-types@4.20241205.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(prisma@6.0.1)(react@18.3.1)
       hono:
         specifier: 4.6.13
         version: 4.6.13
+      valibot:
+        specifier: 1.0.0-beta.9
+        version: 1.0.0-beta.9(typescript@5.7.2)
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20241205.0
@@ -42,6 +51,9 @@ importers:
       '@graphql-typed-document-node/core':
         specifier: 3.2.0
         version: 3.2.0(graphql@16.9.0)
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
       '@repo/db-job':
         specifier: workspace:*
         version: link:../../packages/db-job
@@ -106,6 +118,9 @@ importers:
       '@react-router/serve':
         specifier: 7.0.2
         version: 7.0.2(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2)
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
       '@repo/schema':
         specifier: workspace:*
         version: link:../../packages/schema
@@ -137,8 +152,8 @@ importers:
         specifier: 7.0.2
         version: 7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       valibot:
-        specifier: 0.42.1
-        version: 0.42.1(typescript@5.7.2)
+        specifier: 1.0.0-beta.9
+        version: 1.0.0-beta.9(typescript@5.7.2)
     devDependencies:
       '@react-router/dev':
         specifier: 7.0.2
@@ -221,8 +236,8 @@ importers:
   packages/schema:
     dependencies:
       valibot:
-        specifier: 0.42.1
-        version: 0.42.1(typescript@5.7.2)
+        specifier: 1.0.0-beta.9
+        version: 1.0.0-beta.9(typescript@5.7.2)
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -4701,8 +4716,8 @@ packages:
       typescript:
         optional: true
 
-  valibot@0.42.1:
-    resolution: {integrity: sha512-3keXV29Ar5b//Hqi4MbSdV7lfVp6zuYLZuA9V1PvQUsXqogr+u5lvLPLk3A4f74VUXDnf/JfWMN6sB+koJ/FFw==}
+  valibot@1.0.0-beta.9:
+    resolution: {integrity: sha512-yEX8gMAZ2R1yI2uwOO4NCtVnJQx36zn3vD0omzzj9FhcoblvPukENIiRZXKZwCnqSeV80bMm8wNiGhQ0S8fiww==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -6723,10 +6738,10 @@ snapshots:
       protobufjs: 7.4.0
       yargs: 17.7.2
 
-  '@hono/valibot-validator@0.5.1(hono@4.6.13)(valibot@0.42.1(typescript@5.7.2))':
+  '@hono/valibot-validator@0.5.1(hono@4.6.13)(valibot@1.0.0-beta.9(typescript@5.7.2))':
     dependencies:
       hono: 4.6.13
-      valibot: 0.42.1(typescript@5.7.2)
+      valibot: 1.0.0-beta.9(typescript@5.7.2)
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -9481,7 +9496,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.2
 
-  valibot@0.42.1(typescript@5.7.2):
+  valibot@1.0.0-beta.9(typescript@5.7.2):
     optionalDependencies:
       typescript: 5.7.2
 

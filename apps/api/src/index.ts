@@ -1,8 +1,5 @@
-import { Hono } from "hono";
-import { reportRoute } from "./routes";
-
-const app = new Hono();
-const routes = app.route("/reports", reportRoute);
+import { app } from "./app";
 
 export default app;
-export type AppType = typeof routes;
+
+export type AppType = typeof app;

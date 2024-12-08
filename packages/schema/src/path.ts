@@ -4,5 +4,5 @@ export const getR2Path = ({
   reportId,
   type,
   version,
-}: { teamId: string; reportId: string; type: string; version: string }) =>
+}: { teamId: string; reportId: number; type: string; version: string }) =>
   `teams/${teamId}/reports/${reportId}/types/${type}/versions/${version}/data.json`;

@@ -1,50 +1,42 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "840279cb-c21c-4ea3-a163-843591edd678",
+  "id": "1ea9d47e-730c-4af4-9219-0d5ebd0055b3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "users_table": {
-      "name": "users_table",
+    "report": {
+      "name": "report",
       "columns": {
         "id": {
           "name": "id",
           "type": "integer",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
-        "name": {
-          "name": "name",
+        "status": {
+          "name": "status",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "age": {
-          "name": "age",
+        "createdAt": {
+          "name": "createdAt",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "email": {
-          "name": "email",
-          "type": "text",
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         }
       },
-      "indexes": {
-        "users_table_email_unique": {
-          "name": "users_table_email_unique",
-          "columns": [
-            "email"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
