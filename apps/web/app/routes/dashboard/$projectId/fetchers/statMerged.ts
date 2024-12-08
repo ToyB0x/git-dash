@@ -2,18 +2,6 @@ import { type StatMergedSchema, statMerged } from "@repo/schema/statMerged";
 import * as v from "valibot";
 import { client } from "~/.client/hono";
 
-export const fetchStatMerged = async () => {
-  const res = await client.reports[":type"].$get({
-    param: {
-      type: statMerged.type,
-    },
-  });
-
-  if (!res.ok) throw Error("Failed to fetch");
-
-  return v.parse(statMerged.schema, await res.json());
-};
-
 export const fetchReport = async (type: string): Promise<StatMergedSchema> => {
   const res = await client.reports[":type"].$get({
     param: {
