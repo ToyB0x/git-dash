@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "start:emulator": "firebase emulators:start",
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",
