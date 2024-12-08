@@ -3,5 +3,5 @@ import { getHandler } from "./get";
 import { postHandler } from "./post";
 
 export const reportRoute = new Hono()
-  .get(":tgroupId/:type", ...getHandler)
+  .get(":group/:type", ...getHandler)
   .post("public", ...postHandler);
