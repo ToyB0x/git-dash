@@ -12,10 +12,13 @@ CREATE TABLE `report` (
 	`public_id` text(12) NOT NULL,
 	`status` text NOT NULL,
 	`createdAt` integer NOT NULL,
-	`updatedAt` integer NOT NULL
+	`updatedAt` integer NOT NULL,
+	`group_id` integer NOT NULL,
+	FOREIGN KEY (`group_id`) REFERENCES `group`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `uq_report_public_id` ON `report` (`public_id`);--> statement-breakpoint
+CREATE INDEX `idx_report_group_id` ON `report` (`group_id`);--> statement-breakpoint
 CREATE TABLE `user` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`public_id` text(8) NOT NULL,
@@ -32,6 +35,6 @@ CREATE TABLE `users_to_groups` (
 	`user_id` integer NOT NULL,
 	`group_id` integer NOT NULL,
 	PRIMARY KEY(`user_id`, `group_id`),
-	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`group_id`) REFERENCES `group`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE cascade ON DELETE cascade,
+	FOREIGN KEY (`group_id`) REFERENCES `group`(`id`) ON UPDATE cascade ON DELETE cascade
 );
