@@ -1,4 +1,4 @@
-import type { StatMergedSchema } from "@repo/schema/statMerged";
+import { type StatMergedSchema, statMerged } from "@repo/schema/statMerged";
 import { StatCard } from "@repo/ui/StatCard";
 import { BsStar } from "react-icons/bs";
 import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";
@@ -6,8 +6,8 @@ import { GoCommentDiscussion } from "react-icons/go";
 import { IoIosGitPullRequest } from "react-icons/io";
 import { SlSpeedometer } from "react-icons/sl";
 import { auth } from "~/.client";
-import { fetchStatMerged } from "~/routes/dashboard/$projectId/fetchers/statMerged";
 import type { Route } from "../../dashboard/$projectId/+types/index";
+import { fetchReport } from "./fetchers/statMerged";
 
 // biome-ignore lint: remix default setup
 export function meta({}: Route.MetaArgs) {
@@ -67,7 +67,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     location.href = "/login";
   }
 
-  const data = await fetchStatMerged();
+  const data = await fetchReport(statMerged.type);
   // TODO: parse処理をClient側に移動
   if (!data) throw Error("Failed to create report");
 
