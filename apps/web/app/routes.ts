@@ -9,6 +9,6 @@ export default [
   layout("routes/dashboard/layout.tsx", [
     route("/", "routes/dashboard/index.tsx"),
     route("/new", "routes/dashboard/new/index.tsx"),
-    route("/:projectId", "routes/dashboard/$projectId/index.tsx"),
+    route("/:groupId", "routes/dashboard/$groupId/index.tsx"),
   ]),
 ] satisfies RouteConfig;
