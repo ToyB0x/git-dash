@@ -197,6 +197,9 @@ importers:
       drizzle-orm:
         specifier: 0.37.0
         version: 0.37.0(@cloudflare/workers-types@4.20241205.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(prisma@6.0.1)(react@18.3.1)
+      nanoid:
+        specifier: latest
+        version: 5.0.9
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -3748,6 +3751,11 @@ packages:
   nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  nanoid@5.0.9:
+    resolution: {integrity: sha512-Aooyr6MXU6HpvvWXKoVoXwKMs/KyVakWwg7xQfv5/S/RIgJMy0Ifa45H9qqYy7pTCszrHzP21Uk4PZq2HpEM8Q==}
+    engines: {node: ^18 || >=20}
     hasBin: true
 
   negotiator@0.6.3:
@@ -8537,6 +8545,8 @@ snapshots:
       thenify-all: 1.6.0
 
   nanoid@3.3.7: {}
+
+  nanoid@5.0.9: {}
 
   negotiator@0.6.3: {}
 
