@@ -1,5 +1,5 @@
 import { reportTbl } from "@repo/db-api/schema";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 
@@ -17,11 +17,12 @@ const handlers = factory.createHandlers(async (c) => {
   const lastReportMeta = await db
     .select({ id: reportTbl.id })
     .from(reportTbl)
+    .where(eq(reportTbl.groupId, Number(c.req.param("teamId"))))
     .orderBy(desc(reportTbl.createdAt))
     .limit(1);
 
   if (lastReportMeta.length === 0 || !lastReportMeta[0]?.id) {
-    throw Error("No report found");
+    return c.json(null);
   }
 
   // TODO: use real teamId / type / version

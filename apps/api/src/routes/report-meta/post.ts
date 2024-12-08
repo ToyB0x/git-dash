@@ -17,6 +17,7 @@ const handlers = factory.createHandlers(
       .insert(reportTbl)
       .values({
         publicId: generateNewReportId(),
+        groupId: Number(c.req.param("teamId")),
         status: "RUNNING",
         createdAt: new Date(),
         updatedAt: new Date(),

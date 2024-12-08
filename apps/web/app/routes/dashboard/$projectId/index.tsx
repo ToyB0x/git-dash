@@ -20,7 +20,7 @@ export function meta({}: Route.MetaArgs) {
 
 type DashboardDataV0 = {
   statCards: {
-    mergedCount: StatMergedSchema;
+    mergedCount: StatMergedSchema | null;
     reviewCount: number;
     waitingCount: number;
     releaseCount: number;
@@ -60,14 +60,18 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   }
 
   const token = await auth.currentUser.getIdToken();
-  const data = await fetchReport(token, statMerged.type);
+  const fetchReportResult = await fetchReport(
+    token,
+    statMerged.type,
+    params.projectId,
+  );
   // TODO: parse処理をClient側に移動
-  if (!data) throw Error("Failed to create report");
+  if (!fetchReportResult.success) throw Error("Failed to fetch report");
 
   // TODO: fetch data from server
   return {
     statCards: {
-      mergedCount: data,
+      mergedCount: fetchReportResult.data,
       reviewCount: 10,
       waitingCount: 10,
       releaseCount: 10,
@@ -78,6 +82,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function Page({ loaderData }: Route.ComponentProps) {
   const { statCards } = loaderData;
+
+  if (statCards.mergedCount === null) return <>まだ集計結果がありません</>;
+
   return (
     <div
       style={{

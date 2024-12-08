@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "317163d8-f777-4f8a-b566-b50e5da03c98",
+  "id": "813a2969-7ee5-4fd7-8727-7d8bf198ab8b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "group": {
@@ -94,6 +94,13 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "group_id": {
+          "name": "group_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {
@@ -103,9 +110,30 @@
             "public_id"
           ],
           "isUnique": true
+        },
+        "idx_report_group_id": {
+          "name": "idx_report_group_id",
+          "columns": [
+            "group_id"
+          ],
+          "isUnique": false
         }
       },
-      "foreignKeys": {},
+      "foreignKeys": {
+        "report_group_id_group_id_fk": {
+          "name": "report_group_id_group_id_fk",
+          "tableFrom": "report",
+          "tableTo": "group",
+          "columnsFrom": [
+            "group_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -214,8 +242,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         },
         "users_to_groups_group_id_group_id_fk": {
           "name": "users_to_groups_group_id_group_id_fk",
@@ -227,8 +255,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {
