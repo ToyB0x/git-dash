@@ -7,6 +7,15 @@ CREATE TABLE `group` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `uq_group_public_id` ON `group` (`public_id`);--> statement-breakpoint
+CREATE TABLE `report` (
+	`id` integer PRIMARY KEY NOT NULL,
+	`public_id` text(12),
+	`status` text NOT NULL,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `uq_report_public_id` ON `report` (`public_id`);--> statement-breakpoint
 CREATE TABLE `user` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`public_id` text(8),
