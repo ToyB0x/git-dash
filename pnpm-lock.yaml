@@ -17,6 +17,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@hono/firebase-auth':
+        specifier: 1.4.1
+        version: 1.4.1(hono@4.6.13)
       '@hono/valibot-validator':
         specifier: 0.5.1
         version: 0.5.1(hono@4.6.13)(valibot@1.0.0-beta.9(typescript@5.7.2))
@@ -2097,6 +2100,11 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
+  '@hono/firebase-auth@1.4.1':
+    resolution: {integrity: sha512-IXwKKsZX5BsdZhWul2dSycUtt/DoBSgFOR3gJfnEsklkjvL+vNbchKCIGE9UF9AGqcm+tdi1eAxDR1FcTtRF7g==}
+    peerDependencies:
+      hono: '*'
+
   '@hono/valibot-validator@0.5.1':
     resolution: {integrity: sha512-TXNFh1jofWNCX9sOX2gyw6qCXuAKr4yk//hOf9Lc8vcdIhQXTRQY6RPkKwL/14EldoIngkLj3iMHTXXhjgMCWg==}
     peerDependencies:
@@ -3170,6 +3178,9 @@ packages:
   find-up@4.1.0:
     resolution: {integrity: sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw==}
     engines: {node: '>=8'}
+
+  firebase-auth-cloudflare-workers@2.0.4:
+    resolution: {integrity: sha512-cIhOLpDbia4I1mZSOiKO52/HRwk/Jopg9W+dx77NavDUeKuiXl//AWZWv7Din2ZXBhE/Xq0XOXJh7V1Z8EvXPg==}
 
   firebase@11.0.2:
     resolution: {integrity: sha512-w4T8BSJpzdZA25QRch5ahLsgB6uRvg1LEic4BaC5rTD1YygroI1AXp+W+rbMnr8d8EjfAv6t4k8doULIjc1P8Q==}
@@ -6738,6 +6749,11 @@ snapshots:
       protobufjs: 7.4.0
       yargs: 17.7.2
 
+  '@hono/firebase-auth@1.4.1(hono@4.6.13)':
+    dependencies:
+      firebase-auth-cloudflare-workers: 2.0.4
+      hono: 4.6.13
+
   '@hono/valibot-validator@0.5.1(hono@4.6.13)(valibot@1.0.0-beta.9(typescript@5.7.2))':
     dependencies:
       hono: 4.6.13
@@ -7945,6 +7961,8 @@ snapshots:
     dependencies:
       locate-path: 5.0.0
       path-exists: 4.0.0
+
+  firebase-auth-cloudflare-workers@2.0.4: {}
 
   firebase@11.0.2:
     dependencies:
