@@ -1,5 +1,5 @@
 import { reportTbl } from "@repo/db-api/schema";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 
@@ -16,6 +16,7 @@ const handlers = factory.createHandlers(async (c) => {
     .select({ id: reportTbl.id })
     .from(reportTbl)
     .orderBy(desc(reportTbl.createdAt))
+    .where(eq(reportTbl.groupId, Number(c.req.param("teamId"))))
     .limit(1);
 
   if (lastReportMeta.length === 0) {
