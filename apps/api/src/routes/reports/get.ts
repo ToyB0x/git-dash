@@ -11,6 +11,8 @@ const handlers = factory.createHandlers(async (c) => {
   // - extract teamId and other params from request
   // - store r2 meta data to db
 
+  const type = c.req.param("type");
+
   const db = drizzle(c.env.DB_API);
   const lastReportMeta = await db
     .select({ id: reportTbl.id })
@@ -24,7 +26,7 @@ const handlers = factory.createHandlers(async (c) => {
 
   // TODO: use real teamId / type / version
   const obj = await c.env.REPORT_BUCKET.get(
-    `teams/2edd4c47-b01c-49eb-9711-5e8106bbabcf/reports/${lastReportMeta[0].id}/types/statMerged/versions/1.0/data.json`,
+    `teams/2edd4c47-b01c-49eb-9711-5e8106bbabcf/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
   );
 
   const j = await obj?.json();
