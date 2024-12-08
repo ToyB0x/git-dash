@@ -3,7 +3,7 @@ import { getSingleTenantPrismaClient } from "../../../../utils";
 
 export const countOnce = async (
   organizationId: string,
-  reportId: number,
+  reportId: string,
   days: number,
 ) => {
   const prisma = getSingleTenantPrismaClient();

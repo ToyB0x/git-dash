@@ -13,7 +13,7 @@ const status = ["RUNNING", "FINISHED", "ABORTED", "FAILED"] as const;
 const validator = vValidator(
   "json",
   v.object({
-    reportId: v.number(),
+    reportId: v.string(),
     teamId: v.pipe(v.string(), v.uuid()),
     status: v.picklist(status),
   }),

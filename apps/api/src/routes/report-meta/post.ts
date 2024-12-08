@@ -1,4 +1,4 @@
-import { reportTbl } from "@repo/db-api/schema";
+import { generateNewReportId, reportTbl } from "@repo/db-api/schema";
 import { drizzle } from "drizzle-orm/d1";
 import { bodyLimit } from "hono/body-limit";
 import { createFactory } from "hono/factory";
@@ -16,6 +16,7 @@ const handlers = factory.createHandlers(
     const result = await db
       .insert(reportTbl)
       .values({
+        id: generateNewReportId(),
         status: "RUNNING",
         createdAt: new Date(),
         updatedAt: new Date(),
