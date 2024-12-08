@@ -34,6 +34,7 @@ test("can sign up and redirect", async ({ page }) => {
 
   // Confirm Logout
   await page.goto("http://localhost:10000/signout");
+  await page.getByRole("button", { name: "sign out" }).click();
 
   // Confirm can re-login and redirect to dashboard page.
   await page.goto("http://localhost:10000/login");

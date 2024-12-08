@@ -7,8 +7,9 @@
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:status:local": "wrangler d1 migrations list DB_API --local --persist-to ../../.emu-cloudflare",
-    "db:apply:local": "wrangler d1 migrations apply DB_API --local --persist-to ../../.emu-cloudflare",
+    "db:apply:local": "CI=true wrangler d1 migrations apply DB_API --local --persist-to ../../.emu-cloudflare",
     "db:destroy:local": "rm -rf ../../.emu-cloudflare/v3/d1",
+    "db:reset:local": "pnpm db:destroy:local && pnpm db:apply:local",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
