@@ -56,9 +56,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (!auth.currentUser) {
     location.href = "/login";
+    return;
   }
 
-  const data = await fetchReport(statMerged.type);
+  const token = await auth.currentUser.getIdToken();
+  const data = await fetchReport(token, statMerged.type);
   // TODO: parse処理をClient側に移動
   if (!data) throw Error("Failed to create report");
 
