@@ -4,4 +4,4 @@ import { postHandler } from "./post";
 
 export const reportRoute = new Hono()
   .get(":type", ...getHandler)
-  .post("", ...postHandler);
+  .post("public", ...postHandler);

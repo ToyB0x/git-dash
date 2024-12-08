@@ -5,5 +5,5 @@ import { postHandler } from "./post";
 
 export const reportMetaRoute = new Hono()
   .get("", ...getHandler)
-  .post("", ...postHandler)
-  .patch("", ...patchHandler);
+  .post("public", ...postHandler)
+  .patch("public", ...patchHandler);
