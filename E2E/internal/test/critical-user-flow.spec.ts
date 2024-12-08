@@ -19,9 +19,26 @@ test("get started link", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("can read", async ({ page }) => {
+test("can sign up and redirect", async ({ page }) => {
   await page.goto("http://localhost:10000");
 
   // Confirm redirect to login page when not authenticated.
   await expect(page).toHaveTitle("Login");
+
+  // Confirm SignUp and redirect to dashboard page.
+  await page.goto("http://localhost:10000/signup");
+  await page.getByPlaceholder("email").fill("test@example.com");
+  await page.getByPlaceholder("password").fill("password1234X");
+  await page.getByRole("button", { name: "login" }).click();
+  await expect(page).toHaveTitle("Dashboard");
+
+  // Confirm Logout
+  await page.goto("http://localhost:10000/signup");
+
+  // Confirm can re-login and redirect to dashboard page.
+  await page.goto("http://localhost:10000/login");
+  await page.getByPlaceholder("email").fill("test@example.com");
+  await page.getByPlaceholder("password").fill("password1234X");
+  await page.getByRole("button", { name: "login" }).click();
+  await expect(page).toHaveTitle("Dashboard");
 });
