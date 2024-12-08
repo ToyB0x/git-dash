@@ -16,7 +16,6 @@
     "@emotion/styled": "11.13.5",
     "@react-router/node": "7.0.2",
     "@react-router/serve": "7.0.2",
-    "@repo/api": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/schema": "workspace:*",
     "@tsconfig/strictest": "2.0.5",
