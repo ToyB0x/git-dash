@@ -1,16 +1,12 @@
-import {
-  type StatMergedSchema,
-  statMergedSchema,
-} from "@repo/schema/statMerged";
+import type { StatMergedSchema } from "@repo/schema/statMerged";
 import { StatCard } from "@repo/ui/StatCard";
 import { BsStar } from "react-icons/bs";
 import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";
 import { GoCommentDiscussion } from "react-icons/go";
 import { IoIosGitPullRequest } from "react-icons/io";
 import { SlSpeedometer } from "react-icons/sl";
-import * as v from "valibot";
 import { auth } from "~/.client";
-import { client } from "~/.client/hono";
+import { fetchStatMerged } from "~/routes/dashboard/$projectId/fetchers/statMerged";
 import type { Route } from "../../dashboard/$projectId/+types/index";
 
 // biome-ignore lint: remix default setup
@@ -71,11 +67,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     location.href = "/login";
   }
 
-  // const resMeta = await client["reports-meta"].$get();
-  // TODO: teamIdだけわかれば勝手にLatestのデータを返すようにする;
-  const resReport = await client.reports.$get();
-  if (!resReport.ok) throw Error("Failed to create report");
-  const data = v.parse(statMergedSchema, await resReport.json());
+  const data = await fetchStatMerged();
   // TODO: parse処理をClient側に移動
   if (!data) throw Error("Failed to create report");
 
