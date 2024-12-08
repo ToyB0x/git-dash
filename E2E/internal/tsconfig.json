@@ -1,3 +1,4 @@
 {
-  "extends": "@tsconfig/strictest/tsconfig.json"
+  "extends": "@tsconfig/strictest/tsconfig.json",
+  "include": ["**/*.ts"]
 }
