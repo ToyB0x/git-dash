@@ -1,5 +1,6 @@
 import { Link, redirect } from "react-router";
 import { auth } from "~/.client";
+import { client } from "~/.client/hono";
 import type { Route } from "../dashboard/+types/index";
 
 // biome-ignore lint: remix default setup
@@ -12,8 +13,8 @@ export function meta({}: Route.MetaArgs) {
 
 type HomeData = {
   teams: {
-    teamId: string;
-    teamName: string;
+    publicId: string;
+    displayName: string;
   }[];
 };
 
@@ -23,8 +24,25 @@ export async function clientLoader() {
     throw redirect("/login");
   }
 
+  await auth.authStateReady();
+
+  if (!auth.currentUser) {
+    throw redirect("/login");
+  }
+
+  const teams = await client.teams.$get(
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
+      },
+    },
+  );
+
+  if (!teams.ok) throw Error("Failed to fetch");
+
   return {
-    teams: [{ teamId: "demo", teamName: "Demo Team" }],
+    teams: await teams.json(),
   } satisfies HomeData;
 }
 
@@ -33,8 +51,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <ul>
       {teams.map((team) => (
-        <li key={team.teamId}>
-          <Link to={team.teamId}>{team.teamName}</Link>
+        <li key={team.publicId}>
+          <Link to={team.publicId}>{team.displayName}</Link>
         </li>
       ))}
     </ul>
