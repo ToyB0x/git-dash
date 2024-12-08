@@ -8,10 +8,16 @@ export const usersToGroups = sqliteTable(
   {
     userId: integer("user_id")
       .notNull()
-      .references(() => userTbl.id),
+      .references(() => userTbl.id, {
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      }),
     groupId: integer("group_id")
       .notNull()
-      .references(() => groupTbl.id),
+      .references(() => groupTbl.id, {
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      }),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.userId, t.groupId] }),
