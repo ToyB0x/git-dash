@@ -1,5 +1,5 @@
 import { type FirebaseOptions, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 import { publicViteEnv } from "~/env";
 
 const firebaseConfigsBrowser = {
@@ -10,3 +10,7 @@ const firebaseConfigsBrowser = {
 const firebaseAppBrowser = initializeApp(firebaseConfigsBrowser);
 
 export const auth = getAuth(firebaseAppBrowser);
+
+if (publicViteEnv.MODE === "development") {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+}
