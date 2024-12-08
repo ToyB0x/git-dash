@@ -8,6 +8,9 @@ routes = [
 [limits]
 cpu_ms = 100 # To prevent accidental runaway bills or denial-of-wallet attacks (maybe ignored on free-plan)
 
+[vars]
+PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
+
 # compatibility_flags = [ "nodejs_compat" ]
 
 # [vars]
@@ -16,6 +19,11 @@ cpu_ms = 100 # To prevent accidental runaway bills or denial-of-wallet attacks (
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+[[kv_namespaces]]
+binding = "PUBLIC_JWK_CACHE_KV"
+id = "3c6d35b5a9f146318ca7aef77bb0afc3" # kv_namespace=gdash-prd
+preview_id = "1d4fc521fc6f48fdb423aed2e832b05e" # kv_namespace=gdash-preview (used by wrangler dev "pages" command)
 
 [[r2_buckets]]
 binding = "REPORT_BUCKET"

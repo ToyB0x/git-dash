@@ -5,6 +5,7 @@ import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";
 import { GoCommentDiscussion } from "react-icons/go";
 import { IoIosGitPullRequest } from "react-icons/io";
 import { SlSpeedometer } from "react-icons/sl";
+import { redirect } from "react-router";
 import { auth } from "~/.client";
 import type { Route } from "../../dashboard/$projectId/+types/index";
 import { fetchReport } from "./fetchers/statMerged";
@@ -55,10 +56,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
 
   if (!auth.currentUser) {
-    location.href = "/login";
+    throw redirect("/login");
   }
 
-  const data = await fetchReport(statMerged.type);
+  const token = await auth.currentUser.getIdToken();
+  const data = await fetchReport(token, statMerged.type);
   // TODO: parse処理をClient側に移動
   if (!data) throw Error("Failed to create report");
 

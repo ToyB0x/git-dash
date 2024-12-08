@@ -18,9 +18,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@hono/firebase-auth": "1.4.1",
     "@hono/valibot-validator": "0.5.1",
-    "@repo/schema": "workspace:*",
     "@repo/db-api": "workspace:*",
+    "@repo/schema": "workspace:*",
     "drizzle-orm": "0.37.0",
     "hono": "4.6.13",
     "valibot": "1.0.0-beta.9"
