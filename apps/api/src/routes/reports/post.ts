@@ -14,14 +14,14 @@ const handlers = factory.createHandlers(
   async (c) => {
     // TODO: Implement your business logic here
     // - authenticated user
-    // - extract teamId and other params from request
+    // - extract groupId and other params from request
     // - store r2 meta data to db
 
     const validated = c.req.valid("json");
 
     await c.env.REPORT_BUCKET.put(
       getR2Path({
-        teamId: validated.teamId,
+        groupId: validated.groupId,
         reportId: validated.reportId,
         type: validated.type,
         version: validated.version,
