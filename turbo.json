@@ -30,7 +30,7 @@
     },
     "e2e:setup": {},
     "e2e:run": {
-      "dependsOn": ["e2e:setup"]
+      // "dependsOn": ["e2e:setup"] // disable because turbo freeze in github actions with this dependency
     },
     "//#format-and-lint": {},
     "//#format-and-lint:fix": {
