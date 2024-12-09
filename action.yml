@@ -17,6 +17,15 @@ inputs:
         OWNER/REPO2
       ```
     required: true
+  GDASH_GITHUB_ORGANIZATION_NAME:
+    description: "GitHub organization name to analyze"
+    required: true
+  GDASH_GROUP_ID:
+    description: "Group ID to send report"
+    required: true
+  GDASH_GROUP_API_KEY:
+    description: "Group API key to send report"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -43,12 +52,11 @@ runs:
       run: pnpm turbo build --filter=@repo/jobs
       shell: bash
 
-    - name: Echo
-      run: echo $TARGET_REPOSITORIES
+    - name: Env Check
+      run: pnpm jobs export check
       shell: bash
+      working-directory: apps/job
       env:
-        TARGET_REPOSITORIES: ${{ inputs.target-repositories }}
-
-    - name: Curl test
-      run: curl api.git-dash.com
-      shell: bash
+        GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
+        GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}
+        GDASH_GROUP_API_KEY: ${{ inputs.GDASH_GROUP_API_KEY }}
