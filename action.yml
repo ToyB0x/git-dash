@@ -20,6 +20,9 @@ inputs:
   GDASH_GITHUB_ORGANIZATION_NAME:
     description: "GitHub organization name to analyze"
     required: true
+  GDASH_GITHUB_PERSONAL_ACCESS_TOKEN:
+    description: "Your GitHub personal access token for Github API Read Only Access"
+    required: true
   GDASH_GROUP_ID:
     description: "Group ID to send report"
     required: true
