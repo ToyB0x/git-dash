@@ -22,7 +22,7 @@ const handlers = factory.createHandlers(async (c) => {
   const user = users[0];
   if (!user) throw Error("User not found");
 
-  const isbelongingGroup = await db
+  const isBelongingGroup = await db
     .select()
     .from(usersToGroups)
     .where(
@@ -32,7 +32,7 @@ const handlers = factory.createHandlers(async (c) => {
       ),
     );
 
-  if (!isbelongingGroup.length) throw Error("User not in group");
+  if (!isBelongingGroup.length) throw Error("User not in group");
 
   const groupMembers = await db
     .select({ id: userTbl.id, email: userTbl.email })
