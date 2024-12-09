@@ -5,9 +5,10 @@
   "scripts": {
     "build": "tsup",
     "codegen": "graphql-codegen --config codegen.ts",
-    "jobs": "dotenv -e ../../.env -- node --enable-source-maps dist/index.js",
+    "jobs": "node --enable-source-maps dist/index.js",
     "jobs:dev": "pnpm build && pnpm jobs",
-    "jobs:dev:export": "pnpm build && dotenv -e ../../.env -- pnpm jobs export group",
+    "jobs:dev:export:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs export group",
+    "jobs:dev:export:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs export check",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

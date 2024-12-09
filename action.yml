@@ -44,11 +44,8 @@ runs:
       shell: bash
 
     - name: Echo
-      run: echo $TARGET_REPOSITORIES
+      run: pnpm jobs export check
       shell: bash
+      working-directory: packages/jobs
       env:
         TARGET_REPOSITORIES: ${{ inputs.target-repositories }}
-
-    - name: Curl test
-      run: curl api.git-dash.com
-      shell: bash
