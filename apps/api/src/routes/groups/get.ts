@@ -13,7 +13,7 @@ const handlers = factory.createHandlers(async (c) => {
   const db = drizzle(c.env.DB_API);
 
   const belongingGroups = await db
-    .select({ publicId: groupTbl.publicId, displayName: groupTbl.displayName })
+    .select({ id: groupTbl.id, displayName: groupTbl.displayName })
     .from(usersToGroups)
     .leftJoin(userTbl, eq(usersToGroups.userId, userTbl.id))
     .leftJoin(groupTbl, eq(usersToGroups.groupId, groupTbl.id))
@@ -21,8 +21,8 @@ const handlers = factory.createHandlers(async (c) => {
 
   return c.json(
     belongingGroups.filter(
-      (group): group is { publicId: string; displayName: string } =>
-        !!group.publicId && !!group.displayName,
+      (group): group is { id: string; displayName: string } =>
+        !!group.id && !!group.displayName,
     ),
   );
 });

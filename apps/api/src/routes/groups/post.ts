@@ -41,7 +41,7 @@ const handlers = factory.createHandlers(validator, async (c) => {
   const insertedGroup = await db
     .insert(groupTbl)
     .values({
-      publicId: generateNewGroupId(),
+      id: generateNewGroupId(),
       displayName: validated.displayName,
     })
     .returning();
@@ -51,6 +51,7 @@ const handlers = factory.createHandlers(validator, async (c) => {
   await db.insert(usersToGroups).values({
     userId: matchedUser.id,
     groupId: insertedGroup[0].id,
+    role: "OWNER",
   });
 
   return c.json({ success: true });

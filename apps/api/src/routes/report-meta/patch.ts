@@ -13,7 +13,7 @@ const status = ["RUNNING", "FINISHED", "ABORTED", "FAILED"] as const;
 const validator = vValidator(
   "json",
   v.object({
-    reportPublicId: v.string(),
+    reportId: v.string(),
     groupId: v.pipe(v.string(), v.uuid()),
     status: v.picklist(status),
   }),
@@ -35,7 +35,7 @@ const handlers = factory.createHandlers(
         status: validated.status,
         updatedAt: new Date(),
       })
-      .where(eq(reportTbl.publicId, validated.reportPublicId));
+      .where(eq(reportTbl.id, validated.reportId));
 
     return c.json({ success: true });
   },

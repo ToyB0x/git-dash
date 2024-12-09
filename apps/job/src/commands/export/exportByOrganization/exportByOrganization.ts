@@ -10,21 +10,21 @@ export const exportByOrganization = async (orgName: string): Promise<void> => {
   });
   if (!resPostMeta.ok) throw Error("Failed to create report");
 
-  const { publicId: reportPublicId } = await resPostMeta.json();
+  const { id: reportId } = await resPostMeta.json();
 
   const prisma = getSingleTenantPrismaClient();
   const { id: organizationId } = await prisma.organization.findUniqueOrThrow({
     where: { login: orgName },
   });
 
-  const mergedCount = await countOnce(organizationId, reportPublicId, 90);
+  const mergedCount = await countOnce(organizationId, reportId, 90);
 
   console.log(JSON.stringify(mergedCount, null, 2));
 
   await client.reports.public.$post({ json: mergedCount });
   await client["reports-meta"].public.$patch({
     json: {
-      reportPublicId,
+      reportId,
       groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
       status: "FINISHED",
     },
