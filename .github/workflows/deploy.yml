@@ -1,18 +1,20 @@
-name: monorepo
+name: deploy
 on:
   push:
-  workflow_dispatch:
+    branches:
+      - main
 
 permissions:
   contents: read # for checkout repository
 
 env:
-  VITE_PUBLIC_FIREBASE_PROJECT_ID: 'local'
-  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'local'
-  VITE_PUBLIC_API_SERVER_URL: 'http://localhost:8787'
+  VITE_PUBLIC_FIREBASE_PROJECT_ID: 'xxxxx' // todo update to secret
+  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'xxxxx' // todo update to secret
+  VITE_PUBLIC_API_SERVER_URL: 'xxxxx' // todo update to secret
 
 jobs:
-  test:
+  deploy-prd:
+    environment: production
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -41,21 +43,20 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
-      - name: Lint / Format check
-        run: pnpm format-and-lint
-
       - name: Type check
         run: pnpm typecheck
 
       - name: Build check
         run: pnpm build
 
-      - name: Setup Playwright Browsers / Start Monorepo E2E
-        run: pnpm e2e:run
+      - name: deploy api
+        run: pnpm run deploy
+        working-directory: apps/api
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-      - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: E2E/internal/playwright-report/
-          retention-days: 5
+      - name: deploy web
+        run: pnpm run deploy
+        working-directory: apps/web
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
