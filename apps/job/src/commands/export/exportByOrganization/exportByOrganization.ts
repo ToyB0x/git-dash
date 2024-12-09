@@ -3,13 +3,13 @@ import { getSingleTenantPrismaClient } from "../../../utils";
 import { countOnce } from "./statCardMerged";
 
 export const exportByOrganization = async (orgName: string): Promise<void> => {
-  const resPostMeta = await client.api["reports-meta"].public[":groupId"].$post(
-    {
-      param: {
-        groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
-      },
+  const resPostMeta = await client["public-api"]["reports-meta"][
+    ":groupId"
+  ].$post({
+    param: {
+      groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
     },
-  );
+  });
   if (!resPostMeta.ok) throw Error("Failed to create report");
 
   const { id: reportId } = await resPostMeta.json();
@@ -23,8 +23,11 @@ export const exportByOrganization = async (orgName: string): Promise<void> => {
 
   console.log(JSON.stringify(mergedCount, null, 2));
 
-  await client.api.reports.public.$post({ json: mergedCount });
-  await client.api["reports-meta"].public.$patch({
+  await client["public-api"].reports.$post({ json: mergedCount });
+  await client["public-api"]["reports-meta"][":groupId"].$patch({
+    param: {
+      groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
+    },
     json: {
       reportId,
       groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
