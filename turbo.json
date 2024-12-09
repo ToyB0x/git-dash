@@ -1,6 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "VITE_PUBLIC_FIREBASE_PROJECT_ID",
+    "VITE_PUBLIC_FIREBASE_BROWSER_API_KEY",
+    "VITE_PUBLIC_API_SERVER_URL"
+  ],
   "tasks": {
     "generate:db": {
       "dependsOn": ["^generate:db"],
