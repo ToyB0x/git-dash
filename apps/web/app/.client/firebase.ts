@@ -5,12 +5,9 @@ import { publicViteEnv } from "~/env";
 const firebaseConfigsBrowser = {
   projectId:
     publicViteEnv.MODE === "development"
-      ? "local"
+      ? "local" // dev mode and ci
       : publicViteEnv.VITE_PUBLIC_FIREBASE_PROJECT_ID,
-  apiKey:
-    publicViteEnv.MODE === "development"
-      ? "local"
-      : publicViteEnv.VITE_PUBLIC_FIREBASE_BROWSER_API_KEY,
+  apiKey: publicViteEnv.VITE_PUBLIC_FIREBASE_BROWSER_API_KEY,
 } satisfies FirebaseOptions;
 
 const firebaseAppBrowser = initializeApp(firebaseConfigsBrowser);
