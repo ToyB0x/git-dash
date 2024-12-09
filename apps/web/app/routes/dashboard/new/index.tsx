@@ -24,7 +24,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
   const token = await auth.currentUser.getIdToken();
 
-  await client.groups.$post(
+  await client.api.groups.$post(
     {
       json: {
         displayName,

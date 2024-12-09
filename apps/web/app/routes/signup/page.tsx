@@ -24,7 +24,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   if (typeof password !== "string") throw Error("password is invalid");
 
   const cred = await createUserWithEmailAndPassword(auth, email, password);
-  await client.users.$post(
+  await client.api.users.$post(
     {},
     {
       headers: {
