@@ -9,6 +9,7 @@ import { cors } from "hono/cors";
 import {
   groupRoute,
   healthRoute,
+  memberRoute,
   reportMetaRoute,
   reportRoute,
   userRoute,
@@ -36,7 +37,8 @@ export const app = new Hono<{ Bindings: VerifyFirebaseAuthEnv }>()
       return verifyFirebaseAuth(config)(c, next);
     }),
   )
+  .route("/groups", groupRoute)
+  .route("/members", memberRoute)
   .route("/reports", reportRoute)
   .route("/reports-meta", reportMetaRoute)
-  .route("/groups", groupRoute)
   .route("/users", userRoute);
