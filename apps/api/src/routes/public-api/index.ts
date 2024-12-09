@@ -4,6 +4,7 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { reportsRoute } from "./reports";
 import { reportsMetaRoute } from "./reports-meta";
+import { testRoute } from "./test";
 
 export const publicApiRoute = new Hono<{ Bindings: Env }>()
   .use("/*", async (c, next) => {
@@ -30,4 +31,5 @@ export const publicApiRoute = new Hono<{ Bindings: Env }>()
     return next();
   })
   .route("/reports", reportsRoute)
-  .route("/reports-meta", reportsMetaRoute);
+  .route("/reports-meta", reportsMetaRoute)
+  .route("/test", testRoute);
