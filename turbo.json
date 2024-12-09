@@ -33,9 +33,11 @@
         "build" // need api type definitions build
       ]
     },
-    "e2e:setup": {},
+    "e2e:setup": {
+      "cache": false // currently, need to download chromium every time (in the future, we will cache it)
+    },
     "e2e:run": {
-      // "dependsOn": ["e2e:setup"] // disable because turbo freeze in github actions with this dependency
+      "dependsOn": ["e2e:setup"]
     },
     "//#format-and-lint": {},
     "//#format-and-lint:fix": {

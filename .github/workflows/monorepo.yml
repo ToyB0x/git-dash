@@ -51,12 +51,8 @@ jobs:
       - name: Build check
         run: pnpm build
 
-      - name: Setup Playwright Browsers
-        run: pnpm e2e:setup
-
-      - name: Start Monorepo E2E
+      - name: Setup Playwright Browsers / Start Monorepo E2E
         run: pnpm e2e:run
-        working-directory: E2E/internal
 
       - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
         if: ${{ !cancelled() }}
