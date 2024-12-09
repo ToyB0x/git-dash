@@ -8,9 +8,9 @@ permissions:
   contents: read # for checkout repository
 
 env:
-  VITE_PUBLIC_FIREBASE_PROJECT_ID: 'xxxxx' // todo update to secret
-  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'xxxxx' // todo update to secret
-  VITE_PUBLIC_API_SERVER_URL: 'xxxxx' // todo update to secret
+  VITE_PUBLIC_FIREBASE_PROJECT_ID: 'xxxxx' # todo update to secret
+  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'xxxxx' # todo update to secret
+  VITE_PUBLIC_API_SERVER_URL: 'xxxxx' # todo update to secret
 
 jobs:
   deploy-prd:
