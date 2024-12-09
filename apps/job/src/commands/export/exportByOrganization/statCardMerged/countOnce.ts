@@ -3,6 +3,7 @@ import { getSingleTenantPrismaClient } from "../../../../utils";
 
 export const countOnce = async (
   organizationId: string,
+  groupId: string,
   reportId: string,
   days: number,
 ) => {
@@ -29,9 +30,8 @@ export const countOnce = async (
   });
 
   return {
-    // TODO: use real  groupId / reportId
     reportId,
-    groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
+    groupId,
     type: "statMerged",
     version: "1.0",
     data: usersWithMergeCount.map((user) => ({
