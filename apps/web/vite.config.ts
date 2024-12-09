@@ -14,5 +14,6 @@ export default defineConfig({
     },
   },
   plugins: [reactRouter(), tsconfigPaths()],
-  envDir: "../../",
+  // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+  envDir: import.meta.env["CI"] ? "../../.github/env" : "../../",
 });

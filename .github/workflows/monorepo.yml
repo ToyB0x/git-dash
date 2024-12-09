@@ -7,11 +7,6 @@ permissions:
   contents: read # for checkout repository
   actions: read # for fetching base branch bundle stats
 
-env:
-  VITE_PUBLIC_FIREBASE_PROJECT_ID: 'test'
-  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'test'
-  VITE_PUBLIC_API_SERVER_URL: 'test'
-
 jobs:
   test:
     runs-on: ubuntu-latest
