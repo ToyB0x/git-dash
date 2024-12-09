@@ -61,5 +61,6 @@ runs:
       working-directory: apps/job
       env:
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
+        GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}
         GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}
         GDASH_GROUP_API_KEY: ${{ inputs.GDASH_GROUP_API_KEY }}
