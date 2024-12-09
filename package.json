@@ -9,7 +9,9 @@
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",
-    "format-and-lint:fix": "biome check . --write"
+    "format-and-lint:fix": "biome check . --write",
+    "e2e:setup": "turbo e2e:setup",
+    "e2e:run": "turbo e2e:run"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

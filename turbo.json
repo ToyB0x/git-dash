@@ -28,6 +28,10 @@
         "build" // need api type definitions build
       ]
     },
+    "e2e:setup": {},
+    "e2e:run": {
+      "dependsOn": ["e2e:setup"]
+    },
     "//#format-and-lint": {},
     "//#format-and-lint:fix": {
       "cache": false
