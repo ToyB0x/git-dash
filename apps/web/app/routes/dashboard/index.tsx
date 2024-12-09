@@ -6,7 +6,7 @@ import type { Route } from "../dashboard/+types/index";
 // biome-ignore lint: remix default setup
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
+    { title: "Dashboard" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }

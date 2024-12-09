@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "firebase emulators:exec 'turbo dev'",
+    "dev": "turbo dev",
+    "dev:e2e": "pnpm --filter @repo/db-api db:reset:local && firebase emulators:exec --ui 'turbo dev'",
+    "emulator": "firebase emulators:start",
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",
