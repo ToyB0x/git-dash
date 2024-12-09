@@ -33,7 +33,9 @@
         "build" // need api type definitions build
       ]
     },
-    "e2e:run": {},
+    "e2e:run": {
+      "dependsOn": ["^e2e:run"]
+    },
     "//#format-and-lint": {},
     "//#format-and-lint:fix": {
       "cache": false
