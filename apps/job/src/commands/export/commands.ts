@@ -1,4 +1,4 @@
-import { Command } from "commander";
+import { Command, Option } from "commander";
 import { exportByOrganization } from "./exportByOrganization";
 
 export const makeExportCommand = () => {
@@ -6,10 +6,32 @@ export const makeExportCommand = () => {
   exportCmd.description("exporter related commands.");
 
   exportCmd
-    .command("organization")
+    .command("group")
     .description("export specific organization summary")
-    .argument("<orgName>", "orgName to export summary")
-    .action(async (orgName: string) => exportByOrganization(orgName));
+    .addOption(
+      new Option(
+        "--githubOrganizationName <string>",
+        "Target Github Organization",
+      ).env("GDASH_GITHUB_ORGANIZATION_NAME"),
+    )
+    .addOption(
+      new Option("--groupId <string>", "G-dash Group ID").env("GDASH_GROUP_ID"),
+    )
+    .addOption(
+      new Option("--groupApiKey <string>", "G-dash Group API Key").env(
+        "GDASH_GROUP_API_KEY",
+      ),
+    )
+    .action(async (options) => {
+      const { githubOrganizationName, groupId, groupApiKey } = options;
+
+      if (!githubOrganizationName || !groupId || !groupApiKey)
+        throw new Error(
+          "Invalid arguments, confirm githubOrganizationName, groupId, and groupApiKey are set",
+        );
+
+      await exportByOrganization(githubOrganizationName, groupId, groupApiKey);
+    });
 
   return exportCmd;
 };
