@@ -4,7 +4,7 @@ const typeName = "statMerged";
 
 const schema = v.object({
   reportId: v.string(),
-  groupId: v.pipe(v.string(), v.uuid()),
+  groupId: v.string(),
   type: v.literal(typeName),
   version: v.literal("1.0"), // latest version
   data: v.array(
