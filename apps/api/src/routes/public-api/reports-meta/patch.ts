@@ -14,7 +14,7 @@ const validator = vValidator(
   "json",
   v.object({
     reportId: v.string(),
-    groupId: v.pipe(v.string(), v.uuid()),
+    groupId: v.string(),
     status: v.picklist(status),
   }),
 );

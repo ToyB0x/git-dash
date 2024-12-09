@@ -33,13 +33,22 @@ export const exportByOrganization = async (
 
   console.log(JSON.stringify(mergedCount, null, 2));
 
-  await client["public-api"].reports.$post({ json: mergedCount });
+  await client["public-api"].reports.$post(
+    { json: mergedCount },
+    {
+      headers: {
+        "X-GDASH-GROUP-ID": groupId,
+        "X-GDASH-GROUP-API-KEY": groupApiKey,
+      },
+    },
+  );
+
   await client["public-api"]["reports-meta"][":groupId"].$patch(
     {
       param: { groupId },
       json: {
         reportId,
-        groupId: "2edd4c47-b01c-49eb-9711-5e8106bbabcf",
+        groupId,
         status: "FINISHED",
       },
     },
@@ -50,4 +59,6 @@ export const exportByOrganization = async (
       },
     },
   );
+
+  console.log("Export Done!");
 };
