@@ -54,8 +54,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/schema
       drizzle-orm:
-        specifier: 0.37.0
-        version: 0.37.0(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(pg@8.13.1)(prisma@6.0.1)(react@18.3.1)
+        specifier: 0.38.0
+        version: 0.38.0(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(pg@8.13.1)(prisma@6.0.1)(react@18.3.1)
       hono:
         specifier: 4.6.13
         version: 4.6.13
@@ -219,8 +219,8 @@ importers:
   packages/db-api:
     dependencies:
       drizzle-orm:
-        specifier: 0.37.0
-        version: 0.37.0(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(pg@8.13.1)(prisma@6.0.1)(react@18.3.1)
+        specifier: 0.38.0
+        version: 0.38.0(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(pg@8.13.1)(prisma@6.0.1)(react@18.3.1)
       nanoid:
         specifier: 5.0.9
         version: 5.0.9
@@ -232,8 +232,8 @@ importers:
         specifier: 22.10.1
         version: 22.10.1
       drizzle-kit:
-        specifier: 0.29.1
-        version: 0.29.1
+        specifier: 0.30.0
+        version: 0.30.0
       typescript:
         specifier: 5.7.2
         version: 5.7.2
@@ -3357,12 +3357,12 @@ packages:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
-  drizzle-kit@0.29.1:
-    resolution: {integrity: sha512-OvHL8RVyYiPR3LLRE3SHdcON8xGXl+qMfR9uTTnFWBPIqVk/3NWYZPb7nfpM1Bhix3H+BsxqPyyagG7YZ+Z63A==}
+  drizzle-kit@0.30.0:
+    resolution: {integrity: sha512-zAf0qg/BX2lV/Xip4igXrtbDv+Ub8S39U6qSOEGNvqcHrnmaQjS4mkkFZOUsgXRbuH56QUeWZxfnLHefrKCV5g==}
     hasBin: true
 
-  drizzle-orm@0.37.0:
-    resolution: {integrity: sha512-AsCNACQ/T2CyZUkrBRUqFT2ibHJ9ZHz3+lzYJFFn3hnj7ylIeItMz5kacRG89uSE74nXYShqehr6u+6ks4JR1A==}
+  drizzle-orm@0.38.0:
+    resolution: {integrity: sha512-Ev1UYKOUxiVwLZZfos4hoNDMDkp313FqF0CHelhR+BeOdb76z/a6pKF6SgYQSrmj6EXH4cy6QIkmuxl2KIFW0A==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -9566,7 +9566,7 @@ snapshots:
 
   dotenv@16.4.5: {}
 
-  drizzle-kit@0.29.1:
+  drizzle-kit@0.30.0:
     dependencies:
       '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5
@@ -9575,7 +9575,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.37.0(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(pg@8.13.1)(prisma@6.0.1)(react@18.3.1):
+  drizzle-orm@0.38.0(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@18.3.14)(pg@8.13.1)(prisma@6.0.1)(react@18.3.1):
     optionalDependencies:
       '@cloudflare/workers-types': 4.20241205.0
       '@electric-sql/pglite': 0.2.14
