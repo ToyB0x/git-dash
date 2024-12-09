@@ -17,6 +17,15 @@ inputs:
         OWNER/REPO2
       ```
     required: true
+  GDASH_GITHUB_ORGANIZATION_NAME:
+    description: "GitHub organization name to analyze"
+    required: true
+  GDASH_GROUP_ID:
+    description: "Group ID to send report"
+    required: true
+  GDASH_GROUP_API_KEY:
+    description: "Group API key to send report"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -48,6 +57,6 @@ runs:
       shell: bash
       working-directory: packages/jobs
       env:
-        GDASH_GITHUB_ORGANIZATION_NAME: "test-org-name"
-        GDASH_GROUP_ID: "test-group-id"
-        GDASH_GROUP_API_KEY: "test-group-api-key"
+        GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
+        GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}
+        GDASH_GROUP_API_KEY: ${{ inputs.GDASH_GROUP_API_KEY }}
