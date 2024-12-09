@@ -31,7 +31,7 @@ export async function clientLoader() {
     throw redirect("/login");
   }
 
-  const groups = await client.groups.$get(
+  const groups = await client.api.groups.$get(
     {},
     {
       headers: {

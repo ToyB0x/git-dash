@@ -17,7 +17,7 @@ export const fetchReport = async (
   groupId: string,
 ): Promise<Result<StatMergedSchema>> => {
   try {
-    const res = await client.reports[":groupId"][":type"].$get(
+    const res = await client.api.reports[":groupId"][":type"].$get(
       {
         param: {
           type,
