@@ -15,6 +15,7 @@ type HomeData = {
   groups: {
     id: string;
     displayName: string;
+    apiKey: string;
   }[];
 };
 
@@ -52,7 +53,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     <ul>
       {groups.map((group) => (
         <li key={group.id}>
-          <Link to={group.id}>{group.displayName}</Link>
+          <Link to={group.id}>
+            {group.displayName} ({group.apiKey})
+          </Link>
         </li>
       ))}
     </ul>
