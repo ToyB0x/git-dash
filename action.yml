@@ -43,9 +43,11 @@ runs:
       run: pnpm turbo build --filter=@repo/jobs
       shell: bash
 
-    - name: Echo
+    - name: Env Check
       run: pnpm jobs export check
       shell: bash
       working-directory: packages/jobs
       env:
-        TARGET_REPOSITORIES: ${{ inputs.target-repositories }}
+        GDASH_GITHUB_ORGANIZATION_NAME: "test-org-name"
+        GDASH_GROUP_ID: "test-group-id"
+        GDASH_GROUP_API_KEY: "test-group-api-key"
