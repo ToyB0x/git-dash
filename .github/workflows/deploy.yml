@@ -1,6 +1,8 @@
 name: deploy
 on:
-  push
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read # for checkout repository
