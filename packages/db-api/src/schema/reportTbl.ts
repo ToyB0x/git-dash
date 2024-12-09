@@ -12,16 +12,13 @@ const idAlphabet =
 export const reportTbl = sqliteTable(
   "report",
   {
-    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: false }),
-    publicId: text("public_id", { length: idLength })
-      .unique("uq_report_public_id")
-      .notNull(),
+    id: text({ length: idLength }).primaryKey(),
     status: text({
       enum: ["RUNNING", "FINISHED", "ABORTED", "FAILED"],
     }).notNull(),
     createdAt: integer({ mode: "timestamp_ms" }).notNull(),
     updatedAt: integer({ mode: "timestamp_ms" }).notNull(),
-    groupId: integer("group_id", { mode: "number" })
+    groupId: text("group_id")
       .notNull()
       .references(() => groupTbl.id, {
         onUpdate: "cascade",
