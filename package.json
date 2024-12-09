@@ -5,13 +5,12 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "dev:e2e": "pnpm --filter @repo/db-api db:reset:local && firebase emulators:exec --ui 'turbo dev'",
+    "e2e:run": "turbo e2e:run",
     "emulator": "firebase emulators:start",
     "generate:db": "turbo generate:db",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",
-    "format-and-lint:fix": "biome check . --write",
-    "e2e:setup": "turbo e2e:setup",
-    "e2e:run": "turbo e2e:run"
+    "format-and-lint:fix": "biome check . --write"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
