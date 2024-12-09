@@ -20,6 +20,9 @@ inputs:
   GDASH_GITHUB_ORGANIZATION_NAME:
     description: "GitHub organization name to analyze"
     required: true
+  GDASH_GITHUB_PERSONAL_ACCESS_TOKEN:
+    description: "Your GitHub personal access token for Github API Read Only Access"
+    required: true
   GDASH_GROUP_ID:
     description: "Group ID to send report"
     required: true
@@ -58,5 +61,6 @@ runs:
       working-directory: apps/job
       env:
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
+        GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}
         GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}
         GDASH_GROUP_API_KEY: ${{ inputs.GDASH_GROUP_API_KEY }}

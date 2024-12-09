@@ -44,6 +44,12 @@ export const makeExportCommand = () => {
       ).env("GDASH_GITHUB_ORGANIZATION_NAME"),
     )
     .addOption(
+      new Option(
+        "--githubPersonalAccessToken <string>",
+        "Your Github Personal Access Token",
+      ).env("GDASH_GITHUB_PERSONAL_ACCESS_TOKEN"),
+    )
+    .addOption(
       new Option("--groupId <string>", "G-dash Group ID").env("GDASH_GROUP_ID"),
     )
     .addOption(
@@ -52,9 +58,19 @@ export const makeExportCommand = () => {
       ),
     )
     .action(async (options) => {
-      const { githubOrganizationName, groupId, groupApiKey } = options;
+      const {
+        githubOrganizationName,
+        githubPersonalAccessToken,
+        groupId,
+        groupApiKey,
+      } = options;
 
-      if (!githubOrganizationName || !groupId || !groupApiKey)
+      if (
+        !githubOrganizationName ||
+        !githubPersonalAccessToken ||
+        !groupId ||
+        !groupApiKey
+      )
         throw new Error(
           "Invalid arguments, confirm githubOrganizationName, groupId, and groupApiKey are set",
         );
