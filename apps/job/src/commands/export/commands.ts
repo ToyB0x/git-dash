@@ -54,14 +54,10 @@ export const makeExportCommand = () => {
     .action(async (options) => {
       const { githubOrganizationName, groupId, groupApiKey } = options;
 
-      if (!githubOrganizationName || !groupId || !groupApiKey) {
-        console.error(
-          "Invalid arguments, confirm githubOrganizationName, groupId, and groupApiKey are set",
-        );
+      if (!githubOrganizationName || !groupId || !groupApiKey)
         throw new Error(
           "Invalid arguments, confirm githubOrganizationName, groupId, and groupApiKey are set",
         );
-      }
 
       console.info("envs are set correctly");
       process.exit(0);
