@@ -55,7 +55,7 @@ runs:
     - name: Env Check
       run: pnpm jobs export check
       shell: bash
-      working-directory: apps/jobs
+      working-directory: apps/job
       env:
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}
