@@ -8,9 +8,9 @@ permissions:
   actions: read # for fetching base branch bundle stats
 
 env:
-  VITE_PUBLIC_FIREBASE_PROJECT_ID: 'test'
-  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'test'
-  VITE_PUBLIC_API_SERVER_URL: 'test'
+  VITE_PUBLIC_FIREBASE_PROJECT_ID: 'local'
+  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'local'
+  VITE_PUBLIC_API_SERVER_URL: 'http://localhost:8787'
 
 jobs:
   test:
@@ -51,13 +51,8 @@ jobs:
       - name: Build check
         run: pnpm build
 
-      - name: Install Playwright Browsers
-        run: pnpm e2e:setup
-        working-directory: E2E/internal
-
-      - name: Run Playwright tests
-        run: pnpm start-servers:test
-        working-directory: E2E/internal
+      - name: Setup Playwright Browsers / Start Monorepo E2E
+        run: pnpm e2e:run
 
       - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
         if: ${{ !cancelled() }}
