@@ -59,7 +59,7 @@ export const makeExportCommand = () => {
           "Invalid arguments, confirm githubOrganizationName, groupId, and groupApiKey are set",
         );
 
-      console.info("envs are set correctly");
+      console.info("Envs are set correctly 🎉🎉🎉");
       process.exit(0);
     });
 
