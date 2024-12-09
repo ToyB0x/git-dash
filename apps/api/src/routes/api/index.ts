@@ -20,6 +20,7 @@ export const apiRoute = new Hono<{ Bindings: Env }>()
       config.firebaseEmulatorHost = "http://127.0.0.1:9099";
     }
 
+    // TODO: add db user in context
     return verifyFirebaseAuth(config)(c, next);
   })
   .route("/groups", groupRoute)

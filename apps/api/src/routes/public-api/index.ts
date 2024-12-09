@@ -26,6 +26,7 @@ export const publicApiRoute = new Hono<{ Bindings: Env }>()
 
     if (group.apiToken !== apiKey) throw Error("Invalid apiKey");
 
+    // TODO: add db group to context
     return next();
   })
   .route("/reports", reportsRoute)
