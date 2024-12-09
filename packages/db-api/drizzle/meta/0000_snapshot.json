@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "813a2969-7ee5-4fd7-8727-7d8bf198ab8b",
+  "id": "44cbae86-0c8e-411e-a02c-7616eba3882b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "group": {
@@ -9,15 +9,8 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "public_id": {
-          "name": "public_id",
           "type": "text(8)",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
@@ -43,15 +36,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "uq_group_public_id": {
-          "name": "uq_group_public_id",
-          "columns": [
-            "public_id"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -62,15 +47,8 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "public_id": {
-          "name": "public_id",
           "type": "text(12)",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
@@ -97,20 +75,13 @@
         },
         "group_id": {
           "name": "group_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         }
       },
       "indexes": {
-        "uq_report_public_id": {
-          "name": "uq_report_public_id",
-          "columns": [
-            "public_id"
-          ],
-          "isUnique": true
-        },
         "idx_report_group_id": {
           "name": "idx_report_group_id",
           "columns": [
@@ -143,15 +114,8 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "public_id": {
-          "name": "public_id",
           "type": "text(8)",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
@@ -185,13 +149,6 @@
         }
       },
       "indexes": {
-        "uq_user_public_id": {
-          "name": "uq_user_public_id",
-          "columns": [
-            "public_id"
-          ],
-          "isUnique": true
-        },
         "uq_user_firebase_uid": {
           "name": "uq_user_firebase_uid",
           "columns": [
@@ -217,14 +174,21 @@
       "columns": {
         "user_id": {
           "name": "user_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "group_id": {
           "name": "group_id",
-          "type": "integer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

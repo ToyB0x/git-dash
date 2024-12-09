@@ -16,7 +16,7 @@ const handlers = factory.createHandlers(async (c) => {
     .select({ id: reportTbl.id })
     .from(reportTbl)
     .orderBy(desc(reportTbl.createdAt))
-    .where(eq(reportTbl.groupId, Number(c.req.param("groupId"))))
+    .where(eq(reportTbl.groupId, c.req.param("groupId")))
     .limit(1);
 
   if (lastReportMeta.length === 0) {

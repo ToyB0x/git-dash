@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
 
 type HomeData = {
   groups: {
-    publicId: string;
+    id: string;
     displayName: string;
   }[];
 };
@@ -51,8 +51,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <ul>
       {groups.map((group) => (
-        <li key={group.publicId}>
-          <Link to={group.publicId}>{group.displayName}</Link>
+        <li key={group.id}>
+          <Link to={group.id}>{group.displayName}</Link>
         </li>
       ))}
     </ul>
