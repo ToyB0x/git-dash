@@ -1,5 +1,7 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { createInsertSchema } from "drizzle-valibot";
 import { customAlphabet, nanoid } from "nanoid";
+import * as v from "valibot";
 
 const idLength = 8;
 const idAlphabet =
@@ -28,3 +30,9 @@ export const generateNewGroupId = (): string => {
   const nanoid = customAlphabet(idAlphabet, idLength);
   return nanoid(); //=> "UPsnynTq"
 };
+
+const createGroupSchema = createInsertSchema(groupTbl, {
+  displayName: v.string(),
+});
+
+export const postGroupSchema = v.pick(createGroupSchema, ["displayName"]);
