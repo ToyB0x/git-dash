@@ -100,8 +100,8 @@ importers:
         specifier: 7.1.2
         version: 7.1.2(graphql@16.9.0)
       zod:
-        specifier: 3.23.8
-        version: 3.23.8
+        specifier: 3.24.0
+        version: 3.24.0
     devDependencies:
       '@graphql-codegen/cli':
         specifier: 5.0.3
@@ -6431,8 +6431,8 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
-  zod@3.23.8:
-    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+  zod@3.24.0:
+    resolution: {integrity: sha512-Hz+wiY8yD0VLA2k/+nsg2Abez674dDGTai33SwNvMPuf9uIrBC9eFgIMQxBBbHFxVXi8W+5nX9DcAh9YNSQm/w==}
 
 snapshots:
 
@@ -6964,7 +6964,7 @@ snapshots:
   '@cloudflare/workers-shared@0.11.0':
     dependencies:
       mime: 3.0.0
-      zod: 3.23.8
+      zod: 3.24.0
 
   '@cloudflare/workers-types@4.20241205.0': {}
 
@@ -11099,7 +11099,7 @@ snapshots:
       workerd: 1.20241205.0
       ws: 8.18.0
       youch: 3.3.4
-      zod: 3.23.8
+      zod: 3.24.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -12994,4 +12994,4 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.5.2
 
-  zod@3.23.8: {}
+  zod@3.24.0: {}
