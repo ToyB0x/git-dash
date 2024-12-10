@@ -3,21 +3,22 @@ import { drizzle } from "drizzle-orm/d1";
 import { bodyLimit } from "hono/body-limit";
 import { createFactory } from "hono/factory";
 
-const factory = createFactory<{ Bindings: Env }>();
+const factory = createFactory<{
+  Bindings: Env;
+  Variables: {
+    validGroupId: string;
+  };
+}>();
 
 const handlers = factory.createHandlers(
   bodyLimit({ maxSize: 1024 }), // １kb
   async (c) => {
-    // TODO: Implement your business logic here
-    // - authenticated user
-    // - extract groupId and other params from request
-
     const db = drizzle(c.env.DB_API);
     const result = await db
       .insert(reportTbl)
       .values({
         id: generateNewReportId(),
-        groupId: c.req.param("groupId"),
+        groupId: c.var.validGroupId,
         status: "RUNNING",
         createdAt: new Date(),
         updatedAt: new Date(),

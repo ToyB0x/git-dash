@@ -6,7 +6,12 @@ import { reportsRoute } from "./reports";
 import { reportsMetaRoute } from "./reports-meta";
 import { testRoute } from "./test";
 
-export const publicApiRoute = new Hono<{ Bindings: Env }>()
+export const publicApiRoute = new Hono<{
+  Bindings: Env;
+  Variables: {
+    validGroupId: string;
+  };
+}>()
   .use("/*", async (c, next) => {
     const groupId = c.req.header("X-GDASH-GROUP-ID");
     const apiKey = c.req.header("X-GDASH-GROUP-API-KEY");
@@ -27,7 +32,7 @@ export const publicApiRoute = new Hono<{ Bindings: Env }>()
 
     if (group.apiToken !== apiKey) throw Error("Invalid apiKey");
 
-    // TODO: add db group to context
+    c.set("validGroupId", group.id);
     return next();
   })
   .route("/reports", reportsRoute)
