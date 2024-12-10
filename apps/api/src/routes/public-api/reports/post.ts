@@ -1,6 +1,6 @@
 import { vValidator } from "@hono/valibot-validator";
 import { getR2Path } from "@repo/schema/path";
-import { statMerged } from "@repo/schema/statMerged";
+import { stat as statMerged } from "@repo/schema/statMerged";
 import { bodyLimit } from "hono/body-limit";
 import { createFactory } from "hono/factory";
 

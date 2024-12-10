@@ -1,4 +1,7 @@
-import { type StatMergedSchema, statMerged } from "@repo/schema/statMerged";
+import {
+  type Schema as StatMergedSchema,
+  stat as statMerged,
+} from "@repo/schema/statMerged";
 import { StatCard } from "@repo/ui/StatCard";
 import { BsStar } from "react-icons/bs";
 import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";

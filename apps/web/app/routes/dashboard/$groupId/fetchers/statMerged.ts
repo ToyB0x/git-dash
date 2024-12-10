@@ -1,4 +1,7 @@
-import { type StatMergedSchema, statMerged } from "@repo/schema/statMerged";
+import {
+  type Schema as StatMergedSchema,
+  stat as statMerged,
+} from "@repo/schema/statMerged";
 import * as v from "valibot";
 import { client } from "~/.client/hono";
 
