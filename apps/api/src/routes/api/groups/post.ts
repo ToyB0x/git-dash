@@ -3,23 +3,17 @@ import { vValidator } from "@hono/valibot-validator";
 import {
   generateNewGroupId,
   groupTbl,
+  postGroupSchema,
   userTbl,
   usersToGroups,
 } from "@repo/db-api/schema";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
-import * as v from "valibot";
 
 const factory = createFactory<{ Bindings: Env }>();
 
-// TODO: use group schema
-const validator = vValidator(
-  "json",
-  v.object({
-    displayName: v.string(),
-  }),
-);
+const validator = vValidator("json", postGroupSchema);
 
 const handlers = factory.createHandlers(validator, async (c) => {
   const idToken = getFirebaseToken(c);
