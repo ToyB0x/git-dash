@@ -1,4 +1,4 @@
-import type { StatMergedSchema } from "@repo/schema/statMerged";
+import type { Schema } from "@repo/schema/statMerged";
 import { getSingleTenantPrismaClient } from "../../../../utils";
 
 export const countOnce = async (
@@ -38,5 +38,5 @@ export const countOnce = async (
       login: user.login,
       count: user._count.Prs,
     })),
-  } satisfies StatMergedSchema;
+  } satisfies Schema;
 };
