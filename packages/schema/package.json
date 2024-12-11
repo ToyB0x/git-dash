@@ -4,7 +4,8 @@
   "exports": {
     "./path": "./src/path.ts",
     "./report-meta": "./src/report-meta.ts",
-    "./statMerged": "./src/statMerged.ts"
+    "./statMerged": "./src/statMerged.ts",
+    "./statReviews": "./src/statReviews.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

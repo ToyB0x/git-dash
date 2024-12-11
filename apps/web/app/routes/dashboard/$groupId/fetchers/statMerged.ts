@@ -1,5 +1,5 @@
-import { type StatMergedSchema, statMerged } from "@repo/schema/statMerged";
 import * as v from "valibot";
+import type { BaseIssue, BaseSchema } from "valibot";
 import { client } from "~/.client/hono";
 
 type Result<T> =
@@ -11,11 +11,12 @@ type Result<T> =
       success: false;
     };
 
-export const fetchReport = async (
+export const fetchReport = async <Schema>(
   token: string,
   type: string,
   groupId: string,
-): Promise<Result<StatMergedSchema>> => {
+  schema: BaseSchema<unknown, Schema, BaseIssue<unknown>>,
+): Promise<Result<Schema>> => {
   try {
     const res = await client.api.reports[":groupId"][":type"].$get(
       {
@@ -31,19 +32,17 @@ export const fetchReport = async (
       },
     );
 
-    if (!res.ok) throw Error("Failed to fetch");
+    if (!res.ok) {
+      return { success: false };
+    }
 
     const data = await res.json();
     if (data === null) return { success: true, data: null };
 
-    if (type === statMerged.type) {
-      return {
-        success: true,
-        data: v.parse(statMerged.schema, data),
-      };
-    }
-
-    throw Error("Unknown type");
+    return {
+      success: true,
+      data: v.parse(schema, data),
+    };
   } catch (e) {
     console.error(e);
     return { success: false };

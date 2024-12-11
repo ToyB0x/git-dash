@@ -1,4 +1,11 @@
-import { type StatMergedSchema, statMerged } from "@repo/schema/statMerged";
+import {
+  type Schema as StatMergedSchema,
+  stat as statMerged,
+} from "@repo/schema/statMerged";
+import {
+  type Schema as StatReviewsSchema,
+  stat as statReviews,
+} from "@repo/schema/statReviews";
 import { StatCard } from "@repo/ui/StatCard";
 import { BsStar } from "react-icons/bs";
 import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";
@@ -21,7 +28,7 @@ export function meta({}: Route.MetaArgs) {
 type DashboardDataV0 = {
   statCards: {
     mergedCount: StatMergedSchema | null;
-    reviewCount: number;
+    reviewCount: StatReviewsSchema | null;
     waitingCount: number;
     releaseCount: number;
     vulnCount: number;
@@ -45,7 +52,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return {
       statCards: {
         mergedCount: statMerged.fixture,
-        reviewCount: 10,
+        reviewCount: statReviews.fixture,
         waitingCount: 10,
         releaseCount: 10,
         vulnCount: 10,
@@ -60,19 +67,29 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   }
 
   const token = await auth.currentUser.getIdToken();
-  const fetchReportResult = await fetchReport(
+  const fetchMergedStatResult = await fetchReport<StatMergedSchema>(
     token,
     statMerged.type,
     params.groupId,
+    statMerged.schema,
   );
-  // TODO: parse処理をClient側に移動
-  if (!fetchReportResult.success) throw Error("Failed to fetch report");
+
+  const fetchReviewsStatResult = await fetchReport<StatReviewsSchema>(
+    token,
+    statReviews.type,
+    params.groupId,
+    statReviews.schema,
+  );
 
   // TODO: fetch data from server
   return {
     statCards: {
-      mergedCount: fetchReportResult.data,
-      reviewCount: 10,
+      mergedCount: fetchMergedStatResult.success
+        ? fetchMergedStatResult.data
+        : null,
+      reviewCount: fetchReviewsStatResult.success
+        ? fetchReviewsStatResult.data
+        : null,
       waitingCount: 10,
       releaseCount: 10,
       vulnCount: 10,
@@ -117,7 +134,14 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
       <StatCard
         title="レビュー数"
-        stat={`${statCards.reviewCount}/month`}
+        stat={
+          statCards.reviewCount
+            ? `${statCards.reviewCount.data.reduce(
+                (acc, user) => acc + user.count,
+                0,
+              )}/month`
+            : "collecting..."
+        }
         icon={<GoCommentDiscussion size="3rem" />}
       />
 

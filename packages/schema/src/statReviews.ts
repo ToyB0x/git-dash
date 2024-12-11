@@ -1,7 +1,7 @@
 import * as v from "valibot";
 
 const version = "1.0";
-const typeName = "statMerged";
+const typeName = "statReviews";
 
 const schema = v.object({
   reportId: v.string(),
@@ -22,8 +22,8 @@ const fixture = {
   type: typeName,
   version: version,
   data: [
-    { login: "user1", count: 10 },
-    { login: "user2", count: 10 },
+    { login: "user1", count: 5 },
+    { login: "user2", count: 7 },
   ],
 } satisfies Schema;
 
