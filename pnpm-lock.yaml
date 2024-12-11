@@ -70,8 +70,8 @@ importers:
         specifier: 2.0.5
         version: 2.0.5
       wrangler:
-        specifier: 3.94.0
-        version: 3.94.0(@cloudflare/workers-types@4.20241205.0)
+        specifier: 3.95.0
+        version: 3.95.0(@cloudflare/workers-types@4.20241205.0)
 
   apps/job:
     dependencies:
@@ -181,7 +181,7 @@ importers:
     devDependencies:
       '@react-router/dev':
         specifier: 7.0.2
-        version: 7.0.2(@react-router/serve@7.0.2(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2))(@types/node@22.10.1)(babel-plugin-macros@3.1.0)(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.1))(wrangler@3.94.0(@cloudflare/workers-types@4.20241205.0))
+        version: 7.0.2(@react-router/serve@7.0.2(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2))(@types/node@22.10.1)(babel-plugin-macros@3.1.0)(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.1))(wrangler@3.95.0(@cloudflare/workers-types@4.20241205.0))
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
@@ -213,8 +213,8 @@ importers:
         specifier: 5.1.4
         version: 5.1.4(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.1))
       wrangler:
-        specifier: 3.94.0
-        version: 3.94.0(@cloudflare/workers-types@4.20241205.0)
+        specifier: 3.95.0
+        version: 3.95.0(@cloudflare/workers-types@4.20241205.0)
 
   packages/db-api:
     dependencies:
@@ -244,8 +244,8 @@ importers:
         specifier: 5.7.2
         version: 5.7.2
       wrangler:
-        specifier: 3.94.0
-        version: 3.94.0(@cloudflare/workers-types@4.20241205.0)
+        specifier: 3.95.0
+        version: 3.95.0(@cloudflare/workers-types@4.20241205.0)
 
   packages/db-job:
     dependencies:
@@ -6304,8 +6304,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@3.94.0:
-    resolution: {integrity: sha512-4yw8FKp6SI6WQkALnRlWYjehmgliaaMroLLnymWS9qHndjqrZIPZ16trrhl1HvAEDov/rIg0jZ4nxo5n6K0a/Q==}
+  wrangler@3.95.0:
+    resolution: {integrity: sha512-3w5852i3FNyDz421K2Qk4v5L8jjwegO5O8E1+VAQmjnm82HFNxpIRUBq0bmM7CTLvOPI/Jjcmj/eAWjQBL7QYg==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -8510,7 +8510,7 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@react-router/dev@7.0.2(@react-router/serve@7.0.2(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2))(@types/node@22.10.1)(babel-plugin-macros@3.1.0)(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.1))(wrangler@3.94.0(@cloudflare/workers-types@4.20241205.0))':
+  '@react-router/dev@7.0.2(@react-router/serve@7.0.2(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2))(@types/node@22.10.1)(babel-plugin-macros@3.1.0)(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.1))(wrangler@3.95.0(@cloudflare/workers-types@4.20241205.0))':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/generator': 7.26.2
@@ -8546,7 +8546,7 @@ snapshots:
     optionalDependencies:
       '@react-router/serve': 7.0.2(react-router@7.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.7.2)
       typescript: 5.7.2
-      wrangler: 3.94.0(@cloudflare/workers-types@4.20241205.0)
+      wrangler: 3.95.0(@cloudflare/workers-types@4.20241205.0)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -12855,7 +12855,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20241205.0
       '@cloudflare/workerd-windows-64': 1.20241205.0
 
-  wrangler@3.94.0(@cloudflare/workers-types@4.20241205.0):
+  wrangler@3.95.0(@cloudflare/workers-types@4.20241205.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@cloudflare/workers-shared': 0.11.0
