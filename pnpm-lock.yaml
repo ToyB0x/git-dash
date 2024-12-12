@@ -99,9 +99,9 @@ importers:
       graphql-request:
         specifier: 7.1.2
         version: 7.1.2(graphql@16.9.0)
-      zod:
-        specifier: 3.24.1
-        version: 3.24.1
+      valibot:
+        specifier: 1.0.0-beta.9
+        version: 1.0.0-beta.9(typescript@5.7.2)
     devDependencies:
       '@graphql-codegen/cli':
         specifier: 5.0.3
