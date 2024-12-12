@@ -5,7 +5,8 @@
     "./path": "./src/path.ts",
     "./report-meta": "./src/report-meta.ts",
     "./statMerged": "./src/statMerged.ts",
-    "./statReviews": "./src/statReviews.ts"
+    "./statReviews": "./src/statReviews.ts",
+    "./statWaitingReviews": "./src/statWaitingReviews.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

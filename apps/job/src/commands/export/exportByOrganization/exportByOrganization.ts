@@ -2,6 +2,7 @@ import { client } from "../../../clients/hono";
 import { getSingleTenantPrismaClient } from "../../../utils";
 import { countOnce } from "./statCardMerged";
 import { countReviewsStat } from "./statCardReviews";
+import { countWaitingReviewsStat } from "./statCardWaitingReviews";
 
 export const exportByOrganization = async (
   orgName: string,
@@ -50,6 +51,23 @@ export const exportByOrganization = async (
 
   await client["public-api"].reports.$post(
     { json: reviewsCount },
+    {
+      headers: {
+        "X-GDASH-GROUP-ID": groupId,
+        "X-GDASH-GROUP-API-KEY": groupApiKey,
+      },
+    },
+  );
+
+  const reviewsWaitingCount = await countWaitingReviewsStat(
+    organizationId,
+    groupId,
+    reportId,
+    30,
+  );
+
+  await client["public-api"].reports.$post(
+    { json: reviewsWaitingCount },
     {
       headers: {
         "X-GDASH-GROUP-ID": groupId,
