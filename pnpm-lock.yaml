@@ -26,9 +26,9 @@ importers:
       '@repo/api':
         specifier: workspace:*
         version: link:../../apps/api
-      '@repo/web':
+      '@repo/web-chakra':
         specifier: workspace:*
-        version: link:../../apps/web
+        version: link:../../apps/web-chakra
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
@@ -128,7 +128,7 @@ importers:
         specifier: 5.7.2
         version: 5.7.2
 
-  apps/web:
+  apps/web-chakra:
     dependencies:
       '@chakra-ui/react':
         specifier: 2.10.4
@@ -12743,7 +12743,7 @@ snapshots:
   vite-node@1.6.0(@types/node@22.10.2):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.7
+      debug: 4.4.0
       pathe: 1.1.2
       picocolors: 1.1.1
       vite: 5.4.11(@types/node@22.10.2)
@@ -12760,7 +12760,7 @@ snapshots:
 
   vite-tsconfig-paths@5.1.4(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.2)):
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.0
       globrex: 0.1.2
       tsconfck: 3.1.4(typescript@5.7.2)
     optionalDependencies:
