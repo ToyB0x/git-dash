@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "0.38.0",
+    "drizzle-orm": "0.38.1",
     "drizzle-valibot": "0.3.0",
     "nanoid": "5.0.9",
     "valibot": "1.0.0-beta.9"
