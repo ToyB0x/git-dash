@@ -1,5 +1,5 @@
 {
-  "name": "@repo/web",
+  "name": "@repo/web-chakra",
   "private": true,
   "type": "module",
   "scripts": {

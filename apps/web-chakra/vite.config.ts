@@ -6,7 +6,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   server: {
-    port: 10000,
+    port: 20000,
   },
   css: {
     postcss: {
