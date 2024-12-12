@@ -7,7 +7,7 @@
     "e2e:setup": "pnpm exec playwright install --with-deps chromium",
     "codegen": "pnpm exec playwright codegen",
     "typecheck": "tsc --noEmit",
-    "e2e:prepare": "pnpm e2e:setup && pnpm start-server-and-test 'pnpm -w dev:e2e' \"http://localhost:10000|http://localhost:8787/health\" --",
+    "e2e:prepare": "pnpm e2e:setup && pnpm start-server-and-test 'pnpm -w dev:e2e' \"http://localhost:20000|http://localhost:8787/health\" --",
     "e2e:run": "pnpm e2e:prepare 'pnpm e2e'",
     "e2e:run:ui": "pnpm e2e:prepare 'pnpm e2e:ui'"
   },
