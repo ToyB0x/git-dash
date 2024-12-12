@@ -1,11 +1,7 @@
-import { z } from "zod";
+import { object, parse, string } from "valibot";
 
-const envSchema = z.object({
-  // REQUIRED
-  // GITHUB TOKEN
-  // TODO: EnvからPERSONAL_ACCESS_TOKENを利用している箇所をDBから読み込むように修正(KMSで暗号化する)
-  // https://github.com/users/ToyB0x/projects/1/views/1?pane=issue&itemId=32241358
-  APPS_JOBS_GITHUB_PERSONAL_ACCESS_TOKEN: z.string(),
+const envSchema = object({
+  APPS_JOBS_GITHUB_PERSONAL_ACCESS_TOKEN: string(), // public browser key
 });
 
-export const getEnv = () => envSchema.parse(process.env);
+export const env = parse(envSchema, process.env);
