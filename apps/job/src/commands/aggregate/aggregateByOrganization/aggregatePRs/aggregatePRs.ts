@@ -1,6 +1,6 @@
 import { sleep } from "@repo/utils";
 import { GraphQLClient } from "graphql-request";
-import { getEnv, getSingleTenantPrismaClient } from "../../../../utils";
+import { env, getSingleTenantPrismaClient } from "../../../../utils";
 import { maxOld } from "../aggregateByOrganization";
 import { type UserPR, getFirstPage } from "./getFirstPage";
 import { paginate } from "./paginate";
@@ -14,7 +14,7 @@ export const aggregatePRs = async (
 
   const githubClient = new GraphQLClient("https://api.github.com/graphql", {
     headers: {
-      Authorization: `Bearer ${getEnv().APPS_JOBS_GITHUB_PERSONAL_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${env.APPS_JOBS_GITHUB_PERSONAL_ACCESS_TOKEN}`,
       "X-Github-Next-Global-ID": "1",
     },
   });
