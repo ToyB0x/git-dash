@@ -6,6 +6,10 @@ import {
   type Schema as StatReviewsSchema,
   stat as statReviews,
 } from "@repo/schema/statReviews";
+import {
+  type Schema as StatWaitingReviewsSchema,
+  stat as statWaitingReviews,
+} from "@repo/schema/statWaitingReviews";
 import { StatCard } from "@repo/ui/StatCard";
 import { BsStar } from "react-icons/bs";
 import { GiBiohazard, GiSandsOfTime } from "react-icons/gi";
@@ -29,7 +33,7 @@ type DashboardDataV0 = {
   statCards: {
     mergedCount: StatMergedSchema | null;
     reviewCount: StatReviewsSchema | null;
-    waitingCount: number;
+    waitingCount: StatWaitingReviewsSchema | null;
     releaseCount: number;
     vulnCount: number;
   };
@@ -53,7 +57,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       statCards: {
         mergedCount: statMerged.fixture,
         reviewCount: statReviews.fixture,
-        waitingCount: 10,
+        waitingCount: statWaitingReviews.fixture,
         releaseCount: 10,
         vulnCount: 10,
       },
@@ -81,6 +85,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     statReviews.schema,
   );
 
+  const fetchWaitingReviewsStatResult =
+    await fetchReport<StatWaitingReviewsSchema>(
+      token,
+      statWaitingReviews.type,
+      params.groupId,
+      statWaitingReviews.schema,
+    );
+
   // TODO: fetch data from server
   return {
     statCards: {
@@ -90,7 +102,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       reviewCount: fetchReviewsStatResult.success
         ? fetchReviewsStatResult.data
         : null,
-      waitingCount: 10,
+      waitingCount: fetchWaitingReviewsStatResult.success
+        ? fetchWaitingReviewsStatResult.data
+        : null,
       releaseCount: 10,
       vulnCount: 10,
     },
@@ -147,7 +161,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
       <StatCard
         title="レビュー待ちPR"
-        stat={statCards.waitingCount.toString()}
+        stat={
+          statCards.waitingCount
+            ? statCards.waitingCount.data
+                .reduce((acc, user) => acc + user.count, 0)
+                .toString()
+            : "collecting..."
+        }
         icon={<GiSandsOfTime size="3rem" />}
       />
 

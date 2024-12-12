@@ -2,6 +2,7 @@ import { vValidator } from "@hono/valibot-validator";
 import { getR2Path } from "@repo/schema/path";
 import { stat as statMerged } from "@repo/schema/statMerged";
 import { stat as statReviews } from "@repo/schema/statReviews";
+import { stat as statWaitingReviews } from "@repo/schema/statWaitingReviews";
 import { bodyLimit } from "hono/body-limit";
 import { createFactory } from "hono/factory";
 import * as v from "valibot";
@@ -15,7 +16,11 @@ const factory = createFactory<{
 
 const validator = vValidator(
   "json",
-  v.variant("type", [statMerged.schema, statReviews.schema]),
+  v.variant("type", [
+    statMerged.schema,
+    statReviews.schema,
+    statWaitingReviews.schema,
+  ]),
 );
 
 const handlers = factory.createHandlers(
