@@ -15,6 +15,13 @@ We currently provide Github Actions with the following features:
 - Collect repository activity: WIP
 - Report activity to backend server (for displaying UI in browser): WIP
 
+# Development Workflow
+
+1. Add Schema file (packages/schema)
+2. Add Query file (apps/job)
+3. Add API file (apps/api)
+4. Add UI file (apps/web)
+
 # Architecture
 
 WIP
