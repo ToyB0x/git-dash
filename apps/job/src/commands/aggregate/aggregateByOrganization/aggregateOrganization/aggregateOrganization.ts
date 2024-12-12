@@ -9,7 +9,7 @@ export const aggregateOrganization = async (
 
   const githubClient = new GraphQLClient("https://api.github.com/graphql", {
     headers: {
-      Authorization: `Bearer ${env.APPS_JOBS_GITHUB_PERSONAL_ACCESS_TOKEN}`,
+      Authorization: `Bearer ${env.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN}`,
       "X-Github-Next-Global-ID": "1",
     },
   });
