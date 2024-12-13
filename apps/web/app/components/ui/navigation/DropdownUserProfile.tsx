@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   DropdownMenu,
@@ -13,33 +13,55 @@ import {
   DropdownMenuSubMenuContent,
   DropdownMenuSubMenuTrigger,
   DropdownMenuTrigger,
-} from "@/components/Dropdown"
+} from "@/components/Dropdown";
 import {
   RiArrowRightUpLine,
   RiComputerLine,
   RiMoonLine,
   RiSunLine,
-} from "@remixicon/react"
-import { useTheme } from "next-themes"
-import * as React from "react"
+} from "@remixicon/react";
+import type * as React from "react";
+import { useEffect, useState } from "react";
 
 export type DropdownUserProfileProps = {
-  children: React.ReactNode
-  align?: "center" | "start" | "end"
-}
+  children: React.ReactNode;
+  align?: "center" | "start" | "end";
+};
 
 export function DropdownUserProfile({
   children,
   align = "start",
 }: DropdownUserProfileProps) {
-  const [mounted, setMounted] = React.useState(false)
-  const { theme, setTheme } = useTheme()
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
+  const [mounted, setMounted] = useState(false);
+
+  const [theme, setTheme] = useState<string>("system");
+  useEffect(() => {
+    setTheme(localStorage.theme || "system");
+  }, []);
+
+  // ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
+  const handleThemeChange = (value: string) => {
+    setTheme(value);
+    localStorage.setItem("theme", value);
+    if (value === "dark") {
+      document.documentElement.classList.add("dark");
+    } else if (value === "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      // System が選択された場合は OS の設定を見て切り替える
+      document.documentElement.classList.toggle(
+        "dark",
+        window.matchMedia("(prefers-color-scheme: dark)").matches,
+      );
+    }
+  };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
-    return null
+    return null;
   }
   return (
     <>
@@ -53,9 +75,7 @@ export function DropdownUserProfile({
               <DropdownMenuSubMenuContent>
                 <DropdownMenuRadioGroup
                   value={theme}
-                  onValueChange={(value) => {
-                    setTheme(value)
-                  }}
+                  onValueChange={handleThemeChange}
                 >
                   <DropdownMenuRadioItem
                     aria-label="Switch to Light Mode"
@@ -122,5 +142,5 @@ export function DropdownUserProfile({
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  )
+  );
 }

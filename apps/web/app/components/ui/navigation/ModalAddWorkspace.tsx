@@ -1,5 +1,5 @@
-import { Badge } from "@/components/Badge"
-import { Button } from "@/components/Button"
+import { Badge } from "@/components/Badge";
+import { Button } from "@/components/Button";
 import {
   Dialog,
   DialogClose,
@@ -9,24 +9,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/Dialog"
-import { DropdownMenuItem } from "@/components/Dropdown"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
-import { RadioCardGroup, RadioCardItem } from "@/components/RadioCard"
+} from "@/components/Dialog";
+import { DropdownMenuItem } from "@/components/Dropdown";
+import { Input } from "@/components/Input";
+import { Label } from "@/components/Label";
+import { RadioCardGroup, RadioCardItem } from "@/components/RadioCard";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/Select"
+} from "@/components/Select";
 
 export const databases: {
-  label: string
-  value: string
-  description: string
-  isRecommended: boolean
+  label: string;
+  value: string;
+  description: string;
+  isRecommended: boolean;
 }[] = [
   {
     label: "Base performance",
@@ -46,13 +46,13 @@ export const databases: {
     description: "1/2 vCPU, 4 GB RAM",
     isRecommended: false,
   },
-]
+];
 
 export type ModalProps = {
-  itemName: string
-  onSelect: () => void
-  onOpenChange: (open: boolean) => void
-}
+  itemName: string;
+  onSelect: () => void;
+  onOpenChange: (open: boolean) => void;
+};
 
 export function ModalAddWorkspace({
   itemName,
@@ -65,8 +65,9 @@ export function ModalAddWorkspace({
         <DialogTrigger className="w-full text-left">
           <DropdownMenuItem
             onSelect={(event) => {
-              event.preventDefault()
-              onSelect && onSelect()
+              event.preventDefault();
+              // biome-ignore lint/complexity/useOptionalChain: <explanation>
+              onSelect && onSelect();
             }}
           >
             {itemName}
@@ -193,5 +194,5 @@ export function ModalAddWorkspace({
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

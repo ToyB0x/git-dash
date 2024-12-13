@@ -1,5 +1,5 @@
 import { Sidebar } from "@/components/ui/navigation/sidebar";
-import { ThemeProvider } from "next-themes";
+import { useEffect } from "react";
 import {
   Links,
   Meta,
@@ -26,6 +26,10 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    initTheme();
+  }, []);
+
   return (
     <html lang="en" className="antialiased dark:bg-gray-950">
       <head>
@@ -40,10 +44,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         }
       >
         <div className="mx-auto max-w-screen-2xl">
-          <ThemeProvider defaultTheme="system" attribute="class">
-            <Sidebar />
-            <main className="lg:pl-72">{children}</main>
-          </ThemeProvider>
+          <Sidebar />
+          <main className="lg:pl-72">{children}</main>
         </div>
         <ScrollRestoration />
         <Scripts />
@@ -53,6 +55,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  // OS の設定が変更された際に実行されるコールバック関数
+  // ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
+  if (window) {
+    const mediaQueryListener = (e: MediaQueryListEvent) => {
+      if (localStorage.theme === "system") {
+        if (e.matches) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      }
+    };
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", mediaQueryListener);
+  }
+
   return <Outlet />;
 }
 
@@ -84,3 +104,23 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     </main>
   );
 }
+
+// ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
+const initTheme = () => {
+  // LocalStorage に theme が保存されていない or theme が system の場合
+  if (!("theme" in localStorage) || localStorage.theme === "system") {
+    // OS の設定を読み取る
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      // OS の設定がダークモードの場合、<html> に dark クラスを付与する
+      document.documentElement.classList.add("dark");
+    }
+    // LocalStorage に設定を保存する
+    localStorage.setItem("theme", "system");
+  } else if (localStorage.theme === "dark") {
+    // LocalStorage に theme が保存されていて、theme が dark の場合
+    document.documentElement.classList.add("dark");
+  } else {
+    // それ以外の場合
+    document.documentElement.classList.remove("dark");
+  }
+};

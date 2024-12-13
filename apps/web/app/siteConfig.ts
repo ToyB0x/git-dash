@@ -11,6 +11,6 @@ export const siteConfig = {
   externalLink: {
     blocks: "https://blocks.tremor.so/templates#dashboard",
   },
-}
+};
 
-export type siteConfig = typeof siteConfig
+export type siteConfig = typeof siteConfig;

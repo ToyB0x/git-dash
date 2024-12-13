@@ -1,24 +1,24 @@
 // Tremor Raw Select [v0.0.2]
 
-import * as SelectPrimitives from "@radix-ui/react-select"
+import * as SelectPrimitives from "@radix-ui/react-select";
 import {
   RiArrowDownSLine,
   RiArrowUpSLine,
   RiCheckLine,
   RiExpandUpDownLine,
-} from "@remixicon/react"
-import React from "react"
+} from "@remixicon/react";
+import React from "react";
 
-import { cx, focusInput, hasErrorInput } from "@/lib/utils"
+import { cx, focusInput, hasErrorInput } from "@/lib/utils";
 
-const Select = SelectPrimitives.Root
-Select.displayName = "Select"
+const Select = SelectPrimitives.Root;
+Select.displayName = "Select";
 
-const SelectGroup = SelectPrimitives.Group
-SelectGroup.displayName = "SelectGroup"
+const SelectGroup = SelectPrimitives.Group;
+SelectGroup.displayName = "SelectGroup";
 
-const SelectValue = SelectPrimitives.Value
-SelectValue.displayName = "SelectValue"
+const SelectValue = SelectPrimitives.Value;
+SelectValue.displayName = "SelectValue";
 
 const selectTriggerStyles = [
   cx(
@@ -41,12 +41,12 @@ const selectTriggerStyles = [
     // invalid (optional)
     // "aria-[invalid=true]:dark:ring-red-400/20 aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-red-200 aria-[invalid=true]:border-red-500 invalid:ring-2 invalid:ring-red-200 invalid:border-red-500"
   ),
-]
+];
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitives.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitives.Trigger> & {
-    hasError?: boolean
+    hasError?: boolean;
   }
 >(({ className, hasError, children, ...props }, forwardedRef) => {
   return (
@@ -73,10 +73,10 @@ const SelectTrigger = React.forwardRef<
         />
       </SelectPrimitives.Icon>
     </SelectPrimitives.Trigger>
-  )
-})
+  );
+});
 
-SelectTrigger.displayName = "SelectTrigger"
+SelectTrigger.displayName = "SelectTrigger";
 
 const SelectScrollUpButton = React.forwardRef<
   React.ElementRef<typeof SelectPrimitives.ScrollUpButton>,
@@ -92,8 +92,8 @@ const SelectScrollUpButton = React.forwardRef<
   >
     <RiArrowUpSLine className="size-3 shrink-0" aria-hidden="true" />
   </SelectPrimitives.ScrollUpButton>
-))
-SelectScrollUpButton.displayName = SelectPrimitives.ScrollUpButton.displayName
+));
+SelectScrollUpButton.displayName = SelectPrimitives.ScrollUpButton.displayName;
 
 const SelectScrollDownButton = React.forwardRef<
   React.ElementRef<typeof SelectPrimitives.ScrollDownButton>,
@@ -109,9 +109,9 @@ const SelectScrollDownButton = React.forwardRef<
   >
     <RiArrowDownSLine className="size-3 shrink-0" aria-hidden="true" />
   </SelectPrimitives.ScrollDownButton>
-))
+));
 SelectScrollDownButton.displayName =
-  SelectPrimitives.ScrollDownButton.displayName
+  SelectPrimitives.ScrollDownButton.displayName;
 
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitives.Content>,
@@ -170,9 +170,9 @@ const SelectContent = React.forwardRef<
       </SelectPrimitives.Content>
     </SelectPrimitives.Portal>
   ),
-)
+);
 
-SelectContent.displayName = "SelectContent"
+SelectContent.displayName = "SelectContent";
 
 const SelectGroupLabel = React.forwardRef<
   React.ElementRef<typeof SelectPrimitives.Label>,
@@ -189,9 +189,9 @@ const SelectGroupLabel = React.forwardRef<
     )}
     {...props}
   />
-))
+));
 
-SelectGroupLabel.displayName = "SelectGroupLabel"
+SelectGroupLabel.displayName = "SelectGroupLabel";
 
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitives.Item>,
@@ -225,10 +225,10 @@ const SelectItem = React.forwardRef<
         />
       </SelectPrimitives.ItemIndicator>
     </SelectPrimitives.Item>
-  )
-})
+  );
+});
 
-SelectItem.displayName = "SelectItem"
+SelectItem.displayName = "SelectItem";
 
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitives.Separator>,
@@ -245,9 +245,9 @@ const SelectSeparator = React.forwardRef<
     )}
     {...props}
   />
-))
+));
 
-SelectSeparator.displayName = "SelectSeparator"
+SelectSeparator.displayName = "SelectSeparator";
 
 export {
   Select,
@@ -258,4 +258,4 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-}
+};
