@@ -36,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body
         className={
-          "overflow-y-scroll scroll-auto antialiased selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950"
+          "overflow-y-scroll scroll-auto selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950"
         }
       >
         <div className="mx-auto max-w-screen-2xl">
