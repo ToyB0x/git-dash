@@ -23,7 +23,7 @@
     "@hono/valibot-validator": "0.5.1",
     "@repo/db-api": "workspace:*",
     "@repo/schema": "workspace:*",
-    "drizzle-orm": "0.38.1",
+    "drizzle-orm": "0.38.2",
     "hono": "4.6.13",
     "valibot": "1.0.0-beta.9"
   },
