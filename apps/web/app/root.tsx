@@ -1,3 +1,5 @@
+import { Sidebar } from "@/components/ui/navigation/sidebar";
+import { ThemeProvider } from "next-themes";
 import {
   Links,
   Meta,
@@ -6,7 +8,6 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
@@ -33,8 +34,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
+      <body
+        className={
+          "overflow-y-scroll scroll-auto selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950"
+        }
+      >
+        <div className="mx-auto max-w-screen-2xl">
+          <ThemeProvider defaultTheme="system" attribute="class">
+            <Sidebar />
+            <main className="lg:pl-72">{children}</main>
+          </ThemeProvider>
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>
