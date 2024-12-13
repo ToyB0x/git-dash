@@ -1,8 +1,14 @@
-// Tremor chartColors [v0.1.0]
+// Tremor Raw chartColors [v0.0.0]
 
 export type ColorUtility = "bg" | "stroke" | "fill" | "text";
 
 export const chartColors = {
+  indigo: {
+    bg: "bg-indigo-600 dark:bg-indigo-500",
+    stroke: "stroke-indigo-600 dark:stroke-indigo-500",
+    fill: "fill-indigo-600 dark:fill-indigo-500",
+    text: "text-indigo-600 dark:text-indigo-500",
+  },
   blue: {
     bg: "bg-blue-500",
     stroke: "stroke-blue-500",
@@ -45,18 +51,6 @@ export const chartColors = {
     fill: "fill-pink-500",
     text: "text-pink-500",
   },
-  lime: {
-    bg: "bg-lime-500",
-    stroke: "stroke-lime-500",
-    fill: "fill-lime-500",
-    text: "text-lime-500",
-  },
-  fuchsia: {
-    bg: "bg-fuchsia-500",
-    stroke: "stroke-fuchsia-500",
-    fill: "fill-fuchsia-500",
-    text: "text-fuchsia-500",
-  },
 } as const satisfies {
   [color: string]: {
     [key in ColorUtility]: string;
@@ -93,7 +87,7 @@ export const getColorClassName = (
   return chartColors[color]?.[type] ?? fallbackColor[type];
 };
 
-// Tremor getYAxisDomain [v0.0.0]
+// Tremor Raw getYAxisDomain [v0.0.0]
 
 export const getYAxisDomain = (
   autoMinValue: boolean,
@@ -105,7 +99,7 @@ export const getYAxisDomain = (
   return [minDomain, maxDomain];
 };
 
-// Tremor hasOnlyOneValueForKey [v0.1.0]
+// Tremor Raw hasOnlyOneValueForKey [v0.1.0]
 
 export function hasOnlyOneValueForKey(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>

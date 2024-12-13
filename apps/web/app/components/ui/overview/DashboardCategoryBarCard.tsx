@@ -1,19 +1,33 @@
-import { Badge } from "@/components/Badge"
-import { cx } from "@/lib/utils"
+import { Badge } from "@/components/Badge";
+import { cx } from "@/lib/utils";
 
-import type { KpiEntryExtended } from "@/app/(main)/overview/page"
+export type KpiEntry = {
+  title: string;
+  percentage: number;
+  current: number;
+  allowed: number;
+  unit?: string;
+};
+
+export type KpiEntryExtended = Omit<
+  KpiEntry,
+  "current" | "allowed" | "unit"
+> & {
+  value: string;
+  color: string;
+};
 
 export type CardProps = {
-  title: string
-  change: string
-  value: string
-  valueDescription: string
-  subtitle: string
-  ctaDescription: string
-  ctaText: string
-  ctaLink: string
-  data: KpiEntryExtended[]
-}
+  title: string;
+  change: string;
+  value: string;
+  valueDescription: string;
+  subtitle: string;
+  ctaDescription: string;
+  ctaText: string;
+  ctaLink: string;
+  data: KpiEntryExtended[];
+};
 
 export function CategoryBarCard({
   title,
@@ -50,13 +64,13 @@ export function CategoryBarCard({
               {data.map((item) => (
                 <div
                   key={item.title}
-                  className={cx(item.color, `h-1.5 rounded-full`)}
+                  className={cx(item.color, "h-1.5 rounded-full")}
                   style={{ width: `${item.percentage}%` }}
                 />
               ))}
             </div>
           </div>
-          <ul role="list" className="mt-5 space-y-2">
+          <ul className="mt-5 space-y-2">
             {data.map((item) => (
               <li key={item.title} className="flex items-center gap-2 text-xs">
                 <span
@@ -81,5 +95,5 @@ export function CategoryBarCard({
         </p>
       </div>
     </>
-  )
+  );
 }
