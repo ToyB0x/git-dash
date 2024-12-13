@@ -66,6 +66,7 @@ export function ModalAddWorkspace({
           <DropdownMenuItem
             onSelect={(event) => {
               event.preventDefault();
+              // biome-ignore lint/complexity/useOptionalChain: <explanation>
               onSelect && onSelect();
             }}
           >

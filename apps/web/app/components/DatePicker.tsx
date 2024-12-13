@@ -140,6 +140,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
         className="group/time-input inline-flex w-full gap-x-2"
       >
         {state.segments.map((segment, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <TimeSegment key={i} segment={segment} state={state} />
         ))}
       </div>
@@ -292,10 +293,12 @@ const PresetContainer = <TPreset extends Preset, TValue>({
   // Currently selected preset
   currentValue,
 }: PresetContainerProps<TPreset, TValue>) => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const isDateRangePresets = (preset: any): preset is DateRangePreset => {
     return "dateRange" in preset;
   };
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const isDatePresets = (preset: any): preset is DatePreset => {
     return "date" in preset;
   };
@@ -365,7 +368,9 @@ const PresetContainer = <TPreset extends Preset, TValue>({
     <ul className="flex items-start gap-x-2 sm:flex-col">
       {presets.map((preset, index) => {
         return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <li key={index} className="sm:w-full sm:py-px">
+            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
             <button
               title={preset.label}
               className={cx(
@@ -503,6 +508,7 @@ const SingleDatePicker = ({
         : new Time(0, 0),
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const initialDate = React.useMemo(() => {
     return date;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -518,6 +524,7 @@ const SingleDatePicker = ({
     }
   }, [date]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
     if (!open) {
       setMonth(date);
@@ -736,6 +743,7 @@ const RangeDatePicker = ({
         : new Time(0, 0),
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const initialRange = React.useMemo(() => {
     return range;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -751,6 +759,7 @@ const RangeDatePicker = ({
     }
   }, [range]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
     if (!open) {
       setMonth(range?.from);

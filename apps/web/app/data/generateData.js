@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 function generateRandomData(
   previousValue,
@@ -27,12 +27,10 @@ function generateRandomData(
     randomValue *= reductionFactor;
   }
 
-  // Calculate new momentum based on the current drift
-  momentum = drift * 0.5; // Adjust momentum scaling factor as needed
-
   return {
     value: Math.round(randomValue),
-    momentum,
+    // Calculate new momentum based on the current drift
+    momentum: drift * 0.5, // Adjust momentum scaling factor as needed
   };
 }
 
@@ -44,6 +42,8 @@ function generateData(startDate, endDate, categories) {
   // Initialize previous values with average values for each category
   const previousValues = {};
   const momenta = {}; // Track momentum for each category
+
+  // biome-ignore lint/complexity/noForEach: <explanation>
   categories.forEach((category) => {
     previousValues[category.name] = (category.min + category.max) / 2; // Initialize with mid-point value
     momenta[category.name] = 0; // Initialize momentum
@@ -52,9 +52,10 @@ function generateData(startDate, endDate, categories) {
   while (currentDate <= endDateObj) {
     const isWeekend = currentDate.getDay() === 0 || currentDate.getDay() === 6; // 0 = Sunday, 6 = Saturday
     const dataEntry = {
-      date: currentDate.toISOString().split("T")[0] + "T00:00:00",
+      date: `${currentDate.toISOString().split("T")[0]}T00:00:00`,
     };
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     categories.forEach((category) => {
       const result = generateRandomData(
         previousValues[category.name],

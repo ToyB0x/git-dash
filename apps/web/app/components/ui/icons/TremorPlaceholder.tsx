@@ -1,6 +1,7 @@
 import type { SVGProps } from "react";
 
 export const TremorPlaceholder = (props: SVGProps<SVGSVGElement>) => (
+  // biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
   <svg className={props.className} fill="none" viewBox="0 0 92 92" {...props}>
     <g clipPath="url(#clip0_10096_2462)">
       <mask

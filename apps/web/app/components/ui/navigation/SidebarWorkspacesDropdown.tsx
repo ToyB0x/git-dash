@@ -50,6 +50,7 @@ export const WorkspacesDropdownDesktop = () => {
         modal={false}
       >
         <DropdownMenuTrigger asChild>
+          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             className={cx(
               "flex w-full items-center gap-x-2.5 rounded-md border border-gray-300 bg-white p-2 text-sm shadow-sm transition-all hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-950 hover:dark:bg-gray-900",
@@ -153,6 +154,7 @@ export const WorkspacesDropdownMobile = () => {
         modal={false}
       >
         <DropdownMenuTrigger asChild>
+          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button className="flex items-center gap-x-1.5 rounded-md p-2 hover:bg-gray-100 focus:outline-none hover:dark:bg-gray-900">
             <span
               className={cx(
