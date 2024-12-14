@@ -1,14 +1,31 @@
+import { auth } from "@/clients";
 import { Button } from "@/components/Button";
 import { Divider } from "@/components/Divider";
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import { RiGoogleFill } from "@remixicon/react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Form, redirect } from "react-router";
+import type { Route } from "../../../.react-router/types/app/routes/(logout)/+types/page";
 
 export function meta() {
   return [
     { title: "git-dash login" },
     { name: "description", content: "Welcome to git-dash" },
   ];
+}
+
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+
+  const email = formData.get("email");
+  if (typeof email !== "string") throw Error("email is invalid");
+
+  const password = formData.get("password");
+  if (typeof password !== "string") throw Error("password is invalid");
+
+  await signInWithEmailAndPassword(auth, email, password);
+  return redirect("/");
 }
 
 export default function Page() {
@@ -19,7 +36,7 @@ export default function Page() {
           <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-gray-50">
             Log in or create account
           </h3>
-          <form action="#" method="post" className="mt-6 space-y-4">
+          <Form method="post" className="mt-6 space-y-4">
             <div>
               <Label htmlFor="email" className="font-medium">
                 Email
@@ -49,7 +66,7 @@ export default function Page() {
             <Button type="submit" className="mt-4 w-full">
               Sign in
             </Button>
-          </form>
+          </Form>
           <Divider>or with</Divider>
           <Button asChild variant="secondary" className="w-full">
             <a href="/" className="inline-flex items-center gap-2">

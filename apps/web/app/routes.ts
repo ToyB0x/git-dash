@@ -8,6 +8,7 @@ import {
 export default [
   // login state layout
   layout("routes/(login)/layout.tsx", [
+    index("routes/(login)/index.tsx"),
     route("settings", "routes/(login)/settings.tsx"),
     route(":groupId", "routes/(login)/$groupId/layout.tsx", [
       route("home", "routes/(login)/$groupId/home.tsx"),
