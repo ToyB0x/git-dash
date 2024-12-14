@@ -109,7 +109,7 @@ const data2: KpiEntryExtended[] = [
   },
 ];
 
-const data4: KpiEntryExtended[] = [
+const data3: KpiEntryExtended[] = [
   {
     title: "Ubuntu 16-core",
     percentage: 63.8,
@@ -187,7 +187,7 @@ export default function Overview() {
             ctaDescription="Next payment due"
             ctaText="December 31, 2024"
             ctaLink="#"
-            data={data4}
+            data={data3}
           />
         </div>
       </section>
