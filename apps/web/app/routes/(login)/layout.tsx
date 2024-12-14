@@ -22,7 +22,12 @@ function Right() {
           <h3 className=" text-lg font-semibold">Live Demo</h3>
           <p className="mt-4 text-sm ">
             You can try the live demo with the
-            <a href="/demo" className="underline underline-offset-4 pl-1">
+            <a
+              href="/demo"
+              className="underline underline-offset-4 pl-1"
+              target="_blank"
+              rel="noreferrer"
+            >
               Demo Page
             </a>
           </p>
