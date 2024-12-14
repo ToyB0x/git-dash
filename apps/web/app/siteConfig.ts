@@ -6,7 +6,11 @@ export const siteConfig = {
     home: "/",
     overview: "/demo",
     cost: "/cost",
-    details: "/details",
+    vulns: "/vulns",
+    releases: "/releases",
+    prs: "/prs",
+    reviews: "/reviews",
+    users: "/users",
     settings: "/settings",
   },
   externalLink: {
