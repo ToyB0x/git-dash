@@ -12,8 +12,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       firebase-tools:
-        specifier: 13.29.0
-        version: 13.29.0(encoding@0.1.13)
+        specifier: 13.29.1
+        version: 13.29.1(encoding@0.1.13)
       turbo:
         specifier: 2.3.3
         version: 2.3.3
@@ -54,8 +54,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/schema
       drizzle-orm:
-        specifier: 0.38.1
-        version: 0.38.1(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0)
+        specifier: 0.38.2
+        version: 0.38.2(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0)
       hono:
         specifier: 4.6.13
         version: 4.6.13
@@ -264,11 +264,11 @@ importers:
   packages/db-api:
     dependencies:
       drizzle-orm:
-        specifier: 0.38.1
-        version: 0.38.1(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0)
+        specifier: 0.38.2
+        version: 0.38.2(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0)
       drizzle-valibot:
         specifier: 0.3.0
-        version: 0.3.0(drizzle-orm@0.38.1(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0))(valibot@1.0.0-beta.9(typescript@5.7.2))
+        version: 0.3.0(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0))(valibot@1.0.0-beta.9(typescript@5.7.2))
       nanoid:
         specifier: 5.0.9
         version: 5.0.9
@@ -283,8 +283,8 @@ importers:
         specifier: 22.10.2
         version: 22.10.2
       drizzle-kit:
-        specifier: 0.30.0
-        version: 0.30.0
+        specifier: 0.30.1
+        version: 0.30.1
       typescript:
         specifier: 5.7.2
         version: 5.7.2
@@ -3766,12 +3766,12 @@ packages:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
-  drizzle-kit@0.30.0:
-    resolution: {integrity: sha512-zAf0qg/BX2lV/Xip4igXrtbDv+Ub8S39U6qSOEGNvqcHrnmaQjS4mkkFZOUsgXRbuH56QUeWZxfnLHefrKCV5g==}
+  drizzle-kit@0.30.1:
+    resolution: {integrity: sha512-HmA/NeewvHywhJ2ENXD3KvOuM/+K2dGLJfxVfIHsGwaqKICJnS+Ke2L6UcSrSrtMJLJaT0Im1Qv4TFXfaZShyw==}
     hasBin: true
 
-  drizzle-orm@0.38.1:
-    resolution: {integrity: sha512-TpOzNrPGy7dl0/uP9vKD6ATzp9noJaRYhOYqtOCKxxwSmZqrPxN4SW5kWawVUIcbSd2lkbDCdZue+gtVNLmQsg==}
+  drizzle-orm@0.38.2:
+    resolution: {integrity: sha512-eCE3yPRAskLo1WpM9OHpFaM70tBEDsWhwR/0M3CKyztAXKR9Qs3asZlcJOEliIcUSg8GuwrlY0dmYDgmm6y5GQ==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -4153,8 +4153,8 @@ packages:
   firebase-auth-cloudflare-workers@2.0.4:
     resolution: {integrity: sha512-cIhOLpDbia4I1mZSOiKO52/HRwk/Jopg9W+dx77NavDUeKuiXl//AWZWv7Din2ZXBhE/Xq0XOXJh7V1Z8EvXPg==}
 
-  firebase-tools@13.29.0:
-    resolution: {integrity: sha512-dkPxMvOLh2Bh6rbnE+Bc3aNJ+6IGxbU65S/9mMiusLThL3/0FWmfrKpM2mvS8CVCHDN5MObA+5gs7Anx//OVdQ==}
+  firebase-tools@13.29.1:
+    resolution: {integrity: sha512-fFiUF9KNdVPzcQKHqtewTzQNsjm6GrvCyVyXiIDiiUFO9zIEmM6m4sI/Y9cKg8dknCTsqr0D4cNv2d6AoUaeWg==}
     engines: {node: '>=18.0.0 || >=20.0.0'}
     hasBin: true
 
@@ -10304,7 +10304,7 @@ snapshots:
 
   dotenv@16.4.5: {}
 
-  drizzle-kit@0.30.0:
+  drizzle-kit@0.30.1:
     dependencies:
       '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5
@@ -10313,7 +10313,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.38.1(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0):
+  drizzle-orm@0.38.2(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0):
     optionalDependencies:
       '@cloudflare/workers-types': 4.20241205.0
       '@electric-sql/pglite': 0.2.14
@@ -10324,9 +10324,9 @@ snapshots:
       prisma: 6.0.1
       react: 19.0.0
 
-  drizzle-valibot@0.3.0(drizzle-orm@0.38.1(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0))(valibot@1.0.0-beta.9(typescript@5.7.2)):
+  drizzle-valibot@0.3.0(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0))(valibot@1.0.0-beta.9(typescript@5.7.2)):
     dependencies:
-      drizzle-orm: 0.38.1(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0)
+      drizzle-orm: 0.38.2(@cloudflare/workers-types@4.20241205.0)(@electric-sql/pglite@0.2.14)(@opentelemetry/api@1.9.0)(@prisma/client@6.0.1(prisma@6.0.1))(@types/react@19.0.1)(pg@8.13.1)(prisma@6.0.1)(react@19.0.0)
       valibot: 1.0.0-beta.9(typescript@5.7.2)
 
   dset@3.1.4: {}
@@ -10795,7 +10795,7 @@ snapshots:
 
   firebase-auth-cloudflare-workers@2.0.4: {}
 
-  firebase-tools@13.29.0(encoding@0.1.13):
+  firebase-tools@13.29.1(encoding@0.1.13):
     dependencies:
       '@electric-sql/pglite': 0.2.14
       '@google-cloud/cloud-sql-connector': 1.4.0(encoding@0.1.13)
