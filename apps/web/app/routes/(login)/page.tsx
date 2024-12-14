@@ -16,7 +16,7 @@ export default function Page() {
     <>
       <div className="flex min-h-screen flex-1 flex-col justify-center px-4 lg:px-6">
         <div className="mx-auto w-full max-w-sm">
-          <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-gray-50">
+          <h3 className="text-center text-lg font-semibold text-gray-900 ">
             Log in or create account
           </h3>
           <form action="#" method="post" className="mt-6 space-y-4">
@@ -57,7 +57,7 @@ export default function Page() {
               Sign in with Google
             </a>
           </Button>
-          <p className="mt-4 text-xs text-gray-500 dark:text-gray-500">
+          <p className="mt-4 text-xs text-gray-500">
             By signing in, you agree to our{" "}
             <a href="/" className="underline underline-offset-4">
               terms of service
