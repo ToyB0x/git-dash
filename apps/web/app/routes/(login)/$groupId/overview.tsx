@@ -33,8 +33,8 @@ const categories: {
     type: "currency",
   },
   {
-    title: "Sign ups",
-    type: "unit",
+    title: "Seats",
+    type: "currency",
   },
   {
     title: "Logins",

@@ -108,7 +108,7 @@ const categories = [
     weekendReduction: true,
   },
   {
-    name: "Sign ups",
+    name: "Seats",
     min: 60,
     max: 80,
     variance: 0.5,

@@ -13,6 +13,6 @@ export type OverviewData = {
   "Rows read": number;
   Queries: number;
   "Payments completed": number;
-  "Sign ups": number;
+  Seats: number;
   Logins: number;
 };

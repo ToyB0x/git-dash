@@ -7,7 +7,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22633,
     Queries: 448,
     "Payments completed": 71,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1664,
   },
   {
@@ -16,7 +16,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22587,
     Queries: 484,
     "Payments completed": 88,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1642,
   },
   {
@@ -25,7 +25,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22079,
     Queries: 487,
     "Payments completed": 100,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 1525,
   },
   {
@@ -34,7 +34,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21412,
     Queries: 487,
     "Payments completed": 122,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1211,
   },
   {
@@ -43,7 +43,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20679,
     Queries: 484,
     "Payments completed": 107,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 991,
   },
   {
@@ -52,7 +52,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20048,
     Queries: 479,
     "Payments completed": 124,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 855,
   },
   {
@@ -61,7 +61,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19335,
     Queries: 369,
     "Payments completed": 105,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 875,
   },
   {
@@ -70,7 +70,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19548,
     Queries: 420,
     "Payments completed": 68,
-    "Sign ups": 47,
+    Seats: 47,
     Logins: 867,
   },
   {
@@ -79,7 +79,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19431,
     Queries: 489,
     "Payments completed": 87,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 853,
   },
   {
@@ -88,7 +88,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18802,
     Queries: 493,
     "Payments completed": 90,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 976,
   },
   {
@@ -97,7 +97,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18816,
     Queries: 499,
     "Payments completed": 89,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 1191,
   },
   {
@@ -106,7 +106,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19225,
     Queries: 500,
     "Payments completed": 91,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1235,
   },
   {
@@ -115,7 +115,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19467,
     Queries: 505,
     "Payments completed": 123,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1060,
   },
   {
@@ -124,7 +124,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19950,
     Queries: 418,
     "Payments completed": 87,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 915,
   },
   {
@@ -133,7 +133,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19814,
     Queries: 422,
     "Payments completed": 103,
-    "Sign ups": 46,
+    Seats: 46,
     Logins: 1026,
   },
   {
@@ -142,7 +142,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19962,
     Queries: 490,
     "Payments completed": 118,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1199,
   },
   {
@@ -151,7 +151,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19931,
     Queries: 484,
     "Payments completed": 96,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1344,
   },
   {
@@ -160,7 +160,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19650,
     Queries: 480,
     "Payments completed": 124,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1203,
   },
   {
@@ -169,7 +169,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19592,
     Queries: 479,
     "Payments completed": 112,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1351,
   },
   {
@@ -178,7 +178,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19214,
     Queries: 478,
     "Payments completed": 121,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1379,
   },
   {
@@ -187,7 +187,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19460,
     Queries: 385,
     "Payments completed": 88,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1460,
   },
   {
@@ -196,7 +196,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19151,
     Queries: 373,
     "Payments completed": 77,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 1704,
   },
   {
@@ -205,7 +205,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19301,
     Queries: 499,
     "Payments completed": 85,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1951,
   },
   {
@@ -214,7 +214,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19614,
     Queries: 501,
     "Payments completed": 80,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1768,
   },
   {
@@ -223,7 +223,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19470,
     Queries: 497,
     "Payments completed": 100,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1811,
   },
   {
@@ -232,7 +232,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19632,
     Queries: 492,
     "Payments completed": 82,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 2048,
   },
   {
@@ -241,7 +241,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19706,
     Queries: 488,
     "Payments completed": 87,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1853,
   },
   {
@@ -250,7 +250,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20284,
     Queries: 422,
     "Payments completed": 77,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1693,
   },
   {
@@ -259,7 +259,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20142,
     Queries: 418,
     "Payments completed": 74,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 1637,
   },
   {
@@ -268,7 +268,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19518,
     Queries: 490,
     "Payments completed": 89,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1847,
   },
   {
@@ -277,7 +277,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19639,
     Queries: 491,
     "Payments completed": 94,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1972,
   },
   {
@@ -286,7 +286,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19806,
     Queries: 494,
     "Payments completed": 82,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1818,
   },
   {
@@ -295,7 +295,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19498,
     Queries: 494,
     "Payments completed": 86,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1437,
   },
   {
@@ -304,7 +304,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18849,
     Queries: 489,
     "Payments completed": 81,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1420,
   },
   {
@@ -313,7 +313,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19077,
     Queries: 379,
     "Payments completed": 66,
-    "Sign ups": 56,
+    Seats: 56,
     Logins: 1622,
   },
   {
@@ -322,7 +322,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19313,
     Queries: 398,
     "Payments completed": 69,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1847,
   },
   {
@@ -331,7 +331,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18922,
     Queries: 494,
     "Payments completed": 89,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 2020,
   },
   {
@@ -340,7 +340,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18994,
     Queries: 491,
     "Payments completed": 80,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 2035,
   },
   {
@@ -349,7 +349,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18675,
     Queries: 493,
     "Payments completed": 85,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 2044,
   },
   {
@@ -358,7 +358,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18103,
     Queries: 493,
     "Payments completed": 90,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1899,
   },
   {
@@ -367,7 +367,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18138,
     Queries: 498,
     "Payments completed": 87,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1478,
   },
   {
@@ -376,7 +376,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18141,
     Queries: 414,
     "Payments completed": 71,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1158,
   },
   {
@@ -385,7 +385,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18061,
     Queries: 431,
     "Payments completed": 68,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 850,
   },
   {
@@ -394,7 +394,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18111,
     Queries: 487,
     "Payments completed": 81,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 871,
   },
   {
@@ -403,7 +403,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18265,
     Queries: 485,
     "Payments completed": 106,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 849,
   },
   {
@@ -412,7 +412,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18603,
     Queries: 488,
     "Payments completed": 86,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 874,
   },
   {
@@ -421,7 +421,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18967,
     Queries: 488,
     "Payments completed": 81,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 862,
   },
   {
@@ -430,7 +430,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19166,
     Queries: 484,
     "Payments completed": 85,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 864,
   },
   {
@@ -439,7 +439,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18711,
     Queries: 430,
     "Payments completed": 66,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 918,
   },
   {
@@ -448,7 +448,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18862,
     Queries: 398,
     "Payments completed": 69,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 968,
   },
   {
@@ -457,7 +457,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18473,
     Queries: 494,
     "Payments completed": 80,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 1142,
   },
   {
@@ -466,7 +466,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18663,
     Queries: 497,
     "Payments completed": 93,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1360,
   },
   {
@@ -475,7 +475,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18562,
     Queries: 498,
     "Payments completed": 83,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 1691,
   },
   {
@@ -484,7 +484,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18132,
     Queries: 499,
     "Payments completed": 105,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1862,
   },
   {
@@ -493,7 +493,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18392,
     Queries: 499,
     "Payments completed": 117,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 2003,
   },
   {
@@ -502,7 +502,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19037,
     Queries: 386,
     "Payments completed": 94,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 2006,
   },
   {
@@ -511,7 +511,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19828,
     Queries: 385,
     "Payments completed": 105,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 2007,
   },
   {
@@ -520,7 +520,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20667,
     Queries: 497,
     "Payments completed": 115,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1742,
   },
   {
@@ -529,7 +529,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20929,
     Queries: 494,
     "Payments completed": 84,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1910,
   },
   {
@@ -538,7 +538,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20639,
     Queries: 495,
     "Payments completed": 85,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1766,
   },
   {
@@ -547,7 +547,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19941,
     Queries: 495,
     "Payments completed": 82,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1674,
   },
   {
@@ -556,7 +556,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19420,
     Queries: 491,
     "Payments completed": 102,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1785,
   },
   {
@@ -565,7 +565,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18773,
     Queries: 415,
     "Payments completed": 78,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1732,
   },
   {
@@ -574,7 +574,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18993,
     Queries: 402,
     "Payments completed": 64,
-    "Sign ups": 47,
+    Seats: 47,
     Logins: 1813,
   },
   {
@@ -583,7 +583,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18895,
     Queries: 493,
     "Payments completed": 80,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1938,
   },
   {
@@ -592,7 +592,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19163,
     Queries: 488,
     "Payments completed": 118,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 1798,
   },
   {
@@ -601,7 +601,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19383,
     Queries: 483,
     "Payments completed": 123,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 1866,
   },
   {
@@ -610,7 +610,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19523,
     Queries: 483,
     "Payments completed": 118,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1640,
   },
   {
@@ -619,7 +619,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19186,
     Queries: 480,
     "Payments completed": 124,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1274,
   },
   {
@@ -628,7 +628,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18841,
     Queries: 415,
     "Payments completed": 97,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 895,
   },
   {
@@ -637,7 +637,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18357,
     Queries: 390,
     "Payments completed": 71,
-    "Sign ups": 50,
+    Seats: 50,
     Logins: 861,
   },
   {
@@ -646,7 +646,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18455,
     Queries: 496,
     "Payments completed": 94,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 853,
   },
   {
@@ -655,7 +655,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18791,
     Queries: 494,
     "Payments completed": 92,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 860,
   },
   {
@@ -664,7 +664,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19023,
     Queries: 493,
     "Payments completed": 94,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 922,
   },
   {
@@ -673,7 +673,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19666,
     Queries: 495,
     "Payments completed": 122,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1127,
   },
   {
@@ -682,7 +682,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20299,
     Queries: 497,
     "Payments completed": 114,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1055,
   },
   {
@@ -691,7 +691,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20036,
     Queries: 386,
     "Payments completed": 95,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1158,
   },
   {
@@ -700,7 +700,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20010,
     Queries: 408,
     "Payments completed": 71,
-    "Sign ups": 58,
+    Seats: 58,
     Logins: 1438,
   },
   {
@@ -709,7 +709,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19601,
     Queries: 492,
     "Payments completed": 87,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 1332,
   },
   {
@@ -718,7 +718,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19406,
     Queries: 495,
     "Payments completed": 120,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 1102,
   },
   {
@@ -727,7 +727,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19742,
     Queries: 497,
     "Payments completed": 110,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 951,
   },
   {
@@ -736,7 +736,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19329,
     Queries: 503,
     "Payments completed": 103,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 846,
   },
   {
@@ -745,7 +745,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19646,
     Queries: 511,
     "Payments completed": 118,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 850,
   },
   {
@@ -754,7 +754,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19271,
     Queries: 426,
     "Payments completed": 97,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 878,
   },
   {
@@ -763,7 +763,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18842,
     Queries: 382,
     "Payments completed": 98,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 851,
   },
   {
@@ -772,7 +772,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18999,
     Queries: 498,
     "Payments completed": 118,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 872,
   },
   {
@@ -781,7 +781,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19312,
     Queries: 499,
     "Payments completed": 123,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 863,
   },
   {
@@ -790,7 +790,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19258,
     Queries: 502,
     "Payments completed": 118,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 901,
   },
   {
@@ -799,7 +799,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19567,
     Queries: 501,
     "Payments completed": 120,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 845,
   },
   {
@@ -808,7 +808,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19888,
     Queries: 497,
     "Payments completed": 120,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 869,
   },
   {
@@ -817,7 +817,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20292,
     Queries: 438,
     "Payments completed": 70,
-    "Sign ups": 53,
+    Seats: 53,
     Logins: 865,
   },
   {
@@ -826,7 +826,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20739,
     Queries: 403,
     "Payments completed": 61,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 860,
   },
   {
@@ -835,7 +835,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20633,
     Queries: 493,
     "Payments completed": 81,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 867,
   },
   {
@@ -844,7 +844,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21003,
     Queries: 496,
     "Payments completed": 82,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 867,
   },
   {
@@ -853,7 +853,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20648,
     Queries: 500,
     "Payments completed": 81,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 963,
   },
   {
@@ -862,7 +862,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20691,
     Queries: 504,
     "Payments completed": 105,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1027,
   },
   {
@@ -871,7 +871,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20393,
     Queries: 510,
     "Payments completed": 121,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1171,
   },
   {
@@ -880,7 +880,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20582,
     Queries: 412,
     "Payments completed": 95,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 1199,
   },
   {
@@ -889,7 +889,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20673,
     Queries: 400,
     "Payments completed": 75,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1208,
   },
   {
@@ -898,7 +898,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20134,
     Queries: 494,
     "Payments completed": 107,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1452,
   },
   {
@@ -907,7 +907,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19757,
     Queries: 489,
     "Payments completed": 121,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1464,
   },
   {
@@ -916,7 +916,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20053,
     Queries: 486,
     "Payments completed": 100,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1512,
   },
   {
@@ -925,7 +925,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19604,
     Queries: 483,
     "Payments completed": 120,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1360,
   },
   {
@@ -934,7 +934,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19715,
     Queries: 478,
     "Payments completed": 122,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 1038,
   },
   {
@@ -943,7 +943,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20002,
     Queries: 367,
     "Payments completed": 82,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 844,
   },
   {
@@ -952,7 +952,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20661,
     Queries: 430,
     "Payments completed": 70,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 855,
   },
   {
@@ -961,7 +961,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21525,
     Queries: 487,
     "Payments completed": 81,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 973,
   },
   {
@@ -970,7 +970,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21431,
     Queries: 491,
     "Payments completed": 90,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1065,
   },
   {
@@ -979,7 +979,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21171,
     Queries: 493,
     "Payments completed": 122,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1071,
   },
   {
@@ -988,7 +988,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20561,
     Queries: 495,
     "Payments completed": 123,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 1065,
   },
   {
@@ -997,7 +997,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20802,
     Queries: 494,
     "Payments completed": 125,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1191,
   },
   {
@@ -1006,7 +1006,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20844,
     Queries: 408,
     "Payments completed": 92,
-    "Sign ups": 51,
+    Seats: 51,
     Logins: 1415,
   },
   {
@@ -1015,7 +1015,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20898,
     Queries: 372,
     "Payments completed": 82,
-    "Sign ups": 57,
+    Seats: 57,
     Logins: 1744,
   },
   {
@@ -1024,7 +1024,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20662,
     Queries: 500,
     "Payments completed": 91,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 2017,
   },
   {
@@ -1033,7 +1033,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20361,
     Queries: 494,
     "Payments completed": 124,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1911,
   },
   {
@@ -1042,7 +1042,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19629,
     Queries: 489,
     "Payments completed": 113,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 2014,
   },
   {
@@ -1051,7 +1051,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19197,
     Queries: 486,
     "Payments completed": 115,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 2004,
   },
   {
@@ -1060,7 +1060,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19201,
     Queries: 481,
     "Payments completed": 113,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 2029,
   },
   {
@@ -1069,7 +1069,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19708,
     Queries: 405,
     "Payments completed": 88,
-    "Sign ups": 50,
+    Seats: 50,
     Logins: 2012,
   },
   {
@@ -1078,7 +1078,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20513,
     Queries: 393,
     "Payments completed": 94,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 1745,
   },
   {
@@ -1087,7 +1087,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20545,
     Queries: 495,
     "Payments completed": 82,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1784,
   },
   {
@@ -1096,7 +1096,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20774,
     Queries: 491,
     "Payments completed": 84,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1883,
   },
   {
@@ -1105,7 +1105,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21453,
     Queries: 489,
     "Payments completed": 81,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1806,
   },
   {
@@ -1114,7 +1114,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21543,
     Queries: 484,
     "Payments completed": 106,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1967,
   },
   {
@@ -1123,7 +1123,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21089,
     Queries: 484,
     "Payments completed": 122,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1956,
   },
   {
@@ -1132,7 +1132,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20388,
     Queries: 435,
     "Payments completed": 90,
-    "Sign ups": 53,
+    Seats: 53,
     Logins: 2032,
   },
   {
@@ -1141,7 +1141,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19678,
     Queries: 386,
     "Payments completed": 99,
-    "Sign ups": 47,
+    Seats: 47,
     Logins: 1984,
   },
   {
@@ -1150,7 +1150,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19046,
     Queries: 496,
     "Payments completed": 115,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 2021,
   },
   {
@@ -1159,7 +1159,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19152,
     Queries: 500,
     "Payments completed": 121,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1641,
   },
   {
@@ -1168,7 +1168,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18656,
     Queries: 506,
     "Payments completed": 81,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 1286,
   },
   {
@@ -1177,7 +1177,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18455,
     Queries: 507,
     "Payments completed": 87,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 987,
   },
   {
@@ -1186,7 +1186,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18037,
     Queries: 505,
     "Payments completed": 87,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 953,
   },
   {
@@ -1195,7 +1195,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18119,
     Queries: 422,
     "Payments completed": 105,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 1059,
   },
   {
@@ -1204,7 +1204,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18102,
     Queries: 436,
     "Payments completed": 94,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1153,
   },
   {
@@ -1213,7 +1213,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18080,
     Queries: 487,
     "Payments completed": 122,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1033,
   },
   {
@@ -1222,7 +1222,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18124,
     Queries: 484,
     "Payments completed": 99,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 846,
   },
   {
@@ -1231,7 +1231,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18008,
     Queries: 478,
     "Payments completed": 125,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 891,
   },
   {
@@ -1240,7 +1240,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18076,
     Queries: 478,
     "Payments completed": 113,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 923,
   },
   {
@@ -1249,7 +1249,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18027,
     Queries: 479,
     "Payments completed": 84,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1115,
   },
   {
@@ -1258,7 +1258,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18099,
     Queries: 387,
     "Payments completed": 78,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1374,
   },
   {
@@ -1267,7 +1267,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18002,
     Queries: 431,
     "Payments completed": 84,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 1622,
   },
   {
@@ -1276,7 +1276,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18012,
     Queries: 488,
     "Payments completed": 81,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1612,
   },
   {
@@ -1285,7 +1285,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18004,
     Queries: 485,
     "Payments completed": 87,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1668,
   },
   {
@@ -1294,7 +1294,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18446,
     Queries: 481,
     "Payments completed": 103,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1579,
   },
   {
@@ -1303,7 +1303,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18357,
     Queries: 479,
     "Payments completed": 96,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 1294,
   },
   {
@@ -1312,7 +1312,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18021,
     Queries: 478,
     "Payments completed": 83,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1214,
   },
   {
@@ -1321,7 +1321,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18094,
     Queries: 379,
     "Payments completed": 66,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1054,
   },
   {
@@ -1330,7 +1330,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18053,
     Queries: 390,
     "Payments completed": 68,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1034,
   },
   {
@@ -1339,7 +1339,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18022,
     Queries: 496,
     "Payments completed": 92,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 845,
   },
   {
@@ -1348,7 +1348,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18416,
     Queries: 494,
     "Payments completed": 93,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 881,
   },
   {
@@ -1357,7 +1357,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18270,
     Queries: 496,
     "Payments completed": 81,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 925,
   },
   {
@@ -1366,7 +1366,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18034,
     Queries: 500,
     "Payments completed": 80,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 879,
   },
   {
@@ -1375,7 +1375,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18061,
     Queries: 506,
     "Payments completed": 95,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 924,
   },
   {
@@ -1384,7 +1384,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18180,
     Queries: 425,
     "Payments completed": 74,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 853,
   },
   {
@@ -1393,7 +1393,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18022,
     Queries: 384,
     "Payments completed": 74,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 877,
   },
   {
@@ -1402,7 +1402,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18091,
     Queries: 497,
     "Payments completed": 102,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 896,
   },
   {
@@ -1411,7 +1411,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18398,
     Queries: 500,
     "Payments completed": 101,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1053,
   },
   {
@@ -1420,7 +1420,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18439,
     Queries: 505,
     "Payments completed": 83,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1009,
   },
   {
@@ -1429,7 +1429,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18750,
     Queries: 505,
     "Payments completed": 82,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 884,
   },
   {
@@ -1438,7 +1438,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19398,
     Queries: 509,
     "Payments completed": 80,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1003,
   },
   {
@@ -1447,7 +1447,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19233,
     Queries: 442,
     "Payments completed": 68,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 1182,
   },
   {
@@ -1456,7 +1456,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19593,
     Queries: 430,
     "Payments completed": 65,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1129,
   },
   {
@@ -1465,7 +1465,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20333,
     Queries: 488,
     "Payments completed": 84,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1009,
   },
   {
@@ -1474,7 +1474,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20156,
     Queries: 491,
     "Payments completed": 98,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 924,
   },
   {
@@ -1483,7 +1483,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19662,
     Queries: 488,
     "Payments completed": 106,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 870,
   },
   {
@@ -1492,7 +1492,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19450,
     Queries: 483,
     "Payments completed": 122,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 877,
   },
   {
@@ -1501,7 +1501,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19681,
     Queries: 478,
     "Payments completed": 97,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 853,
   },
   {
@@ -1510,7 +1510,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19636,
     Queries: 365,
     "Payments completed": 71,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 965,
   },
   {
@@ -1519,7 +1519,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19478,
     Queries: 438,
     "Payments completed": 65,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 1101,
   },
   {
@@ -1528,7 +1528,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19258,
     Queries: 487,
     "Payments completed": 81,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1335,
   },
   {
@@ -1537,7 +1537,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19348,
     Queries: 487,
     "Payments completed": 118,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 1406,
   },
   {
@@ -1546,7 +1546,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19951,
     Queries: 488,
     "Payments completed": 116,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1378,
   },
   {
@@ -1555,7 +1555,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20053,
     Queries: 490,
     "Payments completed": 82,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 1294,
   },
   {
@@ -1564,7 +1564,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20493,
     Queries: 489,
     "Payments completed": 83,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1318,
   },
   {
@@ -1573,7 +1573,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20724,
     Queries: 432,
     "Payments completed": 66,
-    "Sign ups": 57,
+    Seats: 57,
     Logins: 1076,
   },
   {
@@ -1582,7 +1582,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20767,
     Queries: 431,
     "Payments completed": 63,
-    "Sign ups": 59,
+    Seats: 59,
     Logins: 852,
   },
   {
@@ -1591,7 +1591,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20818,
     Queries: 487,
     "Payments completed": 81,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 881,
   },
   {
@@ -1600,7 +1600,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20673,
     Queries: 490,
     "Payments completed": 95,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 914,
   },
   {
@@ -1609,7 +1609,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19990,
     Queries: 492,
     "Payments completed": 81,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 855,
   },
   {
@@ -1618,7 +1618,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19874,
     Queries: 488,
     "Payments completed": 83,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 876,
   },
   {
@@ -1627,7 +1627,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19812,
     Queries: 486,
     "Payments completed": 83,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 900,
   },
   {
@@ -1636,7 +1636,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19619,
     Queries: 376,
     "Payments completed": 88,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 852,
   },
   {
@@ -1645,7 +1645,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19145,
     Queries: 374,
     "Payments completed": 103,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 856,
   },
   {
@@ -1654,7 +1654,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18490,
     Queries: 499,
     "Payments completed": 120,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 878,
   },
   {
@@ -1663,7 +1663,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18059,
     Queries: 503,
     "Payments completed": 122,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 936,
   },
   {
@@ -1672,7 +1672,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18157,
     Queries: 507,
     "Payments completed": 81,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1006,
   },
   {
@@ -1681,7 +1681,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18079,
     Queries: 513,
     "Payments completed": 81,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1049,
   },
   {
@@ -1690,7 +1690,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18317,
     Queries: 515,
     "Payments completed": 86,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1092,
   },
   {
@@ -1699,7 +1699,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18617,
     Queries: 415,
     "Payments completed": 72,
-    "Sign ups": 56,
+    Seats: 56,
     Logins: 1210,
   },
   {
@@ -1708,7 +1708,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19089,
     Queries: 430,
     "Payments completed": 69,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 1292,
   },
   {
@@ -1717,7 +1717,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19081,
     Queries: 488,
     "Payments completed": 89,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1354,
   },
   {
@@ -1726,7 +1726,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19119,
     Queries: 482,
     "Payments completed": 91,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1513,
   },
   {
@@ -1735,7 +1735,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19192,
     Queries: 484,
     "Payments completed": 87,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 1546,
   },
   {
@@ -1744,7 +1744,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19322,
     Queries: 484,
     "Payments completed": 85,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1819,
   },
   {
@@ -1753,7 +1753,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19743,
     Queries: 484,
     "Payments completed": 111,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1954,
   },
   {
@@ -1762,7 +1762,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19688,
     Queries: 426,
     "Payments completed": 88,
-    "Sign ups": 59,
+    Seats: 59,
     Logins: 1701,
   },
   {
@@ -1771,7 +1771,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19641,
     Queries: 367,
     "Payments completed": 101,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 1309,
   },
   {
@@ -1780,7 +1780,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19952,
     Queries: 500,
     "Payments completed": 82,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1329,
   },
   {
@@ -1789,7 +1789,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20002,
     Queries: 501,
     "Payments completed": 82,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1447,
   },
   {
@@ -1798,7 +1798,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20051,
     Queries: 497,
     "Payments completed": 88,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1759,
   },
   {
@@ -1807,7 +1807,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19686,
     Queries: 499,
     "Payments completed": 90,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 1931,
   },
   {
@@ -1816,7 +1816,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19300,
     Queries: 498,
     "Payments completed": 84,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 2044,
   },
   {
@@ -1825,7 +1825,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18593,
     Queries: 440,
     "Payments completed": 66,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 2014,
   },
   {
@@ -1834,7 +1834,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18352,
     Queries: 408,
     "Payments completed": 71,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 1729,
   },
   {
@@ -1843,7 +1843,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18451,
     Queries: 491,
     "Payments completed": 85,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1423,
   },
   {
@@ -1852,7 +1852,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18006,
     Queries: 490,
     "Payments completed": 109,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1490,
   },
   {
@@ -1861,7 +1861,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18090,
     Queries: 486,
     "Payments completed": 99,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1458,
   },
   {
@@ -1870,7 +1870,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18102,
     Queries: 480,
     "Payments completed": 87,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1156,
   },
   {
@@ -1879,7 +1879,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18083,
     Queries: 480,
     "Payments completed": 96,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1031,
   },
   {
@@ -1888,7 +1888,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18029,
     Queries: 370,
     "Payments completed": 93,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 966,
   },
   {
@@ -1897,7 +1897,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18005,
     Queries: 383,
     "Payments completed": 99,
-    "Sign ups": 57,
+    Seats: 57,
     Logins: 896,
   },
   {
@@ -1906,7 +1906,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18020,
     Queries: 496,
     "Payments completed": 124,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1026,
   },
   {
@@ -1915,7 +1915,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18242,
     Queries: 501,
     "Payments completed": 124,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 961,
   },
   {
@@ -1924,7 +1924,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18143,
     Queries: 501,
     "Payments completed": 89,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 850,
   },
   {
@@ -1933,7 +1933,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18373,
     Queries: 505,
     "Payments completed": 114,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 868,
   },
   {
@@ -1942,7 +1942,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19002,
     Queries: 506,
     "Payments completed": 123,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 939,
   },
   {
@@ -1951,7 +1951,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19427,
     Queries: 393,
     "Payments completed": 79,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 852,
   },
   {
@@ -1960,7 +1960,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19210,
     Queries: 416,
     "Payments completed": 78,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 867,
   },
   {
@@ -1969,7 +1969,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18862,
     Queries: 491,
     "Payments completed": 100,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 845,
   },
   {
@@ -1978,7 +1978,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18581,
     Queries: 485,
     "Payments completed": 122,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 899,
   },
   {
@@ -1987,7 +1987,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18022,
     Queries: 481,
     "Payments completed": 117,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 941,
   },
   {
@@ -1996,7 +1996,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18144,
     Queries: 480,
     "Payments completed": 86,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 1132,
   },
   {
@@ -2005,7 +2005,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18725,
     Queries: 478,
     "Payments completed": 83,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1101,
   },
   {
@@ -2014,7 +2014,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18465,
     Queries: 370,
     "Payments completed": 66,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 993,
   },
   {
@@ -2023,7 +2023,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18008,
     Queries: 444,
     "Payments completed": 67,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 858,
   },
   {
@@ -2032,7 +2032,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18027,
     Queries: 486,
     "Payments completed": 88,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 885,
   },
   {
@@ -2041,7 +2041,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18071,
     Queries: 482,
     "Payments completed": 107,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 912,
   },
   {
@@ -2050,7 +2050,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18024,
     Queries: 482,
     "Payments completed": 80,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 845,
   },
   {
@@ -2059,7 +2059,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18038,
     Queries: 480,
     "Payments completed": 89,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 846,
   },
   {
@@ -2068,7 +2068,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18118,
     Queries: 478,
     "Payments completed": 83,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 867,
   },
   {
@@ -2077,7 +2077,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18050,
     Queries: 405,
     "Payments completed": 82,
-    "Sign ups": 58,
+    Seats: 58,
     Logins: 984,
   },
   {
@@ -2086,7 +2086,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18011,
     Queries: 383,
     "Payments completed": 97,
-    "Sign ups": 59,
+    Seats: 59,
     Logins: 1006,
   },
   {
@@ -2095,7 +2095,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18215,
     Queries: 497,
     "Payments completed": 96,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 975,
   },
   {
@@ -2104,7 +2104,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18186,
     Queries: 499,
     "Payments completed": 80,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 976,
   },
   {
@@ -2113,7 +2113,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18401,
     Queries: 501,
     "Payments completed": 80,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1084,
   },
   {
@@ -2122,7 +2122,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18519,
     Queries: 499,
     "Payments completed": 96,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1130,
   },
   {
@@ -2131,7 +2131,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18913,
     Queries: 501,
     "Payments completed": 104,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 944,
   },
   {
@@ -2140,7 +2140,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19306,
     Queries: 426,
     "Payments completed": 84,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 872,
   },
   {
@@ -2149,7 +2149,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19592,
     Queries: 436,
     "Payments completed": 85,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 858,
   },
   {
@@ -2158,7 +2158,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19482,
     Queries: 486,
     "Payments completed": 111,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 861,
   },
   {
@@ -2167,7 +2167,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19193,
     Queries: 483,
     "Payments completed": 82,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 922,
   },
   {
@@ -2176,7 +2176,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19224,
     Queries: 482,
     "Payments completed": 112,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 935,
   },
   {
@@ -2185,7 +2185,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18795,
     Queries: 482,
     "Payments completed": 123,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 845,
   },
   {
@@ -2194,7 +2194,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18658,
     Queries: 479,
     "Payments completed": 112,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 932,
   },
   {
@@ -2203,7 +2203,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18864,
     Queries: 408,
     "Payments completed": 78,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 958,
   },
   {
@@ -2212,7 +2212,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19030,
     Queries: 416,
     "Payments completed": 71,
-    "Sign ups": 49,
+    Seats: 49,
     Logins: 943,
   },
   {
@@ -2221,7 +2221,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18759,
     Queries: 491,
     "Payments completed": 87,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 863,
   },
   {
@@ -2230,7 +2230,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19168,
     Queries: 492,
     "Payments completed": 88,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 846,
   },
   {
@@ -2239,7 +2239,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19384,
     Queries: 496,
     "Payments completed": 84,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 880,
   },
   {
@@ -2248,7 +2248,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18965,
     Queries: 496,
     "Payments completed": 81,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 852,
   },
   {
@@ -2257,7 +2257,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18810,
     Queries: 498,
     "Payments completed": 80,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 856,
   },
   {
@@ -2266,7 +2266,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18734,
     Queries: 378,
     "Payments completed": 67,
-    "Sign ups": 50,
+    Seats: 50,
     Logins: 931,
   },
   {
@@ -2275,7 +2275,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18705,
     Queries: 445,
     "Payments completed": 83,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 989,
   },
   {
@@ -2284,7 +2284,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19192,
     Queries: 484,
     "Payments completed": 83,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1148,
   },
   {
@@ -2293,7 +2293,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19588,
     Queries: 484,
     "Payments completed": 92,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1198,
   },
   {
@@ -2302,7 +2302,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20135,
     Queries: 487,
     "Payments completed": 82,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1104,
   },
   {
@@ -2311,7 +2311,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20847,
     Queries: 490,
     "Payments completed": 88,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 1082,
   },
   {
@@ -2320,7 +2320,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21778,
     Queries: 494,
     "Payments completed": 85,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1119,
   },
   {
@@ -2329,7 +2329,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21650,
     Queries: 412,
     "Payments completed": 64,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 1074,
   },
   {
@@ -2338,7 +2338,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20967,
     Queries: 431,
     "Payments completed": 73,
-    "Sign ups": 56,
+    Seats: 56,
     Logins: 1132,
   },
   {
@@ -2347,7 +2347,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20966,
     Queries: 489,
     "Payments completed": 115,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1260,
   },
   {
@@ -2356,7 +2356,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21347,
     Queries: 487,
     "Payments completed": 115,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1292,
   },
   {
@@ -2365,7 +2365,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22148,
     Queries: 489,
     "Payments completed": 115,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1128,
   },
   {
@@ -2374,7 +2374,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21947,
     Queries: 488,
     "Payments completed": 118,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1196,
   },
   {
@@ -2383,7 +2383,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22192,
     Queries: 487,
     "Payments completed": 85,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1268,
   },
   {
@@ -2392,7 +2392,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22218,
     Queries: 397,
     "Payments completed": 73,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 1184,
   },
   {
@@ -2401,7 +2401,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22302,
     Queries: 374,
     "Payments completed": 70,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 931,
   },
   {
@@ -2410,7 +2410,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22352,
     Queries: 498,
     "Payments completed": 103,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 950,
   },
   {
@@ -2419,7 +2419,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22820,
     Queries: 500,
     "Payments completed": 124,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 1131,
   },
   {
@@ -2428,7 +2428,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22707,
     Queries: 499,
     "Payments completed": 112,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1013,
   },
   {
@@ -2437,7 +2437,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22818,
     Queries: 495,
     "Payments completed": 118,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1053,
   },
   {
@@ -2446,7 +2446,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22403,
     Queries: 497,
     "Payments completed": 118,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1065,
   },
   {
@@ -2455,7 +2455,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22182,
     Queries: 435,
     "Payments completed": 71,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 916,
   },
   {
@@ -2464,7 +2464,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22135,
     Queries: 418,
     "Payments completed": 76,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 845,
   },
   {
@@ -2473,7 +2473,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21827,
     Queries: 490,
     "Payments completed": 90,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 891,
   },
   {
@@ -2482,7 +2482,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21733,
     Queries: 489,
     "Payments completed": 86,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 889,
   },
   {
@@ -2491,7 +2491,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21655,
     Queries: 487,
     "Payments completed": 81,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1002,
   },
   {
@@ -2500,7 +2500,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22072,
     Queries: 490,
     "Payments completed": 103,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 887,
   },
   {
@@ -2509,7 +2509,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22724,
     Queries: 489,
     "Payments completed": 83,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 863,
   },
   {
@@ -2518,7 +2518,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23121,
     Queries: 378,
     "Payments completed": 92,
-    "Sign ups": 49,
+    Seats: 49,
     Logins: 849,
   },
   {
@@ -2527,7 +2527,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23546,
     Queries: 447,
     "Payments completed": 68,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 924,
   },
   {
@@ -2536,7 +2536,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23939,
     Queries: 485,
     "Payments completed": 81,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1026,
   },
   {
@@ -2545,7 +2545,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24842,
     Queries: 487,
     "Payments completed": 121,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1006,
   },
   {
@@ -2554,7 +2554,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25404,
     Queries: 490,
     "Payments completed": 98,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1027,
   },
   {
@@ -2563,7 +2563,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25232,
     Queries: 488,
     "Payments completed": 117,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 983,
   },
   {
@@ -2572,7 +2572,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24786,
     Queries: 489,
     "Payments completed": 99,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 848,
   },
   {
@@ -2581,7 +2581,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24905,
     Queries: 381,
     "Payments completed": 67,
-    "Sign ups": 59,
+    Seats: 59,
     Logins: 857,
   },
   {
@@ -2590,7 +2590,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24710,
     Queries: 430,
     "Payments completed": 67,
-    "Sign ups": 57,
+    Seats: 57,
     Logins: 928,
   },
   {
@@ -2599,7 +2599,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25132,
     Queries: 488,
     "Payments completed": 99,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 845,
   },
   {
@@ -2608,7 +2608,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24724,
     Queries: 487,
     "Payments completed": 119,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 879,
   },
   {
@@ -2617,7 +2617,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25172,
     Queries: 486,
     "Payments completed": 119,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 862,
   },
   {
@@ -2626,7 +2626,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25762,
     Queries: 485,
     "Payments completed": 121,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 895,
   },
   {
@@ -2635,7 +2635,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25469,
     Queries: 487,
     "Payments completed": 97,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 998,
   },
   {
@@ -2644,7 +2644,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25948,
     Queries: 409,
     "Payments completed": 70,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 940,
   },
   {
@@ -2653,7 +2653,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26662,
     Queries: 401,
     "Payments completed": 69,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 971,
   },
   {
@@ -2662,7 +2662,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 27288,
     Queries: 493,
     "Payments completed": 98,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 924,
   },
   {
@@ -2671,7 +2671,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26813,
     Queries: 493,
     "Payments completed": 119,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 844,
   },
   {
@@ -2680,7 +2680,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 27228,
     Queries: 493,
     "Payments completed": 113,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 879,
   },
   {
@@ -2689,7 +2689,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26723,
     Queries: 494,
     "Payments completed": 102,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 871,
   },
   {
@@ -2698,7 +2698,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26364,
     Queries: 494,
     "Payments completed": 121,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 961,
   },
   {
@@ -2707,7 +2707,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26686,
     Queries: 442,
     "Payments completed": 94,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 848,
   },
   {
@@ -2716,7 +2716,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26161,
     Queries: 389,
     "Payments completed": 108,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 857,
   },
   {
@@ -2725,7 +2725,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25456,
     Queries: 496,
     "Payments completed": 94,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 874,
   },
   {
@@ -2734,7 +2734,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24798,
     Queries: 493,
     "Payments completed": 85,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 933,
   },
   {
@@ -2743,7 +2743,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25010,
     Queries: 496,
     "Payments completed": 90,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 845,
   },
   {
@@ -2752,7 +2752,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25796,
     Queries: 493,
     "Payments completed": 81,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 861,
   },
   {
@@ -2761,7 +2761,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25748,
     Queries: 490,
     "Payments completed": 85,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 984,
   },
   {
@@ -2770,7 +2770,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26054,
     Queries: 412,
     "Payments completed": 81,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 955,
   },
   {
@@ -2779,7 +2779,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25986,
     Queries: 436,
     "Payments completed": 96,
-    "Sign ups": 58,
+    Seats: 58,
     Logins: 920,
   },
   {
@@ -2788,7 +2788,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25393,
     Queries: 486,
     "Payments completed": 95,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 855,
   },
   {
@@ -2797,7 +2797,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24541,
     Queries: 491,
     "Payments completed": 84,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 861,
   },
   {
@@ -2806,7 +2806,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24743,
     Queries: 496,
     "Payments completed": 93,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 953,
   },
   {
@@ -2815,7 +2815,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24904,
     Queries: 503,
     "Payments completed": 121,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 861,
   },
   {
@@ -2824,7 +2824,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24773,
     Queries: 504,
     "Payments completed": 122,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 872,
   },
   {
@@ -2833,7 +2833,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23992,
     Queries: 381,
     "Payments completed": 93,
-    "Sign ups": 59,
+    Seats: 59,
     Logins: 936,
   },
   {
@@ -2842,7 +2842,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23135,
     Queries: 401,
     "Payments completed": 65,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 987,
   },
   {
@@ -2851,7 +2851,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22986,
     Queries: 494,
     "Payments completed": 84,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 959,
   },
   {
@@ -2860,7 +2860,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22974,
     Queries: 492,
     "Payments completed": 81,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 998,
   },
   {
@@ -2869,7 +2869,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23523,
     Queries: 490,
     "Payments completed": 85,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 871,
   },
   {
@@ -2878,7 +2878,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23927,
     Queries: 485,
     "Payments completed": 91,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 854,
   },
   {
@@ -2887,7 +2887,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23635,
     Queries: 484,
     "Payments completed": 86,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 883,
   },
   {
@@ -2896,7 +2896,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23801,
     Queries: 423,
     "Payments completed": 73,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 844,
   },
   {
@@ -2905,7 +2905,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23932,
     Queries: 410,
     "Payments completed": 70,
-    "Sign ups": 51,
+    Seats: 51,
     Logins: 881,
   },
   {
@@ -2914,7 +2914,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24512,
     Queries: 492,
     "Payments completed": 91,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 891,
   },
   {
@@ -2923,7 +2923,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24943,
     Queries: 487,
     "Payments completed": 85,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 865,
   },
   {
@@ -2932,7 +2932,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25053,
     Queries: 484,
     "Payments completed": 108,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 859,
   },
   {
@@ -2941,7 +2941,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25126,
     Queries: 479,
     "Payments completed": 116,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 863,
   },
   {
@@ -2950,7 +2950,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24528,
     Queries: 479,
     "Payments completed": 93,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 869,
   },
   {
@@ -2959,7 +2959,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24379,
     Queries: 366,
     "Payments completed": 64,
-    "Sign ups": 50,
+    Seats: 50,
     Logins: 870,
   },
   {
@@ -2968,7 +2968,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24301,
     Queries: 437,
     "Payments completed": 64,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 866,
   },
   {
@@ -2977,7 +2977,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24537,
     Queries: 486,
     "Payments completed": 81,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 876,
   },
   {
@@ -2986,7 +2986,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25358,
     Queries: 486,
     "Payments completed": 124,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1032,
   },
   {
@@ -2995,7 +2995,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25428,
     Queries: 482,
     "Payments completed": 113,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1285,
   },
   {
@@ -3004,7 +3004,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25179,
     Queries: 478,
     "Payments completed": 121,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1697,
   },
   {
@@ -3013,7 +3013,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24846,
     Queries: 478,
     "Payments completed": 117,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 2012,
   },
   {
@@ -3022,7 +3022,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24979,
     Queries: 359,
     "Payments completed": 106,
-    "Sign ups": 49,
+    Seats: 49,
     Logins: 2006,
   },
   {
@@ -3031,7 +3031,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25038,
     Queries: 442,
     "Payments completed": 104,
-    "Sign ups": 45,
+    Seats: 45,
     Logins: 1794,
   },
   {
@@ -3040,7 +3040,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24652,
     Queries: 486,
     "Payments completed": 116,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1765,
   },
   {
@@ -3049,7 +3049,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23863,
     Queries: 487,
     "Payments completed": 96,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1841,
   },
   {
@@ -3058,7 +3058,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23307,
     Queries: 490,
     "Payments completed": 82,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 2022,
   },
   {
@@ -3067,7 +3067,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23317,
     Queries: 489,
     "Payments completed": 84,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1973,
   },
   {
@@ -3076,7 +3076,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23254,
     Queries: 484,
     "Payments completed": 82,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 1786,
   },
   {
@@ -3085,7 +3085,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22527,
     Queries: 428,
     "Payments completed": 84,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 1533,
   },
   {
@@ -3094,7 +3094,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22319,
     Queries: 409,
     "Payments completed": 106,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 1279,
   },
   {
@@ -3103,7 +3103,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21870,
     Queries: 491,
     "Payments completed": 90,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1018,
   },
   {
@@ -3112,7 +3112,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21482,
     Queries: 492,
     "Payments completed": 80,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 973,
   },
   {
@@ -3121,7 +3121,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21630,
     Queries: 497,
     "Payments completed": 84,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 857,
   },
   {
@@ -3130,7 +3130,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21774,
     Queries: 500,
     "Payments completed": 96,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 868,
   },
   {
@@ -3139,7 +3139,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21684,
     Queries: 499,
     "Payments completed": 121,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 952,
   },
   {
@@ -3148,7 +3148,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22265,
     Queries: 397,
     "Payments completed": 90,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1118,
   },
   {
@@ -3157,7 +3157,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22417,
     Queries: 426,
     "Payments completed": 66,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 1415,
   },
   {
@@ -3166,7 +3166,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22538,
     Queries: 488,
     "Payments completed": 83,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1881,
   },
   {
@@ -3175,7 +3175,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22247,
     Queries: 486,
     "Payments completed": 121,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1911,
   },
   {
@@ -3184,7 +3184,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22166,
     Queries: 487,
     "Payments completed": 125,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1637,
   },
   {
@@ -3193,7 +3193,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22083,
     Queries: 483,
     "Payments completed": 121,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1519,
   },
   {
@@ -3202,7 +3202,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21697,
     Queries: 480,
     "Payments completed": 119,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1315,
   },
   {
@@ -3211,7 +3211,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21487,
     Queries: 391,
     "Payments completed": 94,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1275,
   },
   {
@@ -3220,7 +3220,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20748,
     Queries: 398,
     "Payments completed": 68,
-    "Sign ups": 57,
+    Seats: 57,
     Logins: 1138,
   },
   {
@@ -3229,7 +3229,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20147,
     Queries: 495,
     "Payments completed": 89,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1213,
   },
   {
@@ -3238,7 +3238,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20262,
     Queries: 489,
     "Payments completed": 98,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1306,
   },
   {
@@ -3247,7 +3247,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20921,
     Queries: 483,
     "Payments completed": 81,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1536,
   },
   {
@@ -3256,7 +3256,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20830,
     Queries: 482,
     "Payments completed": 87,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1879,
   },
   {
@@ -3265,7 +3265,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21133,
     Queries: 482,
     "Payments completed": 99,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 2034,
   },
   {
@@ -3274,7 +3274,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21097,
     Queries: 427,
     "Payments completed": 94,
-    "Sign ups": 53,
+    Seats: 53,
     Logins: 2009,
   },
   {
@@ -3283,7 +3283,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20776,
     Queries: 399,
     "Payments completed": 81,
-    "Sign ups": 49,
+    Seats: 49,
     Logins: 2002,
   },
   {
@@ -3292,7 +3292,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20855,
     Queries: 494,
     "Payments completed": 87,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 2038,
   },
   {
@@ -3301,7 +3301,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20444,
     Queries: 490,
     "Payments completed": 81,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1994,
   },
   {
@@ -3310,7 +3310,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19651,
     Queries: 491,
     "Payments completed": 86,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1975,
   },
   {
@@ -3319,7 +3319,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18747,
     Queries: 494,
     "Payments completed": 84,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 2012,
   },
   {
@@ -3328,7 +3328,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18514,
     Queries: 493,
     "Payments completed": 98,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1944,
   },
   {
@@ -3337,7 +3337,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18686,
     Queries: 379,
     "Payments completed": 106,
-    "Sign ups": 55,
+    Seats: 55,
     Logins: 1741,
   },
   {
@@ -3346,7 +3346,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18779,
     Queries: 431,
     "Payments completed": 92,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1862,
   },
   {
@@ -3355,7 +3355,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18994,
     Queries: 488,
     "Payments completed": 119,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 2003,
   },
   {
@@ -3364,7 +3364,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18892,
     Queries: 486,
     "Payments completed": 112,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1975,
   },
   {
@@ -3373,7 +3373,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18785,
     Queries: 485,
     "Payments completed": 121,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 2021,
   },
   {
@@ -3382,7 +3382,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18323,
     Queries: 489,
     "Payments completed": 112,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 2020,
   },
   {
@@ -3391,7 +3391,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18607,
     Queries: 489,
     "Payments completed": 102,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1934,
   },
   {
@@ -3400,7 +3400,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18881,
     Queries: 371,
     "Payments completed": 106,
-    "Sign ups": 52,
+    Seats: 52,
     Logins: 1908,
   },
   {
@@ -3409,7 +3409,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18941,
     Queries: 393,
     "Payments completed": 82,
-    "Sign ups": 50,
+    Seats: 50,
     Logins: 1572,
   },
   {
@@ -3418,7 +3418,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19199,
     Queries: 495,
     "Payments completed": 106,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1311,
   },
   {
@@ -3427,7 +3427,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19883,
     Queries: 493,
     "Payments completed": 82,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 946,
   },
   {
@@ -3436,7 +3436,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20709,
     Queries: 495,
     "Payments completed": 86,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 878,
   },
   {
@@ -3445,7 +3445,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20770,
     Queries: 500,
     "Payments completed": 82,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 895,
   },
   {
@@ -3454,7 +3454,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20735,
     Queries: 501,
     "Payments completed": 88,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 882,
   },
   {
@@ -3463,7 +3463,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20107,
     Queries: 425,
     "Payments completed": 67,
-    "Sign ups": 54,
+    Seats: 54,
     Logins: 852,
   },
   {
@@ -3472,7 +3472,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19418,
     Queries: 380,
     "Payments completed": 70,
-    "Sign ups": 47,
+    Seats: 47,
     Logins: 854,
   },
   {
@@ -3481,7 +3481,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19118,
     Queries: 498,
     "Payments completed": 82,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 848,
   },
   {
@@ -3490,7 +3490,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18577,
     Queries: 495,
     "Payments completed": 88,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 872,
   },
   {
@@ -3499,7 +3499,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18052,
     Queries: 493,
     "Payments completed": 109,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 875,
   },
   {
@@ -3508,7 +3508,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18108,
     Queries: 491,
     "Payments completed": 80,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 914,
   },
   {
@@ -3517,7 +3517,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18137,
     Queries: 488,
     "Payments completed": 80,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 959,
   },
   {
@@ -3526,7 +3526,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18116,
     Queries: 432,
     "Payments completed": 65,
-    "Sign ups": 53,
+    Seats: 53,
     Logins: 1059,
   },
   {
@@ -3535,7 +3535,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18575,
     Queries: 431,
     "Payments completed": 65,
-    "Sign ups": 49,
+    Seats: 49,
     Logins: 997,
   },
   {
@@ -3544,7 +3544,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19197,
     Queries: 488,
     "Payments completed": 83,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 950,
   },
   {
@@ -3553,7 +3553,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19751,
     Queries: 490,
     "Payments completed": 87,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 1028,
   },
   {
@@ -3562,7 +3562,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19767,
     Queries: 491,
     "Payments completed": 102,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1198,
   },
   {
@@ -3571,7 +3571,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19305,
     Queries: 491,
     "Payments completed": 81,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1458,
   },
   {
@@ -3580,7 +3580,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19095,
     Queries: 495,
     "Payments completed": 80,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 1712,
   },
   {
@@ -3589,7 +3589,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18932,
     Queries: 425,
     "Payments completed": 68,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 1704,
   },
   {
@@ -3598,7 +3598,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19181,
     Queries: 369,
     "Payments completed": 69,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1393,
   },
   {
@@ -3607,7 +3607,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19141,
     Queries: 500,
     "Payments completed": 85,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1235,
   },
   {
@@ -3616,7 +3616,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19575,
     Queries: 495,
     "Payments completed": 88,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1100,
   },
   {
@@ -3625,7 +3625,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20265,
     Queries: 491,
     "Payments completed": 87,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 932,
   },
   {
@@ -3634,7 +3634,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20236,
     Queries: 485,
     "Payments completed": 83,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 868,
   },
   {
@@ -3643,7 +3643,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19659,
     Queries: 478,
     "Payments completed": 89,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 878,
   },
   {
@@ -3652,7 +3652,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19108,
     Queries: 392,
     "Payments completed": 72,
-    "Sign ups": 58,
+    Seats: 58,
     Logins: 1033,
   },
   {
@@ -3661,7 +3661,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18407,
     Queries: 382,
     "Payments completed": 67,
-    "Sign ups": 53,
+    Seats: 53,
     Logins: 1008,
   },
   {
@@ -3670,7 +3670,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18053,
     Queries: 498,
     "Payments completed": 83,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 960,
   },
   {
@@ -3679,7 +3679,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18058,
     Queries: 493,
     "Payments completed": 80,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 858,
   },
   {
@@ -3688,7 +3688,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18290,
     Queries: 492,
     "Payments completed": 82,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 942,
   },
   {
@@ -3697,7 +3697,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18708,
     Queries: 491,
     "Payments completed": 83,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1015,
   },
   {
@@ -3706,7 +3706,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18405,
     Queries: 491,
     "Payments completed": 86,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1067,
   },
   {
@@ -3715,7 +3715,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18713,
     Queries: 372,
     "Payments completed": 73,
-    "Sign ups": 53,
+    Seats: 53,
     Logins: 1175,
   },
   {
@@ -3724,7 +3724,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18576,
     Queries: 393,
     "Payments completed": 75,
-    "Sign ups": 56,
+    Seats: 56,
     Logins: 1411,
   },
   {
@@ -3733,7 +3733,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18344,
     Queries: 495,
     "Payments completed": 90,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1586,
   },
   {
@@ -3742,7 +3742,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18769,
     Queries: 500,
     "Payments completed": 83,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1792,
   },
   {
@@ -3751,7 +3751,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19252,
     Queries: 507,
     "Payments completed": 82,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1837,
   },
   {
@@ -3760,7 +3760,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19917,
     Queries: 509,
     "Payments completed": 83,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 1818,
   },
   {
@@ -3769,7 +3769,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20473,
     Queries: 509,
     "Payments completed": 86,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1460,
   },
   {
@@ -3778,7 +3778,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21263,
     Queries: 402,
     "Payments completed": 76,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 1232,
   },
   {
@@ -3787,7 +3787,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22081,
     Queries: 432,
     "Payments completed": 75,
-    "Sign ups": 49,
+    Seats: 49,
     Logins: 1122,
   },
   {
@@ -3796,7 +3796,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22955,
     Queries: 487,
     "Payments completed": 84,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 1118,
   },
   {
@@ -3805,7 +3805,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23908,
     Queries: 484,
     "Payments completed": 110,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1247,
   },
   {
@@ -3814,7 +3814,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23777,
     Queries: 481,
     "Payments completed": 91,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1231,
   },
   {
@@ -3823,7 +3823,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23296,
     Queries: 484,
     "Payments completed": 89,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 991,
   },
   {
@@ -3832,7 +3832,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22647,
     Queries: 483,
     "Payments completed": 110,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 865,
   },
   {
@@ -3841,7 +3841,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22725,
     Queries: 363,
     "Payments completed": 100,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 855,
   },
   {
@@ -3850,7 +3850,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22226,
     Queries: 393,
     "Payments completed": 91,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 859,
   },
   {
@@ -3859,7 +3859,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22120,
     Queries: 495,
     "Payments completed": 122,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 867,
   },
   {
@@ -3868,7 +3868,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22533,
     Queries: 494,
     "Payments completed": 109,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 879,
   },
   {
@@ -3877,7 +3877,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22166,
     Queries: 489,
     "Payments completed": 98,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 869,
   },
   {
@@ -3886,7 +3886,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21895,
     Queries: 482,
     "Payments completed": 104,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 877,
   },
   {
@@ -3895,7 +3895,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21563,
     Queries: 479,
     "Payments completed": 82,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 852,
   },
   {
@@ -3904,7 +3904,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20981,
     Queries: 409,
     "Payments completed": 76,
-    "Sign ups": 49,
+    Seats: 49,
     Logins: 979,
   },
   {
@@ -3913,7 +3913,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21256,
     Queries: 387,
     "Payments completed": 68,
-    "Sign ups": 50,
+    Seats: 50,
     Logins: 1138,
   },
   {
@@ -3922,7 +3922,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21702,
     Queries: 497,
     "Payments completed": 83,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 1026,
   },
   {
@@ -3931,7 +3931,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22104,
     Queries: 494,
     "Payments completed": 81,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 858,
   },
   {
@@ -3940,7 +3940,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22714,
     Queries: 489,
     "Payments completed": 106,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 879,
   },
   {
@@ -3949,7 +3949,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22484,
     Queries: 483,
     "Payments completed": 116,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 844,
   },
   {
@@ -3958,7 +3958,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22589,
     Queries: 480,
     "Payments completed": 120,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 852,
   },
   {
@@ -3967,7 +3967,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21999,
     Queries: 391,
     "Payments completed": 94,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 860,
   },
   {
@@ -3976,7 +3976,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21627,
     Queries: 440,
     "Payments completed": 92,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 920,
   },
   {
@@ -3985,7 +3985,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21708,
     Queries: 486,
     "Payments completed": 82,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 856,
   },
   {
@@ -3994,7 +3994,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21501,
     Queries: 489,
     "Payments completed": 114,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 845,
   },
   {
@@ -4003,7 +4003,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21927,
     Queries: 489,
     "Payments completed": 107,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 848,
   },
   {
@@ -4012,7 +4012,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22358,
     Queries: 490,
     "Payments completed": 81,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 847,
   },
   {
@@ -4021,7 +4021,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22301,
     Queries: 488,
     "Payments completed": 84,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 847,
   },
   {
@@ -4030,7 +4030,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21875,
     Queries: 420,
     "Payments completed": 66,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 852,
   },
   {
@@ -4039,7 +4039,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21585,
     Queries: 370,
     "Payments completed": 66,
-    "Sign ups": 51,
+    Seats: 51,
     Logins: 952,
   },
   {
@@ -4048,7 +4048,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20899,
     Queries: 499,
     "Payments completed": 101,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1030,
   },
   {
@@ -4057,7 +4057,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20352,
     Queries: 504,
     "Payments completed": 124,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1009,
   },
   {
@@ -4066,7 +4066,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19832,
     Queries: 510,
     "Payments completed": 100,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 868,
   },
   {
@@ -4075,7 +4075,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19542,
     Queries: 510,
     "Payments completed": 92,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 852,
   },
   {
@@ -4084,7 +4084,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19368,
     Queries: 507,
     "Payments completed": 83,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 906,
   },
   {
@@ -4093,7 +4093,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19312,
     Queries: 383,
     "Payments completed": 75,
-    "Sign ups": 66,
+    Seats: 66,
     Logins: 866,
   },
   {
@@ -4102,7 +4102,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19578,
     Queries: 410,
     "Payments completed": 83,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1000,
   },
   {
@@ -4111,7 +4111,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19837,
     Queries: 492,
     "Payments completed": 119,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1204,
   },
   {
@@ -4120,7 +4120,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19406,
     Queries: 486,
     "Payments completed": 124,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 1374,
   },
   {
@@ -4129,7 +4129,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19050,
     Queries: 480,
     "Payments completed": 103,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 1649,
   },
   {
@@ -4138,7 +4138,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18973,
     Queries: 481,
     "Payments completed": 117,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1686,
   },
   {
@@ -4147,7 +4147,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18537,
     Queries: 485,
     "Payments completed": 102,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 1373,
   },
   {
@@ -4156,7 +4156,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18124,
     Queries: 379,
     "Payments completed": 70,
-    "Sign ups": 53,
+    Seats: 53,
     Logins: 1512,
   },
   {
@@ -4165,7 +4165,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18031,
     Queries: 436,
     "Payments completed": 82,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1593,
   },
   {
@@ -4174,7 +4174,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18081,
     Queries: 485,
     "Payments completed": 93,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 1926,
   },
   {
@@ -4183,7 +4183,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18042,
     Queries: 491,
     "Payments completed": 123,
-    "Sign ups": 67,
+    Seats: 67,
     Logins: 2001,
   },
   {
@@ -4192,7 +4192,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18006,
     Queries: 490,
     "Payments completed": 112,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1983,
   },
   {
@@ -4201,7 +4201,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18097,
     Queries: 493,
     "Payments completed": 118,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1946,
   },
   {
@@ -4210,7 +4210,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18124,
     Queries: 494,
     "Payments completed": 114,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 1956,
   },
   {
@@ -4219,7 +4219,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18115,
     Queries: 431,
     "Payments completed": 85,
-    "Sign ups": 69,
+    Seats: 69,
     Logins: 1991,
   },
   {
@@ -4228,7 +4228,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18096,
     Queries: 387,
     "Payments completed": 75,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1795,
   },
   {
@@ -4237,7 +4237,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18251,
     Queries: 496,
     "Payments completed": 82,
-    "Sign ups": 77,
+    Seats: 77,
     Logins: 1687,
   },
   {
@@ -4246,7 +4246,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18003,
     Queries: 491,
     "Payments completed": 81,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1440,
   },
   {
@@ -4255,7 +4255,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18017,
     Queries: 485,
     "Payments completed": 87,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 1589,
   },
   {
@@ -4264,7 +4264,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18088,
     Queries: 485,
     "Payments completed": 81,
-    "Sign ups": 75,
+    Seats: 75,
     Logins: 1949,
   },
   {
@@ -4273,7 +4273,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18115,
     Queries: 483,
     "Payments completed": 106,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 2028,
   },
   {
@@ -4282,7 +4282,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18138,
     Queries: 379,
     "Payments completed": 98,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 2036,
   },
   {
@@ -4291,7 +4291,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18004,
     Queries: 441,
     "Payments completed": 101,
-    "Sign ups": 68,
+    Seats: 68,
     Logins: 1991,
   },
   {
@@ -4300,7 +4300,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18113,
     Queries: 485,
     "Payments completed": 97,
-    "Sign ups": 60,
+    Seats: 60,
     Logins: 2006,
   },
   {
@@ -4309,7 +4309,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18033,
     Queries: 485,
     "Payments completed": 85,
-    "Sign ups": 61,
+    Seats: 61,
     Logins: 2006,
   },
   {
@@ -4318,7 +4318,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18083,
     Queries: 486,
     "Payments completed": 85,
-    "Sign ups": 80,
+    Seats: 80,
     Logins: 1882,
   },
   {
@@ -4327,7 +4327,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18028,
     Queries: 486,
     "Payments completed": 112,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1801,
   },
   {
@@ -4336,7 +4336,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18037,
     Queries: 486,
     "Payments completed": 120,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 1453,
   },
   {
@@ -4345,7 +4345,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18006,
     Queries: 380,
     "Payments completed": 99,
-    "Sign ups": 56,
+    Seats: 56,
     Logins: 1264,
   },
   {
@@ -4354,7 +4354,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18439,
     Queries: 446,
     "Payments completed": 85,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 938,
   },
   {
@@ -4363,7 +4363,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18285,
     Queries: 484,
     "Payments completed": 85,
-    "Sign ups": 62,
+    Seats: 62,
     Logins: 942,
   },
   {
@@ -4372,7 +4372,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18258,
     Queries: 481,
     "Payments completed": 84,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1061,
   },
   {
@@ -4381,7 +4381,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18298,
     Queries: 479,
     "Payments completed": 88,
-    "Sign ups": 71,
+    Seats: 71,
     Logins: 1289,
   },
   {
@@ -4390,7 +4390,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18361,
     Queries: 479,
     "Payments completed": 88,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1339,
   },
   {
@@ -4399,7 +4399,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 18576,
     Queries: 480,
     "Payments completed": 90,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 1142,
   },
   {
@@ -4408,7 +4408,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19046,
     Queries: 396,
     "Payments completed": 71,
-    "Sign ups": 51,
+    Seats: 51,
     Logins: 948,
   },
   {
@@ -4417,7 +4417,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 19808,
     Queries: 375,
     "Payments completed": 82,
-    "Sign ups": 51,
+    Seats: 51,
     Logins: 1018,
   },
   {
@@ -4426,7 +4426,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20325,
     Queries: 498,
     "Payments completed": 90,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1137,
   },
   {
@@ -4435,7 +4435,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 20838,
     Queries: 503,
     "Payments completed": 119,
-    "Sign ups": 78,
+    Seats: 78,
     Logins: 1047,
   },
   {
@@ -4444,7 +4444,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 21694,
     Queries: 503,
     "Payments completed": 111,
-    "Sign ups": 72,
+    Seats: 72,
     Logins: 848,
   },
   {
@@ -4453,7 +4453,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 22529,
     Queries: 499,
     "Payments completed": 106,
-    "Sign ups": 70,
+    Seats: 70,
     Logins: 861,
   },
   {
@@ -4462,7 +4462,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 23550,
     Queries: 493,
     "Payments completed": 120,
-    "Sign ups": 76,
+    Seats: 76,
     Logins: 979,
   },
   {
@@ -4471,7 +4471,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 24491,
     Queries: 379,
     "Payments completed": 67,
-    "Sign ups": 65,
+    Seats: 65,
     Logins: 928,
   },
   {
@@ -4480,7 +4480,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 25709,
     Queries: 428,
     "Payments completed": 65,
-    "Sign ups": 48,
+    Seats: 48,
     Logins: 990,
   },
   {
@@ -4489,7 +4489,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 26600,
     Queries: 488,
     "Payments completed": 82,
-    "Sign ups": 63,
+    Seats: 63,
     Logins: 1122,
   },
   {
@@ -4498,7 +4498,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 27252,
     Queries: 490,
     "Payments completed": 83,
-    "Sign ups": 64,
+    Seats: 64,
     Logins: 1285,
   },
   {
@@ -4507,7 +4507,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 27298,
     Queries: 489,
     "Payments completed": 86,
-    "Sign ups": 79,
+    Seats: 79,
     Logins: 1516,
   },
   {
@@ -4516,7 +4516,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 27457,
     Queries: 490,
     "Payments completed": 89,
-    "Sign ups": 74,
+    Seats: 74,
     Logins: 1803,
   },
   {
@@ -4525,7 +4525,7 @@ export const overviews: OverviewData[] = [
     "Rows read": 27539,
     Queries: 486,
     "Payments completed": 88,
-    "Sign ups": 73,
+    Seats: 73,
     Logins: 2045,
   },
 ];
