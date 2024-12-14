@@ -4,7 +4,7 @@ import { Divider } from "@/components/Divider";
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import { RiGoogleFill } from "@remixicon/react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Form, Link, redirect } from "react-router";
 import type { Route } from "../../../.react-router/types/app/routes/(logout)/+types/sign-up";
 
@@ -24,7 +24,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const password = formData.get("password");
   if (typeof password !== "string") throw Error("password is invalid");
 
-  await signInWithEmailAndPassword(auth, email, password);
+  const cred = await createUserWithEmailAndPassword(auth, email, password);
+
   return redirect("/");
 }
 

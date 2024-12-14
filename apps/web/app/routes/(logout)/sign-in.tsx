@@ -38,7 +38,7 @@ export default function Page() {
           </h3>
           <p className="text-xs mt-4 text-center text-gray-500">
             Don't have an account?
-            <Link to="/signup" className="ml-1 underline underline-offset-4">
+            <Link to="/sign-up" className="ml-1 underline underline-offset-4">
               Sign up
             </Link>
           </p>
