@@ -7,9 +7,9 @@ import {
 
 export default [
   // dashboard layout
-  layout("routes/$groupId/layout.tsx", [
+  route(":groupId", "routes/$groupId/layout.tsx", [
     index("routes/$groupId/home.tsx"),
-    route("/:groupId/overview", "routes/$groupId/overview.tsx"),
+    route("overview", "routes/$groupId/overview.tsx"),
   ]),
 
   // login layout
