@@ -25,3 +25,11 @@ We currently provide Github Actions with the following features:
 # Architecture
 
 WIP
+
+# Pricing
+
+Currently, this project offers free services as a proof of concept.  
+(All plans are free and may continue for the next 6 months/year)
+
+In the future, we plan to offer paid managed services in the cloud.  
+(We will also offer discounts for early access users.)
