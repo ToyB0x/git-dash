@@ -2,10 +2,14 @@
 import { cx, focusRing } from "@/lib/utils";
 import { siteConfig } from "@/siteConfig";
 import {
+  RiAccountCircleLine,
+  RiArrowUpCircleLine,
+  RiBugLine,
+  RiChatCheckLine,
+  RiCodeSSlashLine,
+  RiCoinLine,
   RiHome2Line,
   RiLinkM,
-  RiListCheck,
-  RiSettings5Line,
 } from "@remixicon/react";
 import { Link, useLocation } from "react-router";
 import MobileSidebar from "./MobileSidebar";
@@ -17,12 +21,33 @@ import { UserProfileDesktop, UserProfileMobile } from "./UserProfile";
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
-  { name: "Details", href: siteConfig.baseLinks.details, icon: RiListCheck },
   {
-    name: "Settings",
-    href: siteConfig.baseLinks.settings,
-    icon: RiSettings5Line,
+    name: "Cost",
+    href: siteConfig.baseLinks.cost,
+    icon: RiCoinLine,
   },
+  { name: "PRs", href: siteConfig.baseLinks.prs, icon: RiCodeSSlashLine },
+  {
+    name: "Reviews",
+    href: siteConfig.baseLinks.reviews,
+    icon: RiChatCheckLine,
+  },
+  {
+    name: "Releases",
+    href: siteConfig.baseLinks.releases,
+    icon: RiArrowUpCircleLine,
+  },
+  { name: "Vulns", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
+  {
+    name: "Users",
+    href: siteConfig.baseLinks.users,
+    icon: RiAccountCircleLine,
+  },
+  // {
+  //   name: "Settings",
+  //   href: siteConfig.baseLinks.settings,
+  //   icon: RiSettings5Line,
+  // },
 ] as const;
 
 const shortcuts = [

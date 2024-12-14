@@ -3,12 +3,12 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard";
-import { overviews } from "@/data/overview-data";
-import type { OverviewData } from "@/data/schema";
 import { cx } from "@/lib/utils";
 import { subDays, toDate } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
+import { overviews } from "./data/overview-data";
+import type { OverviewData } from "./data/schema";
 
 export type PeriodValue = "previous-period" | "last-year" | "no-comparison";
 
