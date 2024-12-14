@@ -25,21 +25,21 @@ const categories: {
     type: "currency",
   },
   {
-    title: "Logins",
-    type: "unit",
-  },
-  {
-    title: "Rows read",
-    type: "unit",
-  },
-  {
-    title: "Queries",
-    type: "unit",
-  },
-  {
-    title: "Payments completed",
+    title: "Copilots",
     type: "currency",
   },
+  // {
+  //   title: "Rows read",
+  //   type: "unit",
+  // },
+  // {
+  //   title: "Queries",
+  //   type: "unit",
+  // },
+  // {
+  //   title: "Payments completed",
+  //   type: "currency",
+  // },
 ];
 
 export type KpiEntry = {

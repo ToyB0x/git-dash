@@ -14,5 +14,5 @@ export type OverviewData = {
   Queries: number;
   "Payments completed": number;
   Seats: number;
-  Logins: number;
+  Copilots: number;
 };

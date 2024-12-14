@@ -8,7 +8,7 @@ export const overviews: OverviewData[] = [
     Queries: 448,
     "Payments completed": 71,
     Seats: 60,
-    Logins: 1664,
+    Copilots: 1664,
   },
   {
     date: "2023-01-02T00:00:00",
@@ -17,7 +17,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 88,
     Seats: 79,
-    Logins: 1642,
+    Copilots: 1642,
   },
   {
     date: "2023-01-03T00:00:00",
@@ -26,7 +26,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 100,
     Seats: 75,
-    Logins: 1525,
+    Copilots: 1525,
   },
   {
     date: "2023-01-04T00:00:00",
@@ -35,7 +35,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 122,
     Seats: 61,
-    Logins: 1211,
+    Copilots: 1211,
   },
   {
     date: "2023-01-05T00:00:00",
@@ -44,7 +44,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 107,
     Seats: 64,
-    Logins: 991,
+    Copilots: 991,
   },
   {
     date: "2023-01-06T00:00:00",
@@ -53,7 +53,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 124,
     Seats: 64,
-    Logins: 855,
+    Copilots: 855,
   },
   {
     date: "2023-01-07T00:00:00",
@@ -62,7 +62,7 @@ export const overviews: OverviewData[] = [
     Queries: 369,
     "Payments completed": 105,
     Seats: 55,
-    Logins: 875,
+    Copilots: 875,
   },
   {
     date: "2023-01-08T00:00:00",
@@ -71,7 +71,7 @@ export const overviews: OverviewData[] = [
     Queries: 420,
     "Payments completed": 68,
     Seats: 47,
-    Logins: 867,
+    Copilots: 867,
   },
   {
     date: "2023-01-09T00:00:00",
@@ -80,7 +80,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 87,
     Seats: 66,
-    Logins: 853,
+    Copilots: 853,
   },
   {
     date: "2023-01-10T00:00:00",
@@ -89,7 +89,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 90,
     Seats: 76,
-    Logins: 976,
+    Copilots: 976,
   },
   {
     date: "2023-01-11T00:00:00",
@@ -98,7 +98,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 89,
     Seats: 72,
-    Logins: 1191,
+    Copilots: 1191,
   },
   {
     date: "2023-01-12T00:00:00",
@@ -107,7 +107,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 91,
     Seats: 76,
-    Logins: 1235,
+    Copilots: 1235,
   },
   {
     date: "2023-01-13T00:00:00",
@@ -116,7 +116,7 @@ export const overviews: OverviewData[] = [
     Queries: 505,
     "Payments completed": 123,
     Seats: 64,
-    Logins: 1060,
+    Copilots: 1060,
   },
   {
     date: "2023-01-14T00:00:00",
@@ -125,7 +125,7 @@ export const overviews: OverviewData[] = [
     Queries: 418,
     "Payments completed": 87,
     Seats: 61,
-    Logins: 915,
+    Copilots: 915,
   },
   {
     date: "2023-01-15T00:00:00",
@@ -134,7 +134,7 @@ export const overviews: OverviewData[] = [
     Queries: 422,
     "Payments completed": 103,
     Seats: 46,
-    Logins: 1026,
+    Copilots: 1026,
   },
   {
     date: "2023-01-16T00:00:00",
@@ -143,7 +143,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 118,
     Seats: 62,
-    Logins: 1199,
+    Copilots: 1199,
   },
   {
     date: "2023-01-17T00:00:00",
@@ -152,7 +152,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 96,
     Seats: 61,
-    Logins: 1344,
+    Copilots: 1344,
   },
   {
     date: "2023-01-18T00:00:00",
@@ -161,7 +161,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 124,
     Seats: 64,
-    Logins: 1203,
+    Copilots: 1203,
   },
   {
     date: "2023-01-19T00:00:00",
@@ -170,7 +170,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 112,
     Seats: 67,
-    Logins: 1351,
+    Copilots: 1351,
   },
   {
     date: "2023-01-20T00:00:00",
@@ -179,7 +179,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 121,
     Seats: 80,
-    Logins: 1379,
+    Copilots: 1379,
   },
   {
     date: "2023-01-21T00:00:00",
@@ -188,7 +188,7 @@ export const overviews: OverviewData[] = [
     Queries: 385,
     "Payments completed": 88,
     Seats: 60,
-    Logins: 1460,
+    Copilots: 1460,
   },
   {
     date: "2023-01-22T00:00:00",
@@ -197,7 +197,7 @@ export const overviews: OverviewData[] = [
     Queries: 373,
     "Payments completed": 77,
     Seats: 70,
-    Logins: 1704,
+    Copilots: 1704,
   },
   {
     date: "2023-01-23T00:00:00",
@@ -206,7 +206,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 85,
     Seats: 62,
-    Logins: 1951,
+    Copilots: 1951,
   },
   {
     date: "2023-01-24T00:00:00",
@@ -215,7 +215,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 80,
     Seats: 61,
-    Logins: 1768,
+    Copilots: 1768,
   },
   {
     date: "2023-01-25T00:00:00",
@@ -224,7 +224,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 100,
     Seats: 66,
-    Logins: 1811,
+    Copilots: 1811,
   },
   {
     date: "2023-01-26T00:00:00",
@@ -233,7 +233,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 82,
     Seats: 68,
-    Logins: 2048,
+    Copilots: 2048,
   },
   {
     date: "2023-01-27T00:00:00",
@@ -242,7 +242,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 87,
     Seats: 60,
-    Logins: 1853,
+    Copilots: 1853,
   },
   {
     date: "2023-01-28T00:00:00",
@@ -251,7 +251,7 @@ export const overviews: OverviewData[] = [
     Queries: 422,
     "Payments completed": 77,
     Seats: 63,
-    Logins: 1693,
+    Copilots: 1693,
   },
   {
     date: "2023-01-29T00:00:00",
@@ -260,7 +260,7 @@ export const overviews: OverviewData[] = [
     Queries: 418,
     "Payments completed": 74,
     Seats: 54,
-    Logins: 1637,
+    Copilots: 1637,
   },
   {
     date: "2023-01-30T00:00:00",
@@ -269,7 +269,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 89,
     Seats: 79,
-    Logins: 1847,
+    Copilots: 1847,
   },
   {
     date: "2023-01-31T00:00:00",
@@ -278,7 +278,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 94,
     Seats: 67,
-    Logins: 1972,
+    Copilots: 1972,
   },
   {
     date: "2023-02-01T00:00:00",
@@ -287,7 +287,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 82,
     Seats: 60,
-    Logins: 1818,
+    Copilots: 1818,
   },
   {
     date: "2023-02-02T00:00:00",
@@ -296,7 +296,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 86,
     Seats: 60,
-    Logins: 1437,
+    Copilots: 1437,
   },
   {
     date: "2023-02-03T00:00:00",
@@ -305,7 +305,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 81,
     Seats: 65,
-    Logins: 1420,
+    Copilots: 1420,
   },
   {
     date: "2023-02-04T00:00:00",
@@ -314,7 +314,7 @@ export const overviews: OverviewData[] = [
     Queries: 379,
     "Payments completed": 66,
     Seats: 56,
-    Logins: 1622,
+    Copilots: 1622,
   },
   {
     date: "2023-02-05T00:00:00",
@@ -323,7 +323,7 @@ export const overviews: OverviewData[] = [
     Queries: 398,
     "Payments completed": 69,
     Seats: 52,
-    Logins: 1847,
+    Copilots: 1847,
   },
   {
     date: "2023-02-06T00:00:00",
@@ -332,7 +332,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 89,
     Seats: 61,
-    Logins: 2020,
+    Copilots: 2020,
   },
   {
     date: "2023-02-07T00:00:00",
@@ -341,7 +341,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 80,
     Seats: 65,
-    Logins: 2035,
+    Copilots: 2035,
   },
   {
     date: "2023-02-08T00:00:00",
@@ -350,7 +350,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 85,
     Seats: 61,
-    Logins: 2044,
+    Copilots: 2044,
   },
   {
     date: "2023-02-09T00:00:00",
@@ -359,7 +359,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 90,
     Seats: 61,
-    Logins: 1899,
+    Copilots: 1899,
   },
   {
     date: "2023-02-10T00:00:00",
@@ -368,7 +368,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 87,
     Seats: 62,
-    Logins: 1478,
+    Copilots: 1478,
   },
   {
     date: "2023-02-11T00:00:00",
@@ -377,7 +377,7 @@ export const overviews: OverviewData[] = [
     Queries: 414,
     "Payments completed": 71,
     Seats: 63,
-    Logins: 1158,
+    Copilots: 1158,
   },
   {
     date: "2023-02-12T00:00:00",
@@ -386,7 +386,7 @@ export const overviews: OverviewData[] = [
     Queries: 431,
     "Payments completed": 68,
     Seats: 60,
-    Logins: 850,
+    Copilots: 850,
   },
   {
     date: "2023-02-13T00:00:00",
@@ -395,7 +395,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 81,
     Seats: 70,
-    Logins: 871,
+    Copilots: 871,
   },
   {
     date: "2023-02-14T00:00:00",
@@ -404,7 +404,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 106,
     Seats: 63,
-    Logins: 849,
+    Copilots: 849,
   },
   {
     date: "2023-02-15T00:00:00",
@@ -413,7 +413,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 86,
     Seats: 79,
-    Logins: 874,
+    Copilots: 874,
   },
   {
     date: "2023-02-16T00:00:00",
@@ -422,7 +422,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 81,
     Seats: 76,
-    Logins: 862,
+    Copilots: 862,
   },
   {
     date: "2023-02-17T00:00:00",
@@ -431,7 +431,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 85,
     Seats: 62,
-    Logins: 864,
+    Copilots: 864,
   },
   {
     date: "2023-02-18T00:00:00",
@@ -440,7 +440,7 @@ export const overviews: OverviewData[] = [
     Queries: 430,
     "Payments completed": 66,
     Seats: 52,
-    Logins: 918,
+    Copilots: 918,
   },
   {
     date: "2023-02-19T00:00:00",
@@ -449,7 +449,7 @@ export const overviews: OverviewData[] = [
     Queries: 398,
     "Payments completed": 69,
     Seats: 60,
-    Logins: 968,
+    Copilots: 968,
   },
   {
     date: "2023-02-20T00:00:00",
@@ -458,7 +458,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 80,
     Seats: 73,
-    Logins: 1142,
+    Copilots: 1142,
   },
   {
     date: "2023-02-21T00:00:00",
@@ -467,7 +467,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 93,
     Seats: 61,
-    Logins: 1360,
+    Copilots: 1360,
   },
   {
     date: "2023-02-22T00:00:00",
@@ -476,7 +476,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 83,
     Seats: 72,
-    Logins: 1691,
+    Copilots: 1691,
   },
   {
     date: "2023-02-23T00:00:00",
@@ -485,7 +485,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 105,
     Seats: 62,
-    Logins: 1862,
+    Copilots: 1862,
   },
   {
     date: "2023-02-24T00:00:00",
@@ -494,7 +494,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 117,
     Seats: 66,
-    Logins: 2003,
+    Copilots: 2003,
   },
   {
     date: "2023-02-25T00:00:00",
@@ -503,7 +503,7 @@ export const overviews: OverviewData[] = [
     Queries: 386,
     "Payments completed": 94,
     Seats: 67,
-    Logins: 2006,
+    Copilots: 2006,
   },
   {
     date: "2023-02-26T00:00:00",
@@ -512,7 +512,7 @@ export const overviews: OverviewData[] = [
     Queries: 385,
     "Payments completed": 105,
     Seats: 62,
-    Logins: 2007,
+    Copilots: 2007,
   },
   {
     date: "2023-02-27T00:00:00",
@@ -521,7 +521,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 115,
     Seats: 62,
-    Logins: 1742,
+    Copilots: 1742,
   },
   {
     date: "2023-02-28T00:00:00",
@@ -530,7 +530,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 84,
     Seats: 66,
-    Logins: 1910,
+    Copilots: 1910,
   },
   {
     date: "2023-03-01T00:00:00",
@@ -539,7 +539,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 85,
     Seats: 63,
-    Logins: 1766,
+    Copilots: 1766,
   },
   {
     date: "2023-03-02T00:00:00",
@@ -548,7 +548,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 82,
     Seats: 65,
-    Logins: 1674,
+    Copilots: 1674,
   },
   {
     date: "2023-03-03T00:00:00",
@@ -557,7 +557,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 102,
     Seats: 66,
-    Logins: 1785,
+    Copilots: 1785,
   },
   {
     date: "2023-03-04T00:00:00",
@@ -566,7 +566,7 @@ export const overviews: OverviewData[] = [
     Queries: 415,
     "Payments completed": 78,
     Seats: 52,
-    Logins: 1732,
+    Copilots: 1732,
   },
   {
     date: "2023-03-05T00:00:00",
@@ -575,7 +575,7 @@ export const overviews: OverviewData[] = [
     Queries: 402,
     "Payments completed": 64,
     Seats: 47,
-    Logins: 1813,
+    Copilots: 1813,
   },
   {
     date: "2023-03-06T00:00:00",
@@ -584,7 +584,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 80,
     Seats: 67,
-    Logins: 1938,
+    Copilots: 1938,
   },
   {
     date: "2023-03-07T00:00:00",
@@ -593,7 +593,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 118,
     Seats: 75,
-    Logins: 1798,
+    Copilots: 1798,
   },
   {
     date: "2023-03-08T00:00:00",
@@ -602,7 +602,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 123,
     Seats: 75,
-    Logins: 1866,
+    Copilots: 1866,
   },
   {
     date: "2023-03-09T00:00:00",
@@ -611,7 +611,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 118,
     Seats: 61,
-    Logins: 1640,
+    Copilots: 1640,
   },
   {
     date: "2023-03-10T00:00:00",
@@ -620,7 +620,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 124,
     Seats: 65,
-    Logins: 1274,
+    Copilots: 1274,
   },
   {
     date: "2023-03-11T00:00:00",
@@ -629,7 +629,7 @@ export const overviews: OverviewData[] = [
     Queries: 415,
     "Payments completed": 97,
     Seats: 52,
-    Logins: 895,
+    Copilots: 895,
   },
   {
     date: "2023-03-12T00:00:00",
@@ -638,7 +638,7 @@ export const overviews: OverviewData[] = [
     Queries: 390,
     "Payments completed": 71,
     Seats: 50,
-    Logins: 861,
+    Copilots: 861,
   },
   {
     date: "2023-03-13T00:00:00",
@@ -647,7 +647,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 94,
     Seats: 67,
-    Logins: 853,
+    Copilots: 853,
   },
   {
     date: "2023-03-14T00:00:00",
@@ -656,7 +656,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 92,
     Seats: 77,
-    Logins: 860,
+    Copilots: 860,
   },
   {
     date: "2023-03-15T00:00:00",
@@ -665,7 +665,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 94,
     Seats: 80,
-    Logins: 922,
+    Copilots: 922,
   },
   {
     date: "2023-03-16T00:00:00",
@@ -674,7 +674,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 122,
     Seats: 76,
-    Logins: 1127,
+    Copilots: 1127,
   },
   {
     date: "2023-03-17T00:00:00",
@@ -683,7 +683,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 114,
     Seats: 61,
-    Logins: 1055,
+    Copilots: 1055,
   },
   {
     date: "2023-03-18T00:00:00",
@@ -692,7 +692,7 @@ export const overviews: OverviewData[] = [
     Queries: 386,
     "Payments completed": 95,
     Seats: 60,
-    Logins: 1158,
+    Copilots: 1158,
   },
   {
     date: "2023-03-19T00:00:00",
@@ -701,7 +701,7 @@ export const overviews: OverviewData[] = [
     Queries: 408,
     "Payments completed": 71,
     Seats: 58,
-    Logins: 1438,
+    Copilots: 1438,
   },
   {
     date: "2023-03-20T00:00:00",
@@ -710,7 +710,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 87,
     Seats: 70,
-    Logins: 1332,
+    Copilots: 1332,
   },
   {
     date: "2023-03-21T00:00:00",
@@ -719,7 +719,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 120,
     Seats: 75,
-    Logins: 1102,
+    Copilots: 1102,
   },
   {
     date: "2023-03-22T00:00:00",
@@ -728,7 +728,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 110,
     Seats: 75,
-    Logins: 951,
+    Copilots: 951,
   },
   {
     date: "2023-03-23T00:00:00",
@@ -737,7 +737,7 @@ export const overviews: OverviewData[] = [
     Queries: 503,
     "Payments completed": 103,
     Seats: 75,
-    Logins: 846,
+    Copilots: 846,
   },
   {
     date: "2023-03-24T00:00:00",
@@ -746,7 +746,7 @@ export const overviews: OverviewData[] = [
     Queries: 511,
     "Payments completed": 118,
     Seats: 71,
-    Logins: 850,
+    Copilots: 850,
   },
   {
     date: "2023-03-25T00:00:00",
@@ -755,7 +755,7 @@ export const overviews: OverviewData[] = [
     Queries: 426,
     "Payments completed": 97,
     Seats: 67,
-    Logins: 878,
+    Copilots: 878,
   },
   {
     date: "2023-03-26T00:00:00",
@@ -764,7 +764,7 @@ export const overviews: OverviewData[] = [
     Queries: 382,
     "Payments completed": 98,
     Seats: 67,
-    Logins: 851,
+    Copilots: 851,
   },
   {
     date: "2023-03-26T00:00:00",
@@ -773,7 +773,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 118,
     Seats: 73,
-    Logins: 872,
+    Copilots: 872,
   },
   {
     date: "2023-03-27T00:00:00",
@@ -782,7 +782,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 123,
     Seats: 62,
-    Logins: 863,
+    Copilots: 863,
   },
   {
     date: "2023-03-28T00:00:00",
@@ -791,7 +791,7 @@ export const overviews: OverviewData[] = [
     Queries: 502,
     "Payments completed": 118,
     Seats: 80,
-    Logins: 901,
+    Copilots: 901,
   },
   {
     date: "2023-03-29T00:00:00",
@@ -800,7 +800,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 120,
     Seats: 74,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-03-30T00:00:00",
@@ -809,7 +809,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 120,
     Seats: 61,
-    Logins: 869,
+    Copilots: 869,
   },
   {
     date: "2023-03-31T00:00:00",
@@ -818,7 +818,7 @@ export const overviews: OverviewData[] = [
     Queries: 438,
     "Payments completed": 70,
     Seats: 53,
-    Logins: 865,
+    Copilots: 865,
   },
   {
     date: "2023-04-01T00:00:00",
@@ -827,7 +827,7 @@ export const overviews: OverviewData[] = [
     Queries: 403,
     "Payments completed": 61,
     Seats: 60,
-    Logins: 860,
+    Copilots: 860,
   },
   {
     date: "2023-04-02T00:00:00",
@@ -836,7 +836,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 81,
     Seats: 66,
-    Logins: 867,
+    Copilots: 867,
   },
   {
     date: "2023-04-03T00:00:00",
@@ -845,7 +845,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 82,
     Seats: 60,
-    Logins: 867,
+    Copilots: 867,
   },
   {
     date: "2023-04-04T00:00:00",
@@ -854,7 +854,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 81,
     Seats: 66,
-    Logins: 963,
+    Copilots: 963,
   },
   {
     date: "2023-04-05T00:00:00",
@@ -863,7 +863,7 @@ export const overviews: OverviewData[] = [
     Queries: 504,
     "Payments completed": 105,
     Seats: 64,
-    Logins: 1027,
+    Copilots: 1027,
   },
   {
     date: "2023-04-06T00:00:00",
@@ -872,7 +872,7 @@ export const overviews: OverviewData[] = [
     Queries: 510,
     "Payments completed": 121,
     Seats: 64,
-    Logins: 1171,
+    Copilots: 1171,
   },
   {
     date: "2023-04-07T00:00:00",
@@ -881,7 +881,7 @@ export const overviews: OverviewData[] = [
     Queries: 412,
     "Payments completed": 95,
     Seats: 54,
-    Logins: 1199,
+    Copilots: 1199,
   },
   {
     date: "2023-04-08T00:00:00",
@@ -890,7 +890,7 @@ export const overviews: OverviewData[] = [
     Queries: 400,
     "Payments completed": 75,
     Seats: 52,
-    Logins: 1208,
+    Copilots: 1208,
   },
   {
     date: "2023-04-09T00:00:00",
@@ -899,7 +899,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 107,
     Seats: 64,
-    Logins: 1452,
+    Copilots: 1452,
   },
   {
     date: "2023-04-10T00:00:00",
@@ -908,7 +908,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 121,
     Seats: 63,
-    Logins: 1464,
+    Copilots: 1464,
   },
   {
     date: "2023-04-11T00:00:00",
@@ -917,7 +917,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 100,
     Seats: 60,
-    Logins: 1512,
+    Copilots: 1512,
   },
   {
     date: "2023-04-12T00:00:00",
@@ -926,7 +926,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 120,
     Seats: 61,
-    Logins: 1360,
+    Copilots: 1360,
   },
   {
     date: "2023-04-13T00:00:00",
@@ -935,7 +935,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 122,
     Seats: 69,
-    Logins: 1038,
+    Copilots: 1038,
   },
   {
     date: "2023-04-14T00:00:00",
@@ -944,7 +944,7 @@ export const overviews: OverviewData[] = [
     Queries: 367,
     "Payments completed": 82,
     Seats: 61,
-    Logins: 844,
+    Copilots: 844,
   },
   {
     date: "2023-04-15T00:00:00",
@@ -953,7 +953,7 @@ export const overviews: OverviewData[] = [
     Queries: 430,
     "Payments completed": 70,
     Seats: 62,
-    Logins: 855,
+    Copilots: 855,
   },
   {
     date: "2023-04-16T00:00:00",
@@ -962,7 +962,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 81,
     Seats: 63,
-    Logins: 973,
+    Copilots: 973,
   },
   {
     date: "2023-04-17T00:00:00",
@@ -971,7 +971,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 90,
     Seats: 61,
-    Logins: 1065,
+    Copilots: 1065,
   },
   {
     date: "2023-04-18T00:00:00",
@@ -980,7 +980,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 122,
     Seats: 64,
-    Logins: 1071,
+    Copilots: 1071,
   },
   {
     date: "2023-04-19T00:00:00",
@@ -989,7 +989,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 123,
     Seats: 73,
-    Logins: 1065,
+    Copilots: 1065,
   },
   {
     date: "2023-04-20T00:00:00",
@@ -998,7 +998,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 125,
     Seats: 63,
-    Logins: 1191,
+    Copilots: 1191,
   },
   {
     date: "2023-04-21T00:00:00",
@@ -1007,7 +1007,7 @@ export const overviews: OverviewData[] = [
     Queries: 408,
     "Payments completed": 92,
     Seats: 51,
-    Logins: 1415,
+    Copilots: 1415,
   },
   {
     date: "2023-04-22T00:00:00",
@@ -1016,7 +1016,7 @@ export const overviews: OverviewData[] = [
     Queries: 372,
     "Payments completed": 82,
     Seats: 57,
-    Logins: 1744,
+    Copilots: 1744,
   },
   {
     date: "2023-04-23T00:00:00",
@@ -1025,7 +1025,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 91,
     Seats: 62,
-    Logins: 2017,
+    Copilots: 2017,
   },
   {
     date: "2023-04-24T00:00:00",
@@ -1034,7 +1034,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 124,
     Seats: 79,
-    Logins: 1911,
+    Copilots: 1911,
   },
   {
     date: "2023-04-25T00:00:00",
@@ -1043,7 +1043,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 113,
     Seats: 70,
-    Logins: 2014,
+    Copilots: 2014,
   },
   {
     date: "2023-04-26T00:00:00",
@@ -1052,7 +1052,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 115,
     Seats: 63,
-    Logins: 2004,
+    Copilots: 2004,
   },
   {
     date: "2023-04-27T00:00:00",
@@ -1061,7 +1061,7 @@ export const overviews: OverviewData[] = [
     Queries: 481,
     "Payments completed": 113,
     Seats: 63,
-    Logins: 2029,
+    Copilots: 2029,
   },
   {
     date: "2023-04-28T00:00:00",
@@ -1070,7 +1070,7 @@ export const overviews: OverviewData[] = [
     Queries: 405,
     "Payments completed": 88,
     Seats: 50,
-    Logins: 2012,
+    Copilots: 2012,
   },
   {
     date: "2023-04-29T00:00:00",
@@ -1079,7 +1079,7 @@ export const overviews: OverviewData[] = [
     Queries: 393,
     "Payments completed": 94,
     Seats: 48,
-    Logins: 1745,
+    Copilots: 1745,
   },
   {
     date: "2023-04-30T00:00:00",
@@ -1088,7 +1088,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 82,
     Seats: 64,
-    Logins: 1784,
+    Copilots: 1784,
   },
   {
     date: "2023-05-01T00:00:00",
@@ -1097,7 +1097,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 84,
     Seats: 62,
-    Logins: 1883,
+    Copilots: 1883,
   },
   {
     date: "2023-05-02T00:00:00",
@@ -1106,7 +1106,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 81,
     Seats: 62,
-    Logins: 1806,
+    Copilots: 1806,
   },
   {
     date: "2023-05-03T00:00:00",
@@ -1115,7 +1115,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 106,
     Seats: 61,
-    Logins: 1967,
+    Copilots: 1967,
   },
   {
     date: "2023-05-04T00:00:00",
@@ -1124,7 +1124,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 122,
     Seats: 62,
-    Logins: 1956,
+    Copilots: 1956,
   },
   {
     date: "2023-05-05T00:00:00",
@@ -1133,7 +1133,7 @@ export const overviews: OverviewData[] = [
     Queries: 435,
     "Payments completed": 90,
     Seats: 53,
-    Logins: 2032,
+    Copilots: 2032,
   },
   {
     date: "2023-05-06T00:00:00",
@@ -1142,7 +1142,7 @@ export const overviews: OverviewData[] = [
     Queries: 386,
     "Payments completed": 99,
     Seats: 47,
-    Logins: 1984,
+    Copilots: 1984,
   },
   {
     date: "2023-05-07T00:00:00",
@@ -1151,7 +1151,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 115,
     Seats: 68,
-    Logins: 2021,
+    Copilots: 2021,
   },
   {
     date: "2023-05-08T00:00:00",
@@ -1160,7 +1160,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 121,
     Seats: 80,
-    Logins: 1641,
+    Copilots: 1641,
   },
   {
     date: "2023-05-09T00:00:00",
@@ -1169,7 +1169,7 @@ export const overviews: OverviewData[] = [
     Queries: 506,
     "Payments completed": 81,
     Seats: 75,
-    Logins: 1286,
+    Copilots: 1286,
   },
   {
     date: "2023-05-10T00:00:00",
@@ -1178,7 +1178,7 @@ export const overviews: OverviewData[] = [
     Queries: 507,
     "Payments completed": 87,
     Seats: 79,
-    Logins: 987,
+    Copilots: 987,
   },
   {
     date: "2023-05-11T00:00:00",
@@ -1187,7 +1187,7 @@ export const overviews: OverviewData[] = [
     Queries: 505,
     "Payments completed": 87,
     Seats: 79,
-    Logins: 953,
+    Copilots: 953,
   },
   {
     date: "2023-05-12T00:00:00",
@@ -1196,7 +1196,7 @@ export const overviews: OverviewData[] = [
     Queries: 422,
     "Payments completed": 105,
     Seats: 55,
-    Logins: 1059,
+    Copilots: 1059,
   },
   {
     date: "2023-05-13T00:00:00",
@@ -1205,7 +1205,7 @@ export const overviews: OverviewData[] = [
     Queries: 436,
     "Payments completed": 94,
     Seats: 52,
-    Logins: 1153,
+    Copilots: 1153,
   },
   {
     date: "2023-05-14T00:00:00",
@@ -1214,7 +1214,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 122,
     Seats: 61,
-    Logins: 1033,
+    Copilots: 1033,
   },
   {
     date: "2023-05-15T00:00:00",
@@ -1223,7 +1223,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 99,
     Seats: 65,
-    Logins: 846,
+    Copilots: 846,
   },
   {
     date: "2023-05-16T00:00:00",
@@ -1232,7 +1232,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 125,
     Seats: 65,
-    Logins: 891,
+    Copilots: 891,
   },
   {
     date: "2023-05-17T00:00:00",
@@ -1241,7 +1241,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 113,
     Seats: 63,
-    Logins: 923,
+    Copilots: 923,
   },
   {
     date: "2023-05-18T00:00:00",
@@ -1250,7 +1250,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 84,
     Seats: 61,
-    Logins: 1115,
+    Copilots: 1115,
   },
   {
     date: "2023-05-19T00:00:00",
@@ -1259,7 +1259,7 @@ export const overviews: OverviewData[] = [
     Queries: 387,
     "Payments completed": 78,
     Seats: 52,
-    Logins: 1374,
+    Copilots: 1374,
   },
   {
     date: "2023-05-20T00:00:00",
@@ -1268,7 +1268,7 @@ export const overviews: OverviewData[] = [
     Queries: 431,
     "Payments completed": 84,
     Seats: 54,
-    Logins: 1622,
+    Copilots: 1622,
   },
   {
     date: "2023-05-21T00:00:00",
@@ -1277,7 +1277,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 81,
     Seats: 74,
-    Logins: 1612,
+    Copilots: 1612,
   },
   {
     date: "2023-05-22T00:00:00",
@@ -1286,7 +1286,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 87,
     Seats: 74,
-    Logins: 1668,
+    Copilots: 1668,
   },
   {
     date: "2023-05-23T00:00:00",
@@ -1295,7 +1295,7 @@ export const overviews: OverviewData[] = [
     Queries: 481,
     "Payments completed": 103,
     Seats: 67,
-    Logins: 1579,
+    Copilots: 1579,
   },
   {
     date: "2023-05-24T00:00:00",
@@ -1304,7 +1304,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 96,
     Seats: 72,
-    Logins: 1294,
+    Copilots: 1294,
   },
   {
     date: "2023-05-25T00:00:00",
@@ -1313,7 +1313,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 83,
     Seats: 79,
-    Logins: 1214,
+    Copilots: 1214,
   },
   {
     date: "2023-05-26T00:00:00",
@@ -1322,7 +1322,7 @@ export const overviews: OverviewData[] = [
     Queries: 379,
     "Payments completed": 66,
     Seats: 62,
-    Logins: 1054,
+    Copilots: 1054,
   },
   {
     date: "2023-05-27T00:00:00",
@@ -1331,7 +1331,7 @@ export const overviews: OverviewData[] = [
     Queries: 390,
     "Payments completed": 68,
     Seats: 63,
-    Logins: 1034,
+    Copilots: 1034,
   },
   {
     date: "2023-05-28T00:00:00",
@@ -1340,7 +1340,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 92,
     Seats: 61,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-05-29T00:00:00",
@@ -1349,7 +1349,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 93,
     Seats: 80,
-    Logins: 881,
+    Copilots: 881,
   },
   {
     date: "2023-05-30T00:00:00",
@@ -1358,7 +1358,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 81,
     Seats: 71,
-    Logins: 925,
+    Copilots: 925,
   },
   {
     date: "2023-05-31T00:00:00",
@@ -1367,7 +1367,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 80,
     Seats: 70,
-    Logins: 879,
+    Copilots: 879,
   },
   {
     date: "2023-06-01T00:00:00",
@@ -1376,7 +1376,7 @@ export const overviews: OverviewData[] = [
     Queries: 506,
     "Payments completed": 95,
     Seats: 77,
-    Logins: 924,
+    Copilots: 924,
   },
   {
     date: "2023-06-02T00:00:00",
@@ -1385,7 +1385,7 @@ export const overviews: OverviewData[] = [
     Queries: 425,
     "Payments completed": 74,
     Seats: 54,
-    Logins: 853,
+    Copilots: 853,
   },
   {
     date: "2023-06-03T00:00:00",
@@ -1394,7 +1394,7 @@ export const overviews: OverviewData[] = [
     Queries: 384,
     "Payments completed": 74,
     Seats: 48,
-    Logins: 877,
+    Copilots: 877,
   },
   {
     date: "2023-06-04T00:00:00",
@@ -1403,7 +1403,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 102,
     Seats: 66,
-    Logins: 896,
+    Copilots: 896,
   },
   {
     date: "2023-06-05T00:00:00",
@@ -1412,7 +1412,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 101,
     Seats: 76,
-    Logins: 1053,
+    Copilots: 1053,
   },
   {
     date: "2023-06-06T00:00:00",
@@ -1421,7 +1421,7 @@ export const overviews: OverviewData[] = [
     Queries: 505,
     "Payments completed": 83,
     Seats: 74,
-    Logins: 1009,
+    Copilots: 1009,
   },
   {
     date: "2023-06-07T00:00:00",
@@ -1430,7 +1430,7 @@ export const overviews: OverviewData[] = [
     Queries: 505,
     "Payments completed": 82,
     Seats: 72,
-    Logins: 884,
+    Copilots: 884,
   },
   {
     date: "2023-06-08T00:00:00",
@@ -1439,7 +1439,7 @@ export const overviews: OverviewData[] = [
     Queries: 509,
     "Payments completed": 80,
     Seats: 78,
-    Logins: 1003,
+    Copilots: 1003,
   },
   {
     date: "2023-06-09T00:00:00",
@@ -1448,7 +1448,7 @@ export const overviews: OverviewData[] = [
     Queries: 442,
     "Payments completed": 68,
     Seats: 54,
-    Logins: 1182,
+    Copilots: 1182,
   },
   {
     date: "2023-06-10T00:00:00",
@@ -1457,7 +1457,7 @@ export const overviews: OverviewData[] = [
     Queries: 430,
     "Payments completed": 65,
     Seats: 63,
-    Logins: 1129,
+    Copilots: 1129,
   },
   {
     date: "2023-06-11T00:00:00",
@@ -1466,7 +1466,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 84,
     Seats: 61,
-    Logins: 1009,
+    Copilots: 1009,
   },
   {
     date: "2023-06-12T00:00:00",
@@ -1475,7 +1475,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 98,
     Seats: 64,
-    Logins: 924,
+    Copilots: 924,
   },
   {
     date: "2023-06-13T00:00:00",
@@ -1484,7 +1484,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 106,
     Seats: 67,
-    Logins: 870,
+    Copilots: 870,
   },
   {
     date: "2023-06-14T00:00:00",
@@ -1493,7 +1493,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 122,
     Seats: 60,
-    Logins: 877,
+    Copilots: 877,
   },
   {
     date: "2023-06-15T00:00:00",
@@ -1502,7 +1502,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 97,
     Seats: 66,
-    Logins: 853,
+    Copilots: 853,
   },
   {
     date: "2023-06-16T00:00:00",
@@ -1511,7 +1511,7 @@ export const overviews: OverviewData[] = [
     Queries: 365,
     "Payments completed": 71,
     Seats: 55,
-    Logins: 965,
+    Copilots: 965,
   },
   {
     date: "2023-06-17T00:00:00",
@@ -1520,7 +1520,7 @@ export const overviews: OverviewData[] = [
     Queries: 438,
     "Payments completed": 65,
     Seats: 55,
-    Logins: 1101,
+    Copilots: 1101,
   },
   {
     date: "2023-06-18T00:00:00",
@@ -1529,7 +1529,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 81,
     Seats: 64,
-    Logins: 1335,
+    Copilots: 1335,
   },
   {
     date: "2023-06-19T00:00:00",
@@ -1538,7 +1538,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 118,
     Seats: 73,
-    Logins: 1406,
+    Copilots: 1406,
   },
   {
     date: "2023-06-20T00:00:00",
@@ -1547,7 +1547,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 116,
     Seats: 76,
-    Logins: 1378,
+    Copilots: 1378,
   },
   {
     date: "2023-06-21T00:00:00",
@@ -1556,7 +1556,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 82,
     Seats: 77,
-    Logins: 1294,
+    Copilots: 1294,
   },
   {
     date: "2023-06-22T00:00:00",
@@ -1565,7 +1565,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 83,
     Seats: 61,
-    Logins: 1318,
+    Copilots: 1318,
   },
   {
     date: "2023-06-23T00:00:00",
@@ -1574,7 +1574,7 @@ export const overviews: OverviewData[] = [
     Queries: 432,
     "Payments completed": 66,
     Seats: 57,
-    Logins: 1076,
+    Copilots: 1076,
   },
   {
     date: "2023-06-24T00:00:00",
@@ -1583,7 +1583,7 @@ export const overviews: OverviewData[] = [
     Queries: 431,
     "Payments completed": 63,
     Seats: 59,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2023-06-25T00:00:00",
@@ -1592,7 +1592,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 81,
     Seats: 64,
-    Logins: 881,
+    Copilots: 881,
   },
   {
     date: "2023-06-26T00:00:00",
@@ -1601,7 +1601,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 95,
     Seats: 78,
-    Logins: 914,
+    Copilots: 914,
   },
   {
     date: "2023-06-27T00:00:00",
@@ -1610,7 +1610,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 81,
     Seats: 74,
-    Logins: 855,
+    Copilots: 855,
   },
   {
     date: "2023-06-28T00:00:00",
@@ -1619,7 +1619,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 83,
     Seats: 69,
-    Logins: 876,
+    Copilots: 876,
   },
   {
     date: "2023-06-29T00:00:00",
@@ -1628,7 +1628,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 83,
     Seats: 76,
-    Logins: 900,
+    Copilots: 900,
   },
   {
     date: "2023-06-30T00:00:00",
@@ -1637,7 +1637,7 @@ export const overviews: OverviewData[] = [
     Queries: 376,
     "Payments completed": 88,
     Seats: 66,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2023-07-01T00:00:00",
@@ -1646,7 +1646,7 @@ export const overviews: OverviewData[] = [
     Queries: 374,
     "Payments completed": 103,
     Seats: 52,
-    Logins: 856,
+    Copilots: 856,
   },
   {
     date: "2023-07-02T00:00:00",
@@ -1655,7 +1655,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 120,
     Seats: 64,
-    Logins: 878,
+    Copilots: 878,
   },
   {
     date: "2023-07-03T00:00:00",
@@ -1664,7 +1664,7 @@ export const overviews: OverviewData[] = [
     Queries: 503,
     "Payments completed": 122,
     Seats: 63,
-    Logins: 936,
+    Copilots: 936,
   },
   {
     date: "2023-07-04T00:00:00",
@@ -1673,7 +1673,7 @@ export const overviews: OverviewData[] = [
     Queries: 507,
     "Payments completed": 81,
     Seats: 78,
-    Logins: 1006,
+    Copilots: 1006,
   },
   {
     date: "2023-07-05T00:00:00",
@@ -1682,7 +1682,7 @@ export const overviews: OverviewData[] = [
     Queries: 513,
     "Payments completed": 81,
     Seats: 80,
-    Logins: 1049,
+    Copilots: 1049,
   },
   {
     date: "2023-07-06T00:00:00",
@@ -1691,7 +1691,7 @@ export const overviews: OverviewData[] = [
     Queries: 515,
     "Payments completed": 86,
     Seats: 62,
-    Logins: 1092,
+    Copilots: 1092,
   },
   {
     date: "2023-07-07T00:00:00",
@@ -1700,7 +1700,7 @@ export const overviews: OverviewData[] = [
     Queries: 415,
     "Payments completed": 72,
     Seats: 56,
-    Logins: 1210,
+    Copilots: 1210,
   },
   {
     date: "2023-07-08T00:00:00",
@@ -1709,7 +1709,7 @@ export const overviews: OverviewData[] = [
     Queries: 430,
     "Payments completed": 69,
     Seats: 54,
-    Logins: 1292,
+    Copilots: 1292,
   },
   {
     date: "2023-07-09T00:00:00",
@@ -1718,7 +1718,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 89,
     Seats: 63,
-    Logins: 1354,
+    Copilots: 1354,
   },
   {
     date: "2023-07-10T00:00:00",
@@ -1727,7 +1727,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 91,
     Seats: 78,
-    Logins: 1513,
+    Copilots: 1513,
   },
   {
     date: "2023-07-11T00:00:00",
@@ -1736,7 +1736,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 87,
     Seats: 75,
-    Logins: 1546,
+    Copilots: 1546,
   },
   {
     date: "2023-07-12T00:00:00",
@@ -1745,7 +1745,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 85,
     Seats: 78,
-    Logins: 1819,
+    Copilots: 1819,
   },
   {
     date: "2023-07-13T00:00:00",
@@ -1754,7 +1754,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 111,
     Seats: 74,
-    Logins: 1954,
+    Copilots: 1954,
   },
   {
     date: "2023-07-14T00:00:00",
@@ -1763,7 +1763,7 @@ export const overviews: OverviewData[] = [
     Queries: 426,
     "Payments completed": 88,
     Seats: 59,
-    Logins: 1701,
+    Copilots: 1701,
   },
   {
     date: "2023-07-15T00:00:00",
@@ -1772,7 +1772,7 @@ export const overviews: OverviewData[] = [
     Queries: 367,
     "Payments completed": 101,
     Seats: 55,
-    Logins: 1309,
+    Copilots: 1309,
   },
   {
     date: "2023-07-16T00:00:00",
@@ -1781,7 +1781,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 82,
     Seats: 63,
-    Logins: 1329,
+    Copilots: 1329,
   },
   {
     date: "2023-07-17T00:00:00",
@@ -1790,7 +1790,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 82,
     Seats: 63,
-    Logins: 1447,
+    Copilots: 1447,
   },
   {
     date: "2023-07-18T00:00:00",
@@ -1799,7 +1799,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 88,
     Seats: 74,
-    Logins: 1759,
+    Copilots: 1759,
   },
   {
     date: "2023-07-19T00:00:00",
@@ -1808,7 +1808,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 90,
     Seats: 77,
-    Logins: 1931,
+    Copilots: 1931,
   },
   {
     date: "2023-07-20T00:00:00",
@@ -1817,7 +1817,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 84,
     Seats: 72,
-    Logins: 2044,
+    Copilots: 2044,
   },
   {
     date: "2023-07-21T00:00:00",
@@ -1826,7 +1826,7 @@ export const overviews: OverviewData[] = [
     Queries: 440,
     "Payments completed": 66,
     Seats: 67,
-    Logins: 2014,
+    Copilots: 2014,
   },
   {
     date: "2023-07-22T00:00:00",
@@ -1835,7 +1835,7 @@ export const overviews: OverviewData[] = [
     Queries: 408,
     "Payments completed": 71,
     Seats: 72,
-    Logins: 1729,
+    Copilots: 1729,
   },
   {
     date: "2023-07-23T00:00:00",
@@ -1844,7 +1844,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 85,
     Seats: 60,
-    Logins: 1423,
+    Copilots: 1423,
   },
   {
     date: "2023-07-24T00:00:00",
@@ -1853,7 +1853,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 109,
     Seats: 66,
-    Logins: 1490,
+    Copilots: 1490,
   },
   {
     date: "2023-07-25T00:00:00",
@@ -1862,7 +1862,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 99,
     Seats: 62,
-    Logins: 1458,
+    Copilots: 1458,
   },
   {
     date: "2023-07-26T00:00:00",
@@ -1871,7 +1871,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 87,
     Seats: 61,
-    Logins: 1156,
+    Copilots: 1156,
   },
   {
     date: "2023-07-27T00:00:00",
@@ -1880,7 +1880,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 96,
     Seats: 80,
-    Logins: 1031,
+    Copilots: 1031,
   },
   {
     date: "2023-07-28T00:00:00",
@@ -1889,7 +1889,7 @@ export const overviews: OverviewData[] = [
     Queries: 370,
     "Payments completed": 93,
     Seats: 60,
-    Logins: 966,
+    Copilots: 966,
   },
   {
     date: "2023-07-29T00:00:00",
@@ -1898,7 +1898,7 @@ export const overviews: OverviewData[] = [
     Queries: 383,
     "Payments completed": 99,
     Seats: 57,
-    Logins: 896,
+    Copilots: 896,
   },
   {
     date: "2023-07-30T00:00:00",
@@ -1907,7 +1907,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 124,
     Seats: 66,
-    Logins: 1026,
+    Copilots: 1026,
   },
   {
     date: "2023-07-31T00:00:00",
@@ -1916,7 +1916,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 124,
     Seats: 60,
-    Logins: 961,
+    Copilots: 961,
   },
   {
     date: "2023-08-01T00:00:00",
@@ -1925,7 +1925,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 89,
     Seats: 60,
-    Logins: 850,
+    Copilots: 850,
   },
   {
     date: "2023-08-02T00:00:00",
@@ -1934,7 +1934,7 @@ export const overviews: OverviewData[] = [
     Queries: 505,
     "Payments completed": 114,
     Seats: 61,
-    Logins: 868,
+    Copilots: 868,
   },
   {
     date: "2023-08-03T00:00:00",
@@ -1943,7 +1943,7 @@ export const overviews: OverviewData[] = [
     Queries: 506,
     "Payments completed": 123,
     Seats: 77,
-    Logins: 939,
+    Copilots: 939,
   },
   {
     date: "2023-08-04T00:00:00",
@@ -1952,7 +1952,7 @@ export const overviews: OverviewData[] = [
     Queries: 393,
     "Payments completed": 79,
     Seats: 48,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2023-08-05T00:00:00",
@@ -1961,7 +1961,7 @@ export const overviews: OverviewData[] = [
     Queries: 416,
     "Payments completed": 78,
     Seats: 52,
-    Logins: 867,
+    Copilots: 867,
   },
   {
     date: "2023-08-06T00:00:00",
@@ -1970,7 +1970,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 100,
     Seats: 65,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-08-07T00:00:00",
@@ -1979,7 +1979,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 122,
     Seats: 78,
-    Logins: 899,
+    Copilots: 899,
   },
   {
     date: "2023-08-08T00:00:00",
@@ -1988,7 +1988,7 @@ export const overviews: OverviewData[] = [
     Queries: 481,
     "Payments completed": 117,
     Seats: 72,
-    Logins: 941,
+    Copilots: 941,
   },
   {
     date: "2023-08-09T00:00:00",
@@ -1997,7 +1997,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 86,
     Seats: 73,
-    Logins: 1132,
+    Copilots: 1132,
   },
   {
     date: "2023-08-10T00:00:00",
@@ -2006,7 +2006,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 83,
     Seats: 80,
-    Logins: 1101,
+    Copilots: 1101,
   },
   {
     date: "2023-08-11T00:00:00",
@@ -2015,7 +2015,7 @@ export const overviews: OverviewData[] = [
     Queries: 370,
     "Payments completed": 66,
     Seats: 68,
-    Logins: 993,
+    Copilots: 993,
   },
   {
     date: "2023-08-12T00:00:00",
@@ -2024,7 +2024,7 @@ export const overviews: OverviewData[] = [
     Queries: 444,
     "Payments completed": 67,
     Seats: 70,
-    Logins: 858,
+    Copilots: 858,
   },
   {
     date: "2023-08-13T00:00:00",
@@ -2033,7 +2033,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 88,
     Seats: 78,
-    Logins: 885,
+    Copilots: 885,
   },
   {
     date: "2023-08-14T00:00:00",
@@ -2042,7 +2042,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 107,
     Seats: 77,
-    Logins: 912,
+    Copilots: 912,
   },
   {
     date: "2023-08-15T00:00:00",
@@ -2051,7 +2051,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 80,
     Seats: 76,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-08-16T00:00:00",
@@ -2060,7 +2060,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 89,
     Seats: 79,
-    Logins: 846,
+    Copilots: 846,
   },
   {
     date: "2023-08-17T00:00:00",
@@ -2069,7 +2069,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 83,
     Seats: 72,
-    Logins: 867,
+    Copilots: 867,
   },
   {
     date: "2023-08-18T00:00:00",
@@ -2078,7 +2078,7 @@ export const overviews: OverviewData[] = [
     Queries: 405,
     "Payments completed": 82,
     Seats: 58,
-    Logins: 984,
+    Copilots: 984,
   },
   {
     date: "2023-08-19T00:00:00",
@@ -2087,7 +2087,7 @@ export const overviews: OverviewData[] = [
     Queries: 383,
     "Payments completed": 97,
     Seats: 59,
-    Logins: 1006,
+    Copilots: 1006,
   },
   {
     date: "2023-08-20T00:00:00",
@@ -2096,7 +2096,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 96,
     Seats: 78,
-    Logins: 975,
+    Copilots: 975,
   },
   {
     date: "2023-08-21T00:00:00",
@@ -2105,7 +2105,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 80,
     Seats: 68,
-    Logins: 976,
+    Copilots: 976,
   },
   {
     date: "2023-08-22T00:00:00",
@@ -2114,7 +2114,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 80,
     Seats: 74,
-    Logins: 1084,
+    Copilots: 1084,
   },
   {
     date: "2023-08-23T00:00:00",
@@ -2123,7 +2123,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 96,
     Seats: 76,
-    Logins: 1130,
+    Copilots: 1130,
   },
   {
     date: "2023-08-24T00:00:00",
@@ -2132,7 +2132,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 104,
     Seats: 75,
-    Logins: 944,
+    Copilots: 944,
   },
   {
     date: "2023-08-25T00:00:00",
@@ -2141,7 +2141,7 @@ export const overviews: OverviewData[] = [
     Queries: 426,
     "Payments completed": 84,
     Seats: 66,
-    Logins: 872,
+    Copilots: 872,
   },
   {
     date: "2023-08-26T00:00:00",
@@ -2150,7 +2150,7 @@ export const overviews: OverviewData[] = [
     Queries: 436,
     "Payments completed": 85,
     Seats: 54,
-    Logins: 858,
+    Copilots: 858,
   },
   {
     date: "2023-08-27T00:00:00",
@@ -2159,7 +2159,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 111,
     Seats: 61,
-    Logins: 861,
+    Copilots: 861,
   },
   {
     date: "2023-08-28T00:00:00",
@@ -2168,7 +2168,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 82,
     Seats: 77,
-    Logins: 922,
+    Copilots: 922,
   },
   {
     date: "2023-08-29T00:00:00",
@@ -2177,7 +2177,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 112,
     Seats: 64,
-    Logins: 935,
+    Copilots: 935,
   },
   {
     date: "2023-08-30T00:00:00",
@@ -2186,7 +2186,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 123,
     Seats: 62,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-08-31T00:00:00",
@@ -2195,7 +2195,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 112,
     Seats: 64,
-    Logins: 932,
+    Copilots: 932,
   },
   {
     date: "2023-09-01T00:00:00",
@@ -2204,7 +2204,7 @@ export const overviews: OverviewData[] = [
     Queries: 408,
     "Payments completed": 78,
     Seats: 60,
-    Logins: 958,
+    Copilots: 958,
   },
   {
     date: "2023-09-02T00:00:00",
@@ -2213,7 +2213,7 @@ export const overviews: OverviewData[] = [
     Queries: 416,
     "Payments completed": 71,
     Seats: 49,
-    Logins: 943,
+    Copilots: 943,
   },
   {
     date: "2023-09-03T00:00:00",
@@ -2222,7 +2222,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 87,
     Seats: 61,
-    Logins: 863,
+    Copilots: 863,
   },
   {
     date: "2023-09-04T00:00:00",
@@ -2231,7 +2231,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 88,
     Seats: 79,
-    Logins: 846,
+    Copilots: 846,
   },
   {
     date: "2023-09-05T00:00:00",
@@ -2240,7 +2240,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 84,
     Seats: 71,
-    Logins: 880,
+    Copilots: 880,
   },
   {
     date: "2023-09-06T00:00:00",
@@ -2249,7 +2249,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 81,
     Seats: 62,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2023-09-07T00:00:00",
@@ -2258,7 +2258,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 80,
     Seats: 67,
-    Logins: 856,
+    Copilots: 856,
   },
   {
     date: "2023-09-08T00:00:00",
@@ -2267,7 +2267,7 @@ export const overviews: OverviewData[] = [
     Queries: 378,
     "Payments completed": 67,
     Seats: 50,
-    Logins: 931,
+    Copilots: 931,
   },
   {
     date: "2023-09-09T00:00:00",
@@ -2276,7 +2276,7 @@ export const overviews: OverviewData[] = [
     Queries: 445,
     "Payments completed": 83,
     Seats: 52,
-    Logins: 989,
+    Copilots: 989,
   },
   {
     date: "2023-09-10T00:00:00",
@@ -2285,7 +2285,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 83,
     Seats: 61,
-    Logins: 1148,
+    Copilots: 1148,
   },
   {
     date: "2023-09-11T00:00:00",
@@ -2294,7 +2294,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 92,
     Seats: 79,
-    Logins: 1198,
+    Copilots: 1198,
   },
   {
     date: "2023-09-12T00:00:00",
@@ -2303,7 +2303,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 82,
     Seats: 80,
-    Logins: 1104,
+    Copilots: 1104,
   },
   {
     date: "2023-09-13T00:00:00",
@@ -2312,7 +2312,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 88,
     Seats: 77,
-    Logins: 1082,
+    Copilots: 1082,
   },
   {
     date: "2023-09-14T00:00:00",
@@ -2321,7 +2321,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 85,
     Seats: 79,
-    Logins: 1119,
+    Copilots: 1119,
   },
   {
     date: "2023-09-15T00:00:00",
@@ -2330,7 +2330,7 @@ export const overviews: OverviewData[] = [
     Queries: 412,
     "Payments completed": 64,
     Seats: 54,
-    Logins: 1074,
+    Copilots: 1074,
   },
   {
     date: "2023-09-16T00:00:00",
@@ -2339,7 +2339,7 @@ export const overviews: OverviewData[] = [
     Queries: 431,
     "Payments completed": 73,
     Seats: 56,
-    Logins: 1132,
+    Copilots: 1132,
   },
   {
     date: "2023-09-17T00:00:00",
@@ -2348,7 +2348,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 115,
     Seats: 67,
-    Logins: 1260,
+    Copilots: 1260,
   },
   {
     date: "2023-09-18T00:00:00",
@@ -2357,7 +2357,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 115,
     Seats: 76,
-    Logins: 1292,
+    Copilots: 1292,
   },
   {
     date: "2023-09-19T00:00:00",
@@ -2366,7 +2366,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 115,
     Seats: 66,
-    Logins: 1128,
+    Copilots: 1128,
   },
   {
     date: "2023-09-20T00:00:00",
@@ -2375,7 +2375,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 118,
     Seats: 68,
-    Logins: 1196,
+    Copilots: 1196,
   },
   {
     date: "2023-09-21T00:00:00",
@@ -2384,7 +2384,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 85,
     Seats: 65,
-    Logins: 1268,
+    Copilots: 1268,
   },
   {
     date: "2023-09-22T00:00:00",
@@ -2393,7 +2393,7 @@ export const overviews: OverviewData[] = [
     Queries: 397,
     "Payments completed": 73,
     Seats: 54,
-    Logins: 1184,
+    Copilots: 1184,
   },
   {
     date: "2023-09-23T00:00:00",
@@ -2402,7 +2402,7 @@ export const overviews: OverviewData[] = [
     Queries: 374,
     "Payments completed": 70,
     Seats: 55,
-    Logins: 931,
+    Copilots: 931,
   },
   {
     date: "2023-09-24T00:00:00",
@@ -2411,7 +2411,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 103,
     Seats: 80,
-    Logins: 950,
+    Copilots: 950,
   },
   {
     date: "2023-09-25T00:00:00",
@@ -2420,7 +2420,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 124,
     Seats: 69,
-    Logins: 1131,
+    Copilots: 1131,
   },
   {
     date: "2023-09-26T00:00:00",
@@ -2429,7 +2429,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 112,
     Seats: 67,
-    Logins: 1013,
+    Copilots: 1013,
   },
   {
     date: "2023-09-27T00:00:00",
@@ -2438,7 +2438,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 118,
     Seats: 74,
-    Logins: 1053,
+    Copilots: 1053,
   },
   {
     date: "2023-09-28T00:00:00",
@@ -2447,7 +2447,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 118,
     Seats: 78,
-    Logins: 1065,
+    Copilots: 1065,
   },
   {
     date: "2023-09-29T00:00:00",
@@ -2456,7 +2456,7 @@ export const overviews: OverviewData[] = [
     Queries: 435,
     "Payments completed": 71,
     Seats: 61,
-    Logins: 916,
+    Copilots: 916,
   },
   {
     date: "2023-09-30T00:00:00",
@@ -2465,7 +2465,7 @@ export const overviews: OverviewData[] = [
     Queries: 418,
     "Payments completed": 76,
     Seats: 48,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-10-01T00:00:00",
@@ -2474,7 +2474,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 90,
     Seats: 64,
-    Logins: 891,
+    Copilots: 891,
   },
   {
     date: "2023-10-02T00:00:00",
@@ -2483,7 +2483,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 86,
     Seats: 62,
-    Logins: 889,
+    Copilots: 889,
   },
   {
     date: "2023-10-03T00:00:00",
@@ -2492,7 +2492,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 81,
     Seats: 61,
-    Logins: 1002,
+    Copilots: 1002,
   },
   {
     date: "2023-10-04T00:00:00",
@@ -2501,7 +2501,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 103,
     Seats: 64,
-    Logins: 887,
+    Copilots: 887,
   },
   {
     date: "2023-10-05T00:00:00",
@@ -2510,7 +2510,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 83,
     Seats: 63,
-    Logins: 863,
+    Copilots: 863,
   },
   {
     date: "2023-10-06T00:00:00",
@@ -2519,7 +2519,7 @@ export const overviews: OverviewData[] = [
     Queries: 378,
     "Payments completed": 92,
     Seats: 49,
-    Logins: 849,
+    Copilots: 849,
   },
   {
     date: "2023-10-07T00:00:00",
@@ -2528,7 +2528,7 @@ export const overviews: OverviewData[] = [
     Queries: 447,
     "Payments completed": 68,
     Seats: 54,
-    Logins: 924,
+    Copilots: 924,
   },
   {
     date: "2023-10-08T00:00:00",
@@ -2537,7 +2537,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 81,
     Seats: 61,
-    Logins: 1026,
+    Copilots: 1026,
   },
   {
     date: "2023-10-09T00:00:00",
@@ -2546,7 +2546,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 121,
     Seats: 64,
-    Logins: 1006,
+    Copilots: 1006,
   },
   {
     date: "2023-10-10T00:00:00",
@@ -2555,7 +2555,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 98,
     Seats: 66,
-    Logins: 1027,
+    Copilots: 1027,
   },
   {
     date: "2023-10-11T00:00:00",
@@ -2564,7 +2564,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 117,
     Seats: 66,
-    Logins: 983,
+    Copilots: 983,
   },
   {
     date: "2023-10-12T00:00:00",
@@ -2573,7 +2573,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 99,
     Seats: 79,
-    Logins: 848,
+    Copilots: 848,
   },
   {
     date: "2023-10-13T00:00:00",
@@ -2582,7 +2582,7 @@ export const overviews: OverviewData[] = [
     Queries: 381,
     "Payments completed": 67,
     Seats: 59,
-    Logins: 857,
+    Copilots: 857,
   },
   {
     date: "2023-10-14T00:00:00",
@@ -2591,7 +2591,7 @@ export const overviews: OverviewData[] = [
     Queries: 430,
     "Payments completed": 67,
     Seats: 57,
-    Logins: 928,
+    Copilots: 928,
   },
   {
     date: "2023-10-15T00:00:00",
@@ -2600,7 +2600,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 99,
     Seats: 64,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-10-16T00:00:00",
@@ -2609,7 +2609,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 119,
     Seats: 64,
-    Logins: 879,
+    Copilots: 879,
   },
   {
     date: "2023-10-17T00:00:00",
@@ -2618,7 +2618,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 119,
     Seats: 64,
-    Logins: 862,
+    Copilots: 862,
   },
   {
     date: "2023-10-18T00:00:00",
@@ -2627,7 +2627,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 121,
     Seats: 62,
-    Logins: 895,
+    Copilots: 895,
   },
   {
     date: "2023-10-19T00:00:00",
@@ -2636,7 +2636,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 97,
     Seats: 64,
-    Logins: 998,
+    Copilots: 998,
   },
   {
     date: "2023-10-20T00:00:00",
@@ -2645,7 +2645,7 @@ export const overviews: OverviewData[] = [
     Queries: 409,
     "Payments completed": 70,
     Seats: 67,
-    Logins: 940,
+    Copilots: 940,
   },
   {
     date: "2023-10-21T00:00:00",
@@ -2654,7 +2654,7 @@ export const overviews: OverviewData[] = [
     Queries: 401,
     "Payments completed": 69,
     Seats: 61,
-    Logins: 971,
+    Copilots: 971,
   },
   {
     date: "2023-10-22T00:00:00",
@@ -2663,7 +2663,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 98,
     Seats: 69,
-    Logins: 924,
+    Copilots: 924,
   },
   {
     date: "2023-10-23T00:00:00",
@@ -2672,7 +2672,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 119,
     Seats: 63,
-    Logins: 844,
+    Copilots: 844,
   },
   {
     date: "2023-10-24T00:00:00",
@@ -2681,7 +2681,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 113,
     Seats: 78,
-    Logins: 879,
+    Copilots: 879,
   },
   {
     date: "2023-10-25T00:00:00",
@@ -2690,7 +2690,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 102,
     Seats: 75,
-    Logins: 871,
+    Copilots: 871,
   },
   {
     date: "2023-10-26T00:00:00",
@@ -2699,7 +2699,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 121,
     Seats: 75,
-    Logins: 961,
+    Copilots: 961,
   },
   {
     date: "2023-10-27T00:00:00",
@@ -2708,7 +2708,7 @@ export const overviews: OverviewData[] = [
     Queries: 442,
     "Payments completed": 94,
     Seats: 63,
-    Logins: 848,
+    Copilots: 848,
   },
   {
     date: "2023-10-28T00:00:00",
@@ -2717,7 +2717,7 @@ export const overviews: OverviewData[] = [
     Queries: 389,
     "Payments completed": 108,
     Seats: 48,
-    Logins: 857,
+    Copilots: 857,
   },
   {
     date: "2023-10-30T00:00:00",
@@ -2726,7 +2726,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 94,
     Seats: 62,
-    Logins: 874,
+    Copilots: 874,
   },
   {
     date: "2023-10-31T00:00:00",
@@ -2735,7 +2735,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 85,
     Seats: 68,
-    Logins: 933,
+    Copilots: 933,
   },
   {
     date: "2023-11-01T00:00:00",
@@ -2744,7 +2744,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 90,
     Seats: 71,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2023-11-02T00:00:00",
@@ -2753,7 +2753,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 81,
     Seats: 64,
-    Logins: 861,
+    Copilots: 861,
   },
   {
     date: "2023-11-03T00:00:00",
@@ -2762,7 +2762,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 85,
     Seats: 77,
-    Logins: 984,
+    Copilots: 984,
   },
   {
     date: "2023-11-04T00:00:00",
@@ -2771,7 +2771,7 @@ export const overviews: OverviewData[] = [
     Queries: 412,
     "Payments completed": 81,
     Seats: 64,
-    Logins: 955,
+    Copilots: 955,
   },
   {
     date: "2023-11-05T00:00:00",
@@ -2780,7 +2780,7 @@ export const overviews: OverviewData[] = [
     Queries: 436,
     "Payments completed": 96,
     Seats: 58,
-    Logins: 920,
+    Copilots: 920,
   },
   {
     date: "2023-11-06T00:00:00",
@@ -2789,7 +2789,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 95,
     Seats: 64,
-    Logins: 855,
+    Copilots: 855,
   },
   {
     date: "2023-11-07T00:00:00",
@@ -2798,7 +2798,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 84,
     Seats: 75,
-    Logins: 861,
+    Copilots: 861,
   },
   {
     date: "2023-11-08T00:00:00",
@@ -2807,7 +2807,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 93,
     Seats: 70,
-    Logins: 953,
+    Copilots: 953,
   },
   {
     date: "2023-11-09T00:00:00",
@@ -2816,7 +2816,7 @@ export const overviews: OverviewData[] = [
     Queries: 503,
     "Payments completed": 121,
     Seats: 63,
-    Logins: 861,
+    Copilots: 861,
   },
   {
     date: "2023-11-10T00:00:00",
@@ -2825,7 +2825,7 @@ export const overviews: OverviewData[] = [
     Queries: 504,
     "Payments completed": 122,
     Seats: 64,
-    Logins: 872,
+    Copilots: 872,
   },
   {
     date: "2023-11-11T00:00:00",
@@ -2834,7 +2834,7 @@ export const overviews: OverviewData[] = [
     Queries: 381,
     "Payments completed": 93,
     Seats: 59,
-    Logins: 936,
+    Copilots: 936,
   },
   {
     date: "2023-11-12T00:00:00",
@@ -2843,7 +2843,7 @@ export const overviews: OverviewData[] = [
     Queries: 401,
     "Payments completed": 65,
     Seats: 54,
-    Logins: 987,
+    Copilots: 987,
   },
   {
     date: "2023-11-13T00:00:00",
@@ -2852,7 +2852,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 84,
     Seats: 60,
-    Logins: 959,
+    Copilots: 959,
   },
   {
     date: "2023-11-14T00:00:00",
@@ -2861,7 +2861,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 81,
     Seats: 69,
-    Logins: 998,
+    Copilots: 998,
   },
   {
     date: "2023-11-15T00:00:00",
@@ -2870,7 +2870,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 85,
     Seats: 79,
-    Logins: 871,
+    Copilots: 871,
   },
   {
     date: "2023-11-16T00:00:00",
@@ -2879,7 +2879,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 91,
     Seats: 76,
-    Logins: 854,
+    Copilots: 854,
   },
   {
     date: "2023-11-17T00:00:00",
@@ -2888,7 +2888,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 86,
     Seats: 77,
-    Logins: 883,
+    Copilots: 883,
   },
   {
     date: "2023-11-18T00:00:00",
@@ -2897,7 +2897,7 @@ export const overviews: OverviewData[] = [
     Queries: 423,
     "Payments completed": 73,
     Seats: 61,
-    Logins: 844,
+    Copilots: 844,
   },
   {
     date: "2023-11-19T00:00:00",
@@ -2906,7 +2906,7 @@ export const overviews: OverviewData[] = [
     Queries: 410,
     "Payments completed": 70,
     Seats: 51,
-    Logins: 881,
+    Copilots: 881,
   },
   {
     date: "2023-11-20T00:00:00",
@@ -2915,7 +2915,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 91,
     Seats: 69,
-    Logins: 891,
+    Copilots: 891,
   },
   {
     date: "2023-11-21T00:00:00",
@@ -2924,7 +2924,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 85,
     Seats: 61,
-    Logins: 865,
+    Copilots: 865,
   },
   {
     date: "2023-11-22T00:00:00",
@@ -2933,7 +2933,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 108,
     Seats: 61,
-    Logins: 859,
+    Copilots: 859,
   },
   {
     date: "2023-11-23T00:00:00",
@@ -2942,7 +2942,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 116,
     Seats: 64,
-    Logins: 863,
+    Copilots: 863,
   },
   {
     date: "2023-11-24T00:00:00",
@@ -2951,7 +2951,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 93,
     Seats: 60,
-    Logins: 869,
+    Copilots: 869,
   },
   {
     date: "2023-11-25T00:00:00",
@@ -2960,7 +2960,7 @@ export const overviews: OverviewData[] = [
     Queries: 366,
     "Payments completed": 64,
     Seats: 50,
-    Logins: 870,
+    Copilots: 870,
   },
   {
     date: "2023-11-26T00:00:00",
@@ -2969,7 +2969,7 @@ export const overviews: OverviewData[] = [
     Queries: 437,
     "Payments completed": 64,
     Seats: 52,
-    Logins: 866,
+    Copilots: 866,
   },
   {
     date: "2023-11-27T00:00:00",
@@ -2978,7 +2978,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 81,
     Seats: 64,
-    Logins: 876,
+    Copilots: 876,
   },
   {
     date: "2023-11-28T00:00:00",
@@ -2987,7 +2987,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 124,
     Seats: 68,
-    Logins: 1032,
+    Copilots: 1032,
   },
   {
     date: "2023-11-29T00:00:00",
@@ -2996,7 +2996,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 113,
     Seats: 64,
-    Logins: 1285,
+    Copilots: 1285,
   },
   {
     date: "2023-11-30T00:00:00",
@@ -3005,7 +3005,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 121,
     Seats: 66,
-    Logins: 1697,
+    Copilots: 1697,
   },
   {
     date: "2023-12-01T00:00:00",
@@ -3014,7 +3014,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 117,
     Seats: 63,
-    Logins: 2012,
+    Copilots: 2012,
   },
   {
     date: "2023-12-02T00:00:00",
@@ -3023,7 +3023,7 @@ export const overviews: OverviewData[] = [
     Queries: 359,
     "Payments completed": 106,
     Seats: 49,
-    Logins: 2006,
+    Copilots: 2006,
   },
   {
     date: "2023-12-03T00:00:00",
@@ -3032,7 +3032,7 @@ export const overviews: OverviewData[] = [
     Queries: 442,
     "Payments completed": 104,
     Seats: 45,
-    Logins: 1794,
+    Copilots: 1794,
   },
   {
     date: "2023-12-04T00:00:00",
@@ -3041,7 +3041,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 116,
     Seats: 66,
-    Logins: 1765,
+    Copilots: 1765,
   },
   {
     date: "2023-12-05T00:00:00",
@@ -3050,7 +3050,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 96,
     Seats: 68,
-    Logins: 1841,
+    Copilots: 1841,
   },
   {
     date: "2023-12-06T00:00:00",
@@ -3059,7 +3059,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 82,
     Seats: 63,
-    Logins: 2022,
+    Copilots: 2022,
   },
   {
     date: "2023-12-07T00:00:00",
@@ -3068,7 +3068,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 84,
     Seats: 76,
-    Logins: 1973,
+    Copilots: 1973,
   },
   {
     date: "2023-12-08T00:00:00",
@@ -3077,7 +3077,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 82,
     Seats: 73,
-    Logins: 1786,
+    Copilots: 1786,
   },
   {
     date: "2023-12-09T00:00:00",
@@ -3086,7 +3086,7 @@ export const overviews: OverviewData[] = [
     Queries: 428,
     "Payments completed": 84,
     Seats: 55,
-    Logins: 1533,
+    Copilots: 1533,
   },
   {
     date: "2023-12-10T00:00:00",
@@ -3095,7 +3095,7 @@ export const overviews: OverviewData[] = [
     Queries: 409,
     "Payments completed": 106,
     Seats: 48,
-    Logins: 1279,
+    Copilots: 1279,
   },
   {
     date: "2023-12-11T00:00:00",
@@ -3104,7 +3104,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 90,
     Seats: 64,
-    Logins: 1018,
+    Copilots: 1018,
   },
   {
     date: "2023-12-12T00:00:00",
@@ -3113,7 +3113,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 80,
     Seats: 78,
-    Logins: 973,
+    Copilots: 973,
   },
   {
     date: "2023-12-13T00:00:00",
@@ -3122,7 +3122,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 84,
     Seats: 73,
-    Logins: 857,
+    Copilots: 857,
   },
   {
     date: "2023-12-14T00:00:00",
@@ -3131,7 +3131,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 96,
     Seats: 80,
-    Logins: 868,
+    Copilots: 868,
   },
   {
     date: "2023-12-15T00:00:00",
@@ -3140,7 +3140,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 121,
     Seats: 79,
-    Logins: 952,
+    Copilots: 952,
   },
   {
     date: "2023-12-16T00:00:00",
@@ -3149,7 +3149,7 @@ export const overviews: OverviewData[] = [
     Queries: 397,
     "Payments completed": 90,
     Seats: 60,
-    Logins: 1118,
+    Copilots: 1118,
   },
   {
     date: "2023-12-17T00:00:00",
@@ -3158,7 +3158,7 @@ export const overviews: OverviewData[] = [
     Queries: 426,
     "Payments completed": 66,
     Seats: 48,
-    Logins: 1415,
+    Copilots: 1415,
   },
   {
     date: "2023-12-18T00:00:00",
@@ -3167,7 +3167,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 83,
     Seats: 67,
-    Logins: 1881,
+    Copilots: 1881,
   },
   {
     date: "2023-12-19T00:00:00",
@@ -3176,7 +3176,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 121,
     Seats: 60,
-    Logins: 1911,
+    Copilots: 1911,
   },
   {
     date: "2023-12-20T00:00:00",
@@ -3185,7 +3185,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 125,
     Seats: 60,
-    Logins: 1637,
+    Copilots: 1637,
   },
   {
     date: "2023-12-21T00:00:00",
@@ -3194,7 +3194,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 121,
     Seats: 62,
-    Logins: 1519,
+    Copilots: 1519,
   },
   {
     date: "2023-12-22T00:00:00",
@@ -3203,7 +3203,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 119,
     Seats: 61,
-    Logins: 1315,
+    Copilots: 1315,
   },
   {
     date: "2023-12-23T00:00:00",
@@ -3212,7 +3212,7 @@ export const overviews: OverviewData[] = [
     Queries: 391,
     "Payments completed": 94,
     Seats: 52,
-    Logins: 1275,
+    Copilots: 1275,
   },
   {
     date: "2023-12-24T00:00:00",
@@ -3221,7 +3221,7 @@ export const overviews: OverviewData[] = [
     Queries: 398,
     "Payments completed": 68,
     Seats: 57,
-    Logins: 1138,
+    Copilots: 1138,
   },
   {
     date: "2023-12-25T00:00:00",
@@ -3230,7 +3230,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 89,
     Seats: 65,
-    Logins: 1213,
+    Copilots: 1213,
   },
   {
     date: "2023-12-26T00:00:00",
@@ -3239,7 +3239,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 98,
     Seats: 60,
-    Logins: 1306,
+    Copilots: 1306,
   },
   {
     date: "2023-12-27T00:00:00",
@@ -3248,7 +3248,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 81,
     Seats: 65,
-    Logins: 1536,
+    Copilots: 1536,
   },
   {
     date: "2023-12-28T00:00:00",
@@ -3257,7 +3257,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 87,
     Seats: 63,
-    Logins: 1879,
+    Copilots: 1879,
   },
   {
     date: "2023-12-29T00:00:00",
@@ -3266,7 +3266,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 99,
     Seats: 60,
-    Logins: 2034,
+    Copilots: 2034,
   },
   {
     date: "2023-12-30T00:00:00",
@@ -3275,7 +3275,7 @@ export const overviews: OverviewData[] = [
     Queries: 427,
     "Payments completed": 94,
     Seats: 53,
-    Logins: 2009,
+    Copilots: 2009,
   },
   {
     date: "2023-12-31T00:00:00",
@@ -3284,7 +3284,7 @@ export const overviews: OverviewData[] = [
     Queries: 399,
     "Payments completed": 81,
     Seats: 49,
-    Logins: 2002,
+    Copilots: 2002,
   },
   {
     date: "2024-01-01T00:00:00",
@@ -3293,7 +3293,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 87,
     Seats: 66,
-    Logins: 2038,
+    Copilots: 2038,
   },
   {
     date: "2024-01-02T00:00:00",
@@ -3302,7 +3302,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 81,
     Seats: 65,
-    Logins: 1994,
+    Copilots: 1994,
   },
   {
     date: "2024-01-03T00:00:00",
@@ -3311,7 +3311,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 86,
     Seats: 60,
-    Logins: 1975,
+    Copilots: 1975,
   },
   {
     date: "2024-01-04T00:00:00",
@@ -3320,7 +3320,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 84,
     Seats: 65,
-    Logins: 2012,
+    Copilots: 2012,
   },
   {
     date: "2024-01-05T00:00:00",
@@ -3329,7 +3329,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 98,
     Seats: 66,
-    Logins: 1944,
+    Copilots: 1944,
   },
   {
     date: "2024-01-06T00:00:00",
@@ -3338,7 +3338,7 @@ export const overviews: OverviewData[] = [
     Queries: 379,
     "Payments completed": 106,
     Seats: 55,
-    Logins: 1741,
+    Copilots: 1741,
   },
   {
     date: "2024-01-07T00:00:00",
@@ -3347,7 +3347,7 @@ export const overviews: OverviewData[] = [
     Queries: 431,
     "Payments completed": 92,
     Seats: 52,
-    Logins: 1862,
+    Copilots: 1862,
   },
   {
     date: "2024-01-08T00:00:00",
@@ -3356,7 +3356,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 119,
     Seats: 65,
-    Logins: 2003,
+    Copilots: 2003,
   },
   {
     date: "2024-01-09T00:00:00",
@@ -3365,7 +3365,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 112,
     Seats: 68,
-    Logins: 1975,
+    Copilots: 1975,
   },
   {
     date: "2024-01-10T00:00:00",
@@ -3374,7 +3374,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 121,
     Seats: 63,
-    Logins: 2021,
+    Copilots: 2021,
   },
   {
     date: "2024-01-11T00:00:00",
@@ -3383,7 +3383,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 112,
     Seats: 64,
-    Logins: 2020,
+    Copilots: 2020,
   },
   {
     date: "2024-01-12T00:00:00",
@@ -3392,7 +3392,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 102,
     Seats: 63,
-    Logins: 1934,
+    Copilots: 1934,
   },
   {
     date: "2024-01-13T00:00:00",
@@ -3401,7 +3401,7 @@ export const overviews: OverviewData[] = [
     Queries: 371,
     "Payments completed": 106,
     Seats: 52,
-    Logins: 1908,
+    Copilots: 1908,
   },
   {
     date: "2024-01-14T00:00:00",
@@ -3410,7 +3410,7 @@ export const overviews: OverviewData[] = [
     Queries: 393,
     "Payments completed": 82,
     Seats: 50,
-    Logins: 1572,
+    Copilots: 1572,
   },
   {
     date: "2024-01-15T00:00:00",
@@ -3419,7 +3419,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 106,
     Seats: 68,
-    Logins: 1311,
+    Copilots: 1311,
   },
   {
     date: "2024-01-16T00:00:00",
@@ -3428,7 +3428,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 82,
     Seats: 61,
-    Logins: 946,
+    Copilots: 946,
   },
   {
     date: "2024-01-17T00:00:00",
@@ -3437,7 +3437,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 86,
     Seats: 61,
-    Logins: 878,
+    Copilots: 878,
   },
   {
     date: "2024-01-18T00:00:00",
@@ -3446,7 +3446,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 82,
     Seats: 66,
-    Logins: 895,
+    Copilots: 895,
   },
   {
     date: "2024-01-19T00:00:00",
@@ -3455,7 +3455,7 @@ export const overviews: OverviewData[] = [
     Queries: 501,
     "Payments completed": 88,
     Seats: 64,
-    Logins: 882,
+    Copilots: 882,
   },
   {
     date: "2024-01-20T00:00:00",
@@ -3464,7 +3464,7 @@ export const overviews: OverviewData[] = [
     Queries: 425,
     "Payments completed": 67,
     Seats: 54,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2024-01-21T00:00:00",
@@ -3473,7 +3473,7 @@ export const overviews: OverviewData[] = [
     Queries: 380,
     "Payments completed": 70,
     Seats: 47,
-    Logins: 854,
+    Copilots: 854,
   },
   {
     date: "2024-01-22T00:00:00",
@@ -3482,7 +3482,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 82,
     Seats: 62,
-    Logins: 848,
+    Copilots: 848,
   },
   {
     date: "2024-01-23T00:00:00",
@@ -3491,7 +3491,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 88,
     Seats: 78,
-    Logins: 872,
+    Copilots: 872,
   },
   {
     date: "2024-01-24T00:00:00",
@@ -3500,7 +3500,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 109,
     Seats: 69,
-    Logins: 875,
+    Copilots: 875,
   },
   {
     date: "2024-01-25T00:00:00",
@@ -3509,7 +3509,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 80,
     Seats: 76,
-    Logins: 914,
+    Copilots: 914,
   },
   {
     date: "2024-01-26T00:00:00",
@@ -3518,7 +3518,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 80,
     Seats: 78,
-    Logins: 959,
+    Copilots: 959,
   },
   {
     date: "2024-01-27T00:00:00",
@@ -3527,7 +3527,7 @@ export const overviews: OverviewData[] = [
     Queries: 432,
     "Payments completed": 65,
     Seats: 53,
-    Logins: 1059,
+    Copilots: 1059,
   },
   {
     date: "2024-01-28T00:00:00",
@@ -3536,7 +3536,7 @@ export const overviews: OverviewData[] = [
     Queries: 431,
     "Payments completed": 65,
     Seats: 49,
-    Logins: 997,
+    Copilots: 997,
   },
   {
     date: "2024-01-29T00:00:00",
@@ -3545,7 +3545,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 83,
     Seats: 64,
-    Logins: 950,
+    Copilots: 950,
   },
   {
     date: "2024-01-30T00:00:00",
@@ -3554,7 +3554,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 87,
     Seats: 66,
-    Logins: 1028,
+    Copilots: 1028,
   },
   {
     date: "2024-01-31T00:00:00",
@@ -3563,7 +3563,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 102,
     Seats: 79,
-    Logins: 1198,
+    Copilots: 1198,
   },
   {
     date: "2024-02-01T00:00:00",
@@ -3572,7 +3572,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 81,
     Seats: 76,
-    Logins: 1458,
+    Copilots: 1458,
   },
   {
     date: "2024-02-02T00:00:00",
@@ -3581,7 +3581,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 80,
     Seats: 77,
-    Logins: 1712,
+    Copilots: 1712,
   },
   {
     date: "2024-02-03T00:00:00",
@@ -3590,7 +3590,7 @@ export const overviews: OverviewData[] = [
     Queries: 425,
     "Payments completed": 68,
     Seats: 70,
-    Logins: 1704,
+    Copilots: 1704,
   },
   {
     date: "2024-02-04T00:00:00",
@@ -3599,7 +3599,7 @@ export const overviews: OverviewData[] = [
     Queries: 369,
     "Payments completed": 69,
     Seats: 62,
-    Logins: 1393,
+    Copilots: 1393,
   },
   {
     date: "2024-02-05T00:00:00",
@@ -3608,7 +3608,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 85,
     Seats: 62,
-    Logins: 1235,
+    Copilots: 1235,
   },
   {
     date: "2024-02-06T00:00:00",
@@ -3617,7 +3617,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 88,
     Seats: 80,
-    Logins: 1100,
+    Copilots: 1100,
   },
   {
     date: "2024-02-07T00:00:00",
@@ -3626,7 +3626,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 87,
     Seats: 71,
-    Logins: 932,
+    Copilots: 932,
   },
   {
     date: "2024-02-08T00:00:00",
@@ -3635,7 +3635,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 83,
     Seats: 75,
-    Logins: 868,
+    Copilots: 868,
   },
   {
     date: "2024-02-09T00:00:00",
@@ -3644,7 +3644,7 @@ export const overviews: OverviewData[] = [
     Queries: 478,
     "Payments completed": 89,
     Seats: 77,
-    Logins: 878,
+    Copilots: 878,
   },
   {
     date: "2024-02-10T00:00:00",
@@ -3653,7 +3653,7 @@ export const overviews: OverviewData[] = [
     Queries: 392,
     "Payments completed": 72,
     Seats: 58,
-    Logins: 1033,
+    Copilots: 1033,
   },
   {
     date: "2024-02-11T00:00:00",
@@ -3662,7 +3662,7 @@ export const overviews: OverviewData[] = [
     Queries: 382,
     "Payments completed": 67,
     Seats: 53,
-    Logins: 1008,
+    Copilots: 1008,
   },
   {
     date: "2024-02-12T00:00:00",
@@ -3671,7 +3671,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 83,
     Seats: 66,
-    Logins: 960,
+    Copilots: 960,
   },
   {
     date: "2024-02-13T00:00:00",
@@ -3680,7 +3680,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 80,
     Seats: 63,
-    Logins: 858,
+    Copilots: 858,
   },
   {
     date: "2024-02-14T00:00:00",
@@ -3689,7 +3689,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 82,
     Seats: 60,
-    Logins: 942,
+    Copilots: 942,
   },
   {
     date: "2024-02-15T00:00:00",
@@ -3698,7 +3698,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 83,
     Seats: 61,
-    Logins: 1015,
+    Copilots: 1015,
   },
   {
     date: "2024-02-16T00:00:00",
@@ -3707,7 +3707,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 86,
     Seats: 61,
-    Logins: 1067,
+    Copilots: 1067,
   },
   {
     date: "2024-02-17T00:00:00",
@@ -3716,7 +3716,7 @@ export const overviews: OverviewData[] = [
     Queries: 372,
     "Payments completed": 73,
     Seats: 53,
-    Logins: 1175,
+    Copilots: 1175,
   },
   {
     date: "2024-02-18T00:00:00",
@@ -3725,7 +3725,7 @@ export const overviews: OverviewData[] = [
     Queries: 393,
     "Payments completed": 75,
     Seats: 56,
-    Logins: 1411,
+    Copilots: 1411,
   },
   {
     date: "2024-02-19T00:00:00",
@@ -3734,7 +3734,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 90,
     Seats: 65,
-    Logins: 1586,
+    Copilots: 1586,
   },
   {
     date: "2024-02-20T00:00:00",
@@ -3743,7 +3743,7 @@ export const overviews: OverviewData[] = [
     Queries: 500,
     "Payments completed": 83,
     Seats: 78,
-    Logins: 1792,
+    Copilots: 1792,
   },
   {
     date: "2024-02-21T00:00:00",
@@ -3752,7 +3752,7 @@ export const overviews: OverviewData[] = [
     Queries: 507,
     "Payments completed": 82,
     Seats: 61,
-    Logins: 1837,
+    Copilots: 1837,
   },
   {
     date: "2024-02-22T00:00:00",
@@ -3761,7 +3761,7 @@ export const overviews: OverviewData[] = [
     Queries: 509,
     "Payments completed": 83,
     Seats: 65,
-    Logins: 1818,
+    Copilots: 1818,
   },
   {
     date: "2024-02-23T00:00:00",
@@ -3770,7 +3770,7 @@ export const overviews: OverviewData[] = [
     Queries: 509,
     "Payments completed": 86,
     Seats: 68,
-    Logins: 1460,
+    Copilots: 1460,
   },
   {
     date: "2024-02-24T00:00:00",
@@ -3779,7 +3779,7 @@ export const overviews: OverviewData[] = [
     Queries: 402,
     "Payments completed": 76,
     Seats: 67,
-    Logins: 1232,
+    Copilots: 1232,
   },
   {
     date: "2024-02-25T00:00:00",
@@ -3788,7 +3788,7 @@ export const overviews: OverviewData[] = [
     Queries: 432,
     "Payments completed": 75,
     Seats: 49,
-    Logins: 1122,
+    Copilots: 1122,
   },
   {
     date: "2024-02-26T00:00:00",
@@ -3797,7 +3797,7 @@ export const overviews: OverviewData[] = [
     Queries: 487,
     "Payments completed": 84,
     Seats: 62,
-    Logins: 1118,
+    Copilots: 1118,
   },
   {
     date: "2024-02-27T00:00:00",
@@ -3806,7 +3806,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 110,
     Seats: 79,
-    Logins: 1247,
+    Copilots: 1247,
   },
   {
     date: "2024-02-28T00:00:00",
@@ -3815,7 +3815,7 @@ export const overviews: OverviewData[] = [
     Queries: 481,
     "Payments completed": 91,
     Seats: 64,
-    Logins: 1231,
+    Copilots: 1231,
   },
   {
     date: "2024-02-29T00:00:00",
@@ -3824,7 +3824,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 89,
     Seats: 79,
-    Logins: 991,
+    Copilots: 991,
   },
   {
     date: "2024-03-01T00:00:00",
@@ -3833,7 +3833,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 110,
     Seats: 71,
-    Logins: 865,
+    Copilots: 865,
   },
   {
     date: "2024-03-02T00:00:00",
@@ -3842,7 +3842,7 @@ export const overviews: OverviewData[] = [
     Queries: 363,
     "Payments completed": 100,
     Seats: 65,
-    Logins: 855,
+    Copilots: 855,
   },
   {
     date: "2024-03-03T00:00:00",
@@ -3851,7 +3851,7 @@ export const overviews: OverviewData[] = [
     Queries: 393,
     "Payments completed": 91,
     Seats: 64,
-    Logins: 859,
+    Copilots: 859,
   },
   {
     date: "2024-03-04T00:00:00",
@@ -3860,7 +3860,7 @@ export const overviews: OverviewData[] = [
     Queries: 495,
     "Payments completed": 122,
     Seats: 61,
-    Logins: 867,
+    Copilots: 867,
   },
   {
     date: "2024-03-05T00:00:00",
@@ -3869,7 +3869,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 109,
     Seats: 60,
-    Logins: 879,
+    Copilots: 879,
   },
   {
     date: "2024-03-06T00:00:00",
@@ -3878,7 +3878,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 98,
     Seats: 65,
-    Logins: 869,
+    Copilots: 869,
   },
   {
     date: "2024-03-07T00:00:00",
@@ -3887,7 +3887,7 @@ export const overviews: OverviewData[] = [
     Queries: 482,
     "Payments completed": 104,
     Seats: 77,
-    Logins: 877,
+    Copilots: 877,
   },
   {
     date: "2024-03-08T00:00:00",
@@ -3896,7 +3896,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 82,
     Seats: 73,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2024-03-09T00:00:00",
@@ -3905,7 +3905,7 @@ export const overviews: OverviewData[] = [
     Queries: 409,
     "Payments completed": 76,
     Seats: 49,
-    Logins: 979,
+    Copilots: 979,
   },
   {
     date: "2024-03-10T00:00:00",
@@ -3914,7 +3914,7 @@ export const overviews: OverviewData[] = [
     Queries: 387,
     "Payments completed": 68,
     Seats: 50,
-    Logins: 1138,
+    Copilots: 1138,
   },
   {
     date: "2024-03-11T00:00:00",
@@ -3923,7 +3923,7 @@ export const overviews: OverviewData[] = [
     Queries: 497,
     "Payments completed": 83,
     Seats: 60,
-    Logins: 1026,
+    Copilots: 1026,
   },
   {
     date: "2024-03-12T00:00:00",
@@ -3932,7 +3932,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 81,
     Seats: 70,
-    Logins: 858,
+    Copilots: 858,
   },
   {
     date: "2024-03-13T00:00:00",
@@ -3941,7 +3941,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 106,
     Seats: 74,
-    Logins: 879,
+    Copilots: 879,
   },
   {
     date: "2024-03-14T00:00:00",
@@ -3950,7 +3950,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 116,
     Seats: 72,
-    Logins: 844,
+    Copilots: 844,
   },
   {
     date: "2024-03-15T00:00:00",
@@ -3959,7 +3959,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 120,
     Seats: 73,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2024-03-16T00:00:00",
@@ -3968,7 +3968,7 @@ export const overviews: OverviewData[] = [
     Queries: 391,
     "Payments completed": 94,
     Seats: 60,
-    Logins: 860,
+    Copilots: 860,
   },
   {
     date: "2024-03-17T00:00:00",
@@ -3977,7 +3977,7 @@ export const overviews: OverviewData[] = [
     Queries: 440,
     "Payments completed": 92,
     Seats: 69,
-    Logins: 920,
+    Copilots: 920,
   },
   {
     date: "2024-03-18T00:00:00",
@@ -3986,7 +3986,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 82,
     Seats: 75,
-    Logins: 856,
+    Copilots: 856,
   },
   {
     date: "2024-03-19T00:00:00",
@@ -3995,7 +3995,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 114,
     Seats: 70,
-    Logins: 845,
+    Copilots: 845,
   },
   {
     date: "2024-03-20T00:00:00",
@@ -4004,7 +4004,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 107,
     Seats: 80,
-    Logins: 848,
+    Copilots: 848,
   },
   {
     date: "2024-03-21T00:00:00",
@@ -4013,7 +4013,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 81,
     Seats: 61,
-    Logins: 847,
+    Copilots: 847,
   },
   {
     date: "2024-03-22T00:00:00",
@@ -4022,7 +4022,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 84,
     Seats: 63,
-    Logins: 847,
+    Copilots: 847,
   },
   {
     date: "2024-03-23T00:00:00",
@@ -4031,7 +4031,7 @@ export const overviews: OverviewData[] = [
     Queries: 420,
     "Payments completed": 66,
     Seats: 61,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2024-03-24T00:00:00",
@@ -4040,7 +4040,7 @@ export const overviews: OverviewData[] = [
     Queries: 370,
     "Payments completed": 66,
     Seats: 51,
-    Logins: 952,
+    Copilots: 952,
   },
   {
     date: "2024-03-25T00:00:00",
@@ -4049,7 +4049,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 101,
     Seats: 63,
-    Logins: 1030,
+    Copilots: 1030,
   },
   {
     date: "2024-03-26T00:00:00",
@@ -4058,7 +4058,7 @@ export const overviews: OverviewData[] = [
     Queries: 504,
     "Payments completed": 124,
     Seats: 78,
-    Logins: 1009,
+    Copilots: 1009,
   },
   {
     date: "2024-03-27T00:00:00",
@@ -4067,7 +4067,7 @@ export const overviews: OverviewData[] = [
     Queries: 510,
     "Payments completed": 100,
     Seats: 70,
-    Logins: 868,
+    Copilots: 868,
   },
   {
     date: "2024-03-28T00:00:00",
@@ -4076,7 +4076,7 @@ export const overviews: OverviewData[] = [
     Queries: 510,
     "Payments completed": 92,
     Seats: 76,
-    Logins: 852,
+    Copilots: 852,
   },
   {
     date: "2024-03-29T00:00:00",
@@ -4085,7 +4085,7 @@ export const overviews: OverviewData[] = [
     Queries: 507,
     "Payments completed": 83,
     Seats: 71,
-    Logins: 906,
+    Copilots: 906,
   },
   {
     date: "2024-03-30T00:00:00",
@@ -4094,7 +4094,7 @@ export const overviews: OverviewData[] = [
     Queries: 383,
     "Payments completed": 75,
     Seats: 66,
-    Logins: 866,
+    Copilots: 866,
   },
   {
     date: "2024-03-31T00:00:00",
@@ -4103,7 +4103,7 @@ export const overviews: OverviewData[] = [
     Queries: 410,
     "Payments completed": 83,
     Seats: 68,
-    Logins: 1000,
+    Copilots: 1000,
   },
   {
     date: "2024-03-31T00:00:00",
@@ -4112,7 +4112,7 @@ export const overviews: OverviewData[] = [
     Queries: 492,
     "Payments completed": 119,
     Seats: 74,
-    Logins: 1204,
+    Copilots: 1204,
   },
   {
     date: "2024-04-01T00:00:00",
@@ -4121,7 +4121,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 124,
     Seats: 73,
-    Logins: 1374,
+    Copilots: 1374,
   },
   {
     date: "2024-04-02T00:00:00",
@@ -4130,7 +4130,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 103,
     Seats: 71,
-    Logins: 1649,
+    Copilots: 1649,
   },
   {
     date: "2024-04-03T00:00:00",
@@ -4139,7 +4139,7 @@ export const overviews: OverviewData[] = [
     Queries: 481,
     "Payments completed": 117,
     Seats: 76,
-    Logins: 1686,
+    Copilots: 1686,
   },
   {
     date: "2024-04-04T00:00:00",
@@ -4148,7 +4148,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 102,
     Seats: 70,
-    Logins: 1373,
+    Copilots: 1373,
   },
   {
     date: "2024-04-05T00:00:00",
@@ -4157,7 +4157,7 @@ export const overviews: OverviewData[] = [
     Queries: 379,
     "Payments completed": 70,
     Seats: 53,
-    Logins: 1512,
+    Copilots: 1512,
   },
   {
     date: "2024-04-06T00:00:00",
@@ -4166,7 +4166,7 @@ export const overviews: OverviewData[] = [
     Queries: 436,
     "Payments completed": 82,
     Seats: 63,
-    Logins: 1593,
+    Copilots: 1593,
   },
   {
     date: "2024-04-07T00:00:00",
@@ -4175,7 +4175,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 93,
     Seats: 61,
-    Logins: 1926,
+    Copilots: 1926,
   },
   {
     date: "2024-04-08T00:00:00",
@@ -4184,7 +4184,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 123,
     Seats: 67,
-    Logins: 2001,
+    Copilots: 2001,
   },
   {
     date: "2024-04-09T00:00:00",
@@ -4193,7 +4193,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 112,
     Seats: 78,
-    Logins: 1983,
+    Copilots: 1983,
   },
   {
     date: "2024-04-10T00:00:00",
@@ -4202,7 +4202,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 118,
     Seats: 74,
-    Logins: 1946,
+    Copilots: 1946,
   },
   {
     date: "2024-04-11T00:00:00",
@@ -4211,7 +4211,7 @@ export const overviews: OverviewData[] = [
     Queries: 494,
     "Payments completed": 114,
     Seats: 71,
-    Logins: 1956,
+    Copilots: 1956,
   },
   {
     date: "2024-04-12T00:00:00",
@@ -4220,7 +4220,7 @@ export const overviews: OverviewData[] = [
     Queries: 431,
     "Payments completed": 85,
     Seats: 69,
-    Logins: 1991,
+    Copilots: 1991,
   },
   {
     date: "2024-04-13T00:00:00",
@@ -4229,7 +4229,7 @@ export const overviews: OverviewData[] = [
     Queries: 387,
     "Payments completed": 75,
     Seats: 64,
-    Logins: 1795,
+    Copilots: 1795,
   },
   {
     date: "2024-04-14T00:00:00",
@@ -4238,7 +4238,7 @@ export const overviews: OverviewData[] = [
     Queries: 496,
     "Payments completed": 82,
     Seats: 77,
-    Logins: 1687,
+    Copilots: 1687,
   },
   {
     date: "2024-04-15T00:00:00",
@@ -4247,7 +4247,7 @@ export const overviews: OverviewData[] = [
     Queries: 491,
     "Payments completed": 81,
     Seats: 79,
-    Logins: 1440,
+    Copilots: 1440,
   },
   {
     date: "2024-04-16T00:00:00",
@@ -4256,7 +4256,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 87,
     Seats: 73,
-    Logins: 1589,
+    Copilots: 1589,
   },
   {
     date: "2024-04-17T00:00:00",
@@ -4265,7 +4265,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 81,
     Seats: 75,
-    Logins: 1949,
+    Copilots: 1949,
   },
   {
     date: "2024-04-18T00:00:00",
@@ -4274,7 +4274,7 @@ export const overviews: OverviewData[] = [
     Queries: 483,
     "Payments completed": 106,
     Seats: 71,
-    Logins: 2028,
+    Copilots: 2028,
   },
   {
     date: "2024-04-19T00:00:00",
@@ -4283,7 +4283,7 @@ export const overviews: OverviewData[] = [
     Queries: 379,
     "Payments completed": 98,
     Seats: 65,
-    Logins: 2036,
+    Copilots: 2036,
   },
   {
     date: "2024-04-20T00:00:00",
@@ -4292,7 +4292,7 @@ export const overviews: OverviewData[] = [
     Queries: 441,
     "Payments completed": 101,
     Seats: 68,
-    Logins: 1991,
+    Copilots: 1991,
   },
   {
     date: "2024-04-21T00:00:00",
@@ -4301,7 +4301,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 97,
     Seats: 60,
-    Logins: 2006,
+    Copilots: 2006,
   },
   {
     date: "2024-04-22T00:00:00",
@@ -4310,7 +4310,7 @@ export const overviews: OverviewData[] = [
     Queries: 485,
     "Payments completed": 85,
     Seats: 61,
-    Logins: 2006,
+    Copilots: 2006,
   },
   {
     date: "2024-04-23T00:00:00",
@@ -4319,7 +4319,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 85,
     Seats: 80,
-    Logins: 1882,
+    Copilots: 1882,
   },
   {
     date: "2024-04-24T00:00:00",
@@ -4328,7 +4328,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 112,
     Seats: 74,
-    Logins: 1801,
+    Copilots: 1801,
   },
   {
     date: "2024-04-25T00:00:00",
@@ -4337,7 +4337,7 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 120,
     Seats: 72,
-    Logins: 1453,
+    Copilots: 1453,
   },
   {
     date: "2024-04-26T00:00:00",
@@ -4346,7 +4346,7 @@ export const overviews: OverviewData[] = [
     Queries: 380,
     "Payments completed": 99,
     Seats: 56,
-    Logins: 1264,
+    Copilots: 1264,
   },
   {
     date: "2024-04-27T00:00:00",
@@ -4355,7 +4355,7 @@ export const overviews: OverviewData[] = [
     Queries: 446,
     "Payments completed": 85,
     Seats: 65,
-    Logins: 938,
+    Copilots: 938,
   },
   {
     date: "2024-04-28T00:00:00",
@@ -4364,7 +4364,7 @@ export const overviews: OverviewData[] = [
     Queries: 484,
     "Payments completed": 85,
     Seats: 62,
-    Logins: 942,
+    Copilots: 942,
   },
   {
     date: "2024-04-29T00:00:00",
@@ -4373,7 +4373,7 @@ export const overviews: OverviewData[] = [
     Queries: 481,
     "Payments completed": 84,
     Seats: 63,
-    Logins: 1061,
+    Copilots: 1061,
   },
   {
     date: "2024-04-30T00:00:00",
@@ -4382,7 +4382,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 88,
     Seats: 71,
-    Logins: 1289,
+    Copilots: 1289,
   },
   {
     date: "2024-05-01T00:00:00",
@@ -4391,7 +4391,7 @@ export const overviews: OverviewData[] = [
     Queries: 479,
     "Payments completed": 88,
     Seats: 78,
-    Logins: 1339,
+    Copilots: 1339,
   },
   {
     date: "2024-05-02T00:00:00",
@@ -4400,7 +4400,7 @@ export const overviews: OverviewData[] = [
     Queries: 480,
     "Payments completed": 90,
     Seats: 76,
-    Logins: 1142,
+    Copilots: 1142,
   },
   {
     date: "2024-05-03T00:00:00",
@@ -4409,7 +4409,7 @@ export const overviews: OverviewData[] = [
     Queries: 396,
     "Payments completed": 71,
     Seats: 51,
-    Logins: 948,
+    Copilots: 948,
   },
   {
     date: "2024-05-04T00:00:00",
@@ -4418,7 +4418,7 @@ export const overviews: OverviewData[] = [
     Queries: 375,
     "Payments completed": 82,
     Seats: 51,
-    Logins: 1018,
+    Copilots: 1018,
   },
   {
     date: "2024-05-05T00:00:00",
@@ -4427,7 +4427,7 @@ export const overviews: OverviewData[] = [
     Queries: 498,
     "Payments completed": 90,
     Seats: 64,
-    Logins: 1137,
+    Copilots: 1137,
   },
   {
     date: "2024-05-06T00:00:00",
@@ -4436,7 +4436,7 @@ export const overviews: OverviewData[] = [
     Queries: 503,
     "Payments completed": 119,
     Seats: 78,
-    Logins: 1047,
+    Copilots: 1047,
   },
   {
     date: "2024-05-07T00:00:00",
@@ -4445,7 +4445,7 @@ export const overviews: OverviewData[] = [
     Queries: 503,
     "Payments completed": 111,
     Seats: 72,
-    Logins: 848,
+    Copilots: 848,
   },
   {
     date: "2024-05-08T00:00:00",
@@ -4454,7 +4454,7 @@ export const overviews: OverviewData[] = [
     Queries: 499,
     "Payments completed": 106,
     Seats: 70,
-    Logins: 861,
+    Copilots: 861,
   },
   {
     date: "2024-05-09T00:00:00",
@@ -4463,7 +4463,7 @@ export const overviews: OverviewData[] = [
     Queries: 493,
     "Payments completed": 120,
     Seats: 76,
-    Logins: 979,
+    Copilots: 979,
   },
   {
     date: "2024-05-10T00:00:00",
@@ -4472,7 +4472,7 @@ export const overviews: OverviewData[] = [
     Queries: 379,
     "Payments completed": 67,
     Seats: 65,
-    Logins: 928,
+    Copilots: 928,
   },
   {
     date: "2024-05-11T00:00:00",
@@ -4481,7 +4481,7 @@ export const overviews: OverviewData[] = [
     Queries: 428,
     "Payments completed": 65,
     Seats: 48,
-    Logins: 990,
+    Copilots: 990,
   },
   {
     date: "2024-05-12T00:00:00",
@@ -4490,7 +4490,7 @@ export const overviews: OverviewData[] = [
     Queries: 488,
     "Payments completed": 82,
     Seats: 63,
-    Logins: 1122,
+    Copilots: 1122,
   },
   {
     date: "2024-05-13T00:00:00",
@@ -4499,7 +4499,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 83,
     Seats: 64,
-    Logins: 1285,
+    Copilots: 1285,
   },
   {
     date: "2024-05-14T00:00:00",
@@ -4508,7 +4508,7 @@ export const overviews: OverviewData[] = [
     Queries: 489,
     "Payments completed": 86,
     Seats: 79,
-    Logins: 1516,
+    Copilots: 1516,
   },
   {
     date: "2024-05-15T00:00:00",
@@ -4517,7 +4517,7 @@ export const overviews: OverviewData[] = [
     Queries: 490,
     "Payments completed": 89,
     Seats: 74,
-    Logins: 1803,
+    Copilots: 1803,
   },
   {
     date: "2024-05-16T00:00:00",
@@ -4526,6 +4526,6 @@ export const overviews: OverviewData[] = [
     Queries: 486,
     "Payments completed": 88,
     Seats: 73,
-    Logins: 2045,
+    Copilots: 2045,
   },
 ];

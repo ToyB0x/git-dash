@@ -115,7 +115,7 @@ const categories = [
     weekendReduction: true,
   },
   {
-    name: "Logins",
+    name: "Copilots",
     min: 844,
     max: 2048,
     variance: 0.2,
