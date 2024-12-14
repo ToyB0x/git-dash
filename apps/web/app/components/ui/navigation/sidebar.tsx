@@ -20,7 +20,7 @@ const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   {
     name: "Cost",
-    href: siteConfig.baseLinks.overview,
+    href: siteConfig.baseLinks.cost,
     icon: RiCoinLine,
   },
   { name: "Details", href: siteConfig.baseLinks.details, icon: RiListCheck },
