@@ -1,5 +1,3 @@
-import { Welcome } from "../welcome/welcome";
-
 export function meta() {
   return [
     { title: "New React Router App" },
@@ -8,5 +6,5 @@ export function meta() {
 }
 
 export default function Home() {
-  return <Welcome />;
+  return <div className="min-h-screen dark:text-white">123</div>;
 }
