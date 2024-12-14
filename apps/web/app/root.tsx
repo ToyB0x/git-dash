@@ -26,10 +26,6 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    initTheme();
-  }, []);
-
   return (
     <html lang="en" className="antialiased dark:bg-gray-950">
       <head>
@@ -55,6 +51,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  // TODO: テーマがダークモードに設定されている場合に、テーマ初期化処理の際に画面がチラつくのでScriptタグなどに移動する(rootのhtmlタグ自体の書き換えが必要なためuseLayoutEffectでは改善しないため)
+  // ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
+  useEffect(() => {
+    initTheme();
+  }, []);
+
   // OS の設定が変更された際に実行されるコールバック関数
   // ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
   if (window) {
