@@ -34,7 +34,7 @@ export default function Page() {
       <div className="flex min-h-screen flex-1 flex-col justify-center px-4 lg:px-6">
         <div className="mx-auto w-full max-w-sm">
           <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-gray-50">
-            Log in or create account
+            Log in to your account
           </h3>
           <p className="text-xs mt-4 text-center text-gray-500">
             Don't have an account?
@@ -57,12 +57,9 @@ export default function Page() {
               />
             </div>
             <div>
-              <Label
-                htmlFor="password"
-                className="font-medium flex justify-between"
-              >
-                <span>Password</span>
-                <span className="text-xs text-gray-500">
+              <div className="pt-2 font-medium flex justify-between">
+                <Label htmlFor="password">Password</Label>
+                <span className="text-xs text-gray-500 font-light">
                   <Link
                     to="/forgot-password"
                     className="ml-1 underline underline-offset-4"
@@ -70,7 +67,7 @@ export default function Page() {
                     Forgot password?
                   </Link>
                 </span>
-              </Label>
+              </div>
               <Input
                 type="password"
                 id="password"
