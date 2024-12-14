@@ -80,7 +80,7 @@ function generateData(startDate, endDate, categories) {
 
 const categories = [
   {
-    name: "Rows written",
+    name: "Actions",
     min: 2500,
     max: 3700,
     variance: 0.01,

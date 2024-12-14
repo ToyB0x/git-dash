@@ -17,19 +17,7 @@ const categories: {
   type: "currency" | "unit";
 }[] = [
   {
-    title: "Rows read",
-    type: "unit",
-  },
-  {
-    title: "Rows written",
-    type: "unit",
-  },
-  {
-    title: "Queries",
-    type: "unit",
-  },
-  {
-    title: "Payments completed",
+    title: "Actions",
     type: "currency",
   },
   {
@@ -39,6 +27,18 @@ const categories: {
   {
     title: "Logins",
     type: "unit",
+  },
+  {
+    title: "Rows read",
+    type: "unit",
+  },
+  {
+    title: "Queries",
+    type: "unit",
+  },
+  {
+    title: "Payments completed",
+    type: "currency",
   },
 ];
 
