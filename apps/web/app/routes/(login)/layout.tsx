@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 export default function layout() {
   return (
     <div className="lg:flex h-screen w-screen">
-      <div className="bg-white lg:w-[50%]">
+      <div className="bg-white dark:bg-gray-950 lg:w-[50%]">
         <Outlet />
       </div>
       <div className="bg-gray-950 lg:w-[50%]">
