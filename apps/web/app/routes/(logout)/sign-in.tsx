@@ -10,7 +10,7 @@ import type { Route } from "../../../.react-router/types/app/routes/(logout)/+ty
 
 export function meta() {
   return [
-    { title: "git-dash login" },
+    { title: "git-dash sign in" },
     { name: "description", content: "Welcome to git-dash" },
   ];
 }
@@ -34,7 +34,7 @@ export default function Page() {
       <div className="flex min-h-screen flex-1 flex-col justify-center px-4 lg:px-6">
         <div className="mx-auto w-full max-w-sm">
           <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-gray-50">
-            Log in to your account
+            Sign in to your account
           </h3>
           <p className="text-xs mt-4 text-center text-gray-500">
             Don't have an account?
