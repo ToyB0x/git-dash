@@ -6,7 +6,7 @@ import { Label } from "@/components/Label";
 import { RiGoogleFill } from "@remixicon/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Form, Link, redirect } from "react-router";
-import type { Route } from "../../../.react-router/types/app/routes/(logout)/+types/page";
+import type { Route } from "../../../.react-router/types/app/routes/(logout)/+types/sign-in";
 
 export function meta() {
   return [
