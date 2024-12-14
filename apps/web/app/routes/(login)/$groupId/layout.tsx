@@ -5,7 +5,7 @@ import type { Route } from "../../../../.react-router/types/app/routes/(login)/$
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
   if (!auth.currentUser && params.groupId !== "demo") {
-    throw redirect("/login");
+    throw redirect("/sign-in");
   }
 }
 

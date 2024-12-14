@@ -12,7 +12,7 @@ export async function clientLoader() {
   // Root Settings ページはDemoユーザーであってもリダイレクトする (デモユーザの場合はRoot Settingsページへのリンクも非活性化しておく)
   await auth.authStateReady();
   if (!auth.currentUser) {
-    throw redirect("/login");
+    throw redirect("/sign-in");
   }
 }
 
