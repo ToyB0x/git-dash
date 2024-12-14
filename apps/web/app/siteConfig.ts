@@ -11,7 +11,7 @@ export const siteConfig = {
     prs: "/prs",
     reviews: "/reviews",
     users: "/users",
-    settings: "/settings",
+    repositories: "/repositories",
   },
   externalLink: {
     blocks: "https://blocks.tremor.so/templates#dashboard",
