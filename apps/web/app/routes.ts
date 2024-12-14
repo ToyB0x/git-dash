@@ -12,8 +12,8 @@ export default [
     route("overview", "routes/$groupId/overview.tsx"),
   ]),
 
-  // login layout
-  layout("routes/(login)/layout.tsx", [
-    route("login", "routes/(login)/page.tsx"),
+  // logout state layout
+  layout("routes/(logout)/layout.tsx", [
+    route("login", "routes/(logout)/page.tsx"),
   ]),
 ] satisfies RouteConfig;
