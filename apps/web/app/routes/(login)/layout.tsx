@@ -1,30 +1,26 @@
 import { auth } from "@/clients";
 import { Sidebar } from "@/components/ui/navigation/sidebar";
-import { Outlet, redirect } from "react-router";
-import type { Route } from "../../../.react-router/types/app/routes/$groupId/+types/layout";
+import { Outlet, useLoaderData } from "react-router";
 
-type GroupLayoutData = {
+type LoginLayoutData = {
   me: {
     email: string;
   };
 };
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+export async function clientLoader() {
+  // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   await auth.authStateReady();
-
-  if (!auth.currentUser && params.groupId !== "demo") {
-    throw redirect("/login");
-  }
 
   return {
     me: {
       email: auth.currentUser?.email ?? "demo@example.com",
     },
-  } satisfies GroupLayoutData;
+  } satisfies LoginLayoutData;
 }
 
-export default function Layout({ loaderData }: Route.ComponentProps) {
-  const { me } = loaderData;
+export default function Layout() {
+  const { me } = useLoaderData<typeof clientLoader>();
   return (
     <div className="mx-auto max-w-screen-2xl">
       <Sidebar email={me.email} />
