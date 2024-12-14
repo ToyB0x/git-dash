@@ -1,5 +1,4 @@
-"use client";
-
+import { auth } from "@/clients";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +19,7 @@ import {
   RiMoonLine,
   RiSunLine,
 } from "@remixicon/react";
+import { signOut } from "firebase/auth";
 import { useTheme } from "next-themes";
 import type * as React from "react";
 import { useEffect, useState } from "react";
@@ -123,7 +123,14 @@ export function DropdownUserProfile({
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Sign out</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                await signOut(auth);
+                location.pathname = "/login";
+              }}
+            >
+              Sign out
+            </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
