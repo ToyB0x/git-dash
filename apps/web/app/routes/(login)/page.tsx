@@ -57,7 +57,7 @@ export default function Page() {
               Sign in with Google
             </a>
           </Button>
-          <p className="mt-4 text-xs text-gray-500 dark:text-gray-500">
+          <p className="mt-4 text-xs text-gray-500">
             By signing in, you agree to our{" "}
             <a href="/" className="underline underline-offset-4">
               terms of service

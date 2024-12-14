@@ -2,11 +2,11 @@ import { Outlet } from "react-router";
 
 export default function layout() {
   return (
-    <div className="md:flex h-screen w-[100%]">
-      <div className="bg-white md:w-[50%]">
+    <div className="lg:flex h-screen w-screen">
+      <div className="bg-white dark:bg-gray-950 lg:w-[50%]">
         <Outlet />
       </div>
-      <div className="bg-gray-950 md:w-[50%]">
+      <div className="bg-gray-950 lg:w-[50%]">
         <Right />
       </div>
     </div>
@@ -22,7 +22,12 @@ function Right() {
           <h3 className=" text-lg font-semibold">Live Demo</h3>
           <p className="mt-4 text-sm ">
             You can try the live demo with the
-            <a href="/demo" className="underline underline-offset-4 pl-1">
+            <a
+              href="/demo"
+              className="underline underline-offset-4 pl-1"
+              target="_blank"
+              rel="noreferrer"
+            >
               Demo Page
             </a>
           </p>

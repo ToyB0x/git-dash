@@ -1,4 +1,3 @@
-import { Sidebar } from "@/components/ui/navigation/sidebar";
 import { ThemeProvider } from "next-themes";
 import {
   Links,
@@ -34,16 +33,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body
-        className={
-          "overflow-y-scroll scroll-auto antialiased selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950"
-        }
-      >
-        <div className="mx-auto max-w-screen-2xl">
-          <ThemeProvider defaultTheme="dark" attribute="class">
-            {children}
-          </ThemeProvider>
-        </div>
+      <body className="antialiased selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950">
+        <ThemeProvider defaultTheme="light" attribute="class">
+          {children}
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

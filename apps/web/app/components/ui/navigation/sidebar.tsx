@@ -48,7 +48,7 @@ const shortcuts = [
   },
 ] as const;
 
-export function Sidebar() {
+export function Sidebar({ email }: { email: string }) {
   const { pathname } = useLocation();
   const isActive = (itemHref: string) => {
     if (itemHref === siteConfig.baseLinks.settings) {
@@ -114,7 +114,7 @@ export function Sidebar() {
             </div>
           </nav>
           <div className="mt-auto">
-            <UserProfileDesktop />
+            <UserProfileDesktop email={email} />
           </div>
         </aside>
       </nav>
