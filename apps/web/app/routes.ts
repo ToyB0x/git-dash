@@ -18,6 +18,7 @@ export default [
 
   // logout state layout
   layout("routes/(logout)/layout.tsx", [
-    route("login", "routes/(logout)/page.tsx"),
+    route("sign-in", "routes/(logout)/sign-in.tsx"),
+    route("sign-up", "routes/(logout)/sign-up.tsx"),
   ]),
 ] satisfies RouteConfig;
