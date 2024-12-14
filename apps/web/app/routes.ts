@@ -6,10 +6,13 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  // dashboard layout
-  route(":groupId", "routes/$groupId/layout.tsx", [
-    index("routes/$groupId/home.tsx"),
-    route("overview", "routes/$groupId/overview.tsx"),
+  // login state layout
+  layout("routes/(login)/layout.tsx", [
+    route("settings", "routes/(login)/settings.tsx"),
+    route(":groupId", "routes/(login)/$groupId/layout.tsx", [
+      route("home", "routes/(login)/$groupId/home.tsx"),
+      route("overview", "routes/(login)/$groupId/overview.tsx"),
+    ]),
   ]),
 
   // logout state layout
