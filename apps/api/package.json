@@ -24,7 +24,7 @@
     "@repo/db-api": "workspace:*",
     "@repo/schema": "workspace:*",
     "drizzle-orm": "0.38.2",
-    "hono": "4.6.13",
+    "hono": "4.6.14",
     "valibot": "1.0.0-beta.9"
   },
   "devDependencies": {
