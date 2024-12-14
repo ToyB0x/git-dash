@@ -5,7 +5,7 @@ import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import { RiGoogleFill } from "@remixicon/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { Form, redirect } from "react-router";
+import { Form, Link, redirect } from "react-router";
 import type { Route } from "../../../.react-router/types/app/routes/(logout)/+types/page";
 
 export function meta() {
@@ -36,6 +36,12 @@ export default function Page() {
           <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-gray-50">
             Log in or create account
           </h3>
+          <p className="text-xs mt-4 text-center text-gray-500">
+            Don't have an account?
+            <Link to="/signup" className="ml-1 underline underline-offset-4">
+              Sign up
+            </Link>
+          </p>
           <Form method="post" className="mt-6 space-y-4">
             <div>
               <Label htmlFor="email" className="font-medium">
@@ -51,8 +57,19 @@ export default function Page() {
               />
             </div>
             <div>
-              <Label htmlFor="password" className="font-medium">
-                Password
+              <Label
+                htmlFor="password"
+                className="font-medium flex justify-between"
+              >
+                <span>Password</span>
+                <span className="text-xs text-gray-500">
+                  <Link
+                    to="/forgot-password"
+                    className="ml-1 underline underline-offset-4"
+                  >
+                    Forgot password?
+                  </Link>
+                </span>
               </Label>
               <Input
                 type="password"
