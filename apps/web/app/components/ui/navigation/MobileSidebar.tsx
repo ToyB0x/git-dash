@@ -17,6 +17,7 @@ import {
   RiChatCheckLine,
   RiCodeSSlashLine,
   RiCoinLine,
+  RiGitRepositoryLine,
   RiHome2Line,
   RiLinkM,
   RiMenuLine,
@@ -46,7 +47,13 @@ const navigation = [
     name: "Users",
     href: siteConfig.baseLinks.users,
     icon: RiAccountCircleLine,
-  }, // {
+  },
+  {
+    name: "Repositories",
+    href: siteConfig.baseLinks.repositories,
+    icon: RiGitRepositoryLine,
+  },
+  // {
   //   name: "Settings",
   //   href: siteConfig.baseLinks.settings,
   //   icon: RiSettings5Line,
@@ -80,9 +87,9 @@ export default function MobileSidebar() {
   const { pathname } = useLocation();
 
   const isActive = (itemHref: string) => {
-    if (itemHref === siteConfig.baseLinks.settings) {
-      return pathname.startsWith("/settings");
-    }
+    // if (itemHref === siteConfig.baseLinks.settings) {
+    //   return pathname.startsWith("/settings");
+    // }
     return pathname === itemHref || pathname.startsWith(itemHref);
   };
   return (
