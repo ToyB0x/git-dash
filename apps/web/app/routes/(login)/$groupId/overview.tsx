@@ -52,48 +52,25 @@ export type KpiEntry = {
 
 const data: KpiEntry[] = [
   {
-    title: "Rows read",
-    percentage: 48.1,
-    current: 48.1,
-    allowed: 100,
-    unit: "M",
+    title: "Seats",
+    percentage: 98.1,
+    current: 119,
+    allowed: 121,
+    unit: "seats",
   },
   {
-    title: "Rows written",
-    percentage: 78.3,
-    current: 78.3,
-    allowed: 100,
-    unit: "M",
+    title: "Actions (included)",
+    percentage: 100,
+    current: 3000,
+    allowed: 3000,
+    unit: "min",
   },
   {
     title: "Storage",
     percentage: 26,
-    current: 5.2,
-    allowed: 20,
+    current: 0.8,
+    allowed: 2,
     unit: "GB",
-  },
-];
-
-const data2: KpiEntry[] = [
-  {
-    title: "Weekly active users",
-    percentage: 21.7,
-    current: 21.7,
-    allowed: 100,
-    unit: "%",
-  },
-  {
-    title: "Total users",
-    percentage: 70,
-    current: 28,
-    allowed: 40,
-  },
-  {
-    title: "Uptime",
-    percentage: 98.3,
-    current: 98.3,
-    allowed: 100,
-    unit: "%",
   },
 ];
 
@@ -105,23 +82,56 @@ export type KpiEntryExtended = Omit<
   color: string;
 };
 
-const data3: KpiEntryExtended[] = [
+const data2: KpiEntryExtended[] = [
   {
-    title: "Base tier",
-    percentage: 68.1,
-    value: "$200",
+    title: "Actions",
+    percentage: 50.8,
+    value: "$1961.1",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "On-demand charges",
-    percentage: 20.8,
-    value: "$61.1",
+    title: "Seats",
+    percentage: 28.1,
+    value: "$200",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
-    title: "Caching",
-    percentage: 11.1,
+    title: "Copilot",
+    percentage: 16.1,
+    value: "$391.9",
+    color: "bg-indigo-600 dark:bg-indigo-500",
+  },
+  {
+    title: "Others",
+    percentage: 5,
     value: "$31.9",
+    color: "bg-gray-400 dark:bg-gray-600",
+  },
+];
+
+const data3: KpiEntryExtended[] = [
+  {
+    title: "Ubuntu 16-core",
+    percentage: 63.8,
+    value: "$1221.1",
+    color: "bg-indigo-600 dark:bg-indigo-500",
+  },
+  {
+    title: "Ubuntu 2-core",
+    percentage: 18.1,
+    value: "$202",
+    color: "bg-purple-600 dark:bg-purple-500",
+  },
+  {
+    title: "Ubuntu 4-core",
+    percentage: 16.1,
+    value: "$21.9",
+    color: "bg-indigo-600 dark:bg-indigo-500",
+  },
+  {
+    title: "Others",
+    percentage: 5,
+    value: "$3.9",
     color: "bg-gray-400 dark:bg-gray-600",
   },
 ];
@@ -150,31 +160,32 @@ export default function Overview() {
           <ProgressBarCard
             title="Usage"
             change="+0.2%"
-            value="68.1%"
-            valueDescription="of allowed capacity"
+            value="96.1%"
+            valueDescription="of reserved seats"
             ctaDescription="Monthly usage resets in 12 days."
             ctaText="Manage plan."
             ctaLink="#"
             data={data}
           />
-          <ProgressBarCard
-            title="Workspace"
-            change="+2.9%"
-            value="21.7%"
-            valueDescription="weekly active users"
-            ctaDescription="Add up to 20 members in free plan."
-            ctaText="Invite users."
+          <CategoryBarCard
+            title="Costs"
+            change="-1.4%"
+            value="$3293.5"
+            valueDescription="current billing cycle"
+            subtitle="Current costs"
+            ctaDescription="Next payment due"
+            ctaText="December 31, 2024"
             ctaLink="#"
             data={data2}
           />
           <CategoryBarCard
-            title="Costs"
-            change="-1.4%"
-            value="$293.5"
+            title="Actions"
+            change="+9.4%"
+            value="$1889.5"
             valueDescription="current billing cycle"
             subtitle="Current costs"
-            ctaDescription="Set hard caps in"
-            ctaText="cost spend management."
+            ctaDescription="Next payment due"
+            ctaText="December 31, 2024"
             ctaLink="#"
             data={data3}
           />
