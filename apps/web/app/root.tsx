@@ -40,9 +40,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         }
       >
         <div className="mx-auto max-w-screen-2xl">
-          <ThemeProvider defaultTheme="system" attribute="class">
-            <Sidebar />
-            <main className="lg:pl-72">{children}</main>
+          <ThemeProvider defaultTheme="dark" attribute="class">
+            {children}
           </ThemeProvider>
         </div>
         <ScrollRestoration />
