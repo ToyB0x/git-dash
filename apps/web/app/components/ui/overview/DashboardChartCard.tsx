@@ -1,8 +1,8 @@
 import { Badge } from "@/components/Badge";
 import { LineChart } from "@/components/LineChart";
-import { overviews } from "@/data/overview-data";
-import type { OverviewData } from "@/data/schema";
 import { cx, formatters, percentageFormatter } from "@/lib/utils";
+import { overviews } from "@/routes/(login)/$groupId/cost/data/overview-data";
+import type { OverviewData } from "@/routes/(login)/$groupId/cost/data/schema";
 import {
   eachDayOfInterval,
   formatDate,

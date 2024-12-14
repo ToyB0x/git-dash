@@ -11,7 +11,7 @@ export default [
     index("routes/(login)/index.tsx"),
     route("settings", "routes/(login)/settings.tsx"),
     route(":groupId", "routes/(login)/$groupId/layout.tsx", [
-      route("", "routes/(login)/$groupId/overview.tsx"),
+      route("", "routes/(login)/$groupId/overview/page.tsx"),
       route("cost", "routes/(login)/$groupId/cost/page.tsx"),
       route("home", "routes/(login)/$groupId/home.tsx"),
     ]),
