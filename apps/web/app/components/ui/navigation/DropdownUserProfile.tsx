@@ -20,6 +20,7 @@ import {
   RiMoonLine,
   RiSunLine,
 } from "@remixicon/react";
+import { useTheme } from "next-themes";
 import type * as React from "react";
 import { useEffect, useState } from "react";
 
@@ -34,26 +35,11 @@ export function DropdownUserProfile({
 }: DropdownUserProfileProps) {
   const [mounted, setMounted] = useState(false);
 
-  const [theme, setTheme] = useState<string>("system");
-  useEffect(() => {
-    setTheme(localStorage.theme || "system");
-  }, []);
+  const { theme, setTheme } = useTheme();
 
   // ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
   const handleThemeChange = (value: string) => {
     setTheme(value);
-    localStorage.setItem("theme", value);
-    if (value === "dark") {
-      document.documentElement.classList.add("dark");
-    } else if (value === "light") {
-      document.documentElement.classList.remove("dark");
-    } else {
-      // System が選択された場合は OS の設定を見て切り替える
-      document.documentElement.classList.toggle(
-        "dark",
-        window.matchMedia("(prefers-color-scheme: dark)").matches,
-      );
-    }
   };
 
   useEffect(() => {
