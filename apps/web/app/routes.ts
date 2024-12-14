@@ -12,6 +12,7 @@ export default [
     route("settings", "routes/(login)/settings.tsx"),
     route(":groupId", "routes/(login)/$groupId/layout.tsx", [
       route("", "routes/(login)/$groupId/overview.tsx"),
+      route("cost", "routes/(login)/$groupId/overview.tsx"),
       route("home", "routes/(login)/$groupId/home.tsx"),
     ]),
   ]),

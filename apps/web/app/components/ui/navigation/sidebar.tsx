@@ -2,6 +2,7 @@
 import { cx, focusRing } from "@/lib/utils";
 import { siteConfig } from "@/siteConfig";
 import {
+  RiCoinLine,
   RiHome2Line,
   RiLinkM,
   RiListCheck,
@@ -17,6 +18,11 @@ import { UserProfileDesktop, UserProfileMobile } from "./UserProfile";
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
+  {
+    name: "Cost",
+    href: siteConfig.baseLinks.overview,
+    icon: RiCoinLine,
+  },
   { name: "Details", href: siteConfig.baseLinks.details, icon: RiListCheck },
   {
     name: "Settings",
