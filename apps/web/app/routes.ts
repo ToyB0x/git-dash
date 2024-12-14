@@ -11,4 +11,9 @@ export default [
     index("routes/(main)/home.tsx"),
     route("overview", "routes/(main)/overview.tsx"),
   ]),
+
+  // login layout
+  layout("routes/(login)/layout.tsx", [
+    route("login", "routes/(login)/page.tsx"),
+  ]),
 ] satisfies RouteConfig;
