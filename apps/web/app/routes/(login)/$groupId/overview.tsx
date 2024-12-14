@@ -17,29 +17,29 @@ const categories: {
   type: "currency" | "unit";
 }[] = [
   {
-    title: "Rows read",
-    type: "unit",
-  },
-  {
-    title: "Rows written",
-    type: "unit",
-  },
-  {
-    title: "Queries",
-    type: "unit",
-  },
-  {
-    title: "Payments completed",
+    title: "Actions",
     type: "currency",
   },
   {
-    title: "Sign ups",
-    type: "unit",
+    title: "Seats",
+    type: "currency",
   },
   {
-    title: "Logins",
-    type: "unit",
+    title: "Copilots",
+    type: "currency",
   },
+  // {
+  //   title: "Rows read",
+  //   type: "unit",
+  // },
+  // {
+  //   title: "Queries",
+  //   type: "unit",
+  // },
+  // {
+  //   title: "Payments completed",
+  //   type: "currency",
+  // },
 ];
 
 export type KpiEntry = {
