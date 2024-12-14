@@ -1,5 +1,5 @@
 import { Sidebar } from "@/components/ui/navigation/sidebar";
-import { useEffect } from "react";
+import { ThemeProvider } from "next-themes";
 import {
   Links,
   Meta,
@@ -27,7 +27,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="antialiased dark:bg-gray-950">
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -36,12 +36,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body
         className={
-          "overflow-y-scroll scroll-auto selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950"
+          "overflow-y-scroll scroll-auto antialiased selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950"
         }
       >
         <div className="mx-auto max-w-screen-2xl">
-          <Sidebar />
-          <main className="lg:pl-72">{children}</main>
+          <ThemeProvider defaultTheme="system" attribute="class">
+            <Sidebar />
+            <main className="lg:pl-72">{children}</main>
+          </ThemeProvider>
         </div>
         <ScrollRestoration />
         <Scripts />
@@ -51,30 +53,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  // TODO: テーマがダークモードに設定されている場合に、テーマ初期化処理の際に画面がチラつくのでScriptタグなどに移動する(rootのhtmlタグ自体の書き換えが必要なためuseLayoutEffectでは改善しないため)
-  // ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
-  useEffect(() => {
-    initTheme();
-  }, []);
-
-  // OS の設定が変更された際に実行されるコールバック関数
-  // ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
-  if (window) {
-    const mediaQueryListener = (e: MediaQueryListEvent) => {
-      if (localStorage.theme === "system") {
-        if (e.matches) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-      }
-    };
-
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", mediaQueryListener);
-  }
-
   return <Outlet />;
 }
 
@@ -106,23 +84,3 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     </main>
   );
 }
-
-// ref: https://azukiazusa.dev/blog/tailwind-css-dark-mode-system-light-dark/
-const initTheme = () => {
-  // LocalStorage に theme が保存されていない or theme が system の場合
-  if (!("theme" in localStorage) || localStorage.theme === "system") {
-    // OS の設定を読み取る
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      // OS の設定がダークモードの場合、<html> に dark クラスを付与する
-      document.documentElement.classList.add("dark");
-    }
-    // LocalStorage に設定を保存する
-    localStorage.setItem("theme", "system");
-  } else if (localStorage.theme === "dark") {
-    // LocalStorage に theme が保存されていて、theme が dark の場合
-    document.documentElement.classList.add("dark");
-  } else {
-    // それ以外の場合
-    document.documentElement.classList.remove("dark");
-  }
-};
