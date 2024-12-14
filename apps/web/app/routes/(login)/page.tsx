@@ -15,7 +15,7 @@ export default function Page() {
   return (
     <>
       <div className="flex min-h-screen flex-1 flex-col justify-center px-4 lg:px-6">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mx-auto w-full max-w-sm">
           <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-gray-50">
             Log in or create account
           </h3>
