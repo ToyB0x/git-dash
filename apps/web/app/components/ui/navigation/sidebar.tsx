@@ -8,6 +8,7 @@ import {
   RiChatCheckLine,
   RiCodeSSlashLine,
   RiCoinLine,
+  RiGitRepositoryLine,
   RiHome2Line,
   RiLinkM,
 } from "@remixicon/react";
@@ -43,6 +44,11 @@ const navigation = [
     href: siteConfig.baseLinks.users,
     icon: RiAccountCircleLine,
   },
+  {
+    name: "Repositories",
+    href: siteConfig.baseLinks.repositories,
+    icon: RiGitRepositoryLine,
+  },
   // {
   //   name: "Settings",
   //   href: siteConfig.baseLinks.settings,
@@ -76,9 +82,6 @@ const shortcuts = [
 export function Sidebar({ email }: { email: string }) {
   const { pathname } = useLocation();
   const isActive = (itemHref: string) => {
-    if (itemHref === siteConfig.baseLinks.settings) {
-      return pathname.startsWith("/settings");
-    }
     return pathname === itemHref || pathname.startsWith(itemHref);
   };
   return (
