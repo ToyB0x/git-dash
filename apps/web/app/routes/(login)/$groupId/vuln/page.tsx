@@ -21,7 +21,7 @@ import {
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { Link, redirect, useLoaderData } from "react-router";
+import { redirect, useLoaderData } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
 
 type KpiEntry = {
@@ -67,34 +67,38 @@ const data: KpiEntryExtended[] = [
 const dataTable = [
   {
     repository: "org/api",
-    latestVersion: "v2.1.9",
-    count: 124,
-    lastRelease: "23/09/2023 13:00",
+    countCritical: 124,
+    countHigh: 21,
+    countLow: 16,
+    lastDetected: "23/09/2023 13:00",
   },
   {
     repository: "org/frontend",
-    latestVersion: "v1.1.2",
-    count: 91,
-    lastRelease: "22/09/2023 10:45",
+    countCritical: 91,
+    countHigh: 12,
+    countLow: 9,
+    lastDetected: "22/09/2023 10:45",
   },
   {
     repository: "org/payment",
-    latestVersion: "v3.3.1",
-    count: 61,
-    lastRelease: "22/09/2023 10:45",
+    countCritical: 61,
+    countHigh: 9,
+    countLow: 6,
+    lastDetected: "22/09/2023 10:45",
   },
   {
     repository: "org/backend",
-    latestVersion: "v0.0.9",
-    count: 21,
-    lastRelease: "21/09/2023 14:30",
+    countCritical: 21,
+    countHigh: 3,
+    countLow: 2,
+    lastDetected: "21/09/2023 14:30",
   },
   {
     repository: "org/serviceX",
-    latestVersion: "v11.2.4",
-    instance: "Ubuntu 2-core",
-    count: 6,
-    lastRelease: "24/09/2023 09:15",
+    countCritical: 6,
+    countHigh: 1,
+    countLow: 0,
+    lastDetected: "24/09/2023 09:15",
   },
 ];
 
@@ -222,32 +226,18 @@ export default function Page() {
           id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Releases by repository
+          Vulnerabilities by repository
         </h1>
-        <p className="mt-1 text-gray-500">
-          full repository details are available on{" "}
-          <Link to="../users" className="underline underline-offset-4">
-            repositories menu
-          </Link>
-        </p>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
-
         <TableRoot className="mt-8">
           <Table>
             <TableHead>
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell>Latest version</TableHeaderCell>
-                <TableHeaderCell>Count</TableHeaderCell>
+                <TableHeaderCell>Critical</TableHeaderCell>
+                <TableHeaderCell>High</TableHeaderCell>
+                <TableHeaderCell>Low</TableHeaderCell>
                 <TableHeaderCell className="text-right">
-                  Last release
+                  Last detected
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
@@ -257,10 +247,11 @@ export default function Page() {
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                     {item.repository}
                   </TableCell>
-                  <TableCell>{item.latestVersion}</TableCell>
-                  <TableCell>{item.count}</TableCell>
+                  <TableCell>{item.countCritical}</TableCell>
+                  <TableCell>{item.countHigh}</TableCell>
+                  <TableCell>{item.countLow}</TableCell>
                   <TableCell className="text-right">
-                    {item.lastRelease}
+                    {item.lastDetected}
                   </TableCell>
                 </TableRow>
               ))}
@@ -271,9 +262,3 @@ export default function Page() {
     </>
   );
 }
-
-// TODO: add vuln page
-// - add vuln by severity graph
-// - add most affected repositories ranking
-// - add vuln detection rate
-// - add vuln siverity rate
