@@ -1,4 +1,13 @@
 import { auth } from "@/clients";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRoot,
+  TableRow,
+} from "@/components/Table";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
@@ -109,6 +118,44 @@ const data3: KpiEntryExtended[] = [
   },
 ];
 
+const dataTable = [
+  {
+    repository: "org/api",
+    costs: "$3,509.00",
+    instance: "Ubuntu 16-core",
+    time: 1024,
+    lastRun: "23/09/2023 13:00",
+  },
+  {
+    repository: "org/frontend",
+    costs: "$5,720.00",
+    instance: "Ubuntu 16-core",
+    time: 894,
+    lastRun: "22/09/2023 10:45",
+  },
+  {
+    repository: "org/payment",
+    costs: "$5,720.00",
+    instance: "Ubuntu 4-core",
+    time: 781,
+    lastRun: "22/09/2023 10:45",
+  },
+  {
+    repository: "org/backend",
+    costs: "$4,200.00",
+    instance: "Ubuntu 4-core",
+    time: 651,
+    lastRun: "21/09/2023 14:30",
+  },
+  {
+    repository: "org/serviceX",
+    costs: "$2,100.00",
+    instance: "Ubuntu 2-core",
+    time: 424,
+    lastRun: "24/09/2023 09:15",
+  },
+];
+
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   await auth.authStateReady();
@@ -184,9 +231,9 @@ export default function Page() {
           />
         </div>
       </section>
-      <section aria-labelledby="usage-overview">
+      <section aria-labelledby="actions-usage">
         <h1
-          id="usage-overview"
+          id="actions-usage"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Actions usage
@@ -228,6 +275,52 @@ export default function Page() {
             data={dataActions16Core.data}
           />
         </dl>
+      </section>
+
+      <section aria-labelledby="high-cost-actions">
+        <h1
+          id="high-cost-actions"
+          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Expensive Actions
+        </h1>
+        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
+          <Filterbar
+            maxDate={maxDate}
+            minDate={new Date(2024, 0, 1)}
+            selectedDates={selectedDates}
+            onDatesChange={(dates) => setSelectedDates(dates)}
+          />
+        </div>
+
+        <TableRoot className="mt-8">
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell>Repository</TableHeaderCell>
+                <TableHeaderCell>Instance</TableHeaderCell>
+                <TableHeaderCell>Time(min)</TableHeaderCell>
+                <TableHeaderCell className="text-right">Costs</TableHeaderCell>
+                <TableHeaderCell className="text-right">
+                  Last run
+                </TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dataTable.map((item) => (
+                <TableRow key={item.repository}>
+                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                    {item.repository}
+                  </TableCell>
+                  <TableCell>{item.instance}</TableCell>
+                  <TableCell>{item.time}</TableCell>
+                  <TableCell className="text-right">{item.costs}</TableCell>
+                  <TableCell className="text-right">{item.lastRun}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
       </section>
     </>
   );
