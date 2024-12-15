@@ -91,7 +91,7 @@ const dataTable = [
 
 export default function Page() {
   return (
-    <TableRoot className="mt-8">
+    <TableRoot>
       <Table>
         <TableHead>
           <TableRow>
@@ -116,7 +116,7 @@ export default function Page() {
               </TableCell>
               <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                 <Link
-                  to={`/${item.user}`}
+                  to={`${item.user}`}
                   className="underline underline-offset-4"
                 >
                   {item.user}
