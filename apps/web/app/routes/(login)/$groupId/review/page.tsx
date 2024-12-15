@@ -17,7 +17,7 @@ import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
-import { dataLoaderReviewTime } from "./dataLoaders";
+import { dataLoaderReviewCount, dataLoaderReviewTime } from "./dataLoaders";
 
 type KpiEntry = {
   title: string;
@@ -132,16 +132,17 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
+  const dataReviews = await dataLoaderReviewCount(isDemo);
   const dataReviewTime = await dataLoaderReviewTime(isDemo);
 
   return {
+    dataReviews,
     dataReviewTime,
   };
 }
 
-// TODO: add PR page
 export default function Page() {
-  const { dataReviewTime } = useLoaderData<typeof clientLoader>();
+  const { dataReviews, dataReviewTime } = useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -206,6 +207,14 @@ export default function Page() {
             "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
           )}
         >
+          <ChartCard
+            title="Reviews"
+            type="review"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataReviews.data}
+          />
+
           <ChartCard
             title="Review Waiting Time"
             type="hour"
