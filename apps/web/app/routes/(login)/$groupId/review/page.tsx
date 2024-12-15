@@ -90,36 +90,36 @@ const dataTable = [
   {
     user: "C0d3r",
     avatar: "https://i.pravatar.cc/300",
-    created: 123,
-    merged: 125,
+    count: 123,
+    average: 1.6,
     lastMerged: "23/09/2024 13:00",
   },
   {
     user: "QuickSilver91",
     avatar: "https://i.pravatar.cc/301",
-    created: 96,
-    merged: 93,
+    count: 96,
+    average: 2.1,
     lastMerged: "22/09/2024 10:45",
   },
   {
     user: "Rock3tMan",
     avatar: "https://i.pravatar.cc/302",
-    created: 66,
-    merged: 53,
+    count: 66,
+    average: 3.3,
     lastMerged: "22/09/2024 10:45",
   },
   {
     user: "BananaEat3r",
     avatar: "https://i.pravatar.cc/303",
-    created: 46,
-    merged: 33,
+    count: 46,
+    average: 4.5,
     lastMerged: "21/09/2024 14:30",
   },
   {
     user: "Xg3tt3r",
     avatar: "https://i.pravatar.cc/304",
-    created: 26,
-    merged: 23,
+    count: 26,
+    average: 6.7,
     lastMerged: "24/09/2024 09:15",
   },
 ];
@@ -221,7 +221,7 @@ export default function Page() {
           id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          PR by user
+          Reviews by user
         </h1>
         <p className="mt-1 text-gray-500">
           full user details are available on{" "}
@@ -244,9 +244,9 @@ export default function Page() {
               <TableRow>
                 <TableHeaderCell className="w-1">User</TableHeaderCell>
                 <TableHeaderCell />
-                <TableHeaderCell>PR Created</TableHeaderCell>
-                <TableHeaderCell>PR Merged</TableHeaderCell>
-                <TableHeaderCell>Last Merged</TableHeaderCell>
+                <TableHeaderCell>Reviews</TableHeaderCell>
+                <TableHeaderCell>First Review Average (hour)</TableHeaderCell>
+                <TableHeaderCell>Last Reviewed</TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -262,8 +262,8 @@ export default function Page() {
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                     {item.user}
                   </TableCell>
-                  <TableCell>{item.created}</TableCell>
-                  <TableCell>{item.merged}</TableCell>
+                  <TableCell>{item.count}</TableCell>
+                  <TableCell>{item.average}</TableCell>
                   <TableCell>{item.lastMerged}</TableCell>
                 </TableRow>
               ))}
