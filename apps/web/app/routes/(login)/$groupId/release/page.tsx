@@ -221,7 +221,7 @@ export default function Page() {
         </h1>
         <p className="mt-1 text-gray-500">
           full repository details are available on{" "}
-          <Link to="../users" className="underline underline-offset-4">
+          <Link to="../repositories" className="underline underline-offset-4">
             repositories menu
           </Link>
         </p>
