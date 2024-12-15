@@ -26,7 +26,7 @@ export default [
     // グラフ: リポジトリごとのReviewの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // リスト: リポジトリごとのReviewの最新の5件
     // ランキング: リポジトリ横断のPR数が多いユーザランキング
-    // route("reviews", "routes/(login)/$groupId/review/page.tsx"),
+    route("reviews", "routes/(login)/$groupId/review/page.tsx"),
     // グラフ: リポジトリごとのReleasesの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // リスト: リポジトリごとのReleasesの最新の5件
     // route("releases", "routes/(login)/$groupId/release/page.tsx"),

@@ -64,52 +64,25 @@ const data: KpiEntryExtended[] = [
 
 const data2: KpiEntryExtended[] = [
   {
-    title: "0.5 day",
-    percentage: 15.4,
-    value: "33 PRs",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "0.6~1 day",
-    percentage: 51.2,
-    value: "73 PRs",
-    color: "bg-purple-600 dark:bg-purple-500",
-  },
-  {
-    title: "2~3 days",
-    percentage: 11.2,
-    value: "16 PRs",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "4~ days",
-    percentage: 21.1,
-    value: "41 PRs",
-    color: "bg-gray-400 dark:bg-gray-600",
-  },
-];
-
-const data3: KpiEntryExtended[] = [
-  {
-    title: "0.5 day",
+    title: "0~3",
     percentage: 17.4,
     value: "35 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "0.6~1 day",
+    title: "4~10",
     percentage: 61.2,
     value: "83 PRs",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
-    title: "2~3 days",
+    title: "11~20",
     percentage: 4.2,
     value: "8 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "4~ days",
+    title: "21~",
     percentage: 3.1,
     value: "3 PRs",
     color: "bg-gray-400 dark:bg-gray-600",
@@ -194,39 +167,27 @@ export default function Page() {
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <CategoryBarCard
-            title="Time to release (four key)"
+            title="Time to first review"
             change="+1.4"
-            value="9.1 days"
-            valueDescription="average release time"
+            value="3.1 hours"
+            valueDescription="average review time"
             subtitle="last 30 days"
-            ctaDescription="About four key:"
+            ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
             data={data}
           />
 
           <CategoryBarCard
-            title="Time to merge"
-            change="-0.6%"
-            value="2.1 days"
-            valueDescription="average merge time"
+            title="Count by PR"
+            change="-1.2%"
+            value="4.3 reviews"
+            valueDescription="average reviews count for each PR"
             subtitle="last 30 days"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
             data={data2}
-          />
-
-          <CategoryBarCard
-            title="Time to review"
-            change="-1.2%"
-            value="1.3 days"
-            valueDescription="average review time"
-            subtitle="last 30 days"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data3}
           />
         </div>
       </section>
