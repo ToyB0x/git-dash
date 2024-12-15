@@ -16,6 +16,7 @@ export default [
   route(":groupId", "routes/(login)/$groupId/layout.tsx", [
     // コミットグラフ: 組織横断のコミットグラフ
     // route("", "routes/(login)/$groupId/overview/page.tsx"),
+    route("", "routes/(login)/$groupId/home.tsx"),
     // 分析バー: マージまでの時間の平均の階層をCategoryBarCardで表示？
     // 分析バー: レビューの平均待ち時間をCategoryBarCardで表示？
     route("prs", "routes/(login)/$groupId/pr/page.tsx"),
@@ -40,7 +41,7 @@ export default [
     // グラフ: 任意のユーザのPRグラフ (前月比グラフ)
     // グラフ: 任意のユーザのReviewグラフ (前月比グラフ)
     route("users", "routes/(login)/$groupId/user/page.tsx"),
-    route("home", "routes/(login)/$groupId/home.tsx"),
+    route("repositories", "routes/(login)/$groupId/repository/page.tsx"),
   ]),
 
   // logout state layout
