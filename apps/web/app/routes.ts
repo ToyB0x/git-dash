@@ -29,7 +29,7 @@ export default [
     route("reviews", "routes/(login)/$groupId/review/page.tsx"),
     // グラフ: リポジトリごとのReleasesの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // リスト: リポジトリごとのReleasesの最新の5件
-    // route("releases", "routes/(login)/$groupId/release/page.tsx"),
+    route("releases", "routes/(login)/$groupId/release/page.tsx"),
     // グラフ: リポジトリごとのVulnsの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // グラフ: リポジトリごとのVulnsの危険度がCRITICALの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // リスト: リポジトリごとのVulnsの最新の5件
