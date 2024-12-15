@@ -34,12 +34,12 @@ function Right() {
             </a>
             &nbsp;&nbsp;/
             <a
-              href="/demo/users"
+              href="/demo/users/QuickSilver91"
               className="underline underline-offset-4 text-xs ml-2"
               target="_blank"
               rel="noreferrer"
             >
-              Users
+              User
             </a>
             &nbsp;&nbsp;/
             <a
@@ -48,7 +48,7 @@ function Right() {
               target="_blank"
               rel="noreferrer"
             >
-              Vulns
+              Vuln
             </a>
             )
           </p>
