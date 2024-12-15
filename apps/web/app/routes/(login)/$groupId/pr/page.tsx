@@ -252,7 +252,7 @@ export default function Page() {
         >
           <ChartCard
             title="PR Open"
-            type="unit"
+            type="pr"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
             data={dataPrOpen.data}
@@ -260,7 +260,7 @@ export default function Page() {
 
           <ChartCard
             title="PR Merged"
-            type="unit"
+            type="pr"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
             data={dataPrMerge.data}

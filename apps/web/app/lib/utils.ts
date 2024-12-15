@@ -76,4 +76,6 @@ export const formatters: { [key: string]: any } = {
       currency: currency,
     }).format(number),
   unit: (number: number) => `${usNumberformatter(number)}`,
+  pr: (number: number) => `${usNumberformatter(number)} prs`,
+  hour: (number: number) => `${usNumberformatter(number)} hours`,
 };

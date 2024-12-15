@@ -12,15 +12,12 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
-import {
-  dataLoaderPrMerge,
-  dataLoaderPrOpen,
-} from "@/routes/(login)/$groupId/pr/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
+import { dataLoaderReviewTime } from "./dataLoaders";
 
 type KpiEntry = {
   title: string;
@@ -135,18 +132,16 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
-  const dataPrOpen = await dataLoaderPrOpen(isDemo);
-  const dataPrMerge = await dataLoaderPrMerge(isDemo);
+  const dataReviewTime = await dataLoaderReviewTime(isDemo);
 
   return {
-    dataPrOpen,
-    dataPrMerge,
+    dataReviewTime,
   };
 }
 
 // TODO: add PR page
 export default function Page() {
-  const { dataPrOpen, dataPrMerge } = useLoaderData<typeof clientLoader>();
+  const { dataReviewTime } = useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -196,7 +191,7 @@ export default function Page() {
           id="actions-usage"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          PR Stats
+          Review Stats
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -212,19 +207,11 @@ export default function Page() {
           )}
         >
           <ChartCard
-            title="PR Open"
-            type="unit"
+            title="Review Waiting Time"
+            type="hour"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataPrOpen.data}
-          />
-
-          <ChartCard
-            title="PR Merged"
-            type="unit"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataPrMerge.data}
+            data={dataReviewTime.data}
           />
         </dl>
       </section>
