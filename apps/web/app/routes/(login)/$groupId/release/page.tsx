@@ -88,39 +88,35 @@ const data2: KpiEntryExtended[] = [
 
 const dataTable = [
   {
-    user: "C0d3r",
-    avatar: "https://i.pravatar.cc/300",
-    created: 123,
-    merged: 125,
-    lastMerged: "23/09/2024 13:00",
+    repository: "org/api",
+    latestVersion: "v2.1.9",
+    count: 124,
+    lastRelease: "23/09/2023 13:00",
   },
   {
-    user: "QuickSilver91",
-    avatar: "https://i.pravatar.cc/301",
-    created: 96,
-    merged: 93,
-    lastMerged: "22/09/2024 10:45",
+    repository: "org/frontend",
+    latestVersion: "v1.1.2",
+    count: 91,
+    lastRelease: "22/09/2023 10:45",
   },
   {
-    user: "Rock3tMan",
-    avatar: "https://i.pravatar.cc/302",
-    created: 66,
-    merged: 53,
-    lastMerged: "22/09/2024 10:45",
+    repository: "org/payment",
+    latestVersion: "v3.3.1",
+    count: 61,
+    lastRelease: "22/09/2023 10:45",
   },
   {
-    user: "BananaEat3r",
-    avatar: "https://i.pravatar.cc/303",
-    created: 46,
-    merged: 33,
-    lastMerged: "21/09/2024 14:30",
+    repository: "org/backend",
+    latestVersion: "v0.0.9",
+    count: 21,
+    lastRelease: "21/09/2023 14:30",
   },
   {
-    user: "Xg3tt3r",
-    avatar: "https://i.pravatar.cc/304",
-    created: 26,
-    merged: 23,
-    lastMerged: "24/09/2024 09:15",
+    repository: "org/serviceX",
+    latestVersion: "v11.2.4",
+    instance: "Ubuntu 2-core",
+    count: 6,
+    lastRelease: "24/09/2023 09:15",
   },
 ];
 
@@ -221,12 +217,12 @@ export default function Page() {
           id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          PRs by user
+          Releases by repository
         </h1>
         <p className="mt-1 text-gray-500">
-          full user details are available on{" "}
+          full repository details are available on{" "}
           <Link to="../users" className="underline underline-offset-4">
-            users menu
+            repositories menu
           </Link>
         </p>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
@@ -242,29 +238,25 @@ export default function Page() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableHeaderCell className="w-1">User</TableHeaderCell>
-                <TableHeaderCell />
-                <TableHeaderCell>PR Created</TableHeaderCell>
-                <TableHeaderCell>PR Merged</TableHeaderCell>
-                <TableHeaderCell>Last Merged</TableHeaderCell>
+                <TableHeaderCell>Repository</TableHeaderCell>
+                <TableHeaderCell>Latest version</TableHeaderCell>
+                <TableHeaderCell>Count</TableHeaderCell>
+                <TableHeaderCell className="text-right">
+                  Last release
+                </TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dataTable.map((item) => (
-                <TableRow key={item.user}>
-                  <TableCell className="p-0">
-                    <img
-                      src={item.avatar}
-                      alt="user"
-                      className="w-8 h-8 rounded-full"
-                    />
-                  </TableCell>
+                <TableRow key={item.repository}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.user}
+                    {item.repository}
                   </TableCell>
-                  <TableCell>{item.created}</TableCell>
-                  <TableCell>{item.merged}</TableCell>
-                  <TableCell>{item.lastMerged}</TableCell>
+                  <TableCell>{item.latestVersion}</TableCell>
+                  <TableCell>{item.count}</TableCell>
+                  <TableCell className="text-right">
+                    {item.lastRelease}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
