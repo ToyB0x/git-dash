@@ -13,7 +13,11 @@ import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { CircleProgressCard } from "@/components/ui/overview/DashboardCicleProgressCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
-import { dataLoaderRelease } from "@/routes/(login)/$groupId/release/dataLoaders";
+import {
+  dataLoaderVulnerabilityCritical,
+  dataLoaderVulnerabilityHigh,
+  dataLoaderVulnerabilityLow,
+} from "@/routes/(login)/$groupId/vuln/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
@@ -102,16 +106,25 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
-  const dataRelease = await dataLoaderRelease(isDemo);
+  const dataVulnerabilityCritical =
+    await dataLoaderVulnerabilityCritical(isDemo);
+  const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
+  const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
 
   return {
-    dataRelease,
+    dataVulnerabilityCritical,
+    dataVulnerabilityHigh,
+    dataVulnerabilityLow,
   };
 }
 
 // TODO: add PR page
 export default function Page() {
-  const { dataRelease } = useLoaderData<typeof clientLoader>();
+  const {
+    dataVulnerabilityCritical,
+    dataVulnerabilityHigh,
+    dataVulnerabilityLow,
+  } = useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -178,11 +191,28 @@ export default function Page() {
           )}
         >
           <ChartCard
-            title="Release Count"
-            type="release"
+            title="Critical Count"
+            type="vulnerabilities"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataRelease.data}
+            accumulation={false}
+            data={dataVulnerabilityCritical.data}
+          />
+          <ChartCard
+            title="High Count"
+            type="vulnerabilities"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            accumulation={false}
+            data={dataVulnerabilityHigh.data}
+          />
+          <ChartCard
+            title="Low Count"
+            type="vulnerabilities"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            accumulation={false}
+            data={dataVulnerabilityLow.data}
           />
         </dl>
       </section>

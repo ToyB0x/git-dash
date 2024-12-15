@@ -77,6 +77,8 @@ export const formatters: { [key: string]: any } = {
     }).format(number),
   unit: (number: number) => `${usNumberformatter(number)}`,
   pr: (number: number) => `${usNumberformatter(number)} prs`,
+  vulnerabilities: (number: number) =>
+    `${usNumberformatter(number)} vulnerabilities`,
   release: (number: number) => `${usNumberformatter(number)} releases`,
   hour: (number: number) => `${usNumberformatter(number)} hours`,
 };
