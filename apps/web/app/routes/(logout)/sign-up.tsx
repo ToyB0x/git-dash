@@ -20,7 +20,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const password = formData.get("password");
   if (typeof password !== "string") throw Error("password is invalid");
 
-  const cred = await createUserWithEmailAndPassword(auth, email, password);
+  await createUserWithEmailAndPassword(auth, email, password);
 
   return redirect("/");
 }
