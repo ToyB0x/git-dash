@@ -82,7 +82,7 @@ const shortcuts = [
 export function Sidebar({ email }: { email: string }) {
   const { pathname } = useLocation();
   const isActive = (itemHref: string) => {
-    return pathname === itemHref || pathname.startsWith(itemHref);
+    return pathname.split("/")[2] === itemHref;
   };
   return (
     <>
