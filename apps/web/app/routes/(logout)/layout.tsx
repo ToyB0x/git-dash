@@ -41,6 +41,15 @@ function Right() {
             >
               Users
             </a>
+            &nbsp;&nbsp;/
+            <a
+              href="/demo/vulns"
+              className="underline underline-offset-4 text-xs ml-2"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Vulns
+            </a>
             )
           </p>
         </div>
