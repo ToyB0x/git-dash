@@ -33,3 +33,6 @@ Currently, this project offers free services as a proof of concept.
 
 In the future, we plan to offer paid managed services in the cloud.  
 (We will also offer discounts for early access users.)
+
+And Merged PR creators will be given a discount on the paid plan.
+(Details will be announced later)
