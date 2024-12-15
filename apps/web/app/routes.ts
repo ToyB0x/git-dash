@@ -14,6 +14,7 @@ export default [
 
   // login state layout (group)
   route(":groupId", "routes/(login)/$groupId/layout.tsx", [
+    // コミットグラフ: 組織横断のコミットグラフ
     // route("", "routes/(login)/$groupId/overview/page.tsx"),
     // 分析バー: マージまでの時間の平均の階層をCategoryBarCardで表示？
     // 分析バー: レビューの平均待ち時間をCategoryBarCardで表示？
