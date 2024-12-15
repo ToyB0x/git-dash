@@ -4,7 +4,11 @@ import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard";
 import { cx } from "@/lib/utils";
-import { dataLoaderActions } from "@/routes/(login)/$groupId/cost/dataLoaders";
+import {
+  dataLoaderActions2Core,
+  dataLoaderActions4Core,
+  dataLoaderActions16Core,
+} from "@/routes/(login)/$groupId/cost/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
@@ -113,15 +117,20 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
-  const dataActions = await dataLoaderActions(isDemo);
+  const dataActions2Core = await dataLoaderActions2Core(isDemo);
+  const dataActions4Core = await dataLoaderActions4Core(isDemo);
+  const dataActions16Core = await dataLoaderActions16Core(isDemo);
 
   return {
-    dataActions,
+    dataActions2Core,
+    dataActions4Core,
+    dataActions16Core,
   };
 }
 
 export default function Page() {
-  const { dataActions } = useLoaderData<typeof clientLoader>();
+  const { dataActions2Core, dataActions4Core, dataActions16Core } =
+    useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -180,7 +189,7 @@ export default function Page() {
           id="usage-overview"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Overview
+          Actions usage
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -196,27 +205,27 @@ export default function Page() {
           )}
         >
           <ChartCard
-            title="Seats"
+            title="Actions 2core"
             type="currency"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataActions.data}
+            data={dataActions2Core.data}
           />
 
           <ChartCard
-            title="Actions"
+            title="Actions 4core"
             type="currency"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataActions.data}
+            data={dataActions4Core.data}
           />
 
           <ChartCard
-            title="Copilots"
+            title="Actions 16core"
             type="currency"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataActions.data}
+            data={dataActions16Core.data}
           />
         </dl>
       </section>
