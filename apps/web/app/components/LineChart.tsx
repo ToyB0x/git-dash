@@ -657,7 +657,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
                 startEndOnly && data[0] && data[data.length - 1]
                   ? // @ts-ignore
                     [data[0][index], data[data.length - 1][index]]
-                  : undefined
+                  : []
               }
               fill=""
               stroke=""
