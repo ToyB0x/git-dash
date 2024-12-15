@@ -3,8 +3,7 @@ export const siteConfig = {
   url: "https://dashboard.tremor.so",
   description: "The only dashboard you will ever need.",
   baseLinks: {
-    home: "",
-    overview: "",
+    overview: "overview",
     cost: "cost",
     vulns: "vulns",
     releases: "releases",
