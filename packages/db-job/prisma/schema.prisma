@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DB_URL_JOB")
+  url      = "file:../sqlite/job.db"
 }
 
 model Organization {

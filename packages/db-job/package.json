@@ -9,6 +9,7 @@
     "build": "tsup",
     "generate:db": "prisma generate",
     "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

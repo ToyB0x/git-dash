@@ -15,7 +15,10 @@ export default [
   // login state layout (group)
   route(":groupId", "routes/(login)/$groupId/layout.tsx", [
     route("", "routes/(login)/$groupId/overview/page.tsx"),
+    // 分析バー: マージまでの時間の平均の階層をCategoryBarCardで表示？
+    // 分析バー: レビューの平均待ち時間をCategoryBarCardで表示？
     route("prs", "routes/(login)/$groupId/pr/page.tsx"),
+    // グラフ: TOP10 リポジトリごとのGithub Actions費用の前月比グラフ (Overviewページには全リポジトリ横断のコストを表示)
     route("cost", "routes/(login)/$groupId/cost/page.tsx"),
     // グラフ: TOP10 リポジトリごとのPRの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // リスト: TOP10 リポジトリごとのPRの最新の5件
