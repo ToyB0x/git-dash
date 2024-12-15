@@ -21,7 +21,7 @@ import {
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { redirect, useLoaderData } from "react-router";
+import { Link, redirect, useLoaderData } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
 
 export type KpiEntry = {
@@ -289,6 +289,12 @@ export default function Page() {
         >
           Expensive Actions
         </h1>
+        <p className="mt-1 text-gray-500">
+          full repository details are available on{" "}
+          <Link to="../repositories" className="underline underline-offset-4">
+            repositories menu
+          </Link>
+        </p>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
             maxDate={maxDate}
