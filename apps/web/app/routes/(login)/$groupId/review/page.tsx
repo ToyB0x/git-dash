@@ -35,26 +35,26 @@ type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
 const data: KpiEntryExtended[] = [
   {
     title: "~1 day",
-    percentage: 11.2,
-    value: "43 PRs",
+    percentage: 5.2,
+    value: "12 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
     title: "2~7 days",
-    percentage: 21.2,
-    value: "93 PRs",
+    percentage: 51.2,
+    value: "53 PRs",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
     title: "8~14 days",
-    percentage: 41.2,
-    value: "121 PRs",
+    percentage: 31.2,
+    value: "41 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
     title: "15~ days",
-    percentage: 29.1,
-    value: "52 PRs",
+    percentage: 10.1,
+    value: "21 PRs",
     color: "bg-gray-400 dark:bg-gray-600",
   },
 ];
