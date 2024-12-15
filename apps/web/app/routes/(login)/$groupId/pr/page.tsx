@@ -13,9 +13,9 @@ import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
 import {
-  dataLoaderActions2Core,
-  dataLoaderActions4Core,
-} from "@/routes/(login)/$groupId/cost/dataLoaders";
+  dataLoaderPrMerge,
+  dataLoaderPrOpen,
+} from "@/routes/(login)/$groupId/pr/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
@@ -162,19 +162,18 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
-  const dataActions2Core = await dataLoaderActions2Core(isDemo);
-  const dataActions4Core = await dataLoaderActions4Core(isDemo);
+  const dataPrOpen = await dataLoaderPrOpen(isDemo);
+  const dataPrMerge = await dataLoaderPrMerge(isDemo);
 
   return {
-    dataActions2Core,
-    dataActions4Core,
+    dataPrOpen,
+    dataPrMerge,
   };
 }
 
 // TODO: add PR page
 export default function Page() {
-  const { dataActions2Core, dataActions4Core } =
-    useLoaderData<typeof clientLoader>();
+  const { dataPrOpen, dataPrMerge } = useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -253,18 +252,18 @@ export default function Page() {
         >
           <ChartCard
             title="PR Open"
-            type="currency"
+            type="unit"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataActions2Core.data}
+            data={dataPrOpen.data}
           />
 
           <ChartCard
             title="PR Merged"
-            type="currency"
+            type="unit"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataActions4Core.data}
+            data={dataPrMerge.data}
           />
         </dl>
       </section>
