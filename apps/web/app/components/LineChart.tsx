@@ -631,7 +631,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
                     setActiveLegend(undefined);
                     onValueChange?.(null);
                   }
-                : undefined
+                : () => {} // avoid optional and undefined error
             }
             margin={{
               bottom: xAxisLabel ? 30 : 0,
