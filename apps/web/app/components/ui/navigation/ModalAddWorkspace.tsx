@@ -148,7 +148,7 @@ export function ModalAddWorkspace({
                   Database configuration
                 </Label>
                 <RadioCardGroup
-                  defaultValue={databases[0].value}
+                  defaultValue={databases[0]?.value}
                   className="mt-2 grid grid-cols-1 gap-4 text-sm md:grid-cols-2"
                 >
                   {databases.map((database) => (
