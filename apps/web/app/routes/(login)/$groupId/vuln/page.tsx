@@ -35,54 +35,27 @@ type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
 
 const data: KpiEntryExtended[] = [
   {
-    title: "~1 day",
+    title: "Critical",
     percentage: 11.2,
-    value: "43 PRs",
-    color: "bg-indigo-600 dark:bg-indigo-500",
+    value: "12 packages",
+    color: "bg-red-600 dark:bg-red-500",
   },
   {
-    title: "2~7 days",
+    title: "High",
+    percentage: 31.2,
+    value: "21 packages",
+    color: "bg-purple-600 dark:bg-purple-500",
+  },
+  {
+    title: "Low",
     percentage: 21.2,
-    value: "93 PRs",
-    color: "bg-purple-600 dark:bg-purple-500",
+    value: "16 packages",
+    color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "8~14 days",
+    title: "Moderate",
     percentage: 41.2,
-    value: "121 PRs",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "15~ days",
-    percentage: 29.1,
-    value: "52 PRs",
-    color: "bg-gray-400 dark:bg-gray-600",
-  },
-];
-
-const data2: KpiEntryExtended[] = [
-  {
-    title: "1 release",
-    percentage: 15.4,
-    value: "3 Repository",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "2~5 release",
-    percentage: 25.4,
-    value: "3 Repository",
-    color: "bg-purple-600 dark:bg-purple-500",
-  },
-  {
-    title: "6~10 release",
-    percentage: 39.4,
-    value: "6 Repository",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "11~ release",
-    percentage: 41.1,
-    value: "6 Repository",
+    value: "42 packages",
     color: "bg-gray-400 dark:bg-gray-600",
   },
 ];
@@ -172,27 +145,15 @@ export default function Page() {
           />
 
           <CategoryBarCard
-            title="Time to release (four key)"
+            title="Found Vulnerabilities"
             change="+1.4"
-            value="9.1 days"
-            valueDescription="average release time"
-            subtitle="last 30 days"
-            ctaDescription="About four key:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data}
-          />
-
-          <CategoryBarCard
-            title="Releases by repository"
-            change="-0.6%"
-            value="3.2 releases"
-            valueDescription="average release count"
-            subtitle="last 30 days"
+            value="141 "
+            valueDescription="total vulnerabilities"
+            subtitle="current result"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
-            data={data2}
+            data={data}
           />
         </div>
       </section>
