@@ -18,7 +18,7 @@ function Right() {
     <>
       {/*TODO: update banner form tremor repository sample image to custom image*/}
       <div className="bg-cover bg-center bg-no-repeat bg-[url('/login-banner.png')]">
-        <div className="h-screen backdrop-blur-sm backdrop-brightness-50 flex justify-center flex-col text-center text-gray-100">
+        <div className="h-screen backdrop-blur-md backdrop-brightness-50 flex justify-center flex-col text-center text-gray-100">
           <h3 className=" text-lg font-semibold">Live Demo</h3>
           <p className="mt-4 text-sm ">
             You can try the live demo with the
