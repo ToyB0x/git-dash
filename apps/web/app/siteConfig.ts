@@ -4,6 +4,7 @@ export const siteConfig = {
   description: "The only dashboard you will ever need.",
   baseLinks: {
     overview: "overview",
+    fourkeys: "fourkeys",
     cost: "cost",
     vulns: "vulns",
     releases: "releases",

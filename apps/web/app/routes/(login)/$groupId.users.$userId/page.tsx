@@ -15,9 +15,13 @@ import { cx } from "@/lib/utils";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { Link, redirect, useLoaderData } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
-import { dataLoaderReviewCount, dataLoaderReviewTime } from "./dataLoaders";
+import { Link, redirect, useLoaderData, useParams } from "react-router";
+import type { Route } from "../../../../.react-router/types/app/routes/(login)/$groupId.users.$userId/+types/page";
+import {
+  dataLoaderPrMerge,
+  dataLoaderPrOpen,
+  dataLoaderReviews,
+} from "./dataLoaders";
 
 type KpiEntry = {
   title: string;
@@ -35,51 +39,78 @@ type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
 const data: KpiEntryExtended[] = [
   {
     title: "~1 day",
-    percentage: 5.2,
-    value: "12 PRs",
+    percentage: 11.2,
+    value: "43 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
     title: "2~7 days",
-    percentage: 51.2,
-    value: "53 PRs",
+    percentage: 21.2,
+    value: "93 PRs",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
     title: "8~14 days",
-    percentage: 31.2,
-    value: "41 PRs",
+    percentage: 41.2,
+    value: "121 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
     title: "15~ days",
-    percentage: 10.1,
-    value: "21 PRs",
+    percentage: 29.1,
+    value: "52 PRs",
     color: "bg-gray-400 dark:bg-gray-600",
   },
 ];
 
 const data2: KpiEntryExtended[] = [
   {
-    title: "0~3",
+    title: "0.5 day",
+    percentage: 15.4,
+    value: "33 PRs",
+    color: "bg-indigo-600 dark:bg-indigo-500",
+  },
+  {
+    title: "0.6~1 day",
+    percentage: 51.2,
+    value: "73 PRs",
+    color: "bg-purple-600 dark:bg-purple-500",
+  },
+  {
+    title: "2~3 days",
+    percentage: 11.2,
+    value: "16 PRs",
+    color: "bg-indigo-600 dark:bg-indigo-500",
+  },
+  {
+    title: "4~ days",
+    percentage: 21.1,
+    value: "41 PRs",
+    color: "bg-gray-400 dark:bg-gray-600",
+  },
+];
+
+const data3: KpiEntryExtended[] = [
+  {
+    title: "0.5 day",
     percentage: 17.4,
     value: "35 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "4~10",
+    title: "0.6~1 day",
     percentage: 61.2,
     value: "83 PRs",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
-    title: "11~20",
+    title: "2~3 days",
     percentage: 4.2,
     value: "8 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "21~",
+    title: "4~ days",
     percentage: 3.1,
     value: "3 PRs",
     color: "bg-gray-400 dark:bg-gray-600",
@@ -88,39 +119,46 @@ const data2: KpiEntryExtended[] = [
 
 const dataTable = [
   {
-    user: "C0d3r",
-    avatar: "https://i.pravatar.cc/300",
-    count: 123,
-    average: 1.6,
-    lastMerged: "23/09/2024 13:00",
+    repository: "org/api",
+    prs: 124,
+    reviews: 21,
+    lastActivity: "23/09/2023 13:00",
   },
   {
-    user: "QuickSilver91",
-    avatar: "https://i.pravatar.cc/301",
-    count: 96,
-    average: 2.1,
-    lastMerged: "22/09/2024 10:45",
+    repository: "org/frontend",
+    prs: 91,
+    reviews: 12,
+    lastActivity: "22/09/2023 10:45",
   },
   {
-    user: "Rock3tMan",
-    avatar: "https://i.pravatar.cc/302",
-    count: 66,
-    average: 3.3,
-    lastMerged: "22/09/2024 10:45",
+    repository: "org/payment",
+    prs: 61,
+    reviews: 9,
+    lastActivity: "22/09/2023 10:45",
   },
   {
-    user: "BananaEat3r",
-    avatar: "https://i.pravatar.cc/303",
-    count: 46,
-    average: 4.5,
-    lastMerged: "21/09/2024 14:30",
+    repository: "org/backend",
+    prs: 21,
+    reviews: 3,
+    lastActivity: "21/09/2023 14:30",
   },
   {
-    user: "Xg3tt3r",
-    avatar: "https://i.pravatar.cc/304",
-    count: 26,
-    average: 6.7,
-    lastMerged: "24/09/2024 09:15",
+    repository: "org/serviceX",
+    prs: 6,
+    reviews: 1,
+    lastActivity: "24/09/2023 09:15",
+  },
+  {
+    repository: "org/serviceY",
+    prs: 2,
+    reviews: 1,
+    lastActivity: "23/09/2024 21:42",
+  },
+  {
+    repository: "org/serviceZ",
+    prs: 1,
+    reviews: 1,
+    lastActivity: "21/09/2024 11:32",
   },
 ];
 
@@ -132,17 +170,21 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
-  const dataReviews = await dataLoaderReviewCount(isDemo);
-  const dataReviewTime = await dataLoaderReviewTime(isDemo);
+  const dataPrOpen = await dataLoaderPrOpen(isDemo);
+  const dataPrMerge = await dataLoaderPrMerge(isDemo);
+  const dataReviews = await dataLoaderReviews(isDemo);
 
   return {
+    dataPrOpen,
+    dataPrMerge,
     dataReviews,
-    dataReviewTime,
   };
 }
 
 export default function Page() {
-  const { dataReviews, dataReviewTime } = useLoaderData<typeof clientLoader>();
+  const { dataPrOpen, dataPrMerge, dataReviews } =
+    useLoaderData<typeof clientLoader>();
+  const { userId } = useParams();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -156,34 +198,51 @@ export default function Page() {
     <>
       <section aria-labelledby="current-billing-cycle">
         <h1
-          id="current-billing-cycle"
-          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          id="user"
+          className="flex items-center text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Current cycle
+          <img
+            src="https://i.pravatar.cc/300"
+            alt="user"
+            className="w-12 h-12 rounded-full mr-3"
+          />
+          {userId}
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <CategoryBarCard
-            title="Time to first review"
-            change="+1.4"
-            value="3.1 hours"
-            valueDescription="average review time"
-            subtitle="last 30 days"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data}
-          />
-
-          <CategoryBarCard
-            title="Count by PR"
-            change="-1.2%"
-            value="4.3 reviews"
-            valueDescription="average reviews count for each PR"
+            title="Time to merge"
+            change="-0.6%"
+            value="2.1 days"
+            valueDescription="average merge time"
             subtitle="last 30 days"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
             data={data2}
+          />
+
+          <CategoryBarCard
+            title="Time until review"
+            change="-1.2%"
+            value="1.3 days"
+            valueDescription="average review time"
+            subtitle="last 30 days"
+            ctaDescription="About this metrics:"
+            ctaText="reference"
+            ctaLink="#"
+            data={data3}
+          />
+
+          <CategoryBarCard
+            title="Time until being reviewed"
+            change="+1.4"
+            value="9.1 days"
+            valueDescription="average release time"
+            subtitle="last 30 days"
+            ctaDescription="About four key:"
+            ctaText="reference"
+            ctaLink="#"
+            data={data}
           />
         </div>
       </section>
@@ -192,7 +251,7 @@ export default function Page() {
           id="actions-usage"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Review Stats
+          Stats
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -208,19 +267,27 @@ export default function Page() {
           )}
         >
           <ChartCard
+            title="PR Open"
+            type="pr"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataPrOpen.data}
+          />
+
+          <ChartCard
+            title="PR Merged"
+            type="pr"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataPrMerge.data}
+          />
+
+          <ChartCard
             title="Reviews"
             type="review"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
             data={dataReviews.data}
-          />
-
-          <ChartCard
-            title="Review Waiting Time"
-            type="hour"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataReviewTime.data}
           />
         </dl>
       </section>
@@ -230,50 +297,39 @@ export default function Page() {
           id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Reviews by user
+          Activity by repository
         </h1>
-        <p className="mt-1 text-gray-500">
-          full user details are available on{" "}
-          <Link to="../users" className="underline underline-offset-4">
-            users menu
-          </Link>
-        </p>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
 
         <TableRoot className="mt-8">
           <Table>
             <TableHead>
               <TableRow>
-                <TableHeaderCell className="w-1">User</TableHeaderCell>
-                <TableHeaderCell />
-                <TableHeaderCell>Reviews</TableHeaderCell>
-                <TableHeaderCell>First Review Average (hour)</TableHeaderCell>
-                <TableHeaderCell>Last Reviewed</TableHeaderCell>
+                <TableHeaderCell>Repository</TableHeaderCell>
+                <TableHeaderCell className="text-right">PRs</TableHeaderCell>
+                <TableHeaderCell className="text-right">
+                  Reviews
+                </TableHeaderCell>
+                <TableHeaderCell className="text-right">
+                  Last Activity
+                </TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dataTable.map((item) => (
-                <TableRow key={item.user}>
-                  <TableCell className="p-0">
-                    <img
-                      src={item.avatar}
-                      alt="user"
-                      className="w-8 h-8 rounded-full"
-                    />
-                  </TableCell>
+                <TableRow key={item.repository}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.user}
+                    <Link
+                      to={`${item.repository}`}
+                      className="underline underline-offset-4"
+                    >
+                      {item.repository}
+                    </Link>
                   </TableCell>
-                  <TableCell>{item.count}</TableCell>
-                  <TableCell>{item.average}</TableCell>
-                  <TableCell>{item.lastMerged}</TableCell>
+                  <TableCell className="text-right">{item.prs}</TableCell>
+                  <TableCell className="text-right">{item.reviews}</TableCell>
+                  <TableCell className="text-right">
+                    {item.lastActivity}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

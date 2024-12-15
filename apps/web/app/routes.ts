@@ -38,10 +38,11 @@ export default [
     // リスト: リポジトリごとのVulnsの最新の5件
     // リスト: リポジトリごとのVulnsの危険度順の5件
     route("vulns", "routes/(login)/$groupId/vuln/page.tsx"),
-    // グラフ: 任意のユーザのコミットグラフ (今月分 + 前月分)
+    // グラフ: 全ユーザのコミットグラフ (今月分 + 前月分)
+    route("users", "routes/(login)/$groupId/user/page.tsx"),
     // グラフ: 任意のユーザのPRグラフ (前月比グラフ)
     // グラフ: 任意のユーザのReviewグラフ (前月比グラフ)
-    route("users", "routes/(login)/$groupId/user/page.tsx"),
+    route("users/:userId", "routes/(login)/$groupId.users.$userId/page.tsx"),
     route("repositories", "routes/(login)/$groupId/repository/page.tsx"),
   ]),
 

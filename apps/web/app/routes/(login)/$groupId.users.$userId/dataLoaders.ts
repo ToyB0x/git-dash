@@ -2,46 +2,65 @@ import { generateDailyData } from "@/lib/generateDailyData";
 
 type GraphData = {
   version: "0.1";
-  type: "ReviewCount" | "ReviewTime";
+  type: "PrOpen" | "PrMerge" | "Reviews";
   data: {
     date: Date;
     value: number;
   }[];
 };
 
-export const dataLoaderReviewCount = async (
+export const dataLoaderPrOpen = async (
   _isDemo: boolean,
 ): Promise<GraphData> => {
   return {
-    type: "ReviewCount",
+    type: "PrOpen",
     version: "0.1",
     data: generateDailyData({
       startDate: new Date(
         Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
       ),
       endDate: new Date(),
-      min: 10,
-      max: 50,
+      min: 1,
+      max: 5,
       variance: 1,
       weekendReduction: true,
     }),
   };
 };
 
-export const dataLoaderReviewTime = async (
+export const dataLoaderPrMerge = async (
   _isDemo: boolean,
 ): Promise<GraphData> => {
   return {
-    type: "ReviewTime",
+    type: "PrMerge",
     version: "0.1",
     data: generateDailyData({
       startDate: new Date(
         Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
       ),
       endDate: new Date(),
-      min: 5,
-      max: 30,
-      variance: 2.5,
+      min: 1,
+      max: 5,
+      variance: 1,
+      weekendReduction: true,
+    }),
+  };
+};
+
+export const dataLoaderReviews = async (
+  _isDemo: boolean,
+): Promise<GraphData> => {
+  return {
+    type: "Reviews",
+    version: "0.1",
+    data: generateDailyData({
+      startDate: new Date(
+        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+      ),
+      endDate: new Date(),
+      min: 1,
+      max: 15,
+      variance: 1,
       weekendReduction: true,
     }),
   };
