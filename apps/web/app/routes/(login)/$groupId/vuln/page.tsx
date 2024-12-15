@@ -71,6 +71,7 @@ const dataTable = [
     countHigh: 21,
     countLow: 16,
     lastDetected: "23/09/2023 13:00",
+    enabledAnalysis: true,
   },
   {
     repository: "org/frontend",
@@ -78,6 +79,7 @@ const dataTable = [
     countHigh: 12,
     countLow: 9,
     lastDetected: "22/09/2023 10:45",
+    enabledAnalysis: true,
   },
   {
     repository: "org/payment",
@@ -85,6 +87,7 @@ const dataTable = [
     countHigh: 9,
     countLow: 6,
     lastDetected: "22/09/2023 10:45",
+    enabledAnalysis: true,
   },
   {
     repository: "org/backend",
@@ -92,6 +95,7 @@ const dataTable = [
     countHigh: 3,
     countLow: 2,
     lastDetected: "21/09/2023 14:30",
+    enabledAnalysis: true,
   },
   {
     repository: "org/serviceX",
@@ -99,6 +103,23 @@ const dataTable = [
     countHigh: 1,
     countLow: 0,
     lastDetected: "24/09/2023 09:15",
+    enabledAnalysis: true,
+  },
+  {
+    repository: "org/serviceY",
+    countCritical: "-",
+    countHigh: "-",
+    countLow: "-",
+    lastDetected: "-",
+    enabledAnalysis: false,
+  },
+  {
+    repository: "org/serviceZ",
+    countCritical: "-",
+    countHigh: "-",
+    countLow: "-",
+    lastDetected: "-",
+    enabledAnalysis: false,
   },
 ];
 
@@ -233,6 +254,7 @@ export default function Page() {
             <TableHead>
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
+                <TableHeaderCell>Analysis enabled</TableHeaderCell>
                 <TableHeaderCell>Critical</TableHeaderCell>
                 <TableHeaderCell>High</TableHeaderCell>
                 <TableHeaderCell>Low</TableHeaderCell>
@@ -247,6 +269,7 @@ export default function Page() {
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                     {item.repository}
                   </TableCell>
+                  <TableCell>{String(item.enabledAnalysis)}</TableCell>
                   <TableCell>{item.countCritical}</TableCell>
                   <TableCell>{item.countHigh}</TableCell>
                   <TableCell>{item.countLow}</TableCell>
