@@ -45,6 +45,10 @@ export default [
     // グラフ: 任意のユーザのReviewグラフ (前月比グラフ)
     route("users/:userId", "routes/(login)/$groupId.users.$userId/page.tsx"),
     route("repositories", "routes/(login)/$groupId/repository/page.tsx"),
+    route(
+      "repositories/:orgId/:repositoryId",
+      "routes/(login)/$groupId.repositories.$repositoryId/page.tsx",
+    ),
   ]),
 
   // logout state layout
