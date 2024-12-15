@@ -1,5 +1,3 @@
-"use client";
-
 import { DateRangePicker } from "@/components/DatePicker";
 import { subYears } from "date-fns";
 import type { DateRange } from "react-day-picker";

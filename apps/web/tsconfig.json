@@ -1,4 +1,5 @@
 {
+  "extends": "@tsconfig/strictest/tsconfig.json",
   "include": [
     "**/*",
     "**/.server/**/*",
@@ -22,6 +23,8 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true
-  }
+    "strict": true,
+    "exactOptionalPropertyTypes": false // avoid tremor error
+  },
+  "exclude": ["node_modules", "build"]
 }

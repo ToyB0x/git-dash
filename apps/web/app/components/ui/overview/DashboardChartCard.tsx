@@ -1,8 +1,6 @@
 import { Badge } from "@/components/Badge";
 import { LineChart } from "@/components/LineChart";
 import { cx, formatters, percentageFormatter } from "@/lib/utils";
-import { overviews } from "@/routes/(login)/$groupId/cost/data/overview-data";
-import type { OverviewData } from "@/routes/(login)/$groupId/cost/data/schema";
 import {
   eachDayOfInterval,
   formatDate,
@@ -15,16 +13,22 @@ import { getPeriod } from "./DashboardFilterbar";
 export type PeriodValue = "previous-period" | "last-year" | "no-comparison";
 
 export type CardProps = {
-  title: keyof OverviewData;
+  title: string;
   type: "currency" | "unit";
   selectedDates: DateRange | undefined;
   selectedPeriod: PeriodValue;
+  data: {
+    date: Date;
+    value: number;
+  }[];
   isThumbnail?: boolean;
 };
 
 const formattingMap = {
-  currency: formatters.currency,
-  unit: formatters.unit,
+  // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+  currency: formatters["currency"],
+  // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+  unit: formatters["unit"],
 };
 
 export const getBadgeType = (value: number) => {
@@ -43,6 +47,7 @@ export const getBadgeType = (value: number) => {
 export function ChartCard({
   title,
   type,
+  data,
   selectedDates,
   selectedPeriod,
   isThumbnail,
@@ -54,7 +59,10 @@ export function ChartCard({
       : null;
   const allDatesInInterval =
     selectedDates?.from && selectedDates?.to
-      ? eachDayOfInterval(interval(selectedDates.from, selectedDates.to))
+      ? eachDayOfInterval(interval(selectedDates.from, selectedDates.to)).slice(
+          0,
+          -1,
+        ) // データ収集中である本日を含めない
       : null;
   const prevDates = getPeriod(selectedDates);
 
@@ -63,19 +71,19 @@ export function ChartCard({
       ? interval(prevDates.from, prevDates.to)
       : null;
 
-  const data = overviews
-    .filter((overview) => {
+  const curData = data
+    .filter((d) => {
       if (selectedDatesInterval) {
-        return isWithinInterval(overview.date, selectedDatesInterval);
+        return isWithinInterval(d.date, selectedDatesInterval);
       }
       return true;
     })
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  const prevData = overviews
-    .filter((overview) => {
+  const prevData = data
+    .filter((d) => {
       if (prevDatesInterval) {
-        return isWithinInterval(overview.date, prevDatesInterval);
+        return isWithinInterval(d.date, prevDatesInterval);
       }
       return false;
     })
@@ -83,29 +91,29 @@ export function ChartCard({
 
   const chartData = allDatesInInterval
     ?.map((date, index) => {
-      const overview = data[index];
-      const prevOverview = prevData[index];
-      const value = (overview?.[title] as number) || null;
-      const previousValue = (prevOverview?.[title] as number) || null;
+      const currentData = curData[index];
+      const previousData = prevData[index];
 
       return {
         title,
-        date: date,
+        date,
         formattedDate: formatDate(date, "dd/MM/yyyy"),
-        value,
-        previousDate: prevOverview?.date,
-        previousFormattedDate: prevOverview
-          ? formatDate(prevOverview.date, "dd/MM/yyyy")
+        value: currentData?.value,
+        previousDate: previousData?.date,
+        previousFormattedDate: previousData
+          ? formatDate(previousData.date, "dd/MM/yyyy")
           : null,
         previousValue:
-          selectedPeriod !== "no-comparison" ? previousValue : null,
+          selectedPeriod !== "no-comparison" ? previousData?.value : null,
         evolution:
-          selectedPeriod !== "no-comparison" && value && previousValue
-            ? (value - previousValue) / previousValue
+          selectedPeriod !== "no-comparison" &&
+          currentData?.value &&
+          previousData?.value
+            ? (currentData.value - previousData.value) / previousData.value
             : undefined,
       };
     })
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
 
   const categories =
     selectedPeriod === "no-comparison" ? ["value"] : ["value", "previousValue"];

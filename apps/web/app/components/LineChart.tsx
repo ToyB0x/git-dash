@@ -36,8 +36,10 @@ import { getBadgeType } from "./ui/overview/DashboardChartCard";
 interface LegendItemProps {
   name: string;
   color: AvailableChartColorsKeys;
-  onClick?: (name: string, color: AvailableChartColorsKeys) => void;
-  activeLegend?: string;
+  onClick?:
+    | ((name: string, color: AvailableChartColorsKeys) => void)
+    | undefined;
+  activeLegend?: string | undefined;
 }
 
 const LegendItem = ({
@@ -148,9 +150,9 @@ const ScrollButton = ({ icon, onClick, disabled }: ScrollButtonProps) => {
 interface LegendProps extends React.OlHTMLAttributes<HTMLOListElement> {
   categories: string[];
   colors?: AvailableChartColorsKeys[];
-  onClickLegendItem?: (category: string, color: string) => void;
-  activeLegend?: string;
-  enableLegendSlider?: boolean;
+  onClickLegendItem?: ((category: string, color: string) => void) | undefined;
+  activeLegend?: string | undefined;
+  enableLegendSlider?: boolean | undefined;
 }
 
 type HasScrollProps = {
@@ -492,9 +494,17 @@ type BaseEventProps = {
 type LineChartEventProps = BaseEventProps | null | undefined;
 
 interface LineChartProps extends React.HTMLAttributes<HTMLDivElement> {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  data: Record<string, any>[];
-  index: string;
+  data: {
+    title: string;
+    date: Date;
+    formattedDate: string;
+    value: number | undefined;
+    previousDate: Date | undefined;
+    previousFormattedDate: string | null;
+    previousValue: number | null | undefined;
+    evolution: number | undefined;
+  }[];
+  index: "formattedDate";
   categories: string[];
   colors?: AvailableChartColorsKeys[];
   valueFormatter?: (value: number) => string;
@@ -621,12 +631,12 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
                     setActiveLegend(undefined);
                     onValueChange?.(null);
                   }
-                : undefined
+                : () => {} // avoid optional and undefined error
             }
             margin={{
-              bottom: xAxisLabel ? 30 : undefined,
-              left: yAxisLabel ? 20 : undefined,
-              right: yAxisLabel ? 5 : undefined,
+              bottom: xAxisLabel ? 30 : 0,
+              left: yAxisLabel ? 20 : 0,
+              right: yAxisLabel ? 5 : 0,
               top: 0,
             }}
           >
@@ -644,9 +654,10 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
               interval={startEndOnly ? "preserveStartEnd" : intervalType}
               tick={{ transform: "translate(0, 6)" }}
               ticks={
-                startEndOnly
-                  ? [data[0][index], data[data.length - 1][index]]
-                  : undefined
+                startEndOnly && data[0] && data[data.length - 1]
+                  ? // @ts-ignore
+                    [data[0][index], data[data.length - 1][index]]
+                  : []
               }
               fill=""
               stroke=""
