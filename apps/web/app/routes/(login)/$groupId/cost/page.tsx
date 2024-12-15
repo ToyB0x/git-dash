@@ -121,6 +121,7 @@ const data3: KpiEntryExtended[] = [
 const dataTable = [
   {
     repository: "org/api",
+    action: "unit test",
     costs: "$3,509.00",
     instance: "Ubuntu 16-core",
     time: 1024,
@@ -128,6 +129,7 @@ const dataTable = [
   },
   {
     repository: "org/frontend",
+    action: "visual regression test",
     costs: "$5,720.00",
     instance: "Ubuntu 16-core",
     time: 894,
@@ -135,6 +137,7 @@ const dataTable = [
   },
   {
     repository: "org/payment",
+    action: "build",
     costs: "$5,720.00",
     instance: "Ubuntu 4-core",
     time: 781,
@@ -142,6 +145,7 @@ const dataTable = [
   },
   {
     repository: "org/backend",
+    action: "unit test",
     costs: "$4,200.00",
     instance: "Ubuntu 4-core",
     time: 651,
@@ -149,6 +153,7 @@ const dataTable = [
   },
   {
     repository: "org/serviceX",
+    action: "E2E test",
     costs: "$2,100.00",
     instance: "Ubuntu 2-core",
     time: 424,
@@ -299,6 +304,7 @@ export default function Page() {
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
                 <TableHeaderCell>Instance</TableHeaderCell>
+                <TableHeaderCell>Action</TableHeaderCell>
                 <TableHeaderCell>Time(min)</TableHeaderCell>
                 <TableHeaderCell className="text-right">Costs</TableHeaderCell>
                 <TableHeaderCell className="text-right">
@@ -313,6 +319,7 @@ export default function Page() {
                     {item.repository}
                   </TableCell>
                   <TableCell>{item.instance}</TableCell>
+                  <TableCell>{item.action}</TableCell>
                   <TableCell>{item.time}</TableCell>
                   <TableCell className="text-right">{item.costs}</TableCell>
                   <TableCell className="text-right">{item.lastRun}</TableCell>
