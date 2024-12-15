@@ -19,7 +19,7 @@ import {
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { redirect, useLoaderData } from "react-router";
+import { Link, redirect, useLoaderData } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
 
 type KpiEntry = {
@@ -118,39 +118,39 @@ const data3: KpiEntryExtended[] = [
 
 const dataTable = [
   {
-    repository: "org/api",
-    costs: "$3,509.00",
-    instance: "Ubuntu 16-core",
-    time: 1024,
-    lastRun: "23/09/2023 13:00",
+    user: "C0d3r",
+    avatar: "https://i.pravatar.cc/300",
+    created: 123,
+    merged: 125,
+    lastMerged: "23/09/2023 13:00",
   },
   {
-    repository: "org/frontend",
-    costs: "$5,720.00",
-    instance: "Ubuntu 16-core",
-    time: 894,
-    lastRun: "22/09/2023 10:45",
+    user: "QuickSilver91",
+    avatar: "https://i.pravatar.cc/301",
+    created: 96,
+    merged: 93,
+    lastMerged: "22/09/2023 10:45",
   },
   {
-    repository: "org/payment",
-    costs: "$5,720.00",
-    instance: "Ubuntu 4-core",
-    time: 781,
-    lastRun: "22/09/2023 10:45",
+    user: "Rock3tMan",
+    avatar: "https://i.pravatar.cc/302",
+    created: 66,
+    merged: 53,
+    lastMerged: "22/09/2023 10:45",
   },
   {
-    repository: "org/backend",
-    costs: "$4,200.00",
-    instance: "Ubuntu 4-core",
-    time: 651,
-    lastRun: "21/09/2023 14:30",
+    user: "BananaEat3r",
+    avatar: "https://i.pravatar.cc/303",
+    created: 46,
+    merged: 33,
+    lastMerged: "21/09/2023 14:30",
   },
   {
-    repository: "org/serviceX",
-    costs: "$2,100.00",
-    instance: "Ubuntu 2-core",
-    time: 424,
-    lastRun: "24/09/2023 09:15",
+    user: "Xg3tt3r",
+    avatar: "https://i.pravatar.cc/304",
+    created: 26,
+    merged: 23,
+    lastMerged: "24/09/2023 09:15",
   },
 ];
 
@@ -275,6 +275,12 @@ export default function Page() {
         >
           PR by user
         </h1>
+        <p className="mt-1 text-gray-500">
+          full user details are available on{" "}
+          <Link to="../users" className="underline underline-offset-4">
+            users menu
+          </Link>
+        </p>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
             maxDate={maxDate}
@@ -288,25 +294,29 @@ export default function Page() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell>Instance</TableHeaderCell>
-                <TableHeaderCell>Time(min)</TableHeaderCell>
-                <TableHeaderCell className="text-right">Costs</TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Last run
-                </TableHeaderCell>
+                <TableHeaderCell className="w-1">User</TableHeaderCell>
+                <TableHeaderCell />
+                <TableHeaderCell>PR Created</TableHeaderCell>
+                <TableHeaderCell>PR Merged</TableHeaderCell>
+                <TableHeaderCell>Last Merged</TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dataTable.map((item) => (
-                <TableRow key={item.repository}>
-                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.repository}
+                <TableRow key={item.user}>
+                  <TableCell className="p-0">
+                    <img
+                      src={item.avatar}
+                      alt="user"
+                      className="w-8 h-8 rounded-full"
+                    />
                   </TableCell>
-                  <TableCell>{item.instance}</TableCell>
-                  <TableCell>{item.time}</TableCell>
-                  <TableCell className="text-right">{item.costs}</TableCell>
-                  <TableCell className="text-right">{item.lastRun}</TableCell>
+                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                    {item.user}
+                  </TableCell>
+                  <TableCell>{item.created}</TableCell>
+                  <TableCell>{item.merged}</TableCell>
+                  <TableCell>{item.lastMerged}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
