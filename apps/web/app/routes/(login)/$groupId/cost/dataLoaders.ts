@@ -1,5 +1,13 @@
 import { generateDailyData } from "@/lib/generateDailyData";
-import type { GraphData } from "./data/schema";
+
+type GraphData = {
+  version: "0.1";
+  type: "Actions" | "Seats" | "Copilots";
+  data: {
+    date: Date;
+    value: number;
+  }[];
+};
 
 export const dataLoaderActions = async (
   _isDemo: boolean,
