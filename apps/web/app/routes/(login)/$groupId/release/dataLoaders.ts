@@ -2,45 +2,26 @@ import { generateDailyData } from "@/lib/generateDailyData";
 
 type GraphData = {
   version: "0.1";
-  type: "PrOpen" | "PrMerge";
+  type: "Release";
   data: {
     date: Date;
     value: number;
   }[];
 };
 
-export const dataLoaderPrOpen = async (
+export const dataLoaderRelease = async (
   _isDemo: boolean,
 ): Promise<GraphData> => {
   return {
-    type: "PrOpen",
+    type: "Release",
     version: "0.1",
     data: generateDailyData({
       startDate: new Date(
         Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
       ),
       endDate: new Date(),
-      min: 5,
-      max: 30,
-      variance: 2.5,
-      weekendReduction: true,
-    }),
-  };
-};
-
-export const dataLoaderPrMerge = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "PrMerge",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 5,
-      max: 30,
+      min: 1,
+      max: 6,
       variance: 2.5,
       weekendReduction: true,
     }),
