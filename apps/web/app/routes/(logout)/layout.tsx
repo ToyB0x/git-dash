@@ -20,16 +20,28 @@ function Right() {
       <div className="bg-cover bg-center bg-no-repeat bg-[url('/login-banner.png')]">
         <div className="h-screen backdrop-blur-md backdrop-brightness-50 flex justify-center flex-col text-center text-gray-100">
           <h3 className=" text-lg font-semibold">Live Demo</h3>
-          <p className="mt-4 text-sm ">
-            You can try the live demo with the
+          <p className="mt-4 text-sm">
+            You can try the live demo with the following links.
+            <br />
+            (Examples:
             <a
-              href="/demo"
-              className="underline underline-offset-4 pl-1"
+              href="/demo/cost"
+              className="underline underline-offset-4 text-xs ml-2"
               target="_blank"
               rel="noreferrer"
             >
-              Demo Page
+              Cost
             </a>
+            &nbsp;&nbsp;/
+            <a
+              href="/demo/users"
+              className="underline underline-offset-4 text-xs ml-2"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Users
+            </a>
+            )
           </p>
         </div>
       </div>
