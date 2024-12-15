@@ -14,7 +14,7 @@ export type PeriodValue = "previous-period" | "last-year" | "no-comparison";
 
 export type CardProps = {
   title: string;
-  type: "currency" | "unit" | "pr" | "hour";
+  type: "currency" | "unit" | "pr" | "release" | "hour";
   selectedDates: DateRange | undefined;
   selectedPeriod: PeriodValue;
   data: {
@@ -29,6 +29,8 @@ const formattingMap = {
   currency: formatters["currency"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
   unit: formatters["unit"],
+  // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+  release: formatters["release"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
   pr: formatters["pr"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>

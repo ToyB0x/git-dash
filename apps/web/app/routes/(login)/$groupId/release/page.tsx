@@ -12,10 +12,7 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
-import {
-  dataLoaderPrMerge,
-  dataLoaderPrOpen,
-} from "@/routes/(login)/$groupId/pr/dataLoaders";
+import { dataLoaderRelease } from "@/routes/(login)/$groupId/release/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
@@ -135,18 +132,16 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
-  const dataPrOpen = await dataLoaderPrOpen(isDemo);
-  const dataPrMerge = await dataLoaderPrMerge(isDemo);
+  const dataRelease = await dataLoaderRelease(isDemo);
 
   return {
-    dataPrOpen,
-    dataPrMerge,
+    dataRelease,
   };
 }
 
 // TODO: add PR page
 export default function Page() {
-  const { dataPrOpen, dataPrMerge } = useLoaderData<typeof clientLoader>();
+  const { dataRelease } = useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -196,7 +191,7 @@ export default function Page() {
           id="actions-usage"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          PR Stats
+          Release Stats
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -212,19 +207,11 @@ export default function Page() {
           )}
         >
           <ChartCard
-            title="PR Open"
-            type="pr"
+            title="Release Count"
+            type="release"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataPrOpen.data}
-          />
-
-          <ChartCard
-            title="PR Merged"
-            type="pr"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataPrMerge.data}
+            data={dataRelease.data}
           />
         </dl>
       </section>
