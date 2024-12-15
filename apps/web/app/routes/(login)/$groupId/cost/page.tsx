@@ -1,46 +1,15 @@
-"use client";
+import { auth } from "@/clients";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard";
 import { cx } from "@/lib/utils";
-import { subDays, toDate } from "date-fns";
+import { dataLoaderActions } from "@/routes/(login)/$groupId/cost/dataLoaders";
+import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { overviews } from "./data/overview-data";
-import type { OverviewData } from "./data/schema";
-
-export type PeriodValue = "previous-period" | "last-year" | "no-comparison";
-
-const categories: {
-  title: keyof OverviewData;
-  type: "currency" | "unit";
-}[] = [
-  {
-    title: "Actions",
-    type: "currency",
-  },
-  {
-    title: "Seats",
-    type: "currency",
-  },
-  {
-    title: "Copilots",
-    type: "currency",
-  },
-  // {
-  //   title: "Rows read",
-  //   type: "unit",
-  // },
-  // {
-  //   title: "Queries",
-  //   type: "unit",
-  // },
-  // {
-  //   title: "Payments completed",
-  //   type: "currency",
-  // },
-];
+import { redirect, useLoaderData } from "react-router";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
 
 export type KpiEntry = {
   title: string;
@@ -136,10 +105,25 @@ const data3: KpiEntryExtended[] = [
   },
 ];
 
-const overviewsDates = overviews.map((item) => toDate(item.date).getTime());
-const maxDate = toDate(Math.max(...overviewsDates));
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
+  await auth.authStateReady();
+  const isDemo = params.groupId === "demo";
+  if (!auth.currentUser && !isDemo) {
+    throw redirect("/sign-in");
+  }
 
-export default function Overview() {
+  const dataActions = await dataLoaderActions(isDemo);
+
+  return {
+    dataActions,
+  };
+}
+
+export default function Page() {
+  const { dataActions } = useLoaderData<typeof clientLoader>();
+
+  const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
     DateRange | undefined
   >({
@@ -211,17 +195,29 @@ export default function Overview() {
             "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
           )}
         >
-          {categories.map((category) => {
-            return (
-              <ChartCard
-                key={category.title}
-                title={category.title}
-                type={category.type}
-                selectedDates={selectedDates}
-                selectedPeriod={"last-year"}
-              />
-            );
-          })}
+          <ChartCard
+            title="Seats"
+            type="currency"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataActions.data}
+          />
+
+          <ChartCard
+            title="Actions"
+            type="currency"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataActions.data}
+          />
+
+          <ChartCard
+            title="Copilots"
+            type="currency"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataActions.data}
+          />
         </dl>
       </section>
     </>
