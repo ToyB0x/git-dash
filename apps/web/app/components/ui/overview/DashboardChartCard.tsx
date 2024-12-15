@@ -14,7 +14,7 @@ export type PeriodValue = "previous-period" | "last-year" | "no-comparison";
 
 export type CardProps = {
   title: string;
-  type: "currency" | "unit" | "pr" | "release" | "hour";
+  type: "currency" | "unit" | "pr" | "release" | "vulnerabilities" | "hour";
   selectedDates: DateRange | undefined;
   selectedPeriod: PeriodValue;
   data: {
@@ -22,6 +22,7 @@ export type CardProps = {
     value: number;
   }[];
   isThumbnail?: boolean;
+  accumulation?: boolean; // グラフの積み上げ表示
 };
 
 const formattingMap = {
@@ -33,6 +34,8 @@ const formattingMap = {
   release: formatters["release"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
   pr: formatters["pr"],
+  // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+  vulnerabilities: formatters["vulnerabilities"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
   hour: formatters["hour"],
 };
@@ -57,6 +60,7 @@ export function ChartCard({
   selectedDates,
   selectedPeriod,
   isThumbnail,
+  accumulation = true,
 }: CardProps) {
   const formatter = formattingMap[type];
   const selectedDatesInterval =
@@ -139,7 +143,7 @@ export function ChartCard({
           <dt className="font-bold text-gray-900 sm:text-sm dark:text-gray-50">
             {title}
           </dt>
-          {selectedPeriod !== "no-comparison" && (
+          {selectedPeriod !== "no-comparison" && accumulation && (
             <Badge variant={getBadgeType(evolution)}>
               {percentageFormatter(evolution)}
             </Badge>
@@ -148,11 +152,16 @@ export function ChartCard({
       </div>
       <div className="mt-2 flex items-baseline justify-between">
         <dd className="text-xl text-gray-900 dark:text-gray-50">
-          {formatter(value)}
+          {accumulation
+            ? formatter(value)
+            : formatter(chartData?.[chartData?.length - 1]?.value)}
         </dd>
         {selectedPeriod !== "no-comparison" && (
           <dd className="text-sm text-gray-500">
-            from {formatter(previousValue)}
+            from{" "}
+            {accumulation
+              ? formatter(previousValue)
+              : formatter(chartData?.[chartData?.length - 1]?.previousValue)}
           </dd>
         )}
       </div>
