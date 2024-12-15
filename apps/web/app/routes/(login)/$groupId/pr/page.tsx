@@ -15,7 +15,6 @@ import { cx } from "@/lib/utils";
 import {
   dataLoaderActions2Core,
   dataLoaderActions4Core,
-  dataLoaderActions16Core,
 } from "@/routes/(login)/$groupId/cost/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
@@ -165,18 +164,16 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   const dataActions2Core = await dataLoaderActions2Core(isDemo);
   const dataActions4Core = await dataLoaderActions4Core(isDemo);
-  const dataActions16Core = await dataLoaderActions16Core(isDemo);
 
   return {
     dataActions2Core,
     dataActions4Core,
-    dataActions16Core,
   };
 }
 
 // TODO: add PR page
 export default function Page() {
-  const { dataActions2Core, dataActions4Core, dataActions16Core } =
+  const { dataActions2Core, dataActions4Core } =
     useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
