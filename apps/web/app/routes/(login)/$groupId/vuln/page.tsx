@@ -195,9 +195,9 @@ export default function Page() {
           />
         </div>
       </section>
-      <section aria-labelledby="actions-usage">
+      <section aria-labelledby="vulnerabilities-graph">
         <h1
-          id="actions-usage"
+          id="vulnerabilities-graph"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Vulnerabilities Stats
@@ -242,9 +242,9 @@ export default function Page() {
         </dl>
       </section>
 
-      <section aria-labelledby="high-cost-actions">
+      <section aria-labelledby="vulnerabilities-table">
         <h1
-          id="high-cost-actions"
+          id="vulnerabilities-table"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Vulnerabilities by repository

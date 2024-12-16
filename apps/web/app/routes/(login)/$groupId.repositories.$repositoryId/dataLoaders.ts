@@ -3,74 +3,17 @@ import { generateDailyData } from "@/lib/generateDailyData";
 type GraphData = {
   version: "0.1";
   type:
-    | "PrOpen"
-    | "PrMerge"
-    | "Reviews"
     | "Release"
     | "ChangeLeadTime"
     | "ChangeFailureRate"
-    | "FailedDeploymentRecoveryTime";
+    | "FailedDeploymentRecoveryTime"
+    | "Critical"
+    | "High"
+    | "Low";
   data: {
     date: Date;
     value: number;
   }[];
-};
-
-export const dataLoaderPrOpen = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "PrOpen",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 5,
-      variance: 1,
-      weekendReduction: true,
-    }),
-  };
-};
-
-export const dataLoaderPrMerge = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "PrMerge",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 5,
-      variance: 1,
-      weekendReduction: true,
-    }),
-  };
-};
-
-export const dataLoaderReviews = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "Reviews",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 15,
-      variance: 1,
-      weekendReduction: true,
-    }),
-  };
 };
 
 export const dataLoaderRelease = async (
@@ -145,6 +88,63 @@ export const dataLoaderFailedDeploymentRecoveryTime = async (
       max: 6,
       variance: 2.5,
       weekendReduction: true,
+    }),
+  };
+};
+
+export const dataLoaderVulnerabilityCritical = async (
+  _isDemo: boolean,
+): Promise<GraphData> => {
+  return {
+    type: "Critical",
+    version: "0.1",
+    data: generateDailyData({
+      startDate: new Date(
+        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+      ),
+      endDate: new Date(),
+      min: 10,
+      max: 30,
+      variance: 0.05,
+      weekendReduction: false,
+    }),
+  };
+};
+
+export const dataLoaderVulnerabilityHigh = async (
+  _isDemo: boolean,
+): Promise<GraphData> => {
+  return {
+    type: "High",
+    version: "0.1",
+    data: generateDailyData({
+      startDate: new Date(
+        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+      ),
+      endDate: new Date(),
+      min: 10,
+      max: 50,
+      variance: 0.05,
+      weekendReduction: false,
+    }),
+  };
+};
+
+export const dataLoaderVulnerabilityLow = async (
+  _isDemo: boolean,
+): Promise<GraphData> => {
+  return {
+    type: "Low",
+    version: "0.1",
+    data: generateDailyData({
+      startDate: new Date(
+        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+      ),
+      endDate: new Date(),
+      min: 50,
+      max: 120,
+      variance: 0.5,
+      weekendReduction: false,
     }),
   };
 };

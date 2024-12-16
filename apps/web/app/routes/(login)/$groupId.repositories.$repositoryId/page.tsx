@@ -12,6 +12,11 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
+import {
+  dataLoaderVulnerabilityCritical,
+  dataLoaderVulnerabilityHigh,
+  dataLoaderVulnerabilityLow,
+} from "@/routes/(login)/$groupId/vuln/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
@@ -21,10 +26,7 @@ import {
   dataLoaderChangeFailureRate,
   dataLoaderChangeLeadTime,
   dataLoaderFailedDeploymentRecoveryTime,
-  dataLoaderPrMerge,
-  dataLoaderPrOpen,
   dataLoaderRelease,
-  dataLoaderReviews,
 } from "./dataLoaders";
 
 type KpiEntry = {
@@ -174,35 +176,37 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/sign-in");
   }
 
-  const dataPrOpen = await dataLoaderPrOpen(isDemo);
-  const dataPrMerge = await dataLoaderPrMerge(isDemo);
-  const dataReviews = await dataLoaderReviews(isDemo);
   const dataChangeLeadTime = await dataLoaderChangeLeadTime(isDemo);
   const dataRelease = await dataLoaderRelease(isDemo);
   const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
 
+  const dataVulnerabilityCritical =
+    await dataLoaderVulnerabilityCritical(isDemo);
+  const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
+  const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
+
   return {
-    dataPrOpen,
-    dataPrMerge,
-    dataReviews,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
+    dataVulnerabilityCritical,
+    dataVulnerabilityHigh,
+    dataVulnerabilityLow,
   };
 }
 
 export default function Page() {
   const {
-    dataPrOpen,
-    dataPrMerge,
-    dataReviews,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
+    dataVulnerabilityCritical,
+    dataVulnerabilityHigh,
+    dataVulnerabilityLow,
   } = useLoaderData<typeof clientLoader>();
   const { orgId, repositoryId } = useParams();
 
@@ -319,12 +323,12 @@ export default function Page() {
         </dl>
       </section>
 
-      <section aria-labelledby="actions-usage">
+      <section aria-labelledby="vulnerabilities-graph">
         <h1
-          id="actions-usage"
+          id="vulnerabilities-graph"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Vulnerabilities
+          Vulnerabilities Stats
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -340,35 +344,28 @@ export default function Page() {
           )}
         >
           <ChartCard
-            title="PR Open"
-            type="pr"
+            title="Critical Count"
+            type="vulnerabilities"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataPrOpen.data}
+            accumulation={false}
+            data={dataVulnerabilityCritical.data}
           />
-
           <ChartCard
-            title="PR Merged"
-            type="pr"
+            title="High Count"
+            type="vulnerabilities"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataPrMerge.data}
+            accumulation={false}
+            data={dataVulnerabilityHigh.data}
           />
-
           <ChartCard
-            title="Reviews"
-            type="review"
+            title="Low Count"
+            type="vulnerabilities"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataReviews.data}
-          />
-
-          <ChartCard
-            title="Releases"
-            type="release"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataReviews.data}
+            accumulation={false}
+            data={dataVulnerabilityLow.data}
           />
         </dl>
       </section>
