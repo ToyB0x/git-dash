@@ -20,7 +20,7 @@ import {
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { Link, redirect, useLoaderData, useParams } from "react-router";
+import { redirect, useLoaderData, useParams } from "react-router";
 import type { Route } from "../../../../.react-router/types/app/routes/(login)/$groupId.users.$userId/+types/page";
 import {
   dataLoaderChangeFailureRate,
@@ -125,46 +125,39 @@ const data3: KpiEntryExtended[] = [
 
 const dataTable = [
   {
-    repository: "org/api",
-    prs: 124,
-    reviews: 21,
-    lastActivity: "23/09/2023 13:00",
+    action: "unit test",
+    costs: "$3,509.00",
+    instance: "Ubuntu 16-core",
+    time: 1024,
+    lastRun: "23/09/2023 13:00",
   },
   {
-    repository: "org/frontend",
-    prs: 91,
-    reviews: 12,
-    lastActivity: "22/09/2023 10:45",
+    action: "visual regression test",
+    costs: "$5,720.00",
+    instance: "Ubuntu 16-core",
+    time: 894,
+    lastRun: "22/09/2023 10:45",
   },
   {
-    repository: "org/payment",
-    prs: 61,
-    reviews: 9,
-    lastActivity: "22/09/2023 10:45",
+    action: "build",
+    costs: "$5,720.00",
+    instance: "Ubuntu 4-core",
+    time: 781,
+    lastRun: "22/09/2023 10:45",
   },
   {
-    repository: "org/backend",
-    prs: 21,
-    reviews: 3,
-    lastActivity: "21/09/2023 14:30",
+    action: "unit test",
+    costs: "$4,200.00",
+    instance: "Ubuntu 4-core",
+    time: 651,
+    lastRun: "21/09/2023 14:30",
   },
   {
-    repository: "org/serviceX",
-    prs: 6,
-    reviews: 1,
-    lastActivity: "24/09/2023 09:15",
-  },
-  {
-    repository: "org/serviceY",
-    prs: 2,
-    reviews: 1,
-    lastActivity: "23/09/2024 21:42",
-  },
-  {
-    repository: "org/serviceZ",
-    prs: 1,
-    reviews: 1,
-    lastActivity: "21/09/2024 11:32",
+    action: "E2E test",
+    costs: "$2,100.00",
+    instance: "Ubuntu 2-core",
+    time: 424,
+    lastRun: "24/09/2023 09:15",
   },
 ];
 
@@ -370,44 +363,45 @@ export default function Page() {
         </dl>
       </section>
 
-      <section aria-labelledby="high-cost-actions">
+      <section aria-labelledby="actions-cost">
         <h1
-          id="high-cost-actions"
+          id="actions-cost"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Actions Cost
+          Actions cost
         </h1>
+        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
+          <Filterbar
+            maxDate={maxDate}
+            minDate={new Date(2024, 0, 1)}
+            selectedDates={selectedDates}
+            onDatesChange={(dates) => setSelectedDates(dates)}
+          />
+        </div>
 
         <TableRoot className="mt-8">
           <Table>
             <TableHead>
               <TableRow>
-                <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell className="text-right">PRs</TableHeaderCell>
+                <TableHeaderCell>Action</TableHeaderCell>
+                <TableHeaderCell>Instance</TableHeaderCell>
+                <TableHeaderCell>Time(min)</TableHeaderCell>
+                <TableHeaderCell className="text-right">Costs</TableHeaderCell>
                 <TableHeaderCell className="text-right">
-                  Reviews
-                </TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Last Activity
+                  Last run
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dataTable.map((item) => (
-                <TableRow key={item.repository}>
+                <TableRow key={item.action}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    <Link
-                      to={`${item.repository}`}
-                      className="underline underline-offset-4"
-                    >
-                      {item.repository}
-                    </Link>
+                    {item.action}
                   </TableCell>
-                  <TableCell className="text-right">{item.prs}</TableCell>
-                  <TableCell className="text-right">{item.reviews}</TableCell>
-                  <TableCell className="text-right">
-                    {item.lastActivity}
-                  </TableCell>
+                  <TableCell>{item.instance}</TableCell>
+                  <TableCell>{item.time}</TableCell>
+                  <TableCell className="text-right">{item.costs}</TableCell>
+                  <TableCell className="text-right">{item.lastRun}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
