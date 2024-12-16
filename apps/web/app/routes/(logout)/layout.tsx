@@ -50,6 +50,15 @@ function Right() {
             >
               Vuln
             </a>
+            &nbsp;&nbsp;/
+            <a
+              href="/demo/repositories/org/api"
+              className="underline underline-offset-4 text-xs ml-2"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Four keys
+            </a>
             )
           </p>
         </div>
