@@ -36,3 +36,17 @@ In the future, we plan to offer paid managed services in the cloud.
 
 And Merged PR creators will be given a discount on the paid plan.
 (Details will be announced later)
+
+# TODO
+
+- Add repository detail page
+- Add overview page
+- Add four keys page
+  - Add repository activity graph across all repositories
+  - Add hazard register api (only ui)
+  - Add hazard recovery register api (only ui)
+- 全体的に不要なグラフがないか確認する
+- 全体的にどのグラフが再利用可能か確認する
+- Add site meta title
+- Add favicon
+- Deploy to Cloudflare
