@@ -18,8 +18,12 @@ import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData, useParams } from "react-router";
 import type { Route } from "../../../../.react-router/types/app/routes/(login)/$groupId.users.$userId/+types/page";
 import {
+  dataLoaderChangeFailureRate,
+  dataLoaderChangeLeadTime,
+  dataLoaderFailedDeploymentRecoveryTime,
   dataLoaderPrMerge,
   dataLoaderPrOpen,
+  dataLoaderRelease,
   dataLoaderReviews,
 } from "./dataLoaders";
 
@@ -173,17 +177,33 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const dataPrOpen = await dataLoaderPrOpen(isDemo);
   const dataPrMerge = await dataLoaderPrMerge(isDemo);
   const dataReviews = await dataLoaderReviews(isDemo);
+  const dataChangeLeadTime = await dataLoaderChangeLeadTime(isDemo);
+  const dataRelease = await dataLoaderRelease(isDemo);
+  const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
+  const dataFailedDeploymentRecoveryTime =
+    await dataLoaderFailedDeploymentRecoveryTime(isDemo);
 
   return {
     dataPrOpen,
     dataPrMerge,
     dataReviews,
+    dataChangeLeadTime,
+    dataRelease,
+    dataChangeFailureRate,
+    dataFailedDeploymentRecoveryTime,
   };
 }
 
 export default function Page() {
-  const { dataPrOpen, dataPrMerge, dataReviews } =
-    useLoaderData<typeof clientLoader>();
+  const {
+    dataPrOpen,
+    dataPrMerge,
+    dataReviews,
+    dataChangeLeadTime,
+    dataRelease,
+    dataChangeFailureRate,
+    dataFailedDeploymentRecoveryTime,
+  } = useLoaderData<typeof clientLoader>();
   const { orgId, repositoryId } = useParams();
 
   const maxDate = startOfToday();
@@ -204,6 +224,18 @@ export default function Page() {
           {orgId}/{repositoryId}
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
+          <CategoryBarCard
+            title="Time to release (four key)"
+            change="+1.4"
+            value="9.1 days"
+            valueDescription="average release time"
+            subtitle="last 30 days"
+            ctaDescription="About four key:"
+            ctaText="reference"
+            ctaLink="#"
+            data={data}
+          />
+
           <CategoryBarCard
             title="Time to merge"
             change="-0.6%"
@@ -227,26 +259,72 @@ export default function Page() {
             ctaLink="#"
             data={data3}
           />
-
-          <CategoryBarCard
-            title="Time until being reviewed"
-            change="+1.4"
-            value="9.1 days"
-            valueDescription="average release time"
-            subtitle="last 30 days"
-            ctaDescription="About four key:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data}
-          />
         </div>
       </section>
+
       <section aria-labelledby="actions-usage">
         <h1
           id="actions-usage"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Stats
+          Four Keys
+        </h1>
+        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
+          <Filterbar
+            maxDate={maxDate}
+            minDate={new Date(2024, 0, 1)}
+            selectedDates={selectedDates}
+            onDatesChange={(dates) => setSelectedDates(dates)}
+          />
+        </div>
+        <dl
+          className={cx(
+            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
+          )}
+        >
+          <ChartCard
+            title="Deployment Frequency"
+            type="release"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataRelease.data}
+          />
+
+          <ChartCard
+            title="Change Lead Time"
+            type="hour"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataChangeLeadTime.data}
+            accumulation={false}
+          />
+
+          <ChartCard
+            title="Change Failure Rate"
+            type="percentage"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataChangeFailureRate.data}
+            accumulation={false}
+          />
+
+          <ChartCard
+            title="Failed Deployment Recovery Time"
+            type="hour"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataFailedDeploymentRecoveryTime.data}
+            accumulation={false}
+          />
+        </dl>
+      </section>
+
+      <section aria-labelledby="actions-usage">
+        <h1
+          id="actions-usage"
+          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Vulnerabilities
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -284,6 +362,14 @@ export default function Page() {
             selectedDates={selectedDates}
             data={dataReviews.data}
           />
+
+          <ChartCard
+            title="Releases"
+            type="release"
+            selectedPeriod="last-year"
+            selectedDates={selectedDates}
+            data={dataReviews.data}
+          />
         </dl>
       </section>
 
@@ -292,7 +378,7 @@ export default function Page() {
           id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Activity by repository
+          Actions Cost
         </h1>
 
         <TableRoot className="mt-8">
