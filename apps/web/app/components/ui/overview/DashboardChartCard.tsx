@@ -17,6 +17,7 @@ export type CardProps = {
   type:
     | "currency"
     | "unit"
+    | "percentage"
     | "pr"
     | "review"
     | "release"
@@ -37,6 +38,8 @@ const formattingMap = {
   currency: formatters["currency"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
   unit: formatters["unit"],
+  // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+  percentage: formatters["percentage"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
   release: formatters["release"],
   // biome-ignore lint/complexity/useLiteralKeys: <explanation>
