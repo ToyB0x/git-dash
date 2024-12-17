@@ -3,13 +3,16 @@
   "scripts": {
     "e2e": "pnpm exec playwright test",
     "e2e:ui": "pnpm exec playwright test --ui",
+    "e2e:ui:update": "pnpm exec playwright test --ui --update-snapshots",
     "e2e:debug": "pnpm exec playwright test --debug",
     "e2e:setup": "pnpm exec playwright install --with-deps chromium",
+    "e2e:show-report": "pnpm exec playwright show-report",
     "codegen": "pnpm exec playwright codegen",
     "typecheck": "tsc --noEmit",
     "e2e:prepare": "pnpm e2e:setup && pnpm start-server-and-test 'pnpm -w dev:e2e' \"http://localhost:10000|http://localhost:8787/health\" --",
     "e2e:run": "pnpm e2e:prepare 'pnpm e2e'",
-    "e2e:run:ui": "pnpm e2e:prepare 'pnpm e2e:ui'"
+    "e2e:run:ui": "pnpm e2e:prepare 'pnpm e2e:ui'",
+    "e2e:run:ui:update": "pnpm e2e:prepare 'pnpm e2e:ui:update'"
   },
   "//Turboのキャッシュ計算のためE2E対象である @repo/api と @repo/web を依存に追加": "",
   "devDependencies": {

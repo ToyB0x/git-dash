@@ -44,3 +44,4 @@ And Merged PR creators will be given a discount on the paid plan.
 - 全体的にどのグラフが再利用可能か確認する
 - Add site meta title
 - モバイル版の不具合を探す
+- E2Eテストでグラフ(svg)の無視とmaxDiffPixelRatioを使ってしまっている部分を直す(グラフSeedの固定と、必要に応じてさらにAvatar画像の固定が必要)
