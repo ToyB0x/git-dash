@@ -1,0 +1,39 @@
+{
+  "name": "@repo/jobs-v2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "jobs": "node --enable-source-maps dist/index.js",
+    "jobs:dev:aggregate:organization": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate organization",
+    "jobs:dev:aggregate:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate group",
+    "jobs:dev:export:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs export group",
+    "jobs:dev:export:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs export check",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/api": "workspace:*",
+    "@repo/db-job": "workspace:*",
+    "@repo/utils": "workspace:*",
+    "dotenv-cli": "7.4.4",
+    "commander": "12.1.0",
+    "graphql": "16.10.0",
+    "@graphql-typed-document-node/core": "3.2.0",
+    "graphql-request": "7.1.2",
+    "valibot": "1.0.0-beta.9"
+  },
+  "devDependencies": {
+    "@repo/schema": "workspace:*",
+    "@tsconfig/strictest": "2.0.5",
+    "@graphql-codegen/cli": "5.0.3",
+    "@graphql-codegen/client-preset": "4.5.1",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@types/node": "22.10.2",
+    "tsup": "8.3.5",
+    "typescript": "5.7.2"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}
