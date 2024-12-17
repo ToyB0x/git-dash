@@ -109,7 +109,7 @@ export default function MobileSidebar() {
         </DrawerTrigger>
         <DrawerContent className="sm:max-w-lg">
           <DrawerHeader>
-            <DrawerTitle>Retail Analytics</DrawerTitle>
+            <DrawerTitle>My workspace</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
             <nav
