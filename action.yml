@@ -29,6 +29,10 @@ inputs:
   GDASH_GROUP_API_KEY:
     description: "Group API key to send report"
     required: true
+  GDASH_PROJECT_ID:
+    description: "Group API key to send report"
+    required: false
+    default: "gdash-prd"
 runs:
   using: "composite"
   steps:
@@ -52,14 +56,15 @@ runs:
       shell: bash
 
     - name: Build all packages
-      run: pnpm turbo build --filter=@repo/jobs
+      run: pnpm turbo build --filter=@repo/job
       shell: bash
 
     - name: Env Check
-      run: pnpm jobs export check
+      run: pnpm jobs check config
       shell: bash
       working-directory: apps/job
       env:
+        GDASH_PROJECT_ID: ${{ inputs.GDASH_PROJECT_ID }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}
         GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}

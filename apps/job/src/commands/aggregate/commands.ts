@@ -1,15 +1,18 @@
+import { env } from "@/env";
 import { Command } from "commander";
 import { aggregateByOrganization } from "./aggregateByOrganization";
 
-export const makeAggregateCommand = () => {
+export const newAggregateCommand = () => {
   const aggregate = new Command("aggregate");
   aggregate.description("aggregate related commands.");
 
   aggregate
     .command("organization")
     .description("aggregate specific organization repositories.")
-    .argument("<orgName>", "orgName to aggregate repositories")
-    .action(async (orgName: string) => await aggregateByOrganization(orgName));
+    .action(
+      async () =>
+        await aggregateByOrganization(env.GDASH_GITHUB_ORGANIZATION_NAME),
+    );
 
   return aggregate;
 };

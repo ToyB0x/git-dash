@@ -18,6 +18,7 @@ jobs:
       - name: run marketplace action
         uses: './' # Uses an action in the root directory
         with:
+          GDASH_PROJECT_ID: "gdash-test"
           GDASH_GITHUB_ORGANIZATION_NAME: "test-org-name"
           GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: "test-personal-access-token"
           GDASH_GROUP_ID: "test-group-id"

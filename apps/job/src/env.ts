@@ -2,6 +2,7 @@ import { literal, object, parse, string, union } from "valibot";
 
 const envSchema = object({
   GDASH_PROJECT_ID: union([
+    literal("gdash-test"),
     literal("gdash-local"),
     literal("gdash-dev"),
     literal("gdash-stg"),

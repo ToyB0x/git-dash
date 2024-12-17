@@ -1,26 +1,31 @@
 import { aggregateOrganization } from "./aggregateOrganization";
-import { aggregatePRs } from "./aggregatePRs";
 import { aggregateRepositories } from "./aggregateRepositories";
-import { aggregateUsers } from "./aggregateUsers";
+// import { aggregatePRs } from "./aggregatePRs";
+// import { aggregateUsers } from "./aggregateUsers";
 
 export const maxOld = new Date(
-  Date.now() - 60 * 60 * 24 * 30 * 6 * 1000,
-).getTime(); // half year
+  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
+).getTime();
 
 export const aggregateByOrganization = async (
   orgName: string,
 ): Promise<void> => {
-  // TODO: orgIdを利用してRLSを有効化(/apps/jobs)
-  // https://github.com/users/ToyB0x/projects/1/views/1?pane=issue&itemId=32240414
+  console.log("aggregate Organization...", orgName);
+  const organization = await aggregateOrganization(orgName);
 
-  const organizationId = await aggregateOrganization(orgName);
-  await aggregateUsers(orgName, organizationId);
-  const repositoryNames = await aggregateRepositories(orgName, organizationId);
-  if (repositoryNames.length !== new Set(repositoryNames).size)
-    throw new Error("duplicate repository name");
+  console.log("aggregate Repositories...");
+  const repositories = await aggregateRepositories(
+    organization.login,
+    organization.id,
+  );
+  console.log("aggregate Repositories: ", repositories.length);
 
-  for (const [index, repositoryName] of repositoryNames.entries()) {
-    console.info(`trying repository: ${index + 1} / ${repositoryNames.length}`);
-    await aggregatePRs(orgName, organizationId, repositoryName);
-  }
+  // await aggregateUsers(orgName, organizationId);
+  // if (repositoryNames.length !== new Set(repositoryNames).size)
+  //   throw new Error("duplicate repository name");
+  //
+  // for (const [index, repositoryName] of repositoryNames.entries()) {
+  //   console.info(`trying repository: ${index + 1} / ${repositoryNames.length}`);
+  //   await aggregatePRs(orgName, organizationId, repositoryName);
+  // }
 };

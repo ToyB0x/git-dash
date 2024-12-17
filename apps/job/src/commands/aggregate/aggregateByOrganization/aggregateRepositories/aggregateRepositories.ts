@@ -1,127 +1,53 @@
-import { sleep } from "@repo/utils";
-import { GraphQLClient } from "graphql-request";
-import { env, getSingleTenantPrismaClient } from "../../../../utils";
-import { maxOld } from "../aggregateByOrganization";
-import { getFirstPage } from "./getFirstPage";
+import { dbClient, ghClient } from "@/clients";
 import { paginate } from "./paginate";
 
 export const aggregateRepositories = async (
   orgName: string,
   organizationId: string,
-): Promise<string[]> => {
-  const prismaSingleTenantClient = getSingleTenantPrismaClient();
-
-  const githubClient = new GraphQLClient("https://api.github.com/graphql", {
-    headers: {
-      Authorization: `Bearer ${env.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN}`,
-      "X-Github-Next-Global-ID": "1",
-    },
-  });
-
+) => {
   const repositories: {
     id: string;
     name: string;
-    pushedAt: string | null;
-    releases: {
-      id: string;
-      url: string;
-      tagName: string;
-      publishedAt: string;
-    }[];
-    hasVulnerabilityAlertsEnabled: boolean;
-    vulnerabilityAlertsTotalCount: number;
+    // TODO: pushedAtの方が適切かもしれないので要確認(リポジトリ設定の更新などしか検知できていないかも？)
+    updatedAt: string;
   }[] = [];
 
-  try {
-    // get first page
-    let {
-      repositories: firstPageResult,
-      hasNextPage,
-      cursor,
-    } = await getFirstPage(githubClient, orgName);
+  let hasNextPage = true;
+  let cursor = null;
 
-    repositories.push(...firstPageResult);
+  while (hasNextPage) {
+    const {
+      repositories: _repositories,
+      hasNextPage: _hasNextPage,
+      cursor: _cursor,
+    } = await paginate(ghClient, orgName, cursor);
 
-    // get paginated results
-    while (hasNextPage && cursor) {
-      await sleep(500);
-      const {
-        repositories: _repositories,
-        hasNextPage: _hasNextPage,
-        cursor: _cursor,
-      } = await paginate(githubClient, orgName, cursor);
-
-      repositories.push(..._repositories);
-      hasNextPage = _hasNextPage;
-      cursor = _cursor;
-    }
-
-    const recentRepositories = repositories.filter((repository) => {
-      if (repository.pushedAt) {
-        return new Date(repository.pushedAt).getTime() >= maxOld;
-      }
-      return false;
-    });
-
-    // upsert repositories (because repository name can be changed)
-    await Promise.all(
-      recentRepositories.map(async (repository) => {
-        await prismaSingleTenantClient.repository.upsert({
-          where: {
-            id: repository.id,
-          },
-          create: {
-            id: repository.id,
-            name: repository.name,
-            organizationId,
-            pushedAt: repository.pushedAt
-              ? new Date(repository.pushedAt)
-              : null,
-            hasVulnerabilityAlertsEnabled:
-              repository.hasVulnerabilityAlertsEnabled,
-            vulnerabilityAlertsTotalCount:
-              repository.vulnerabilityAlertsTotalCount,
-          },
-          update: {
-            name: repository.name,
-            organizationId,
-            pushedAt: repository.pushedAt
-              ? new Date(repository.pushedAt)
-              : null,
-            hasVulnerabilityAlertsEnabled:
-              repository.hasVulnerabilityAlertsEnabled,
-            vulnerabilityAlertsTotalCount:
-              repository.vulnerabilityAlertsTotalCount,
-          },
-        });
-
-        await Promise.all(
-          repository.releases.map(async (release) => {
-            await prismaSingleTenantClient.release.upsert({
-              where: {
-                id: release.id,
-              },
-              create: {
-                id: release.id,
-                tagName: release.tagName,
-                url: release.url,
-                organizationId,
-                publishedAt: new Date(release.publishedAt),
-              },
-              update: {
-                tagName: release.tagName,
-                url: release.url,
-                organizationId,
-                publishedAt: new Date(release.publishedAt),
-              },
-            });
-          }),
-        );
-      }),
-    );
-
-    return recentRepositories.map((repository) => repository.name);
-  } finally {
-    await prismaSingleTenantClient.$disconnect();
+    repositories.push(..._repositories);
+    hasNextPage = _hasNextPage;
+    cursor = _cursor;
   }
+
+  // upsert repositories (because repository name can be changed)
+  await Promise.all(
+    repositories.map(async (repository) => {
+      await dbClient.repository.upsert({
+        where: {
+          id: repository.id,
+        },
+        create: {
+          id: repository.id,
+          name: repository.name,
+          updatedAt: repository.updatedAt,
+          organizationId,
+        },
+        update: {
+          name: repository.name,
+          updatedAt: repository.updatedAt,
+          organizationId,
+        },
+      });
+    }),
+  );
+
+  return repositories;
 };
