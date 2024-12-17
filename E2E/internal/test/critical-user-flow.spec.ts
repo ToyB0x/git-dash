@@ -24,5 +24,6 @@ test("can sign up and redirect", async ({ page }) => {
   await page.getByPlaceholder("john@company.com").fill("test@example.com");
   await page.getByPlaceholder("Password").click();
   await page.getByPlaceholder("Password").fill("password1234xX");
+  await page.getByRole("button", { name: "Sign in" }).click();
   await page.getByRole("button", { name: "User settings" }).click();
 });
