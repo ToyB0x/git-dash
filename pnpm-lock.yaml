@@ -249,8 +249,8 @@ importers:
         specifier: 3.11.0
         version: 3.11.0(react@19.0.0)
       '@remixicon/react':
-        specifier: 4.5.0
-        version: 4.5.0(react@19.0.0)
+        specifier: 4.6.0
+        version: 4.6.0(react@19.0.0)
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -2999,8 +2999,8 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
-  '@remixicon/react@4.5.0':
-    resolution: {integrity: sha512-Xr20SxMpRNlgXZnoF5BCMyZuQEhXY3yJCyms8kxB/vJCCiV1nWdiO48XqRG5LBd1192iSHC4m658AIWi6rmBFg==}
+  '@remixicon/react@4.6.0':
+    resolution: {integrity: sha512-bY56maEgT5IYUSRotqy9h03IAKJC85vlKtWFg2FKzfs8JPrkdBAYSa9dxoUSKFwGzup8Ux6vjShs9Aec3jvr2w==}
     peerDependencies:
       react: '>=18.2.0'
 
@@ -9865,7 +9865,7 @@ snapshots:
     dependencies:
       react: 19.0.0
 
-  '@remixicon/react@4.5.0(react@19.0.0)':
+  '@remixicon/react@4.6.0(react@19.0.0)':
     dependencies:
       react: 19.0.0
 
