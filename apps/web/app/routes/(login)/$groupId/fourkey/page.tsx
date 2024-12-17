@@ -74,65 +74,63 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function Page() {
   return (
-    <>
-      <section aria-labelledby="four-keys-table">
-        <h1
-          id="four-keys-table"
-          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
-          Four keys by repository
-        </h1>
-        <p className="mt-1 text-gray-500">
-          for more details graph, click on the repository links.
-        </p>
-        <TableRoot className="mt-8">
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Deployment Frequency
-                </TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Change Lead Time
-                </TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Change Failure Rate
-                </TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Failed Deployment Recovery Time
-                </TableHeaderCell>
+    <section aria-labelledby="four-keys-table">
+      <h1
+        id="four-keys-table"
+        className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+      >
+        Four keys by repository
+      </h1>
+      <p className="mt-1 text-gray-500">
+        for more details graph, click on the repository links.
+      </p>
+      <TableRoot className="mt-8">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell>Repository</TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                Deployment Frequency
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                Change Lead Time
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                Change Failure Rate
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                Failed Deployment Recovery Time
+              </TableHeaderCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {dataTable.map((item) => (
+              <TableRow key={item.repository}>
+                <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                  <Link
+                    to={`../repositories/${item.repository}`}
+                    className="underline underline-offset-4"
+                  >
+                    {item.repository}
+                  </Link>
+                </TableCell>
+                <TableCell className="text-right">
+                  {item.prs} releases / month
+                </TableCell>
+                <TableCell className="text-right">
+                  {item.changeLeadTime} hours
+                </TableCell>
+                <TableCell className="text-right">
+                  {item.changeFailureRate} %
+                </TableCell>
+                <TableCell className="text-right">
+                  {item.failedDeploymentRecoveryTime} hours
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {dataTable.map((item) => (
-                <TableRow key={item.repository}>
-                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    <Link
-                      to={`../repositories/${item.repository}`}
-                      className="underline underline-offset-4"
-                    >
-                      {item.repository}
-                    </Link>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {item.prs} releases / month
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {item.changeLeadTime} hours
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {item.changeFailureRate} %
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {item.failedDeploymentRecoveryTime} hours
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableRoot>
-      </section>
-    </>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+    </section>
   );
 }
