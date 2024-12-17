@@ -1,6 +1,7 @@
 import { auth } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
+import { DonutChart } from "@/components/DonutChart";
 import {
   Table,
   TableBody,
@@ -10,7 +11,6 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
-import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
@@ -24,46 +24,6 @@ import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
-
-type KpiEntry = {
-  title: string;
-  percentage: number;
-  current: number;
-  allowed: number;
-  unit?: string;
-};
-
-type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
-  value: string;
-  color: string;
-};
-
-const data: KpiEntryExtended[] = [
-  {
-    title: "Critical",
-    percentage: 11.2,
-    value: "12 packages",
-    color: "bg-red-600 dark:bg-red-500",
-  },
-  {
-    title: "High",
-    percentage: 31.2,
-    value: "21 packages",
-    color: "bg-purple-600 dark:bg-purple-500",
-  },
-  {
-    title: "Low",
-    percentage: 21.2,
-    value: "16 packages",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "Moderate",
-    percentage: 41.2,
-    value: "42 packages",
-    color: "bg-gray-400 dark:bg-gray-600",
-  },
-];
 
 const dataTable = [
   {
@@ -126,14 +86,14 @@ const dataTable = [
 
 const dataStats = [
   {
-    name: "Pull requests",
-    stat: "128/month",
+    name: "Pull requests / month",
+    stat: "128",
     change: "+1.8%",
     changeType: "positive",
   },
   {
-    name: "Releases",
-    stat: "42/month",
+    name: "Releases / month",
+    stat: "42",
     change: "-12.5%",
     changeType: "negative",
   },
@@ -144,8 +104,8 @@ const dataStats = [
     changeType: "positive",
   },
   {
-    name: "Vulnerabilities",
-    stat: "29 critical",
+    name: "Vulnerabilities (critical)",
+    stat: "29",
     change: "+19.7%",
     changeType: "negative",
   },
@@ -216,6 +176,36 @@ const dataChart = [
   { date: "Aug 23", "This Year": 80100, "Last Year": 70120 },
 ];
 
+const currencyFormatter = (number: number) =>
+  `$${Intl.NumberFormat("us").format(number).toString()}`;
+
+const dataDonut = [
+  {
+    name: "Github Actions",
+    amount: 6730,
+    share: "32.1%",
+    color: "bg-blue-500 dark:bg-blue-500",
+  },
+  {
+    name: "Github Team Seats",
+    amount: 4120,
+    share: "19.6%",
+    color: "bg-indigo-500 dark:bg-indigo-500",
+  },
+  {
+    name: "Github Copilots",
+    amount: 3920,
+    share: "18.6%",
+    color: "bg-violet-500 dark:bg-violet-500",
+  },
+  {
+    name: "Others",
+    amount: 3210,
+    share: "15.3%",
+    color: "bg-gray-500",
+  },
+];
+
 export default function Page() {
   const {
     dataVulnerabilityCritical,
@@ -278,22 +268,56 @@ export default function Page() {
                 colors={["blue"]}
                 valueFormatter={valueFormatter}
                 yAxisWidth={50}
-                className="mt-6 hidden h-64 sm:block"
+                className="mt-6 hidden h-80 sm:block"
               />
             </Card>
           </div>
 
-          <CategoryBarCard
-            title="Found Vulnerabilities"
-            change="+1.4"
-            value="141 "
-            valueDescription="total vulnerabilities"
-            subtitle="current result"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data}
-          />
+          <Card className="sm:mx-auto sm:max-w-lg">
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50">
+              Total expenses by category
+            </h3>
+            <DonutChart
+              className="mx-auto mt-6"
+              data={dataDonut}
+              category="name"
+              value="amount"
+              showLabel={true}
+              valueFormatter={currencyFormatter}
+              showTooltip={false}
+              colors={["blue", "indigo", "violet", "gray"]}
+            />
+            <p className="mt-6 flex items-center justify-between text-xs text-gray-500 dark:text-gray-500">
+              <span>Category</span>
+              <span>Amount / Share</span>
+            </p>
+            <ul className="mt-2 divide-y divide-gray-200 text-sm text-gray-500 dark:divide-gray-800 dark:text-gray-500">
+              {dataDonut.slice(0, 4).map((item) => (
+                <li
+                  key={item.name}
+                  className="relative flex items-center justify-between py-2"
+                >
+                  <div className="flex items-center space-x-2.5 truncate">
+                    <span
+                      className={cx(item.color, "size-2.5 shrink-0 rounded-sm")}
+                      aria-hidden={true}
+                    />
+                    <span className="truncate dark:text-gray-300">
+                      {item.name}
+                    </span>
+                  </div>
+                  <p className="flex items-center space-x-2">
+                    <span className="font-medium tabular-nums text-gray-900 dark:text-gray-50">
+                      {currencyFormatter(item.amount)}
+                    </span>
+                    <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium tabular-nums text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                      {item.share}
+                    </span>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </Card>
         </div>
       </section>
       <section aria-labelledby="vulnerabilities-graph">
