@@ -122,40 +122,35 @@ const dataTable = [
   {
     repository: "org/api",
     action: "unit test",
-    costs: "$3,509.00",
-    instance: "Ubuntu 16-core",
+    costs: "$3,509",
     time: 1024,
     lastRun: "23/09/2023 13:00",
   },
   {
     repository: "org/frontend",
     action: "visual regression test",
-    costs: "$5,720.00",
-    instance: "Ubuntu 16-core",
+    costs: "$5,720",
     time: 894,
     lastRun: "22/09/2023 10:45",
   },
   {
     repository: "org/payment",
     action: "build",
-    costs: "$5,720.00",
-    instance: "Ubuntu 4-core",
+    costs: "$5,720",
     time: 781,
     lastRun: "22/09/2023 10:45",
   },
   {
     repository: "org/backend",
     action: "unit test",
-    costs: "$4,200.00",
-    instance: "Ubuntu 4-core",
+    costs: "$4,210",
     time: 651,
     lastRun: "21/09/2023 14:30",
   },
   {
     repository: "org/serviceX",
     action: "E2E test",
-    costs: "$2,100.00",
-    instance: "Ubuntu 2-core",
+    costs: "$2,101",
     time: 424,
     lastRun: "24/09/2023 09:15",
   },
@@ -295,21 +290,12 @@ export default function Page() {
             repositories menu
           </Link>
         </p>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
 
         <TableRoot className="mt-8">
           <Table>
             <TableHead>
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell>Instance</TableHeaderCell>
                 <TableHeaderCell>Action</TableHeaderCell>
                 <TableHeaderCell>Time(min)</TableHeaderCell>
                 <TableHeaderCell className="text-right">Costs</TableHeaderCell>
@@ -324,10 +310,11 @@ export default function Page() {
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                     {item.repository}
                   </TableCell>
-                  <TableCell>{item.instance}</TableCell>
                   <TableCell>{item.action}</TableCell>
                   <TableCell>{item.time}</TableCell>
-                  <TableCell className="text-right">{item.costs}</TableCell>
+                  <TableCell className="text-right">
+                    {item.costs} / month
+                  </TableCell>
                   <TableCell className="text-right">{item.lastRun}</TableCell>
                 </TableRow>
               ))}

@@ -281,14 +281,6 @@ export default function Page() {
             users menu
           </Link>
         </p>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
 
         <TableRoot className="mt-8">
           <Table>
@@ -314,8 +306,8 @@ export default function Page() {
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                     {item.user}
                   </TableCell>
-                  <TableCell>{item.created}</TableCell>
-                  <TableCell>{item.merged}</TableCell>
+                  <TableCell>{item.created} / month</TableCell>
+                  <TableCell>{item.merged} / month</TableCell>
                   <TableCell>{item.lastMerged}</TableCell>
                 </TableRow>
               ))}
