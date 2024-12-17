@@ -169,6 +169,18 @@ export default function Page() {
           Current cycle
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
+          <CategoryBarCard
+            title="Found Vulnerabilities"
+            change="+1.4"
+            value="141 "
+            valueDescription="total vulnerabilities"
+            subtitle="current result"
+            ctaDescription="About this metrics:"
+            ctaText="reference"
+            ctaLink="#"
+            data={data}
+          />
+
           <CircleProgressCard
             title="Analysis enabled Repositories"
             change="+2"
@@ -180,18 +192,6 @@ export default function Page() {
             ctaLink="#"
             child={71}
             parent={92}
-          />
-
-          <CategoryBarCard
-            title="Found Vulnerabilities"
-            change="+1.4"
-            value="141 "
-            valueDescription="total vulnerabilities"
-            subtitle="current result"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data}
           />
         </div>
       </section>

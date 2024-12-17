@@ -25,12 +25,12 @@ function Right() {
             <br />
             (Examples:
             <a
-              href="/demo/cost"
+              href="/demo"
               className="underline underline-offset-4 text-xs ml-2"
               target="_blank"
               rel="noreferrer"
             >
-              Cost
+              Overview
             </a>
             &nbsp;&nbsp;/
             <a
