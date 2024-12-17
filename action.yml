@@ -52,7 +52,7 @@ runs:
       shell: bash
 
     - name: Build all packages
-      run: pnpm turbo build --filter=@repo/jobs
+      run: pnpm turbo build --filter=@repo/job
       shell: bash
 
     - name: Env Check
