@@ -1,6 +1,6 @@
 import { aggregateOrganization } from "./aggregateOrganization";
+import { aggregateRepositories } from "./aggregateRepositories";
 // import { aggregatePRs } from "./aggregatePRs";
-// import { aggregateRepositories } from "./aggregateRepositories";
 // import { aggregateUsers } from "./aggregateUsers";
 
 export const maxOld = new Date(
@@ -10,10 +10,17 @@ export const maxOld = new Date(
 export const aggregateByOrganization = async (
   orgName: string,
 ): Promise<void> => {
+  console.log("aggregate Organization...", orgName);
   const organization = await aggregateOrganization(orgName);
-  console.log("organization", organization);
+
+  console.log("aggregate Repositories...");
+  const repositories = await aggregateRepositories(
+    organization.login,
+    organization.id,
+  );
+  console.log("aggregate Repositories: ", repositories.length);
+
   // await aggregateUsers(orgName, organizationId);
-  // const repositoryNames = await aggregateRepositories(orgName, organizationId);
   // if (repositoryNames.length !== new Set(repositoryNames).size)
   //   throw new Error("duplicate repository name");
   //

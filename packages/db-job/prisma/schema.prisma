@@ -44,9 +44,9 @@ model User {
 model Repository {
   id                            String    @id // derived from the GitHub API
   name                          String
+  updatedAt                     DateTime
   hasVulnerabilityAlertsEnabled Boolean?
   vulnerabilityAlertsTotalCount Int?
-  pushedAt                      DateTime? // if no push has happened, this will be null
   organizationId                String
 
   prs Pr[]
