@@ -261,7 +261,12 @@ export default function Page() {
                     />
                   </TableCell>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.user}
+                    <Link
+                      to={`../users/${item.user}`}
+                      className="underline underline-offset-4"
+                    >
+                      {item.user}
+                    </Link>
                   </TableCell>
                   <TableCell>{item.count} / month</TableCell>
                   <TableCell>{item.average}</TableCell>
