@@ -221,7 +221,7 @@ export default function Page() {
       <section aria-labelledby="vulnerabilities-table">
         <h1
           id="vulnerabilities-table"
-          className="mt-12 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Recent Activity
         </h1>
