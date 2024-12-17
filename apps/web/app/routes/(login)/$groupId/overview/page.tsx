@@ -1,4 +1,5 @@
 import { auth } from "@/clients";
+import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import {
   Table,
@@ -11,7 +12,6 @@ import {
 } from "@/components/Table";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
-import { CircleProgressCard } from "@/components/ui/overview/DashboardCicleProgressCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
 import {
@@ -171,7 +171,51 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-// TODO: add PR page
+function valueFormatter(number: number) {
+  const formatter = new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0,
+    notation: "compact",
+    compactDisplay: "short",
+    style: "currency",
+    currency: "USD",
+  });
+
+  return formatter.format(number);
+}
+
+const dataChart = [
+  { date: "Jan 23", "This Year": 68560, "Last Year": 28560 },
+  { date: "Feb 23", "This Year": 70320, "Last Year": 30320 },
+  { date: "Mar 23", "This Year": 80233, "Last Year": 70233 },
+  { date: "Apr 23", "This Year": 55123, "Last Year": 45123 },
+  { date: "May 23", "This Year": 56000, "Last Year": 80600 },
+  { date: "Jun 23", "This Year": 81000, "Last Year": 85390 },
+  { date: "Jul 23", "This Year": 85390, "Last Year": 45340 },
+  { date: "Aug 23", "This Year": 80100, "Last Year": 70120 },
+  { date: "Sep 23", "This Year": 75090, "Last Year": 69450 },
+  { date: "Oct 23", "This Year": 71080, "Last Year": 63345 },
+  { date: "Nov 23", "This Year": 61210, "Last Year": 100330 },
+  { date: "Dec 23", "This Year": 60143, "Last Year": 45321 },
+  { date: "Jan 23", "This Year": 68560, "Last Year": 28560 },
+  { date: "Feb 23", "This Year": 70320, "Last Year": 30320 },
+  { date: "Mar 23", "This Year": 80233, "Last Year": 70233 },
+  { date: "Apr 23", "This Year": 55123, "Last Year": 45123 },
+  { date: "May 23", "This Year": 56000, "Last Year": 80600 },
+  { date: "Jun 23", "This Year": 92000, "Last Year": 85390 },
+  { date: "Jul 23", "This Year": 85390, "Last Year": 45340 },
+  { date: "Aug 23", "This Year": 80100, "Last Year": 70120 },
+  { date: "Sep 23", "This Year": 75090, "Last Year": 69450 },
+  { date: "Oct 23", "This Year": 71080, "Last Year": 63345 },
+  { date: "Nov 23", "This Year": 61210, "Last Year": 100330 },
+  { date: "Dec 23", "This Year": 60143, "Last Year": 45321 },
+  { date: "Mar 23", "This Year": 80233, "Last Year": 70233 },
+  { date: "Apr 23", "This Year": 55123, "Last Year": 45123 },
+  { date: "May 23", "This Year": 56000, "Last Year": 80600 },
+  { date: "Jun 23", "This Year": 98000, "Last Year": 85390 },
+  { date: "Jul 23", "This Year": 85390, "Last Year": 45340 },
+  { date: "Aug 23", "This Year": 80100, "Last Year": 70120 },
+];
+
 export default function Page() {
   const {
     dataVulnerabilityCritical,
@@ -218,18 +262,26 @@ export default function Page() {
 
       <section aria-labelledby="current-billing-cycle">
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
-          <CircleProgressCard
-            title="Analysis enabled Repositories"
-            change="+2"
-            value="71 repositoriess"
-            valueDescription="enabled"
-            subtitle="GitHub Advisory Database Enabled"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
-            ctaLink="#"
-            child={71}
-            parent={92}
-          />
+          <div className="col-span-2">
+            <Card>
+              <h3 className="text-sm text-gray-500 dark:text-gray-500">
+                This month's cost
+              </h3>
+              <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
+                $2,604.00
+              </p>
+              <BarChart
+                data={dataChart}
+                index="date"
+                categories={["This Year"]}
+                showLegend={false}
+                colors={["blue"]}
+                valueFormatter={valueFormatter}
+                yAxisWidth={50}
+                className="mt-6 hidden h-64 sm:block"
+              />
+            </Card>
+          </div>
 
           <CategoryBarCard
             title="Found Vulnerabilities"
