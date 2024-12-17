@@ -216,7 +216,7 @@ export default function Page() {
       <section aria-labelledby="repository-summary">
         <h1
           id="repository-summary"
-          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-2xl dark:text-gray-50"
         >
           {orgId}/{repositoryId}
         </h1>
