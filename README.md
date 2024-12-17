@@ -39,9 +39,9 @@ And Merged PR creators will be given a discount on the paid plan.
 
 # TODO
 
-- Add overview page
+- 不要なメニューを調整したり、ワークスペースアイコンを変える
 - 全体的に不要なグラフがないか確認する
 - 全体的にページごとの少しだけのアクセント、差別化を追加・検討する
 - 全体的にどのグラフが再利用可能か確認する
 - Add site meta title
-- Deploy to Cloudflare
+- モバイル版の不具合を探す
