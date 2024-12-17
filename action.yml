@@ -60,7 +60,7 @@ runs:
       shell: bash
 
     - name: Env Check
-      run: pnpm jobs export check
+      run: pnpm jobs export check config
       shell: bash
       working-directory: apps/job
       env:
