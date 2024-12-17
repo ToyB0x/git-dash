@@ -1,5 +1,5 @@
 {
-  "name": "@repo/jobs-v2",
+  "name": "@repo/job",
   "private": true,
   "type": "module",
   "scripts": {
