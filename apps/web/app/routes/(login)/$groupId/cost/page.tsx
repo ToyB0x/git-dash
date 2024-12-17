@@ -69,7 +69,7 @@ const data2: KpiEntryExtended[] = [
     title: "Actions",
     percentage: 50.8,
     value: "$1961.1",
-    color: "bg-indigo-600 dark:bg-indigo-500",
+    color: "bg-red-600 dark:bg-red-500",
   },
   {
     title: "Seats",
@@ -96,7 +96,7 @@ const data3: KpiEntryExtended[] = [
     title: "Ubuntu 16-core",
     percentage: 63.8,
     value: "$1221.1",
-    color: "bg-indigo-600 dark:bg-indigo-500",
+    color: "bg-red-600 dark:bg-red-500",
   },
   {
     title: "Ubuntu 2-core",
