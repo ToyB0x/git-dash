@@ -9,8 +9,8 @@ const firebaseConfigsBrowser = {
       : publicViteEnv.VITE_PUBLIC_FIREBASE_PROJECT_ID,
   apiKey:
     publicViteEnv.MODE === "development"
-      ? publicViteEnv.VITE_PUBLIC_FIREBASE_BROWSER_API_KEY
-      : undefined,
+      ? "local"
+      : publicViteEnv.VITE_PUBLIC_FIREBASE_BROWSER_API_KEY,
 } satisfies FirebaseOptions;
 
 const firebaseAppBrowser = initializeApp(firebaseConfigsBrowser);
