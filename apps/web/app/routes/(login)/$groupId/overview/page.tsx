@@ -2,87 +2,9 @@ import { auth } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableRoot,
-  TableRow,
-} from "@/components/Table";
-import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
-import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
-import {
-  dataLoaderVulnerabilityCritical,
-  dataLoaderVulnerabilityHigh,
-  dataLoaderVulnerabilityLow,
-} from "@/routes/(login)/$groupId/vuln/dataLoaders";
-import { startOfToday, subDays } from "date-fns";
-import React from "react";
-import type { DateRange } from "react-day-picker";
-import { Link, redirect, useLoaderData } from "react-router";
+import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
-
-const dataTable = [
-  {
-    repository: "org/api",
-    countCritical: 124,
-    countHigh: 21,
-    countLow: 16,
-    lastDetected: "23/09/2023 13:00",
-    enabledAnalysis: true,
-  },
-  {
-    repository: "org/frontend",
-    countCritical: 91,
-    countHigh: 12,
-    countLow: 9,
-    lastDetected: "22/09/2023 10:45",
-    enabledAnalysis: true,
-  },
-  {
-    repository: "org/payment",
-    countCritical: 61,
-    countHigh: 9,
-    countLow: 6,
-    lastDetected: "22/09/2023 10:45",
-    enabledAnalysis: true,
-  },
-  {
-    repository: "org/backend",
-    countCritical: 21,
-    countHigh: 3,
-    countLow: 2,
-    lastDetected: "21/09/2023 14:30",
-    enabledAnalysis: true,
-  },
-  {
-    repository: "org/serviceX",
-    countCritical: 6,
-    countHigh: 1,
-    countLow: 0,
-    lastDetected: "24/09/2023 09:15",
-    enabledAnalysis: true,
-  },
-  {
-    repository: "org/serviceY",
-    countCritical: "-",
-    countHigh: "-",
-    countLow: "-",
-    lastDetected: "-",
-    enabledAnalysis: false,
-  },
-  {
-    repository: "org/serviceZ",
-    countCritical: "-",
-    countHigh: "-",
-    countLow: "-",
-    lastDetected: "-",
-    enabledAnalysis: false,
-  },
-];
 
 const dataStats = [
   {
@@ -118,17 +40,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (!auth.currentUser && !isDemo) {
     throw redirect("/sign-in");
   }
-
-  const dataVulnerabilityCritical =
-    await dataLoaderVulnerabilityCritical(isDemo);
-  const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
-  const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
-
-  return {
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
-  };
 }
 
 function valueFormatter(number: number) {
@@ -207,20 +118,6 @@ const dataDonut = [
 ];
 
 export default function Page() {
-  const {
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
-  } = useLoaderData<typeof clientLoader>();
-
-  const maxDate = startOfToday();
-  const [selectedDates, setSelectedDates] = React.useState<
-    DateRange | undefined
-  >({
-    from: subDays(maxDate, 30),
-    to: maxDate,
-  });
-
   return (
     <>
       <section aria-labelledby="stat-cards">
