@@ -10,8 +10,8 @@ export const maxOld = new Date(
 export const aggregateByOrganization = async (
   orgName: string,
 ): Promise<void> => {
-  const organizationId = await aggregateOrganization(orgName);
-  console.log("organizationId", organizationId);
+  const organization = await aggregateOrganization(orgName);
+  console.log("organization", organization);
   // await aggregateUsers(orgName, organizationId);
   // const repositoryNames = await aggregateRepositories(orgName, organizationId);
   // if (repositoryNames.length !== new Set(repositoryNames).size)

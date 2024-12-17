@@ -1,9 +1,7 @@
 import { dbClient, ghClient } from "@/clients";
 import { graphql } from "../../../../../generated/gql";
 
-export const aggregateOrganization = async (
-  orgName: string,
-): Promise<string> => {
+export const aggregateOrganization = async (orgName: string) => {
   const organizationQuery = graphql(/* GraphQL */ `
     query organization($organization: String!) {
       organization(login: $organization) {
@@ -31,5 +29,5 @@ export const aggregateOrganization = async (
     },
   });
 
-  return organizationResult.organization.id;
+  return organizationResult.organization;
 };
