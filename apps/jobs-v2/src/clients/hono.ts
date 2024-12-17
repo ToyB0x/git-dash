@@ -1,5 +1,5 @@
+import { env } from "@/env";
 import { hcWithType } from "@repo/api/hc";
-import { env } from "../utils";
 
 export const client = hcWithType(
   env.GDASH_PROJECT_ID === "gdash-local"
