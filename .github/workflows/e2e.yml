@@ -1,4 +1,4 @@
-name: monorepo
+name: E2E
 on:
   push:
   workflow_dispatch:
@@ -41,14 +41,8 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
-      - name: Lint / Format check
-        run: pnpm format-and-lint
-
-      - name: Type check
-        run: pnpm typecheck
-
-      - name: Build check
-        run: pnpm build
+      - name: Setup Playwright Browsers / Start Monorepo E2E
+        run: pnpm e2e:run
 
       - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
         if: ${{ !cancelled() }}
