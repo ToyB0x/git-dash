@@ -18,7 +18,7 @@ export default [
     // route("", "routes/(login)/$groupId/overview/page.tsx"),
     route("", "routes/(login)/$groupId/home.tsx"),
     // リポジトリ横断の4key table
-    route("fourkeys", "routes/(login)/$groupId/fourkeys.tsx"),
+    route("fourkeys", "routes/(login)/$groupId/fourkey/page.tsx"),
     route("overview", "routes/(login)/$groupId/overview.tsx"),
     // 分析バー: マージまでの時間の平均の階層をCategoryBarCardで表示？
     // 分析バー: レビューの平均待ち時間をCategoryBarCardで表示？

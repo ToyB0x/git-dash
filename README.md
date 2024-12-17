@@ -39,11 +39,9 @@ And Merged PR creators will be given a discount on the paid plan.
 
 # TODO
 
+- テーブル系のヘッダを調整
+- 期間指定の適用範囲を調整
 - Add overview page
-- Add four keys page
-  - Add repository activity graph across all repositories
-  - Add hazard register api (only ui)
-  - Add hazard recovery register api (only ui)
 - 全体的に不要なグラフがないか確認する
 - 全体的にどのグラフが再利用可能か確認する
 - Add site meta title
