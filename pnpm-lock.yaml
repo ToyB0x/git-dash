@@ -272,6 +272,9 @@ importers:
       vite-tsconfig-paths:
         specifier: 5.1.4
         version: 5.1.4(typescript@5.7.2)(vite@5.4.11(@types/node@20.17.10))
+      wrangler:
+        specifier: 3.96.0
+        version: 3.96.0(@cloudflare/workers-types@4.20241216.0)
 
   packages/db-api:
     dependencies:
