@@ -8,6 +8,7 @@ export const aggregateRepositories = async (
   const repositories: {
     id: string;
     name: string;
+    // TODO: pushedAtの方が適切かもしれないので要確認(リポジトリ設定の更新などしか検知できていないかも？)
     updatedAt: string;
   }[] = [];
 
