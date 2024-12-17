@@ -9,7 +9,7 @@
     "jobs:dev:aggregate:organization": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate organization",
     "jobs:dev:aggregate:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate group",
     "jobs:dev:export:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs export group",
-    "jobs:dev:export:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs export check",
+    "jobs:dev:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs check config",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
