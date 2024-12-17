@@ -37,7 +37,7 @@ const data: KpiEntryExtended[] = [
     title: "~1 day",
     percentage: 5.2,
     value: "12 PRs",
-    color: "bg-indigo-600 dark:bg-indigo-500",
+    color: "bg-green-600 dark:bg-green-500",
   },
   {
     title: "2~7 days",
@@ -64,7 +64,7 @@ const data2: KpiEntryExtended[] = [
     title: "0~3",
     percentage: 17.4,
     value: "35 PRs",
-    color: "bg-indigo-600 dark:bg-indigo-500",
+    color: "bg-green-600 dark:bg-green-500",
   },
   {
     title: "4~10",
