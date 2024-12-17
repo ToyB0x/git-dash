@@ -69,17 +69,12 @@ const shortcuts = [
     icon: RiLinkM,
   },
   {
-    name: "Workspace usage",
+    name: "Learn how to use",
     href: "#",
     icon: RiLinkM,
   },
   {
-    name: "Cost spend control",
-    href: "#",
-    icon: RiLinkM,
-  },
-  {
-    name: "Overview – Rows written",
+    name: "Create support ticket",
     href: "#",
     icon: RiLinkM,
   },
