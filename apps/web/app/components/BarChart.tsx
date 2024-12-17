@@ -1,7 +1,4 @@
 // Tremor BarChart [v0.2.1]
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-"use client";
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from "@remixicon/react";
 import React from "react";
@@ -55,7 +52,9 @@ function deepEqual<T>(obj1: T, obj2: T): boolean {
 }
 
 const renderShape = (
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   props: any,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   activeBar: any | undefined,
   activeLegend: string | undefined,
   layout: string,
@@ -105,6 +104,7 @@ const LegendItem = ({
 }: LegendItemProps) => {
   const hasOnValueChange = !!onClick;
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <li
       className={cx(
         // base
@@ -230,6 +230,7 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
   const [isKeyDowned, setIsKeyDowned] = React.useState<string | null>(null);
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const checkScroll = React.useCallback(() => {
     const scrollable = scrollableRef?.current;
     if (!scrollable) return;
@@ -295,6 +296,7 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
     setIsKeyDowned(null);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
     const scrollable = scrollableRef?.current;
     if (enableLegendSlider) {
@@ -328,6 +330,7 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
       >
         {categories.map((category, index) => (
           <LegendItem
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             key={`item-${index}`}
             name={category}
             color={colors[index] as AvailableChartColorsKeys}
@@ -372,6 +375,7 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
 Legend.displayName = "Legend";
 
 const ChartLegend = (
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   { payload }: any,
   categoryColors: Map<string, AvailableChartColorsKeys>,
   setLegendHeight: React.Dispatch<React.SetStateAction<number>>,
@@ -389,6 +393,7 @@ const ChartLegend = (
     setLegendHeight(calculateHeight(legendRef.current?.clientHeight));
   });
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const filteredPayload = payload.filter((item: any) => item.type !== "none");
 
   const paddingLeft =
@@ -408,7 +413,9 @@ const ChartLegend = (
       )}
     >
       <Legend
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         categories={filteredPayload.map((entry: any) => entry.value)}
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         colors={filteredPayload.map((entry: any) =>
           categoryColors.get(entry.value),
         )}
@@ -430,6 +437,7 @@ type PayloadItem = {
   index: string;
   color: AvailableChartColorsKeys;
   type?: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   payload: any;
 };
 
@@ -473,7 +481,10 @@ const ChartTooltip = ({
         <div className={cx("space-y-1 px-4 py-2")}>
           {payload.map(({ value, category, color }, index) => (
             <div
-              key={`id-${index}`}
+              key={`id-${
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                index
+              }`}
               className="flex items-center justify-between space-x-8"
             >
               <div className="flex items-center space-x-2">
@@ -525,6 +536,7 @@ type BaseEventProps = {
 type BarChartEventProps = BaseEventProps | null | undefined;
 
 interface BarChartProps extends React.HTMLAttributes<HTMLDivElement> {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   data: Record<string, any>[];
   index: string;
   categories: string[];
@@ -597,6 +609,7 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
       undefined,
     );
     const categoryColors = constructCategoryColors(categories, colors);
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const [activeBar, setActiveBar] = React.useState<any | undefined>(
       undefined,
     );
@@ -611,6 +624,7 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
       return `${(value * 100).toFixed(0)}%`;
     }
 
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     function onBarClick(data: any, _: any, event: React.MouseEvent) {
       event.stopPropagation();
       if (!onValueChange) return;
@@ -710,7 +724,8 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
                     dataKey: index,
                     interval: startEndOnly ? "preserveStartEnd" : intervalType,
                     ticks: startEndOnly
-                      ? [data[0][index], data[data.length - 1][index]]
+                      ? // @ts-ignore
+                        [data[0][index], data[data.length - 1][index]]
                       : undefined,
                   }
                 : {
@@ -761,7 +776,8 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
                 : {
                     dataKey: index,
                     ticks: startEndOnly
-                      ? [data[0][index], data[data.length - 1][index]]
+                      ? // @ts-ignore
+                        [data[0][index], data[data.length - 1][index]]
                       : undefined,
                     type: "category",
                     interval: "equidistantPreserveStart",
@@ -791,7 +807,8 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
               }}
               content={({ active, payload, label }) => {
                 const cleanPayload: TooltipProps["payload"] = payload
-                  ? payload.map((item: any) => ({
+                  ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+                    payload.map((item: any) => ({
                       category: item.dataKey,
                       value: item.value,
                       index: item.payload[index],
@@ -868,6 +885,7 @@ const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
                 stackId={stacked ? "stack" : undefined}
                 isAnimationActive={false}
                 fill=""
+                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                 shape={(props: any) =>
                   renderShape(props, activeBar, activeLegend, layout)
                 }
