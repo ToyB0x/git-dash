@@ -39,7 +39,6 @@ And Merged PR creators will be given a discount on the paid plan.
 
 # TODO
 
-- Add repository detail page
 - Add overview page
 - Add four keys page
   - Add repository activity graph across all repositories
@@ -48,5 +47,4 @@ And Merged PR creators will be given a discount on the paid plan.
 - 全体的に不要なグラフがないか確認する
 - 全体的にどのグラフが再利用可能か確認する
 - Add site meta title
-- Add favicon
 - Deploy to Cloudflare
