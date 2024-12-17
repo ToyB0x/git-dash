@@ -221,7 +221,7 @@ export default function Page() {
       <section aria-labelledby="vulnerabilities-table">
         <h1
           id="vulnerabilities-table"
-          className="mt-12 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Recent Activity
         </h1>
@@ -265,7 +265,7 @@ export default function Page() {
               className="w-12 h-12 rounded-full"
             />
             <div className="flex justify-center flex-col pl-4">
-              <p>Release v9.2.1 🎉</p>
+              <p>Release v9.5.4 🎉</p>
               <Link
                 to="../repositories/frontend"
                 className="underline underline-offset-4 text-sm"
