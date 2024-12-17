@@ -15,11 +15,10 @@ export default [
   // login state layout (group)
   route(":groupId", "routes/(login)/$groupId/layout.tsx", [
     // コミットグラフ: 組織横断のコミットグラフ
-    // route("", "routes/(login)/$groupId/overview/page.tsx"),
-    route("", "routes/(login)/$groupId/home.tsx"),
+    index("routes/(login)/$groupId/index.tsx"),
+    route("overview", "routes/(login)/$groupId/overview.tsx"),
     // リポジトリ横断の4key table
     route("fourkeys", "routes/(login)/$groupId/fourkey/page.tsx"),
-    route("overview", "routes/(login)/$groupId/overview.tsx"),
     // 分析バー: マージまでの時間の平均の階層をCategoryBarCardで表示？
     // 分析バー: レビューの平均待ち時間をCategoryBarCardで表示？
     route("prs", "routes/(login)/$groupId/pr/page.tsx"),

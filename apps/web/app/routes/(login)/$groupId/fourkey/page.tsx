@@ -74,7 +74,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function Page() {
   return (
-    <section aria-labelledby="four-keys-table">
+    <section aria-labelledby="four-keys-table" className="h-screen">
       <h1
         id="four-keys-table"
         className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
