@@ -21,7 +21,7 @@ import {
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { redirect, useLoaderData } from "react-router";
+import { Link, redirect, useLoaderData } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
 
 type KpiEntry = {
@@ -249,6 +249,14 @@ export default function Page() {
         >
           Vulnerabilities by repository
         </h1>
+
+        <p className="mt-1 text-gray-500">
+          full repository details are available on{" "}
+          <Link to="../repositories" className="underline underline-offset-4">
+            repositories menu
+          </Link>
+        </p>
+
         <TableRoot className="mt-8">
           <Table>
             <TableHead>
