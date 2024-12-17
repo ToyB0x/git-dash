@@ -91,7 +91,7 @@ const dataTable = [
 
 export default function Page() {
   return (
-    <section aria-labelledby="users-table">
+    <section aria-labelledby="users-table" className="h-screen">
       <h1
         id="users-table"
         className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
