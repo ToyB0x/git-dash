@@ -1,5 +1,5 @@
 import { PrismaClient } from "@repo/db-job";
 
-export const db = () => {
+export const dbClient = () => {
   return new PrismaClient();
 };

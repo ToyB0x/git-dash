@@ -1,5 +1,5 @@
+import { env } from "@/env";
 import { GraphQLClient } from "graphql-request";
-import { env } from "../utils";
 
 export const githubClient = new GraphQLClient(
   "https://api.github.com/graphql",
