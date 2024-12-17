@@ -91,44 +91,57 @@ const dataTable = [
 
 export default function Page() {
   return (
-    <TableRoot>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeaderCell className="w-1">User</TableHeaderCell>
-            <TableHeaderCell />
-            <TableHeaderCell className="text-right">PRs</TableHeaderCell>
-            <TableHeaderCell className="text-right">Reviews</TableHeaderCell>
-            <TableHeaderCell className="text-right">
-              Last Activity
-            </TableHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {dataTable.map((item) => (
-            <TableRow key={item.user}>
-              <TableCell className="p-0">
-                <img
-                  src={item.avatar}
-                  alt="user"
-                  className="w-8 h-8 rounded-full"
-                />
-              </TableCell>
-              <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                <Link
-                  to={`${item.user}`}
-                  className="underline underline-offset-4"
-                >
-                  {item.user}
-                </Link>
-              </TableCell>
-              <TableCell className="text-right">{item.prs}</TableCell>
-              <TableCell className="text-right">{item.reviews}</TableCell>
-              <TableCell className="text-right">{item.lastActivity}</TableCell>
+    <section aria-labelledby="users-table">
+      <h1
+        id="users-table"
+        className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+      >
+        Users in repositories
+      </h1>
+      <p className="mt-1 text-gray-500">
+        for more details , click on the user links.
+      </p>
+      <TableRoot className="mt-8">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell className="w-1">User</TableHeaderCell>
+              <TableHeaderCell />
+              <TableHeaderCell className="text-right">PRs</TableHeaderCell>
+              <TableHeaderCell className="text-right">Reviews</TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                Last Activity
+              </TableHeaderCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableRoot>
+          </TableHead>
+          <TableBody>
+            {dataTable.map((item) => (
+              <TableRow key={item.user}>
+                <TableCell className="p-0">
+                  <img
+                    src={item.avatar}
+                    alt="user"
+                    className="w-8 h-8 rounded-full"
+                  />
+                </TableCell>
+                <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                  <Link
+                    to={`${item.user}`}
+                    className="underline underline-offset-4"
+                  >
+                    {item.user}
+                  </Link>
+                </TableCell>
+                <TableCell className="text-right">{item.prs}</TableCell>
+                <TableCell className="text-right">{item.reviews}</TableCell>
+                <TableCell className="text-right">
+                  {item.lastActivity}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+    </section>
   );
 }

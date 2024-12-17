@@ -63,38 +63,51 @@ const dataTable = [
 
 export default function Page() {
   return (
-    <TableRoot>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeaderCell>Repository</TableHeaderCell>
-            <TableHeaderCell className="text-right">PRs</TableHeaderCell>
-            <TableHeaderCell className="text-right">Reviews</TableHeaderCell>
-            <TableHeaderCell className="text-right">Releases</TableHeaderCell>
-            <TableHeaderCell className="text-right">
-              Last Activity
-            </TableHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {dataTable.map((item) => (
-            <TableRow key={item.repository}>
-              <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                <Link
-                  to={`${item.repository}`}
-                  className="underline underline-offset-4"
-                >
-                  {item.repository}
-                </Link>
-              </TableCell>
-              <TableCell className="text-right">{item.prs}</TableCell>
-              <TableCell className="text-right">{item.reviews}</TableCell>
-              <TableCell className="text-right">{item.releases}</TableCell>
-              <TableCell className="text-right">{item.lastActivity}</TableCell>
+    <section aria-labelledby="repository-table">
+      <h1
+        id="repository-table"
+        className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+      >
+        Repositories in the workspace
+      </h1>
+      <p className="mt-1 text-gray-500">
+        for more details , click on the repository links.
+      </p>
+      <TableRoot className="mt-8">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell>Repository</TableHeaderCell>
+              <TableHeaderCell className="text-right">PRs</TableHeaderCell>
+              <TableHeaderCell className="text-right">Reviews</TableHeaderCell>
+              <TableHeaderCell className="text-right">Releases</TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                Last Activity
+              </TableHeaderCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableRoot>
+          </TableHead>
+          <TableBody>
+            {dataTable.map((item) => (
+              <TableRow key={item.repository}>
+                <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                  <Link
+                    to={`${item.repository}`}
+                    className="underline underline-offset-4"
+                  >
+                    {item.repository}
+                  </Link>
+                </TableCell>
+                <TableCell className="text-right">{item.prs}</TableCell>
+                <TableCell className="text-right">{item.reviews}</TableCell>
+                <TableCell className="text-right">{item.releases}</TableCell>
+                <TableCell className="text-right">
+                  {item.lastActivity}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableRoot>
+    </section>
   );
 }
