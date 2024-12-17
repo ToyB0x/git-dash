@@ -240,7 +240,7 @@ export default function Page() {
             <div className="flex justify-center flex-col pl-4">
               <p>Release v2.1.3 🎉</p>
               <Link
-                to="../repositories/frontend"
+                to="../repositories/org/frontend"
                 className="underline underline-offset-4 text-sm"
               >
                 org/frontend
@@ -267,7 +267,7 @@ export default function Page() {
             <div className="flex justify-center flex-col pl-4">
               <p>Release v9.5.4 🎉</p>
               <Link
-                to="../repositories/frontend"
+                to="../repositories/org/api"
                 className="underline underline-offset-4 text-sm"
               >
                 org/api
