@@ -86,14 +86,14 @@ const dataTable = [
 
 const dataStats = [
   {
-    name: "Pull requests",
-    stat: "128/month",
+    name: "Pull requests / month",
+    stat: "128",
     change: "+1.8%",
     changeType: "positive",
   },
   {
-    name: "Releases",
-    stat: "42/month",
+    name: "Releases / month",
+    stat: "42",
     change: "-12.5%",
     changeType: "negative",
   },
@@ -104,8 +104,8 @@ const dataStats = [
     changeType: "positive",
   },
   {
-    name: "Vulnerabilities",
-    stat: "29 critical",
+    name: "Vulnerabilities (critical)",
+    stat: "29",
     change: "+19.7%",
     changeType: "negative",
   },

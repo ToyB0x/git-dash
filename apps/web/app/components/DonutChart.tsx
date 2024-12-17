@@ -20,6 +20,7 @@ const sumNumericArray = (arr: number[]): number =>
   arr.reduce((sum, num) => sum + num, 0);
 
 const parseData = (
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   data: Record<string, any>[],
   categoryColors: Map<string, AvailableChartColorsKeys>,
   category: string,
@@ -28,17 +29,20 @@ const parseData = (
     ...dataPoint,
     color: categoryColors.get(dataPoint[category]) || AvailableChartColors[0],
     className: getColorClassName(
+      // @ts-ignore
       categoryColors.get(dataPoint[category]) || AvailableChartColors[0],
       "fill",
     ),
   }));
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const calculateDefaultLabel = (data: any[], valueKey: string): number =>
   sumNumericArray(data.map((dataPoint) => dataPoint[valueKey]));
 
 const parseLabelInput = (
   labelInput: string | undefined,
   valueFormatter: (value: number) => string,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   data: any[],
   valueKey: string,
 ): string =>
@@ -80,6 +84,7 @@ const ChartTooltip = ({
         <div className={cx("space-y-1 px-4 py-2")}>
           {payload.map(({ value, category, color }, index) => (
             <div
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={`id-${index}`}
               className="flex items-center justify-between space-x-8"
             >
@@ -121,6 +126,7 @@ const ChartTooltip = ({
   return null;
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const renderInactiveShape = (props: any) => {
   const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, className } =
     props;
@@ -152,6 +158,7 @@ type BaseEventProps = {
 type DonutChartEventProps = BaseEventProps | null | undefined;
 
 interface DonutChartProps extends React.HTMLAttributes<HTMLDivElement> {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   data: Record<string, any>[];
   category: string;
   value: string;
@@ -205,6 +212,7 @@ const DonutChart = React.forwardRef<HTMLDivElement, DonutChartProps>(
     const prevCategoryRef = React.useRef<string | undefined>(undefined);
 
     const handleShapeClick = (
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       data: any,
       index: number,
       event: React.MouseEvent,
@@ -283,7 +291,8 @@ const DonutChart = React.forwardRef<HTMLDivElement, DonutChartProps>(
                 isAnimationActive={false}
                 content={({ active, payload }) => {
                   const cleanPayload = payload
-                    ? payload.map((item: any) => ({
+                    ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+                      payload.map((item: any) => ({
                         category: item.payload[category],
                         value: item.value,
                         color: categoryColors.get(

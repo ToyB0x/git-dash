@@ -30,7 +30,7 @@ export default function Layout() {
       <Sidebar email={me.email} />
       <main className="lg:pl-72">
         <div className="relative">
-          <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
+          <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-4">
             <Outlet />
           </div>
         </div>
