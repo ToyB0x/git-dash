@@ -29,6 +29,10 @@ inputs:
   GDASH_GROUP_API_KEY:
     description: "Group API key to send report"
     required: true
+  GDASH_PROJECT_ID:
+    description: "Group API key to send report"
+    required: false
+    default: "gdash-prd"
 runs:
   using: "composite"
   steps:
@@ -60,6 +64,7 @@ runs:
       shell: bash
       working-directory: apps/job
       env:
+        GDASH_PROJECT_ID: ${{ inputs.GDASH_PROJECT_ID }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}
         GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}
