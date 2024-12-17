@@ -39,7 +39,6 @@ And Merged PR creators will be given a discount on the paid plan.
 
 # TODO
 
-- 期間指定の適用範囲を調整
 - Add overview page
 - 全体的に不要なグラフがないか確認する
 - 全体的にどのグラフが再利用可能か確認する

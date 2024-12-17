@@ -107,8 +107,12 @@ export default function Page() {
             <TableRow>
               <TableHeaderCell className="w-1">User</TableHeaderCell>
               <TableHeaderCell />
-              <TableHeaderCell className="text-right">PRs</TableHeaderCell>
-              <TableHeaderCell className="text-right">Reviews</TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                PRs / month
+              </TableHeaderCell>
+              <TableHeaderCell className="text-right">
+                Reviews / month
+              </TableHeaderCell>
               <TableHeaderCell className="text-right">
                 Last Activity
               </TableHeaderCell>

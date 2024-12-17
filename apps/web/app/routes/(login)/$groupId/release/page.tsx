@@ -242,7 +242,12 @@ export default function Page() {
               {dataTable.map((item) => (
                 <TableRow key={item.repository}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.repository}
+                    <Link
+                      to={`../repositories/${item.repository}`}
+                      className="underline underline-offset-4"
+                    >
+                      {item.repository}
+                    </Link>
                   </TableCell>
                   <TableCell>{item.latestVersion}</TableCell>
                   <TableCell>{item.count} / month</TableCell>

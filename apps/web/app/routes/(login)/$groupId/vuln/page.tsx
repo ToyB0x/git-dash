@@ -251,10 +251,7 @@ export default function Page() {
         </h1>
 
         <p className="mt-1 text-gray-500">
-          full repository details are available on{" "}
-          <Link to="../repositories" className="underline underline-offset-4">
-            repositories menu
-          </Link>
+          for more details, click on the repository links.
         </p>
 
         <TableRoot className="mt-8">
@@ -275,7 +272,12 @@ export default function Page() {
               {dataTable.map((item) => (
                 <TableRow key={item.repository}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.repository}
+                    <Link
+                      to={`../repositories/${item.repository}`}
+                      className="underline underline-offset-4"
+                    >
+                      {item.repository}
+                    </Link>{" "}
                   </TableCell>
                   <TableCell>{String(item.enabledAnalysis)}</TableCell>
                   <TableCell>{item.countCritical}</TableCell>
