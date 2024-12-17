@@ -10,3 +10,8 @@
 /*    color-scheme: dark;*/
 /*  }*/
 /*}*/
+
+/* Hide firebase emulator warning in local development */
+.firebase-emulator-warning {
+  display: none;
+}
