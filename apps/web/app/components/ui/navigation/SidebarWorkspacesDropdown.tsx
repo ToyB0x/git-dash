@@ -18,7 +18,7 @@ const workspaces = [
   {
     value: "retail-analytics",
     name: "My workspace",
-    initials: "RA",
+    initials: "MW",
     role: "Member",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
@@ -61,7 +61,7 @@ export const WorkspacesDropdownDesktop = () => {
               className="flex aspect-square size-8 items-center justify-center rounded bg-indigo-600 p-2 text-xs font-medium text-white dark:bg-indigo-500"
               aria-hidden="true"
             >
-              RA
+              MW
             </span>
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
               <div className="truncate">
