@@ -10,21 +10,21 @@ import {
 } from "@/components/Table";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
-import { CircleProgressCard } from "@/components/ui/overview/DashboardCicleProgressCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
+import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard";
 import { cx } from "@/lib/utils";
 import {
-  dataLoaderVulnerabilityCritical,
-  dataLoaderVulnerabilityHigh,
-  dataLoaderVulnerabilityLow,
-} from "@/routes/(login)/$groupId/vuln/dataLoaders";
+  dataLoaderActions2Core,
+  dataLoaderActions4Core,
+  dataLoaderActions16Core,
+} from "@/routes/(login)/$workspaceId/cost/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 
-type KpiEntry = {
+export type KpiEntry = {
   title: string;
   percentage: number;
   current: number;
@@ -32,34 +32,88 @@ type KpiEntry = {
   unit?: string;
 };
 
-type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
+const data: KpiEntry[] = [
+  {
+    title: "Seats",
+    percentage: 98.1,
+    current: 119,
+    allowed: 121,
+    unit: "seats",
+  },
+  {
+    title: "Actions (included)",
+    percentage: 100,
+    current: 3000,
+    allowed: 3000,
+    unit: "min",
+  },
+  {
+    title: "Storage",
+    percentage: 26,
+    current: 0.8,
+    allowed: 2,
+    unit: "GB",
+  },
+];
+
+export type KpiEntryExtended = Omit<
+  KpiEntry,
+  "current" | "allowed" | "unit"
+> & {
   value: string;
   color: string;
 };
 
-const data: KpiEntryExtended[] = [
+const data2: KpiEntryExtended[] = [
   {
-    title: "Critical",
-    percentage: 11.2,
-    value: "12 packages",
+    title: "Actions",
+    percentage: 50.8,
+    value: "$1961.1",
     color: "bg-red-600 dark:bg-red-500",
   },
   {
-    title: "High",
-    percentage: 31.2,
-    value: "21 packages",
+    title: "Seats",
+    percentage: 28.1,
+    value: "$200",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
-    title: "Low",
-    percentage: 21.2,
-    value: "16 packages",
+    title: "Copilot",
+    percentage: 16.1,
+    value: "$391.9",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "Moderate",
-    percentage: 41.2,
-    value: "42 packages",
+    title: "Others",
+    percentage: 5,
+    value: "$31.9",
+    color: "bg-gray-400 dark:bg-gray-600",
+  },
+];
+
+const data3: KpiEntryExtended[] = [
+  {
+    title: "Ubuntu 16-core",
+    percentage: 63.8,
+    value: "$1221.1",
+    color: "bg-red-600 dark:bg-red-500",
+  },
+  {
+    title: "Ubuntu 2-core",
+    percentage: 18.1,
+    value: "$202",
+    color: "bg-purple-600 dark:bg-purple-500",
+  },
+  {
+    title: "Ubuntu 4-core",
+    percentage: 16.1,
+    value: "$21.9",
+    color: "bg-indigo-600 dark:bg-indigo-500",
+  },
+  {
+    title: "Others",
+    percentage: 5,
+    value: "$3.9",
     color: "bg-gray-400 dark:bg-gray-600",
   },
 ];
@@ -67,89 +121,63 @@ const data: KpiEntryExtended[] = [
 const dataTable = [
   {
     repository: "org/api",
-    countCritical: 124,
-    countHigh: 21,
-    countLow: 16,
-    lastDetected: "23/09/2023 13:00",
-    enabledAnalysis: true,
+    action: "unit test",
+    costs: "$3,509",
+    time: 1024,
+    lastRun: "23/09/2023 13:00",
   },
   {
     repository: "org/frontend",
-    countCritical: 91,
-    countHigh: 12,
-    countLow: 9,
-    lastDetected: "22/09/2023 10:45",
-    enabledAnalysis: true,
+    action: "visual regression test",
+    costs: "$5,720",
+    time: 894,
+    lastRun: "22/09/2023 10:45",
   },
   {
     repository: "org/payment",
-    countCritical: 61,
-    countHigh: 9,
-    countLow: 6,
-    lastDetected: "22/09/2023 10:45",
-    enabledAnalysis: true,
+    action: "build",
+    costs: "$5,720",
+    time: 781,
+    lastRun: "22/09/2023 10:45",
   },
   {
     repository: "org/backend",
-    countCritical: 21,
-    countHigh: 3,
-    countLow: 2,
-    lastDetected: "21/09/2023 14:30",
-    enabledAnalysis: true,
+    action: "unit test",
+    costs: "$4,210",
+    time: 651,
+    lastRun: "21/09/2023 14:30",
   },
   {
     repository: "org/serviceX",
-    countCritical: 6,
-    countHigh: 1,
-    countLow: 0,
-    lastDetected: "24/09/2023 09:15",
-    enabledAnalysis: true,
-  },
-  {
-    repository: "org/serviceY",
-    countCritical: "-",
-    countHigh: "-",
-    countLow: "-",
-    lastDetected: "-",
-    enabledAnalysis: false,
-  },
-  {
-    repository: "org/serviceZ",
-    countCritical: "-",
-    countHigh: "-",
-    countLow: "-",
-    lastDetected: "-",
-    enabledAnalysis: false,
+    action: "E2E test",
+    costs: "$2,101",
+    time: 424,
+    lastRun: "24/09/2023 09:15",
   },
 ];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   await auth.authStateReady();
-  const isDemo = params.groupId === "demo";
+  const isDemo = params.workspaceId === "demo";
   if (!auth.currentUser && !isDemo) {
     throw redirect("/sign-in");
   }
 
-  const dataVulnerabilityCritical =
-    await dataLoaderVulnerabilityCritical(isDemo);
-  const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
-  const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
+  const dataActions2Core = await dataLoaderActions2Core(isDemo);
+  const dataActions4Core = await dataLoaderActions4Core(isDemo);
+  const dataActions16Core = await dataLoaderActions16Core(isDemo);
 
   return {
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
+    dataActions2Core,
+    dataActions4Core,
+    dataActions16Core,
   };
 }
 
-// TODO: add PR page
 export default function Page() {
-  const {
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
-  } = useLoaderData<typeof clientLoader>();
+  const { dataActions2Core, dataActions4Core, dataActions16Core } =
+    useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -166,41 +194,49 @@ export default function Page() {
           id="current-billing-cycle"
           className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Current cycle
+          Current billing cycle
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
-          <CategoryBarCard
-            title="Found Vulnerabilities"
-            change="+1.4"
-            value="141 "
-            valueDescription="total vulnerabilities"
-            subtitle="current result"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
+          <ProgressBarCard
+            title="Usage"
+            change="+0.2%"
+            value="96.1%"
+            valueDescription="of reserved seats"
+            ctaDescription="Monthly usage resets in 12 days."
+            ctaText="Manage plan."
             ctaLink="#"
             data={data}
           />
-
-          <CircleProgressCard
-            title="Analysis enabled Repositories"
-            change="+2"
-            value="71 repositoriess"
-            valueDescription="enabled"
-            subtitle="GitHub Advisory Database Enabled"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
+          <CategoryBarCard
+            title="Costs"
+            change="-1.4%"
+            value="$3293.5"
+            valueDescription="current billing cycle"
+            subtitle="Current costs"
+            ctaDescription="Next payment due"
+            ctaText="December 31, 2024"
             ctaLink="#"
-            child={71}
-            parent={92}
+            data={data2}
+          />
+          <CategoryBarCard
+            title="Actions"
+            change="+9.4%"
+            value="$1889.5"
+            valueDescription="current billing cycle"
+            subtitle="Current costs"
+            ctaDescription="Next payment due"
+            ctaText="December 31, 2024"
+            ctaLink="#"
+            data={data3}
           />
         </div>
       </section>
-      <section aria-labelledby="vulnerabilities-graph">
+      <section aria-labelledby="actions-usage">
         <h1
-          id="vulnerabilities-graph"
+          id="actions-usage"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Vulnerabilities Stats
+          Actions usage
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -216,40 +252,38 @@ export default function Page() {
           )}
         >
           <ChartCard
-            title="Critical Count"
-            type="vulnerabilities"
+            title="Actions 2core"
+            type="currency"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityCritical.data}
+            data={dataActions2Core.data}
           />
+
           <ChartCard
-            title="High Count"
-            type="vulnerabilities"
+            title="Actions 4core"
+            type="currency"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityHigh.data}
+            data={dataActions4Core.data}
           />
+
           <ChartCard
-            title="Low Count"
-            type="vulnerabilities"
+            title="Actions 16core"
+            type="currency"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityLow.data}
+            data={dataActions16Core.data}
           />
         </dl>
       </section>
 
-      <section aria-labelledby="vulnerabilities-table">
+      <section aria-labelledby="high-cost-actions">
         <h1
-          id="vulnerabilities-table"
+          id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Vulnerabilities by repository
+          Expensive Actions
         </h1>
-
         <p className="mt-1 text-gray-500">
           for more details, click on the repository links.
         </p>
@@ -259,12 +293,11 @@ export default function Page() {
             <TableHead>
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell>Analysis enabled</TableHeaderCell>
-                <TableHeaderCell>Critical</TableHeaderCell>
-                <TableHeaderCell>High</TableHeaderCell>
-                <TableHeaderCell>Low</TableHeaderCell>
+                <TableHeaderCell>Action</TableHeaderCell>
+                <TableHeaderCell>Time(min)</TableHeaderCell>
+                <TableHeaderCell className="text-right">Costs</TableHeaderCell>
                 <TableHeaderCell className="text-right">
-                  Last detected
+                  Last run
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
@@ -277,15 +310,14 @@ export default function Page() {
                       className="underline underline-offset-4"
                     >
                       {item.repository}
-                    </Link>{" "}
+                    </Link>
                   </TableCell>
-                  <TableCell>{String(item.enabledAnalysis)}</TableCell>
-                  <TableCell>{item.countCritical}</TableCell>
-                  <TableCell>{item.countHigh}</TableCell>
-                  <TableCell>{item.countLow}</TableCell>
+                  <TableCell>{item.action}</TableCell>
+                  <TableCell>{item.time}</TableCell>
                   <TableCell className="text-right">
-                    {item.lastDetected}
+                    {item.costs} / month
                   </TableCell>
+                  <TableCell className="text-right">{item.lastRun}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
