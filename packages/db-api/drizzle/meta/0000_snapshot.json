@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "44cbae86-0c8e-411e-a02c-7616eba3882b",
+  "id": "f394e051-eee6-4d57-9e14-72b9b6d706c3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "group": {
-      "name": "group",
+    "workspace": {
+      "name": "workspace",
       "columns": {
         "id": {
           "name": "id",
@@ -17,6 +17,13 @@
         "displayName": {
           "name": "displayName",
           "type": "text(24)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "api_token": {
+          "name": "api_token",
+          "type": "text(32)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -73,8 +80,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "group_id": {
-          "name": "group_id",
+        "workspace_id": {
+          "name": "workspace_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -82,21 +89,21 @@
         }
       },
       "indexes": {
-        "idx_report_group_id": {
-          "name": "idx_report_group_id",
+        "idx_report_workspace_id": {
+          "name": "idx_report_workspace_id",
           "columns": [
-            "group_id"
+            "workspace_id"
           ],
           "isUnique": false
         }
       },
       "foreignKeys": {
-        "report_group_id_group_id_fk": {
-          "name": "report_group_id_group_id_fk",
+        "report_workspace_id_workspace_id_fk": {
+          "name": "report_workspace_id_workspace_id_fk",
           "tableFrom": "report",
-          "tableTo": "group",
+          "tableTo": "workspace",
           "columnsFrom": [
-            "group_id"
+            "workspace_id"
           ],
           "columnsTo": [
             "id"
@@ -169,8 +176,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "users_to_groups": {
-      "name": "users_to_groups",
+    "users_to_workspaces": {
+      "name": "users_to_workspaces",
       "columns": {
         "user_id": {
           "name": "user_id",
@@ -179,8 +186,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "group_id": {
-          "name": "group_id",
+        "workspace_id": {
+          "name": "workspace_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -196,9 +203,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "users_to_groups_user_id_user_id_fk": {
-          "name": "users_to_groups_user_id_user_id_fk",
-          "tableFrom": "users_to_groups",
+        "users_to_workspaces_user_id_user_id_fk": {
+          "name": "users_to_workspaces_user_id_user_id_fk",
+          "tableFrom": "users_to_workspaces",
           "tableTo": "user",
           "columnsFrom": [
             "user_id"
@@ -209,12 +216,12 @@
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "users_to_groups_group_id_group_id_fk": {
-          "name": "users_to_groups_group_id_group_id_fk",
-          "tableFrom": "users_to_groups",
-          "tableTo": "group",
+        "users_to_workspaces_workspace_id_workspace_id_fk": {
+          "name": "users_to_workspaces_workspace_id_workspace_id_fk",
+          "tableFrom": "users_to_workspaces",
+          "tableTo": "workspace",
           "columnsFrom": [
-            "group_id"
+            "workspace_id"
           ],
           "columnsTo": [
             "id"
@@ -224,12 +231,12 @@
         }
       },
       "compositePrimaryKeys": {
-        "users_to_groups_user_id_group_id_pk": {
+        "users_to_workspaces_user_id_workspace_id_pk": {
           "columns": [
             "user_id",
-            "group_id"
+            "workspace_id"
           ],
-          "name": "users_to_groups_user_id_group_id_pk"
+          "name": "users_to_workspaces_user_id_workspace_id_pk"
         }
       },
       "uniqueConstraints": {},

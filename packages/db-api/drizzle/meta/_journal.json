@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1733749094911,
-      "tag": "0000_wet_azazel",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1733773662149,
-      "tag": "0001_funny_earthquake",
+      "when": 1734562827785,
+      "tag": "0000_new_paper_doll",
       "breakpoints": true
     }
   ]
