@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import type { ReactNode } from "react";
+import { useParams } from "react-router";
 
 export type ModalProps = {
   children: ReactNode;
@@ -24,6 +25,9 @@ export function ModalAddWorkspace({
   className,
   onOpenChange,
 }: ModalProps) {
+  const { workspaceId } = useParams();
+  const isDemo = workspaceId === "demo";
+
   return (
     <>
       <Dialog onOpenChange={onOpenChange}>
@@ -57,7 +61,11 @@ export function ModalAddWorkspace({
                 </Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button type="submit" className="w-full sm:w-fit">
+                <Button
+                  type="submit"
+                  className="w-full sm:w-fit"
+                  disabled={isDemo}
+                >
                   Add workspace
                 </Button>
               </DialogClose>
