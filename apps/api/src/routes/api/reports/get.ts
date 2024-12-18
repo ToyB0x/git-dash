@@ -8,19 +8,19 @@ const factory = createFactory<{ Bindings: Env }>();
 const handlers = factory.createHandlers(async (c) => {
   // TODO: Implement your business logic here
   // - authenticated user
-  // - extract groupId and other params from request
+  // - extract workspaceId and other params from request
   // - store r2 meta data to db
 
   const type = c.req.param("type");
   if (!type) throw Error("type is required");
-  const groupId = c.req.param("groupId");
-  if (!groupId) throw Error("groupId is required");
+  const workspaceId = c.req.param("workspaceId");
+  if (!workspaceId) throw Error("workspaceId is required");
 
   const db = drizzle(c.env.DB_API);
   const lastReportMeta = await db
     .select({ id: reportTbl.id })
     .from(reportTbl)
-    .where(eq(reportTbl.groupId, groupId))
+    .where(eq(reportTbl.workspaceId, workspaceId))
     .orderBy(desc(reportTbl.createdAt))
     .limit(1);
 
@@ -28,9 +28,9 @@ const handlers = factory.createHandlers(async (c) => {
     return c.json(null);
   }
 
-  // TODO: use real groupId / type / version
+  // TODO: use real workspaceId / type / version
   const obj = await c.env.REPORT_BUCKET.get(
-    `groups/${groupId}/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
+    `workspaces/${workspaceId}/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
   );
 
   const j = await obj?.json();

@@ -1,4 +1,4 @@
-import { groupTbl } from "@repo/db-api/schema";
+import { workspaceTbl } from "@repo/db-api/schema";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
@@ -9,30 +9,30 @@ import { testRoute } from "./test";
 export const publicApiRoute = new Hono<{
   Bindings: Env;
   Variables: {
-    validGroupId: string;
+    validGorkspaceId: string;
   };
 }>()
   .use("/*", async (c, next) => {
-    const groupId = c.req.header("X-GDASH-GROUP-ID");
+    const workspaceId = c.req.header("X-GDASH-GROUP-ID");
     const apiKey = c.req.header("X-GDASH-GROUP-API-KEY");
-    if (!groupId || !apiKey)
+    if (!workspaceId || !apiKey)
       throw Error(
-        "Invalid request headers, confirm groupId and apiKey headers are set",
+        "Invalid request headers, confirm workspaceId and apiKey headers are set",
       );
 
     const db = drizzle(c.env.DB_API);
 
-    const groups = await db
+    const workspaces = await db
       .select()
-      .from(groupTbl)
-      .where(eq(groupTbl.id, groupId));
+      .from(workspaceTbl)
+      .where(eq(workspaceTbl.id, workspaceId));
 
-    const group = groups[0];
-    if (!group) throw Error("Group not found");
+    const workspace = workspaces[0];
+    if (!workspace) throw Error("Gorkspace not found");
 
-    if (group.apiToken !== apiKey) throw Error("Invalid apiKey");
+    if (workspace.apiToken !== apiKey) throw Error("Invalid apiKey");
 
-    c.set("validGroupId", group.id);
+    c.set("validGorkspaceId", workspace.id);
     return next();
   })
   .route("/reports", reportsRoute)

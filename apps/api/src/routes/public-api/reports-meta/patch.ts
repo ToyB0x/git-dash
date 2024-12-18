@@ -9,7 +9,7 @@ import * as v from "valibot";
 const factory = createFactory<{
   Bindings: Env;
   Variables: {
-    validGroupId: string;
+    validGorkspaceId: string;
   };
 }>();
 
@@ -19,7 +19,7 @@ const validator = vValidator(
   "json",
   v.object({
     reportId: v.string(),
-    groupId: v.string(),
+    workspaceId: v.string(),
     status: v.picklist(status),
   }),
 );
@@ -40,7 +40,7 @@ const handlers = factory.createHandlers(
       .where(
         and(
           eq(reportTbl.id, validated.reportId),
-          eq(reportTbl.groupId, c.var.validGroupId),
+          eq(reportTbl.workspaceId, c.var.validGorkspaceId),
         ),
       );
 

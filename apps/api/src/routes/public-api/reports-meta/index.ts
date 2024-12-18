@@ -3,5 +3,5 @@ import { patchHandler } from "./patch";
 import { postHandler } from "./post";
 
 export const reportsMetaRoute = new Hono()
-  .post(":groupId", ...postHandler)
-  .patch(":groupId", ...patchHandler);
+  .post(":workspaceId", ...postHandler)
+  .patch(":workspaceId", ...patchHandler);

@@ -1,5 +1,5 @@
 import { getFirebaseToken } from "@hono/firebase-auth";
-import { userTbl, usersToGroups } from "@repo/db-api/schema";
+import { userTbl, usersToWorkspaces } from "@repo/db-api/schema";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
@@ -7,7 +7,7 @@ import { createFactory } from "hono/factory";
 const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
-  const groupId = c.req.param("groupId");
+  const workspaceId = c.req.param("workspaceId");
 
   const idToken = getFirebaseToken(c);
   if (!idToken) throw Error("Unauthorized");
@@ -22,25 +22,25 @@ const handlers = factory.createHandlers(async (c) => {
   const user = users[0];
   if (!user) throw Error("User not found");
 
-  const isBelongingGroup = await db
+  const isBelongingWorkspace = await db
     .select()
-    .from(usersToGroups)
+    .from(usersToWorkspaces)
     .where(
       and(
-        eq(usersToGroups.userId, user.id),
-        eq(usersToGroups.groupId, groupId),
+        eq(usersToWorkspaces.userId, user.id),
+        eq(usersToWorkspaces.workspaceId, workspaceId),
       ),
     );
 
-  if (!isBelongingGroup.length) throw Error("User not in group");
+  if (!isBelongingWorkspace.length) throw Error("User not in workspace");
 
-  const groupMembers = await db
+  const workspaceMembers = await db
     .select({ id: userTbl.id, email: userTbl.email })
     .from(userTbl)
-    .leftJoin(usersToGroups, eq(userTbl.id, usersToGroups.userId))
-    .where(eq(usersToGroups.groupId, groupId));
+    .leftJoin(usersToWorkspaces, eq(userTbl.id, usersToWorkspaces.userId))
+    .where(eq(usersToWorkspaces.workspaceId, workspaceId));
 
-  return c.json(groupMembers);
+  return c.json(workspaceMembers);
 });
 
 export const getHandler = handlers;
