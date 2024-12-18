@@ -4,17 +4,19 @@ import { type Schema, stat } from "@repo/schema/statRepositories";
 
 export const exportByOrganization = async (
   orgName: string,
-  groupId: string,
+  workspaceId: string,
 ): Promise<void> => {
   // create report-meta
-  const resPostMeta = await hc["public-api"]["reports-meta"][":groupId"].$post(
+  const resPostMeta = await hc["public-api"]["reports-meta"][
+    ":workspaceId"
+  ].$post(
     {
-      param: { groupId },
+      param: { workspaceId },
     },
     {
       headers: {
-        "X-GDASH-GROUP-ID": groupId,
-        "X-GDASH-GROUP-API-KEY": env.GDASH_GROUP_API_KEY,
+        "X-GDASH-WORKSPACE-ID": workspaceId,
+        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
       },
     },
   );
@@ -52,26 +54,26 @@ export const exportByOrganization = async (
     { json: repositoriesJson },
     {
       headers: {
-        "X-GDASH-GROUP-ID": groupId,
-        "X-GDASH-GROUP-API-KEY": env.GDASH_GROUP_API_KEY,
+        "X-GDASH-WORKSPACE-ID": workspaceId,
+        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
       },
     },
   );
 
   // send finish status
-  await hc["public-api"]["reports-meta"][":groupId"].$patch(
+  await hc["public-api"]["reports-meta"][":workspaceId"].$patch(
     {
-      param: { groupId },
+      param: { workspaceId },
       json: {
         reportId,
-        groupId,
+        workspaceId,
         status: "FINISHED",
       },
     },
     {
       headers: {
-        "X-GDASH-GROUP-ID": groupId,
-        "X-GDASH-GROUP-API-KEY": env.GDASH_GROUP_API_KEY,
+        "X-GDASH-WORKSPACE-ID": workspaceId,
+        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
       },
     },
   );

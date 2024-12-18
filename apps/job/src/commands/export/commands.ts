@@ -12,7 +12,7 @@ export const newExportCommand = () => {
     .action(async () => {
       await exportByOrganization(
         env.GDASH_GITHUB_ORGANIZATION_NAME,
-        env.GDASH_GROUP_ID,
+        env.GDASH_WORKSPACE_ID,
       );
     });
 

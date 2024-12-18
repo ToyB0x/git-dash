@@ -21,8 +21,8 @@ jobs:
           GDASH_PROJECT_ID: "gdash-test"
           GDASH_GITHUB_ORGANIZATION_NAME: "test-org-name"
           GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: "test-personal-access-token"
-          GDASH_GROUP_ID: "test-group-id"
-          GDASH_GROUP_API_KEY: "test-group-api-key"
+          GDASH_WORKSPACE_ID: "test-group-id"
+          GDASH_WORKSPACE_API_KEY: "test-group-api-key"
           target-repositories: |-
             OWNER/REPO1
             OWNER/REPO2

@@ -23,10 +23,10 @@ inputs:
   GDASH_GITHUB_PERSONAL_ACCESS_TOKEN:
     description: "Your GitHub personal access token for Github API Read Only Access"
     required: true
-  GDASH_GROUP_ID:
+  GDASH_WORKSPACE_ID:
     description: "Group ID to send report"
     required: true
-  GDASH_GROUP_API_KEY:
+  GDASH_WORKSPACE_API_KEY:
     description: "Group API key to send report"
     required: true
   GDASH_PROJECT_ID:
@@ -67,5 +67,5 @@ runs:
         GDASH_PROJECT_ID: ${{ inputs.GDASH_PROJECT_ID }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}
-        GDASH_GROUP_ID: ${{ inputs.GDASH_GROUP_ID }}
-        GDASH_GROUP_API_KEY: ${{ inputs.GDASH_GROUP_API_KEY }}
+        GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
+        GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
