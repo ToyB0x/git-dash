@@ -1,4 +1,6 @@
+import { env } from "@/env";
 import { Command } from "commander";
+import { exportByOrganization } from "./exportByOrganization";
 
 export const newExportCommand = () => {
   const exportCmd = new Command("export");
@@ -6,14 +8,13 @@ export const newExportCommand = () => {
 
   exportCmd
     .command("group")
-    .description("export specific organization summary");
-  // .action(async () => {
-  //   await exportByOrganization(
-  //     env.GDASH_GITHUB_ORGANIZATION_NAME,
-  //     env.GDASH_GROUP_ID,
-  //     env.GDASH_GROUP_API_KEY,
-  //   );
-  // });
+    .description("export specific organization summary")
+    .action(async () => {
+      await exportByOrganization(
+        env.GDASH_GITHUB_ORGANIZATION_NAME,
+        env.GDASH_GROUP_ID,
+      );
+    });
 
   return exportCmd;
 };
