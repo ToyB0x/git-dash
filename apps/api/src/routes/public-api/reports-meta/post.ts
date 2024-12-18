@@ -6,7 +6,7 @@ import { createFactory } from "hono/factory";
 const factory = createFactory<{
   Bindings: Env;
   Variables: {
-    validGroupId: string;
+    validGorkspaceId: string;
   };
 }>();
 
@@ -18,7 +18,7 @@ const handlers = factory.createHandlers(
       .insert(reportTbl)
       .values({
         id: generateNewReportId(),
-        groupId: c.var.validGroupId,
+        workspaceId: c.var.validGorkspaceId,
         status: "RUNNING",
         createdAt: new Date(),
         updatedAt: new Date(),

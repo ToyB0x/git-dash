@@ -8,8 +8,8 @@ const envSchema = object({
     literal("gdash-stg"),
     literal("gdash-prd"),
   ]),
-  GDASH_GROUP_ID: string(),
-  GDASH_GROUP_API_KEY: string(),
+  GDASH_WORKSPACE_ID: string(),
+  GDASH_WORKSPACE_API_KEY: string(),
   GDASH_GITHUB_ORGANIZATION_NAME: string(),
   GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: string(),
 });

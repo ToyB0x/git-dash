@@ -1,12 +1,12 @@
 import { getFirebaseToken } from "@hono/firebase-auth";
-import { usersToGroups } from "@repo/db-api/schema";
+import { usersToWorkspaces } from "@repo/db-api/schema";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 
 const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
-  const groupId = c.req.param("groupId");
+  const workspaceId = c.req.param("workspaceId");
   const userId = c.req.param("userId");
 
   const idToken = getFirebaseToken(c);
@@ -14,9 +14,9 @@ const handlers = factory.createHandlers(async (c) => {
 
   const db = drizzle(c.env.DB_API);
 
-  await db.insert(usersToGroups).values({
+  await db.insert(usersToWorkspaces).values({
     userId,
-    groupId,
+    workspaceId,
     role: "OWNER",
   });
 

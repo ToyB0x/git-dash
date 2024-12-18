@@ -3,11 +3,11 @@ import {
   verifyFirebaseAuth,
 } from "@hono/firebase-auth";
 import { Hono } from "hono";
-import { groupRoute } from "./groups";
 import { memberRoute } from "./members";
 import { reportMetaRoute } from "./report-meta";
 import { reportRoute } from "./reports";
 import { userRoute } from "./users";
+import { workspaceRoute } from "./workspaces";
 
 export const apiRoute = new Hono<{ Bindings: Env }>()
   .use("/*", (c, next) => {
@@ -23,7 +23,7 @@ export const apiRoute = new Hono<{ Bindings: Env }>()
     // TODO: add db user in context
     return verifyFirebaseAuth(config)(c, next);
   })
-  .route("/groups", groupRoute)
+  .route("/workspaces", workspaceRoute)
   .route("/members", memberRoute)
   .route("/reports", reportRoute)
   .route("/reports-meta", reportMetaRoute)
