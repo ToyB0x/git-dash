@@ -1,6 +1,7 @@
 import { vValidator } from "@hono/valibot-validator";
 import { getR2Path } from "@repo/schema/path";
 import { stat as statMerged } from "@repo/schema/statMerged";
+import { stat as statRepositories } from "@repo/schema/statRepositories";
 import { stat as statReviews } from "@repo/schema/statReviews";
 import { stat as statWaitingReviews } from "@repo/schema/statWaitingReviews";
 import { bodyLimit } from "hono/body-limit";
@@ -20,6 +21,7 @@ const validator = vValidator(
     statMerged.schema,
     statReviews.schema,
     statWaitingReviews.schema,
+    statRepositories.schema,
   ]),
 );
 
