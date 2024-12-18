@@ -9,61 +9,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/Dialog";
-import { DropdownMenuItem } from "@/components/Dropdown";
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
-
-export const databases: {
-  label: string;
-  value: string;
-  description: string;
-  isRecommended: boolean;
-}[] = [
-  {
-    label: "Base performance",
-    value: "base-performance",
-    description: "1/8 vCPU, 1 GB RAM",
-    isRecommended: true,
-  },
-  {
-    label: "Advanced performance",
-    value: "advanced-performance",
-    description: "1/4 vCPU, 2 GB RAM",
-    isRecommended: false,
-  },
-  {
-    label: "Turbo performance",
-    value: "turbo-performance",
-    description: "1/2 vCPU, 4 GB RAM",
-    isRecommended: false,
-  },
-];
+import type { ReactNode } from "react";
 
 export type ModalProps = {
-  itemName: string;
-  onSelect: () => void;
-  onOpenChange: (open: boolean) => void;
+  children: ReactNode;
+  className?: string;
+  onOpenChange?: (open: boolean) => void;
 };
 
 export function ModalAddWorkspace({
-  itemName,
-  onSelect,
+  children,
+  className,
   onOpenChange,
 }: ModalProps) {
   return (
     <>
       <Dialog onOpenChange={onOpenChange}>
-        <DialogTrigger className="w-full text-left">
-          <DropdownMenuItem
-            onSelect={(event) => {
-              event.preventDefault();
-              // biome-ignore lint/complexity/useOptionalChain: <explanation>
-              onSelect && onSelect();
-            }}
-          >
-            {itemName}
-          </DropdownMenuItem>
-        </DialogTrigger>
+        <DialogTrigger className={className}>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-2xl">
           <form>
             <DialogHeader>

@@ -41,6 +41,7 @@ export const WorkspacesDropdownDesktop = () => {
       setDropdownOpen(false);
     }
   };
+
   return (
     <>
       {/* sidebar (lg+) */}
@@ -119,10 +120,18 @@ export const WorkspacesDropdownDesktop = () => {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <ModalAddWorkspace
-            onSelect={handleDialogItemSelect}
+            className="w-full"
             onOpenChange={handleDialogItemOpenChange}
-            itemName="Add workspace"
-          />
+          >
+            <DropdownMenuItem
+              onSelect={(event) => {
+                event.preventDefault();
+                handleDialogItemSelect();
+              }}
+            >
+              Add workspace
+            </DropdownMenuItem>
+          </ModalAddWorkspace>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
@@ -220,10 +229,18 @@ export const WorkspacesDropdownMobile = () => {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <ModalAddWorkspace
-            onSelect={handleDialogItemSelect}
+            className="w-full"
             onOpenChange={handleDialogItemOpenChange}
-            itemName="Add workspace"
-          />
+          >
+            <DropdownMenuItem
+              onSelect={(event) => {
+                event.preventDefault();
+                handleDialogItemSelect();
+              }}
+            >
+              Add workspace
+            </DropdownMenuItem>
+          </ModalAddWorkspace>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
