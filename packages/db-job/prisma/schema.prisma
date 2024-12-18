@@ -13,7 +13,7 @@ datasource db {
 model Organization {
   id             String          @id // derived from the GitHub API
   login          String          @unique // The organization's login name (ensure uniqueness by github)
-  Repositories   Repository[]
+  repositories   Repository[]
   Prs            Pr[]
   Commits        Commit[]
   Reviews        Review[]
