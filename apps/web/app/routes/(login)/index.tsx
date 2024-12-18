@@ -15,7 +15,7 @@ export async function clientLoader() {
 
 export default function Page() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center mt-64">
       <Card className="sm:mx-auto sm:max-w-lg text-center p-12 border-dashed flex flex-col space-y-2">
         <RiBarChartFill
           className="mx-auto size-7 text-gray-400 dark:text-gray-600"
