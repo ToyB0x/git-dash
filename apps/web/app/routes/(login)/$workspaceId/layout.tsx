@@ -1,7 +1,7 @@
 import { auth } from "@/clients";
 import { Sidebar } from "@/components/ui/navigation/sidebar";
 import { Outlet, redirect, useLoaderData } from "react-router";
-import type { Route } from "../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
+import type { Route } from "../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 
 type LoginLayoutData = {
   me: {
@@ -12,7 +12,7 @@ type LoginLayoutData = {
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   await auth.authStateReady();
-  if (!auth.currentUser && params.groupId !== "demo") {
+  if (!auth.currentUser && params.workspaceId !== "demo") {
     throw redirect("/sign-in");
   }
 

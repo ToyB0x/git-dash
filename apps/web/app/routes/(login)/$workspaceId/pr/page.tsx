@@ -13,21 +13,14 @@ import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
 import {
-  dataLoaderVulnerabilityCritical,
-  dataLoaderVulnerabilityHigh,
-  dataLoaderVulnerabilityLow,
-} from "@/routes/(login)/$groupId/vuln/dataLoaders";
+  dataLoaderPrMerge,
+  dataLoaderPrOpen,
+} from "@/routes/(login)/$workspaceId/pr/dataLoaders";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { redirect, useLoaderData, useParams } from "react-router";
-import type { Route } from "../../../../.react-router/types/app/routes/(login)/$groupId.users.$userId/+types/page";
-import {
-  dataLoaderChangeFailureRate,
-  dataLoaderChangeLeadTime,
-  dataLoaderFailedDeploymentRecoveryTime,
-  dataLoaderRelease,
-} from "./dataLoaders";
+import { Link, redirect, useLoaderData } from "react-router";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 
 type KpiEntry = {
   title: string;
@@ -125,83 +118,62 @@ const data3: KpiEntryExtended[] = [
 
 const dataTable = [
   {
-    action: "unit test",
-    costs: "$3,509.00",
-    instance: "Ubuntu 16-core",
-    time: 1024,
-    lastRun: "23/09/2023 13:00",
+    user: "C0d3r",
+    avatar: "https://i.pravatar.cc/300",
+    created: 123,
+    merged: 125,
+    lastMerged: "23/09/2024 13:00",
   },
   {
-    action: "visual regression test",
-    costs: "$5,720.00",
-    instance: "Ubuntu 16-core",
-    time: 894,
-    lastRun: "22/09/2023 10:45",
+    user: "QuickSilver91",
+    avatar: "https://i.pravatar.cc/301",
+    created: 96,
+    merged: 93,
+    lastMerged: "22/09/2024 10:45",
   },
   {
-    action: "build",
-    costs: "$5,720.00",
-    instance: "Ubuntu 4-core",
-    time: 781,
-    lastRun: "22/09/2023 10:45",
+    user: "Rock3tMan",
+    avatar: "https://i.pravatar.cc/302",
+    created: 66,
+    merged: 53,
+    lastMerged: "22/09/2024 10:45",
   },
   {
-    action: "unit test",
-    costs: "$4,200.00",
-    instance: "Ubuntu 4-core",
-    time: 651,
-    lastRun: "21/09/2023 14:30",
+    user: "BananaEat3r",
+    avatar: "https://i.pravatar.cc/303",
+    created: 46,
+    merged: 33,
+    lastMerged: "21/09/2024 14:30",
   },
   {
-    action: "E2E test",
-    costs: "$2,100.00",
-    instance: "Ubuntu 2-core",
-    time: 424,
-    lastRun: "24/09/2023 09:15",
+    user: "Xg3tt3r",
+    avatar: "https://i.pravatar.cc/304",
+    created: 26,
+    merged: 23,
+    lastMerged: "24/09/2024 09:15",
   },
 ];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   await auth.authStateReady();
-  const isDemo = params.groupId === "demo";
+  const isDemo = params.workspaceId === "demo";
   if (!auth.currentUser && !isDemo) {
     throw redirect("/sign-in");
   }
 
-  const dataChangeLeadTime = await dataLoaderChangeLeadTime(isDemo);
-  const dataRelease = await dataLoaderRelease(isDemo);
-  const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
-  const dataFailedDeploymentRecoveryTime =
-    await dataLoaderFailedDeploymentRecoveryTime(isDemo);
-
-  const dataVulnerabilityCritical =
-    await dataLoaderVulnerabilityCritical(isDemo);
-  const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
-  const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
+  const dataPrOpen = await dataLoaderPrOpen(isDemo);
+  const dataPrMerge = await dataLoaderPrMerge(isDemo);
 
   return {
-    dataChangeLeadTime,
-    dataRelease,
-    dataChangeFailureRate,
-    dataFailedDeploymentRecoveryTime,
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
+    dataPrOpen,
+    dataPrMerge,
   };
 }
 
+// TODO: add PR page
 export default function Page() {
-  const {
-    dataChangeLeadTime,
-    dataRelease,
-    dataChangeFailureRate,
-    dataFailedDeploymentRecoveryTime,
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
-  } = useLoaderData<typeof clientLoader>();
-  const { orgId, repositoryId } = useParams();
+  const { dataPrOpen, dataPrMerge } = useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -213,12 +185,12 @@ export default function Page() {
 
   return (
     <>
-      <section aria-labelledby="repository-summary">
+      <section aria-labelledby="current-billing-cycle">
         <h1
-          id="repository-summary"
-          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-2xl dark:text-gray-50"
+          id="current-billing-cycle"
+          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          {orgId}/{repositoryId}
+          Current cycle
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <CategoryBarCard
@@ -246,7 +218,7 @@ export default function Page() {
           />
 
           <CategoryBarCard
-            title="Time until review"
+            title="Time to review"
             change="-1.2%"
             value="1.3 days"
             valueDescription="average review time"
@@ -258,13 +230,12 @@ export default function Page() {
           />
         </div>
       </section>
-
       <section aria-labelledby="actions-usage">
         <h1
           id="actions-usage"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Four Keys
+          PR Stats
         </h1>
         <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
           <Filterbar
@@ -280,120 +251,69 @@ export default function Page() {
           )}
         >
           <ChartCard
-            title="Deployment Frequency"
-            type="release"
+            title="PR Open"
+            type="pr"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataRelease.data}
+            data={dataPrOpen.data}
           />
 
           <ChartCard
-            title="Change Lead Time"
-            type="hour"
+            title="PR Merged"
+            type="pr"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
-            data={dataChangeLeadTime.data}
-            accumulation={false}
-          />
-
-          <ChartCard
-            title="Change Failure Rate"
-            type="percentage"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataChangeFailureRate.data}
-            accumulation={false}
-          />
-
-          <ChartCard
-            title="Failed Deployment Recovery Time"
-            type="hour"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataFailedDeploymentRecoveryTime.data}
-            accumulation={false}
+            data={dataPrMerge.data}
           />
         </dl>
       </section>
 
-      <section aria-labelledby="vulnerabilities-graph">
+      <section aria-labelledby="high-cost-actions">
         <h1
-          id="vulnerabilities-graph"
+          id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Vulnerabilities Stats
+          PRs by user
         </h1>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
-        <dl
-          className={cx(
-            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-          )}
-        >
-          <ChartCard
-            title="Critical Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityCritical.data}
-          />
-          <ChartCard
-            title="High Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityHigh.data}
-          />
-          <ChartCard
-            title="Low Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityLow.data}
-          />
-        </dl>
-      </section>
-
-      <section aria-labelledby="actions-cost">
-        <h1
-          id="actions-cost"
-          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
-          Actions cost
-        </h1>
+        <p className="mt-1 text-gray-500">
+          full user details are available on{" "}
+          <Link to="../users" className="underline underline-offset-4">
+            users menu
+          </Link>
+        </p>
 
         <TableRoot className="mt-8">
           <Table>
             <TableHead>
               <TableRow>
-                <TableHeaderCell>Action</TableHeaderCell>
-                <TableHeaderCell>Instance</TableHeaderCell>
-                <TableHeaderCell>Time(min)</TableHeaderCell>
-                <TableHeaderCell className="text-right">Costs</TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Last run
-                </TableHeaderCell>
+                <TableHeaderCell className="w-1">User</TableHeaderCell>
+                <TableHeaderCell />
+                <TableHeaderCell>PR Created</TableHeaderCell>
+                <TableHeaderCell>PR Merged</TableHeaderCell>
+                <TableHeaderCell>Last Merged</TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {dataTable.map((item) => (
-                <TableRow key={item.action}>
-                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.action}
+                <TableRow key={item.user}>
+                  <TableCell className="p-0">
+                    <img
+                      src={item.avatar}
+                      alt="user"
+                      className="w-8 h-8 rounded-full"
+                    />
                   </TableCell>
-                  <TableCell>{item.instance}</TableCell>
-                  <TableCell>{item.time}</TableCell>
-                  <TableCell className="text-right">{item.costs}</TableCell>
-                  <TableCell className="text-right">{item.lastRun}</TableCell>
+                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                    <Link
+                      to={`../users/${item.user}`}
+                      className="underline underline-offset-4"
+                    >
+                      {item.user}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{item.created} / month</TableCell>
+                  <TableCell>{item.merged} / month</TableCell>
+                  <TableCell>{item.lastMerged}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

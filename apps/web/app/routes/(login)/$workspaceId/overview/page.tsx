@@ -4,7 +4,7 @@ import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
 import { Link, redirect } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/+types/layout";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 
 const dataStats = [
   {
@@ -36,7 +36,7 @@ const dataStats = [
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   await auth.authStateReady();
-  const isDemo = params.groupId === "demo";
+  const isDemo = params.workspaceId === "demo";
   if (!auth.currentUser && !isDemo) {
     throw redirect("/sign-in");
   }

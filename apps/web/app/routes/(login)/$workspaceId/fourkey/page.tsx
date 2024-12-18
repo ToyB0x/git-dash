@@ -10,7 +10,7 @@ import {
 } from "@/components/Table";
 
 import { Link, redirect } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$groupId/fourkey/+types/page";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/fourkey/+types/page";
 
 const dataTable = [
   {
@@ -66,7 +66,7 @@ const dataTable = [
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
-  const isDemo = params.groupId === "demo";
+  const isDemo = params.workspaceId === "demo";
   if (!auth.currentUser && !isDemo) {
     throw redirect("/sign-in");
   }
