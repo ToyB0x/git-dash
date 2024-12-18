@@ -1,6 +1,6 @@
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { customAlphabet } from "nanoid";
-import { groupTbl } from "./groupTbl";
+import { workspaceTbl } from "./workspaceTbl";
 
 // NOTE: same as Planet scale's choice
 // ~919 years or 8B IDs needed, in order to have a 1% probability of at least one collision
@@ -18,15 +18,15 @@ export const reportTbl = sqliteTable(
     }).notNull(),
     createdAt: integer({ mode: "timestamp_ms" }).notNull(),
     updatedAt: integer({ mode: "timestamp_ms" }).notNull(),
-    groupId: text("group_id")
+    workspaceId: text("workspace_id")
       .notNull()
-      .references(() => groupTbl.id, {
+      .references(() => workspaceTbl.id, {
         onUpdate: "cascade",
         onDelete: "cascade",
       }),
   },
   (tbl) => ({
-    idxGroupId: index("idx_report_group_id").on(tbl.groupId),
+    idxWorkspaceId: index("idx_report_workspace_id").on(tbl.workspaceId),
   }),
 );
 
