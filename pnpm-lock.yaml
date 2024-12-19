@@ -94,8 +94,8 @@ importers:
         specifier: 0.38.2
         version: 0.38.2(@cloudflare/workers-types@4.20241218.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)
       firebase-admin:
-        specifier: 13.0.1
-        version: 13.0.1(encoding@0.1.13)
+        specifier: 13.0.2
+        version: 13.0.2(encoding@0.1.13)
       tsx:
         specifier: latest
         version: 4.19.2
@@ -4523,8 +4523,8 @@ packages:
     resolution: {integrity: sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw==}
     engines: {node: '>=8'}
 
-  firebase-admin@13.0.1:
-    resolution: {integrity: sha512-sKQ/Yw8o/WdC9qTKvuLMBjTbdcBISIXW4+M9PXk0bNjxEbZf1Er7EVq47eRb5+bnKof10xlns6zAIbj4tmSexg==}
+  firebase-admin@13.0.2:
+    resolution: {integrity: sha512-YWVpoN+tZVSRXF0qC0gojoF5bSqvBRbnBk8+xUtFiguM2L4vB7f0moAwV1VVWDDHvTnvQ68OyTMpdp6wKo/clw==}
     engines: {node: '>=18'}
 
   firebase-auth-cloudflare-workers@2.0.4:
@@ -11726,7 +11726,7 @@ snapshots:
       locate-path: 5.0.0
       path-exists: 4.0.0
 
-  firebase-admin@13.0.1(encoding@0.1.13):
+  firebase-admin@13.0.2(encoding@0.1.13):
     dependencies:
       '@fastify/busboy': 3.1.0
       '@firebase/database-compat': 2.0.1
