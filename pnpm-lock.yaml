@@ -76,7 +76,7 @@ importers:
   apps/cli:
     devDependencies:
       '@libsql/client':
-        specifier: ^0.14.0
+        specifier: 0.14.0
         version: 0.14.0
       '@repo/db-api':
         specifier: workspace:*
@@ -94,7 +94,7 @@ importers:
         specifier: 0.38.2
         version: 0.38.2(@cloudflare/workers-types@4.20241218.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)
       firebase-admin:
-        specifier: ^13.0.1
+        specifier: 13.0.1
         version: 13.0.1(encoding@0.1.13)
       tsx:
         specifier: latest
@@ -5214,6 +5214,7 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
+    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@3.1.3:
