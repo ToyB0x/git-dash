@@ -1,3 +1,4 @@
+import { auth, fetchReport } from "@/clients";
 import {
   Table,
   TableBody,
@@ -7,7 +8,12 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
-import { Link } from "react-router";
+import {
+  type Schema as StatRepositoriesSchema,
+  stat as statRepositories,
+} from "@repo/schema/statRepositories";
+import { Link, redirect } from "react-router";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/repository/+types/page";
 
 const dataTable = [
   {
@@ -68,7 +74,49 @@ const dataTable = [
   },
 ];
 
-export default function Page() {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  if (params.workspaceId === "demo") {
+    return {
+      repositories: dataTable,
+    };
+  }
+
+  await auth.authStateReady();
+
+  if (!auth.currentUser) {
+    throw redirect("/login");
+  }
+
+  const token = await auth.currentUser.getIdToken();
+  const fetchRepositoriesResult = await fetchReport<StatRepositoriesSchema>(
+    token,
+    statRepositories.type,
+    params.workspaceId,
+    statRepositories.schema,
+  );
+
+  // TODO: fetch data from server
+  return {
+    repositories: fetchRepositoriesResult.success
+      ? fetchRepositoriesResult.data.stats.map((item) => ({
+          repository: item.name,
+          prs: 1,
+          reviews: 1,
+          releases: 1,
+          cost: 1,
+          lastActivity: item.updatedAt,
+        }))
+      : [],
+  };
+}
+
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const { repositories } = loaderData;
+
+  if (!repositories.length) {
+    return <>データ取得中です</>;
+  }
+
   return (
     <section aria-labelledby="repository-table" className="h-screen">
       <h1
@@ -103,7 +151,7 @@ export default function Page() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataTable.map((item) => (
+            {repositories.map((item) => (
               <TableRow key={item.repository}>
                 <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                   <Link

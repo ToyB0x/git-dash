@@ -9,12 +9,12 @@ import { testRoute } from "./test";
 export const publicApiRoute = new Hono<{
   Bindings: Env;
   Variables: {
-    validGorkspaceId: string;
+    validWorkspaceId: string;
   };
 }>()
   .use("/*", async (c, next) => {
-    const workspaceId = c.req.header("X-GDASH-GROUP-ID");
-    const apiKey = c.req.header("X-GDASH-GROUP-API-KEY");
+    const workspaceId = c.req.header("X-GDASH-WORKSPACE-ID");
+    const apiKey = c.req.header("X-GDASH-WORKSPACE-API-KEY");
     if (!workspaceId || !apiKey)
       throw Error(
         "Invalid request headers, confirm workspaceId and apiKey headers are set",
@@ -32,7 +32,7 @@ export const publicApiRoute = new Hono<{
 
     if (workspace.apiToken !== apiKey) throw Error("Invalid apiKey");
 
-    c.set("validGorkspaceId", workspace.id);
+    c.set("validWorkspaceId", workspace.id);
     return next();
   })
   .route("/reports", reportsRoute)

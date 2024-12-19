@@ -1,4 +1,5 @@
 import { reportTbl } from "@repo/db-api/schema";
+import { getR2Path } from "@repo/schema/path";
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
@@ -30,7 +31,11 @@ const handlers = factory.createHandlers(async (c) => {
 
   // TODO: use real workspaceId / type / version
   const obj = await c.env.REPORT_BUCKET.get(
-    `workspaces/${workspaceId}/reports/${lastReportMeta[0].id}/types/${type}/data.json`,
+    getR2Path({
+      workspaceId,
+      reportId: lastReportMeta[0].id,
+      type,
+    }),
   );
 
   const j = await obj?.json();

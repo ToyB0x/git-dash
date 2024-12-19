@@ -44,7 +44,7 @@ export const exportByOrganization = async (
     reportId,
     type: stat.type,
     version: stat.version,
-    data: result.repositories.map((repository) => ({
+    stats: result.repositories.map((repository) => ({
       name: repository.name,
       updatedAt: repository.updatedAt.getTime(),
     })),

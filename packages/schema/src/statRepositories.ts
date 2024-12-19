@@ -7,7 +7,7 @@ const schema = v.object({
   reportId: v.string(),
   type: v.literal(typeName),
   version: v.literal(version), // latest version
-  data: v.array(
+  stats: v.array(
     v.object({
       name: v.string(), // repositoryName
       updatedAt: v.number(),
@@ -19,7 +19,7 @@ const fixture = {
   reportId: "1",
   type: typeName,
   version: version,
-  data: [
+  stats: [
     { name: "repository1", updatedAt: Date.now() },
     { name: "repository2", updatedAt: Date.now() },
   ],

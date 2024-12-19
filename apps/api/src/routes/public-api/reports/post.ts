@@ -11,7 +11,7 @@ import * as v from "valibot";
 const factory = createFactory<{
   Bindings: Env;
   Variables: {
-    validGorkspaceId: string;
+    validWorkspaceId: string;
   };
 }>();
 
@@ -33,10 +33,9 @@ const handlers = factory.createHandlers(
 
     await c.env.REPORT_BUCKET.put(
       getR2Path({
-        workspaceId: c.var.validGorkspaceId,
+        workspaceId: c.var.validWorkspaceId,
         reportId: validated.reportId,
         type: validated.type,
-        version: validated.version,
       }),
       JSON.stringify(validated),
     );
