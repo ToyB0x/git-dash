@@ -7,13 +7,13 @@
     "VITE_PUBLIC_API_SERVER_URL"
   ],
   "tasks": {
-    "generate:db": {
-      "dependsOn": ["^generate:db"],
+    "generate": {
+      "dependsOn": ["^generate"],
       "cache": false
     },
     "build": {
       "dependsOn": [
-        "generate:db", // need prisma initialization
+        "generate", // need prisma initialization
         "^build" //  need api type definitions build (web / jobs packages depend on api type build (^build run all build tasks of dependencies))
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
@@ -25,11 +25,11 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["generate:db"]
+      "dependsOn": ["generate"]
     },
     "typecheck": {
       "dependsOn": [
-        "generate:db",
+        "generate",
         "build" // need api type definitions build
       ]
     },

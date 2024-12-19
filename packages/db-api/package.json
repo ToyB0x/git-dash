@@ -1,6 +1,7 @@
 {
   "name": "@repo/db-api",
   "private": true,
+  "type": "module",
   "exports": {
     "./schema": "./src/schema/index.ts"
   },

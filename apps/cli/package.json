@@ -1,0 +1,23 @@
+{
+  "name": "@repo/cli",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "run:setup": "tsx ./setup/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@libsql/client": "^0.14.0",
+    "@repo/db-api": "workspace:*",
+    "@repo/db-job": "workspace:*",
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "22.10.2",
+    "drizzle-orm": "0.38.2",
+    "firebase-admin": "^13.0.1",
+    "tsx": "latest",
+    "typescript": "5.7.2"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}
