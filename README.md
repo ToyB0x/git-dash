@@ -46,3 +46,4 @@ And Merged PR creators will be given a discount on the paid plan.
 - モバイル版の不具合を探す
 - Jobs v2 のTODOコメントを総点検(一定程度のワークアラウンドを利用してしまっているため)
 - Root Layout 用のRootサイドバーUIを追加する
+- Organization > Workspace の階層構造を作る
