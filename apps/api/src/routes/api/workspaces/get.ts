@@ -16,6 +16,7 @@ const handlers = factory.createHandlers(async (c) => {
     .select({
       id: workspaceTbl.id,
       displayName: workspaceTbl.displayName,
+      role: workspaceTbl.role,
       apiKey: workspaceTbl.apiToken,
     })
     .from(usersToWorkspaces)
@@ -27,8 +28,16 @@ const handlers = factory.createHandlers(async (c) => {
     belongingWorkspaces.filter(
       (
         workspace,
-      ): workspace is { id: string; displayName: string; apiKey: string } =>
-        !!workspace.id && !!workspace.displayName && !!workspace.apiKey,
+      ): workspace is {
+        id: string;
+        displayName: string;
+        role: "OWNER" | "ADMIN" | "MEMBER";
+        apiKey: string;
+      } =>
+        !!workspace.id &&
+        !!workspace.role &&
+        !!workspace.displayName &&
+        !!workspace.apiKey,
     ),
   );
 });

@@ -37,6 +37,7 @@ export const insertApiSeed = async () => {
     .values({
       id: generateNewWorkspaceId(),
       displayName: "workspace1",
+      role: "OWNER",
       apiToken: "LOCAL_API_TOKEN",
     })
     .returning();

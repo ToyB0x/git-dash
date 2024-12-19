@@ -45,3 +45,4 @@ And Merged PR creators will be given a discount on the paid plan.
 - Add site meta title
 - モバイル版の不具合を探す
 - Jobs v2 のTODOコメントを総点検(一定程度のワークアラウンドを利用してしまっているため)
+- Root Layout 用のRootサイドバーUIを追加する

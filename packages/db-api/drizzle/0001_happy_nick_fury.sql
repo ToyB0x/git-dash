@@ -1,0 +1,1 @@
+ALTER TABLE `workspace` ADD `role` text NOT NULL;

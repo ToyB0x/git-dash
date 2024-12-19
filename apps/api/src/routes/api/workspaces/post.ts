@@ -37,6 +37,7 @@ const handlers = factory.createHandlers(validator, async (c) => {
     .values({
       id: generateNewWorkspaceId(),
       displayName: validated.displayName,
+      role: validated.role,
     })
     .returning();
 
