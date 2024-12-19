@@ -24,6 +24,11 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
+// ref: https://remix.run/docs/en/main/route/hydrate-fallback
+export function HydrateFallback() {
+  return null;
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html
