@@ -229,6 +229,9 @@ importers:
       '@repo/api':
         specifier: workspace:*
         version: link:../api
+      '@repo/schema':
+        specifier: workspace:*
+        version: link:../../packages/schema
       clsx:
         specifier: 2.1.1
         version: 2.1.1
