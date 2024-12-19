@@ -125,13 +125,17 @@ export default function Page() {
           id="vulnerabilities-table"
           className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Four keys
+          Summary
         </h1>
 
         <p className="mt-1 text-gray-500">
           for more details, click on the{" "}
           <Link to="../fourkeys" className="underline underline-offset-4">
             four keys page
+          </Link>{" "}
+          /{" "}
+          <Link to="../vulns" className="underline underline-offset-4">
+            vulns page
           </Link>
           .
         </p>
