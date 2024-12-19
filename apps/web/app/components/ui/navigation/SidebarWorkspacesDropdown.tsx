@@ -1,5 +1,3 @@
-"use client";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,20 +10,24 @@ import {
 import { cx, focusInput } from "@/lib/utils";
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react";
 import React from "react";
+import { Link, useParams } from "react-router";
 import { ModalAddWorkspace } from "./ModalAddWorkspace";
 
-const workspaces = [
-  {
-    value: "retail-analytics",
-    name: "My workspace",
-    initials: "MW",
-    role: "Member",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  // Add more workspaces...
-];
+export const WorkspacesDropdownDesktop = ({
+  workspaces = [],
+}: {
+  workspaces: {
+    id: string;
+    displayName: string;
+    role: string;
+  }[];
+}) => {
+  const { workspaceId: currentWorkspaceId } = useParams();
 
-export const WorkspacesDropdownDesktop = () => {
+  const currentWorkspace = workspaces.find(
+    (workspace) => workspace.id === currentWorkspaceId,
+  );
+
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef = React.useRef<null | HTMLButtonElement>(null);
@@ -62,15 +64,19 @@ export const WorkspacesDropdownDesktop = () => {
               className="flex aspect-square size-8 items-center justify-center rounded bg-indigo-600 p-2 text-xs font-medium text-white dark:bg-indigo-500"
               aria-hidden="true"
             >
-              MW
+              {currentWorkspace
+                ? currentWorkspace.displayName.slice(0, 2).toUpperCase()
+                : " / "}
             </span>
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
               <div className="truncate">
                 <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                  My workspace
+                  {currentWorkspace
+                    ? currentWorkspace.displayName
+                    : "Select workspace"}
                 </p>
                 <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
-                  Member
+                  {currentWorkspace ? currentWorkspace.role : ""}
                 </p>
               </div>
               <RiExpandUpDownLine
@@ -95,26 +101,30 @@ export const WorkspacesDropdownDesktop = () => {
               Workspaces ({workspaces.length})
             </DropdownMenuLabel>
             {workspaces.map((workspace) => (
-              <DropdownMenuItem key={workspace.value}>
-                <div className="flex w-full items-center gap-x-2.5">
+              <DropdownMenuItem key={workspace.id}>
+                <Link
+                  className="flex w-full items-center gap-x-2.5"
+                  to={`/${workspace.id}`}
+                >
                   <span
                     className={cx(
-                      workspace.color,
+                      // TODO: update to dynamic calculated icon color
+                      "bg-indigo-600 dark:bg-indigo-500",
                       "flex aspect-square size-8 items-center justify-center rounded p-2 text-xs font-medium text-white",
                     )}
                     aria-hidden="true"
                   >
-                    {workspace.initials}
+                    {workspace.displayName.slice(0, 2).toUpperCase()}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
-                      {workspace.name}
+                      {workspace.displayName}
                     </p>
                     <p className="text-xs text-gray-700 dark:text-gray-400">
                       {workspace.role}
                     </p>
                   </div>
-                </div>
+                </Link>
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>
@@ -138,7 +148,20 @@ export const WorkspacesDropdownDesktop = () => {
   );
 };
 
-export const WorkspacesDropdownMobile = () => {
+export const WorkspacesDropdownMobile = ({
+  workspaces,
+}: {
+  workspaces: {
+    id: string;
+    displayName: string;
+    role: string;
+  }[];
+}) => {
+  const { workspaceId: currentWorkspaceId } = useParams();
+  const currentWorkspace = workspaces.find(
+    (workspace) => workspace.id === currentWorkspaceId,
+  );
+
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false);
   const dropdownTriggerRef = React.useRef<null | HTMLButtonElement>(null);
@@ -171,7 +194,9 @@ export const WorkspacesDropdownMobile = () => {
               )}
               aria-hidden="true"
             >
-              RA
+              {currentWorkspace
+                ? currentWorkspace.displayName.slice(0, 2).toUpperCase()
+                : " / "}
             </span>
             <RiArrowRightSLine
               className="size-4 shrink-0 text-gray-500"
@@ -179,7 +204,9 @@ export const WorkspacesDropdownMobile = () => {
             />
             <div className="flex w-full items-center justify-between gap-x-3 truncate">
               <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                My workspace
+                {currentWorkspace
+                  ? currentWorkspace.displayName
+                  : "Select workspace"}
               </p>
               <RiExpandUpDownLine
                 className="size-4 shrink-0 text-gray-500"
@@ -204,26 +231,30 @@ export const WorkspacesDropdownMobile = () => {
               Workspaces ({workspaces.length})
             </DropdownMenuLabel>
             {workspaces.map((workspace) => (
-              <DropdownMenuItem key={workspace.value}>
-                <div className="flex w-full items-center gap-x-2.5">
+              <DropdownMenuItem key={workspace.id}>
+                <Link
+                  className="flex w-full items-center gap-x-2.5"
+                  to={`/${workspace.id}`}
+                >
                   <span
                     className={cx(
-                      workspace.color,
+                      // TODO: update to dynamic calculated icon color
+                      "bg-indigo-600 dark:bg-indigo-500",
                       "flex size-8 items-center justify-center rounded p-2 text-xs font-medium text-white",
                     )}
                     aria-hidden="true"
                   >
-                    {workspace.initials}
+                    {workspace.displayName.slice(0, 2).toUpperCase()}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
-                      {workspace.name}
+                      {workspace.displayName}
                     </p>
                     <p className="text-xs text-gray-700 dark:text-gray-300">
                       {workspace.role}
                     </p>
                   </div>
-                </div>
+                </Link>
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>
