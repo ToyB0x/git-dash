@@ -121,7 +121,26 @@ export default function Page() {
   return (
     <>
       <section aria-labelledby="stat-cards">
-        <dl className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        <h1
+          id="vulnerabilities-table"
+          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Summary
+        </h1>
+
+        <p className="mt-1 text-gray-500">
+          for more details, click on the{" "}
+          <Link to="../fourkeys" className="underline underline-offset-4">
+            four keys page
+          </Link>{" "}
+          /{" "}
+          <Link to="../vulns" className="underline underline-offset-4">
+            vulns page
+          </Link>
+          .
+        </p>
+
+        <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {dataStats.map((item) => (
             <Card key={item.name} className="py-4">
               <dt className="text-sm font-medium text-gray-500 dark:text-gray-500">
@@ -148,7 +167,22 @@ export default function Page() {
       </section>
 
       <section aria-labelledby="current-billing-cycle">
-        <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
+        <h1
+          id="vulnerabilities-table"
+          className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Costs
+        </h1>
+
+        <p className="mt-1 text-gray-500">
+          for more details, check on the{" "}
+          <Link to="../cost" className="underline underline-offset-4">
+            cost page
+          </Link>
+          .
+        </p>
+
+        <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-4 sm:grid-cols-2 lg:mt-6 xl:grid-cols-3">
           <div className="col-span-2">
             <Card>
               <h3 className="text-sm text-gray-500 dark:text-gray-500">
