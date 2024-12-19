@@ -9,7 +9,7 @@ import * as v from "valibot";
 const factory = createFactory<{
   Bindings: Env;
   Variables: {
-    validGorkspaceId: string;
+    validWorkspaceId: string;
   };
 }>();
 
@@ -40,7 +40,7 @@ const handlers = factory.createHandlers(
       .where(
         and(
           eq(reportTbl.id, validated.reportId),
-          eq(reportTbl.workspaceId, c.var.validGorkspaceId),
+          eq(reportTbl.workspaceId, c.var.validWorkspaceId),
         ),
       );
 
