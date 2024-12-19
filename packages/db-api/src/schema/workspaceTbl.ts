@@ -12,6 +12,7 @@ const generateNewApiToken = (): string => nanoid(32);
 export const workspaceTbl = sqliteTable("workspace", {
   id: text({ length: idLength }).primaryKey(),
   displayName: text({ length: 24 }).notNull(),
+  role: text({ enum: ["OWNER", "ADMIN", "MEMBER"] }).notNull(),
   // TODO: トークンをデフォルトで作らないようにする /　トークンの作成, 削除機能を作る
   // NOTE: about security
   // ref: https://github.com/ai/nanoid?tab=readme-ov-file#security
@@ -37,4 +38,5 @@ const createWorkspaceSchema = createInsertSchema(workspaceTbl, {
 
 export const postWorkspaceSchema = v.pick(createWorkspaceSchema, [
   "displayName",
+  "role",
 ]);
