@@ -166,7 +166,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                 <TableCell className="text-right">{item.releases}</TableCell>
                 <TableCell className="text-right">${item.cost}</TableCell>
                 <TableCell className="text-right">
-                  {item.lastActivity}
+                  {new Date(item.lastActivity).toLocaleString()}
                 </TableCell>
               </TableRow>
             ))}
