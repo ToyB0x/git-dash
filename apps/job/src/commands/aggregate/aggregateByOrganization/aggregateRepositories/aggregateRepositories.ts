@@ -51,9 +51,10 @@ export const aggregateRepositories = async (
     }),
   );
 
-  logger.debug(
-    "Aggregate Repositories complete 🎉",
-    repositories.map((repository) => repository.name),
-  );
+  logger.debug({
+    msg: "Aggregate Repositories complete 🎉",
+    repositoriesLength: repositories.length,
+  });
+
   return repositories;
 };
