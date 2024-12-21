@@ -1,4 +1,4 @@
-import { dbClient, ghClient } from "@/clients";
+import { dbClient, getGhClient } from "@/clients";
 import { paginate } from "./paginate";
 
 export const aggregateRepositories = async (
@@ -15,6 +15,7 @@ export const aggregateRepositories = async (
   let hasNextPage = true;
   let cursor = null;
 
+  const ghClient = await getGhClient();
   while (hasNextPage) {
     const {
       repositories: _repositories,
