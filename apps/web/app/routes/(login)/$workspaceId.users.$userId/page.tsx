@@ -38,25 +38,25 @@ type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
 
 const data: KpiEntryExtended[] = [
   {
-    title: "~1 day",
+    title: "~1 hour",
     percentage: 11.2,
     value: "43 PRs",
     color: "bg-green-600 dark:bg-green-500",
   },
   {
-    title: "2~7 days",
+    title: "2~4 hours",
     percentage: 21.2,
     value: "93 PRs",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
-    title: "8~14 days",
+    title: "5~24 hours",
     percentage: 41.2,
     value: "121 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "15~ days",
+    title: "25~ hours",
     percentage: 29.1,
     value: "52 PRs",
     color: "bg-gray-400 dark:bg-gray-600",
@@ -92,25 +92,25 @@ const data2: KpiEntryExtended[] = [
 
 const data3: KpiEntryExtended[] = [
   {
-    title: "0.5 day",
+    title: "~1 hour",
     percentage: 17.4,
     value: "35 PRs",
     color: "bg-green-600 dark:bg-green-500",
   },
   {
-    title: "0.6~1 day",
+    title: "1~4 hours",
     percentage: 61.2,
     value: "83 PRs",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
-    title: "2~3 days",
+    title: "5~24 hours",
     percentage: 4.2,
     value: "8 PRs",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
-    title: "4~ days",
+    title: "25~ hours",
     percentage: 3.1,
     value: "3 PRs",
     color: "bg-gray-400 dark:bg-gray-600",
@@ -224,7 +224,7 @@ export default function Page() {
           <CategoryBarCard
             title="Time until review"
             change="-1.2%"
-            value="1.3 days"
+            value="4.6 hours"
             valueDescription="average review time"
             subtitle="last 30 days"
             ctaDescription="About this metrics:"
@@ -236,8 +236,8 @@ export default function Page() {
           <CategoryBarCard
             title="Time until being reviewed"
             change="+1.4"
-            value="9.1 days"
-            valueDescription="average release time"
+            value="7.1 hours"
+            valueDescription="average reviewed time"
             subtitle="last 30 days"
             ctaDescription="About four key:"
             ctaText="reference"
