@@ -1,4 +1,5 @@
 import { dbClient, getGhClient } from "@/clients";
+import { logger } from "@/utils";
 import { paginate } from "./paginate";
 
 export const aggregateRepositories = async (
@@ -50,9 +51,10 @@ export const aggregateRepositories = async (
     }),
   );
 
-  console.info(
-    "Aggregate Repositories complete 🎉",
-    repositories.map((repository) => repository.name),
-  );
+  logger.debug({
+    msg: "Aggregate Repositories complete 🎉",
+    repositoriesLength: repositories.length,
+  });
+
   return repositories;
 };

@@ -1,11 +1,13 @@
+import { logger } from "@/utils/logger";
+
 type Options<T> = {
   stepName: string;
   callback: Promise<T>;
 };
 
 export const step = async <T>(options: Options<T>): Promise<T> => {
-  console.log(`Start ${options.stepName}`);
+  logger.info(`Start ${options.stepName}`);
   const result = await options.callback;
-  console.log(`Finish ${options.stepName}`);
+  logger.info(`Finish ${options.stepName}`);
   return result;
 };
