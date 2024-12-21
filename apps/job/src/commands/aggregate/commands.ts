@@ -1,6 +1,6 @@
 import { env } from "@/env";
 import { Command } from "commander";
-import { aggregateByOrganization } from "./aggregateByOrganization";
+import { aggregateByOrganization } from "./aggregate";
 
 export const newAggregateCommand = () => {
   const aggregate = new Command("aggregate");

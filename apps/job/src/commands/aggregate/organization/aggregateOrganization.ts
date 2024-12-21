@@ -1,5 +1,5 @@
 import { dbClient, getGhClient } from "@/clients";
-import { graphql } from "../../../../../generated/gql";
+import { graphql } from "../../../../generated/gql";
 
 export const aggregateOrganization = async (orgName: string) => {
   const organizationQuery = graphql(/* GraphQL */ `
