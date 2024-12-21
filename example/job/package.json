@@ -17,7 +17,7 @@
     "@repo/api": "workspace:*",
     "@repo/db-job": "workspace:*",
     "@repo/utils": "workspace:*",
-    "dotenv-cli": "7.4.4",
+    "dotenv-cli": "8.0.0",
     "commander": "12.1.0",
     "graphql": "16.10.0",
     "@graphql-typed-document-node/core": "3.2.0",
