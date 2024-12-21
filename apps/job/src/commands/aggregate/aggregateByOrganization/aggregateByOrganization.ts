@@ -1,3 +1,4 @@
+import { step } from "@/utils";
 import { aggregateOrganization } from "./aggregateOrganization";
 import { aggregateRepositories } from "./aggregateRepositories";
 // import { aggregatePRs } from "./aggregatePRs";
@@ -10,16 +11,15 @@ export const maxOld = new Date(
 export const aggregateByOrganization = async (
   orgName: string,
 ): Promise<void> => {
-  console.log("aggregate Organization...", orgName);
-  const organization = await aggregateOrganization(orgName);
-  console.log("aggregate Organization: ", organization.login);
+  const organization = await step({
+    stepName: "aggregate:organization",
+    callback: aggregateOrganization(orgName),
+  });
 
-  console.log("aggregate Repositories...");
-  const repositories = await aggregateRepositories(
-    organization.login,
-    organization.id,
-  );
-  console.log("aggregate Repositories: ", repositories.length);
+  await step({
+    stepName: "aggregate:repositories",
+    callback: aggregateRepositories(organization.login, organization.id),
+  });
 
   // await aggregateUsers(orgName, organizationId);
   // if (repositoryNames.length !== new Set(repositoryNames).size)
