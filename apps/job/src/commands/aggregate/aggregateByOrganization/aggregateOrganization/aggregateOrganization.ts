@@ -1,4 +1,4 @@
-import { dbClient, ghClient } from "@/clients";
+import { dbClient, getGhClient } from "@/clients";
 import { graphql } from "../../../../../generated/gql";
 
 export const aggregateOrganization = async (orgName: string) => {
@@ -11,6 +11,7 @@ export const aggregateOrganization = async (orgName: string) => {
     }
   `);
 
+  const ghClient = await getGhClient();
   const organizationResult = await ghClient.request(organizationQuery, {
     organization: orgName,
   });
