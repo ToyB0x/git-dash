@@ -47,3 +47,9 @@ And Merged PR creators will be given a discount on the paid plan.
 - Jobs v2 のTODOコメントを総点検(一定程度のワークアラウンドを利用してしまっているため)
 - Root Layout 用のRootサイドバーUIを追加する
 - Organization > Workspace の階層構造を作る
+- 以下理由からGithubアプリへの対応を進める
+  - fine-grainedトークンはデフォルトで組織へのアクセスができない
+  - classicトークンはデフォルトで組織へのアクセスができるが、将来廃止されるかもしれない & 設定でアクセスを無効化できる
+  - Githubアプリか敢えて追加で組織に許可されたfine-grainedトークンしかBillingにアクセスできない
+- 顧客ごとにGithubアプリを作ってもらう運用のドキュメントを書く
+- Fetch機能のResumeを可能とする
