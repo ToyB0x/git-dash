@@ -1,4 +1,5 @@
 import { env } from "@/env";
+import { logger } from "@/utils";
 import { GraphQLClient } from "graphql-request";
 import { App } from "octokit";
 
@@ -11,14 +12,15 @@ export const octokitApp = new App({
 
 export const getGhClient = async () => {
   const { data: slug } = await octokitApp.octokit.rest.apps.getAuthenticated();
-  console.debug({ slug });
+
+  logger.debug({ slug });
 
   const { data: getInstallationResult } =
     await octokitApp.octokit.rest.apps.getOrgInstallation({
       org: env.GDASH_GITHUB_ORGANIZATION_NAME,
     });
 
-  console.debug({ installation_id: getInstallationResult.id });
+  logger.debug({ installation_id: getInstallationResult.id });
 
   const {
     data: { token },
