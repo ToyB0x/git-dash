@@ -21,7 +21,7 @@
     "dotenv-cli": "7.4.4",
     "graphql": "16.10.0",
     "graphql-request": "7.1.2",
-    "octokit": "^4.0.2",
+    "octokit": "4.0.2",
     "valibot": "1.0.0-beta.9"
   },
   "devDependencies": {
