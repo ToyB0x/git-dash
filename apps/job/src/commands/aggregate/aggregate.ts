@@ -1,6 +1,6 @@
 import { step } from "@/utils";
-import { aggregateOrganization } from "./aggregateOrganization";
-import { aggregateRepositories } from "./aggregateRepositories";
+import { aggregateOrganization } from "./organization";
+import { aggregateRepositories } from "./repositories";
 // import { aggregatePRs } from "./aggregatePRs";
 // import { aggregateUsers } from "./aggregateUsers";
 

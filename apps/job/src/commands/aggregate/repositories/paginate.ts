@@ -1,5 +1,5 @@
 import type { GraphQLClient } from "graphql-request";
-import { graphql } from "../../../../../generated/gql";
+import { graphql } from "../../../../generated/gql";
 
 export const paginate = async (
   graphQLClient: GraphQLClient,
