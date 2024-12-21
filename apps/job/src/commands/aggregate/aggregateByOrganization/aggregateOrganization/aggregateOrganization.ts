@@ -31,3 +31,35 @@ export const aggregateOrganization = async (orgName: string) => {
 
   return organizationResult.organization;
 };
+
+// NOTE: for graphql client with octokit example
+// waiting for https://github.com/octokit/graphql.js/pull/609
+//
+// import { octokitApp } from "@/clients";
+//
+// export const aggregateOrganization = async (orgName: string) => {
+//   const organizationResult = await octokitApp.octokit.graphql({
+//     query: /* GraphQL */ `query organization($organization: String!) {
+//       organization(login: $organization) {
+//         id
+//         login
+//       }
+//     }`,
+//     organization: orgName,
+//   });
+//
+//   await dbClient.organization.upsert({
+//     where: {
+//       id: organizationResult.id,
+//     },
+//     create: {
+//       id: organizationResult.id,
+//       login: organizationResult.login,
+//     },
+//     update: {
+//       login: organizationResult.login,
+//     },
+//   });
+//
+//   return organizationResult;
+// };

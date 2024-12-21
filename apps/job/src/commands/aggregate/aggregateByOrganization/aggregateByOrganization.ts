@@ -12,6 +12,7 @@ export const aggregateByOrganization = async (
 ): Promise<void> => {
   console.log("aggregate Organization...", orgName);
   const organization = await aggregateOrganization(orgName);
+  console.log("aggregate Organization: ", organization.login);
 
   console.log("aggregate Repositories...");
   const repositories = await aggregateRepositories(

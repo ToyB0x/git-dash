@@ -20,9 +20,16 @@ inputs:
   GDASH_GITHUB_ORGANIZATION_NAME:
     description: "GitHub organization name to analyze"
     required: true
-  GDASH_GITHUB_PERSONAL_ACCESS_TOKEN:
-    description: "Your GitHub personal access token for Github API Read Only Access"
+  GDASH_GITHUB_INTERNAL_APP_ID:
+    description: "GitHub App ID for GitHub API Read Only Access (Internal App for each organization)"
     required: true
+  GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING:
+    description: "GitHub App private key for GitHub API Read Only Access (Internal App key for each organization)"
+    required: true
+  # for clasic token or fine grained token (currently not documented / not well-supported)
+  #  GDASH_GITHUB_PERSONAL_ACCESS_TOKEN:
+  #    description: "Your GitHub personal access token for Github API Read Only Access"
+  #    required: true
   GDASH_WORKSPACE_ID:
     description: "Group ID to send report"
     required: true
@@ -66,6 +73,9 @@ runs:
       env:
         GDASH_PROJECT_ID: ${{ inputs.GDASH_PROJECT_ID }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
-        GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
+        GDASH_GITHUB_INTERNAL_APP_ID: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_ID }}
+        GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING }}
+        # for clasic token or fine grained token (currently not documented / not well-supported)
+        # GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}

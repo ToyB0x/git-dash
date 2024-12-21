@@ -49,5 +49,9 @@ export const aggregateRepositories = async (
     }),
   );
 
+  console.info(
+    "Aggregate Repositories complete 🎉",
+    repositories.map((repository) => repository.name),
+  );
   return repositories;
 };
