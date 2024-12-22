@@ -118,7 +118,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/utils
       '@supercharge/promise-pool':
-        specifier: ^3.2.0
+        specifier: 3.2.0
         version: 3.2.0
       commander:
         specifier: 12.1.0
