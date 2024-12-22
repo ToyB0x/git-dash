@@ -1,4 +1,6 @@
+import { dbClient } from "@/clients";
 import { step } from "@/utils";
+import { aggregate } from "./actions-summary";
 import { aggregateOrganization } from "./organization";
 import { aggregateRepositories } from "./repositories";
 // import { aggregatePRs } from "./aggregatePRs";
@@ -11,19 +13,30 @@ export const maxOld = new Date(
 export const aggregateByOrganization = async (
   orgName: string,
 ): Promise<void> => {
+  const { id: scanId } = await dbClient.scan.create({
+    data: {
+      status: "RUNNING",
+    },
+  });
+
   const organization = await step({
     stepName: "aggregate:organization",
     callback: aggregateOrganization(orgName),
   });
 
-  await step({
+  const repositories = await step({
     stepName: "aggregate:repositories",
     callback: aggregateRepositories(organization.login, organization.id),
   });
 
+  await step({
+    stepName: "aggregate:actions-cost-summary",
+    callback: aggregate(orgName, scanId, repositories),
+  });
+
   // comment out to avoid heavy quota consumption
   // await step({
-  //   stepName: "aggregate:actions-cost",
+  //   stepName: "aggregate:actions-cost-detail",
   //   callback: aggregate(orgName, repositories),
   // });
 
