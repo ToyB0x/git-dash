@@ -92,7 +92,7 @@ export const aggregate = async (orgName: string, scanId: number) => {
   for (const usage of billingActionsCost) {
     if (!usage) continue;
 
-    await dbClient.actionUsage.create({
+    await dbClient.actionUsageCurrentCycle.create({
       data: {
         scanId,
         runnerType: usage.runner,

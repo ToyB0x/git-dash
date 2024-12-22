@@ -1,5 +1,6 @@
 import { vValidator } from "@hono/valibot-validator";
 import { getR2Path } from "@repo/schema/path";
+import { stat as statActionUsageCurrentCycle } from "@repo/schema/statActionUsageCurrentCycle";
 import { stat as statCost } from "@repo/schema/statCost";
 import { stat as statMerged } from "@repo/schema/statMerged";
 import { stat as statRepositories } from "@repo/schema/statRepositories";
@@ -19,6 +20,7 @@ const factory = createFactory<{
 const validator = vValidator(
   "json",
   v.variant("type", [
+    statActionUsageCurrentCycle.schema,
     statMerged.schema,
     statReviews.schema,
     statWaitingReviews.schema,
