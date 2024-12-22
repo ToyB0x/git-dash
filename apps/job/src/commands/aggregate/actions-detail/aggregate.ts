@@ -14,15 +14,15 @@ export const aggregate = async (
 
   // eg: "2024-12-01";
   const now = new Date();
-  const createdStart = `${now.getFullYear()}-${
+  const createdEnd = `${now.getFullYear()}-${
     now.getMonth() + 1
   }-${now.getDate().toString().padStart(2, "0")}`;
 
   // eg: "2024-12-02";
-  const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-  const createdEnd = `${tomorrow.getFullYear()}-${
-    tomorrow.getMonth() + 1
-  }-${tomorrow.getDate().toString().padStart(2, "0")}`;
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const createdStart = `${yesterday.getFullYear()}-${
+    yesterday.getMonth() + 1
+  }-${yesterday.getDate().toString().padStart(2, "0")}`;
 
   const queryString = `${createdStart}..${createdEnd}`;
 

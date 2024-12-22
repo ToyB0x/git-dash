@@ -32,14 +32,25 @@ model Expense {
   scan Scan @relation(fields: [scanId], references: [id])
 }
 
+model ActionUsageCurrentCycle {
+  id         Int      @id @default(autoincrement())
+  scanId     Int
+  runnerType String
+  cost       Int // dollar
+  createdAt  DateTime @default(now())
+
+  scan Scan @relation(fields: [scanId], references: [id])
+}
+
 model Scan {
-  id                       Int                      @id @default(autoincrement())
-  status                   String // RUNNING, COMPLETED, FAILED
-  createdAt                DateTime                 @default(now())
-  updatedAt                DateTime                 @updatedAt
-  workflowUsageRepos       WorkflowUsageRepo[]
-  workflowUsageRepoDailies WorkflowUsageRepoDaily[]
-  expenses                 Expense[]
+  id                            Int                       @id @default(autoincrement())
+  status                        String // RUNNING, COMPLETED, FAILED
+  createdAt                     DateTime                  @default(now())
+  updatedAt                     DateTime                  @updatedAt
+  workflowUsageRepos            WorkflowUsageRepo[]
+  workflowUsageRepoDailies      WorkflowUsageRepoDaily[]
+  expenses                      Expense[]
+  actionUsageUsageCurrentCycles ActionUsageCurrentCycle[]
 }
 
 model User {

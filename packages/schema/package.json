@@ -5,6 +5,7 @@
     "./path": "./src/path.ts",
     "./report-meta": "./src/report-meta.ts",
     "./statMerged": "./src/statMerged.ts",
+    "./statActionUsageCurrentCycle": "./src/$workspaceId/actionUsageCurrentCycle.ts",
     "./statCost": "./src/$workspaceId/cost.ts",
     "./statRepositories": "./src/$workspaceId/repositories.ts",
     "./totalExpensesByCategory": "./src/$workspaceId/totalExpensesByCategory.ts",

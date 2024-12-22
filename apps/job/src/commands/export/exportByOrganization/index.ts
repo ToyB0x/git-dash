@@ -1,6 +1,10 @@
 import { dbClient, hc } from "@/clients";
 import { env } from "@/env";
 import {
+  type Schema as SchemaActionUsageCurrentCycle,
+  stat as statActionUsageCurrentCycle,
+} from "@repo/schema/statActionUsageCurrentCycle";
+import {
   type Schema as SchemaCost,
   stat as statCost,
 } from "@repo/schema/statCost";
@@ -95,13 +99,39 @@ export const exportByOrganization = async (
     type: statCost.type,
     version: statCost.version,
     stats: {
-      date: new Date().toDateString(),
+      date: new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString(),
       cost: Math.round(cost * 10) / 10, // 0.1 $ precision
     },
   } satisfies SchemaCost;
 
   await hc["public-api"].reports.$post(
     { json: costJson },
+    {
+      headers: {
+        "X-GDASH-WORKSPACE-ID": workspaceId,
+        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
+      },
+    },
+  );
+
+  // export cost
+  const actionUsageCurrentCycle =
+    await dbClient.actionUsageCurrentCycle.findMany({
+      where: { scanId },
+    });
+
+  const actionUsageCurrentCycleJson = {
+    reportId,
+    type: statActionUsageCurrentCycle.type,
+    version: statActionUsageCurrentCycle.version,
+    stats: actionUsageCurrentCycle.map((actionUsage) => ({
+      runnerType: actionUsage.runnerType,
+      cost: actionUsage.cost,
+    })),
+  } satisfies SchemaActionUsageCurrentCycle;
+
+  await hc["public-api"].reports.$post(
+    { json: actionUsageCurrentCycleJson },
     {
       headers: {
         "X-GDASH-WORKSPACE-ID": workspaceId,
