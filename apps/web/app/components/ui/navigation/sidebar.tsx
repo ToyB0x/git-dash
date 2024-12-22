@@ -1,4 +1,3 @@
-"use client";
 import { cx, focusRing } from "@/lib/utils";
 import { siteConfig } from "@/siteConfig";
 import {
@@ -11,6 +10,7 @@ import {
   RiGitRepositoryLine,
   RiHome2Line,
   RiKey2Line,
+  RiLineChartLine,
   RiLinkM,
 } from "@remixicon/react";
 import { Link, useLocation } from "react-router";
@@ -23,6 +23,11 @@ import { UserProfileDesktop, UserProfileMobile } from "./UserProfile";
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
+  {
+    name: "Overview (v2)",
+    href: siteConfig.baseLinks.overview2,
+    icon: RiLineChartLine,
+  },
   {
     name: "Cost",
     href: siteConfig.baseLinks.cost,
