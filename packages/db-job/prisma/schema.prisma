@@ -22,6 +22,16 @@ model Organization {
   ReviewRequests ReviewRequest[]
 }
 
+model Expense {
+  id        Int      @id @default(autoincrement())
+  scanId    Int
+  type      String
+  cost      Int // dollar
+  createdAt DateTime @default(now())
+
+  scan Scan @relation(fields: [scanId], references: [id])
+}
+
 model Scan {
   id                       Int                      @id @default(autoincrement())
   status                   String // RUNNING, COMPLETED, FAILED
@@ -29,6 +39,7 @@ model Scan {
   updatedAt                DateTime                 @updatedAt
   workflowUsageRepos       WorkflowUsageRepo[]
   workflowUsageRepoDailies WorkflowUsageRepoDaily[]
+  expenses                 Expense[]
 }
 
 model User {
