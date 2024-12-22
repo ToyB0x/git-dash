@@ -1,7 +1,6 @@
 import { execSync } from "node:child_process";
 import {
   generateNewUserId,
-  generateNewWorkspaceId,
   userTbl,
   usersToWorkspaces,
   workspaceTbl,
@@ -35,7 +34,7 @@ export const insertApiSeed = async () => {
   const createWorkspaceResults = await db
     .insert(workspaceTbl)
     .values({
-      id: generateNewWorkspaceId(),
+      id: "workspace1",
       displayName: "workspace1",
       role: "OWNER",
       apiToken: "LOCAL_API_TOKEN",
