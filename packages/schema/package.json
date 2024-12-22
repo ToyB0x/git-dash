@@ -5,6 +5,7 @@
     "./path": "./src/path.ts",
     "./report-meta": "./src/report-meta.ts",
     "./statMerged": "./src/statMerged.ts",
+    "./statCost": "./src/$workspaceId/cost.ts",
     "./statRepositories": "./src/$workspaceId/repositories.ts",
     "./statReviews": "./src/statReviews.ts",
     "./statWaitingReviews": "./src/statWaitingReviews.ts"

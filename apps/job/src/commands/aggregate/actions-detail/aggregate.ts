@@ -63,17 +63,22 @@ export const aggregate = async (
             `remain quota ${workflowUsage.headers["x-ratelimit-remaining"]}`,
           );
 
-          await dbClient.workflowUsageRepoDaily.create({
-            data: {
-              scanId,
-              repositoryId: repository.id,
-              workflowId: workflow.id,
-              workflowName: workflow.name || "",
-              workflowPath: workflow.path,
-              queryString,
-              totalMs: workflowUsage.data.run_duration_ms || 0,
-            },
-          });
+          for (const [runner, value] of Object.entries(
+            workflowUsage.data.billable,
+          )) {
+            await dbClient.workflowUsageRepoDaily.create({
+              data: {
+                scanId,
+                runner,
+                repositoryId: repository.id,
+                workflowId: workflow.id,
+                workflowName: workflow.name || "",
+                workflowPath: workflow.path,
+                queryString,
+                totalMs: value.total_ms,
+              },
+            });
+          }
         });
       logger.trace(`inner results: ${results.length}`);
       logger.trace(`inner errors: ${errors.length}`);

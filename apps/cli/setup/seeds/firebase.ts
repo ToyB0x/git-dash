@@ -9,14 +9,17 @@ const app = initializeApp({
 });
 
 export const createFirebaseUser = async () => {
-  const exsistUser = await getAuth(app).getUser(SampleUser.uid);
-  if (exsistUser) {
-    console.log("User already exists:", exsistUser.uid);
-    return;
+  try {
+    const exsistUser = await getAuth(app).getUser(SampleUser.uid);
+    if (exsistUser) {
+      console.log("User already exists:", exsistUser.uid);
+      return;
+    }
+  } catch (e) {
+    console.error(e);
+    const userRecord = await getAuth(app).createUser(SampleUser);
+
+    // See the UserRecord reference doc for the contents of userRecord.
+    console.log("Successfully created new user:", userRecord.uid);
   }
-
-  const userRecord = await getAuth(app).createUser(SampleUser);
-
-  // See the UserRecord reference doc for the contents of userRecord.
-  console.log("Successfully created new user:", userRecord.uid);
 };

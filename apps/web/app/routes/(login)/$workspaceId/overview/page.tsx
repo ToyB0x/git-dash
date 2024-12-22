@@ -1,10 +1,14 @@
-import { auth } from "@/clients";
+import { auth, fetchReport } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
+import {
+  type Schema as StatCostSchema,
+  stat as statCost,
+} from "@repo/schema/statCost";
 import { Link, redirect } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
 const dataStats = [
   {
@@ -34,17 +38,64 @@ const dataStats = [
 ];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
+  if (params.workspaceId === "demo") {
+    return {
+      costs: dataChart,
+    };
+  }
+
   await auth.authStateReady();
-  const isDemo = params.workspaceId === "demo";
-  if (!auth.currentUser && !isDemo) {
+
+  if (!auth.currentUser) {
     throw redirect("/sign-in");
   }
+
+  const token = await auth.currentUser.getIdToken();
+  const fetchCostResult = await fetchReport<StatCostSchema>(
+    token,
+    statCost.type,
+    params.workspaceId,
+    statCost.schema,
+  );
+
+  const daysInThisMonth = (): number => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  };
+
+  const thisMonthDates = [...Array(daysInThisMonth()).keys()].map((index) => {
+    return index + 1;
+  });
+
+  const data = thisMonthDates.map((day) => {
+    if (!fetchCostResult.success) {
+      return {
+        date: `${day}`,
+        cost: null,
+      };
+    }
+
+    return {
+      date: `${day}`,
+      cost:
+        new Date(fetchCostResult.data.stats.date).getDate() === day
+          ? fetchCostResult.data.stats.cost
+          : null,
+    };
+  });
+
+  // TODO: fetch data from server
+  return {
+    costs: fetchCostResult.success
+      ? // ? [fetchCostResult.data.stats, { date: "Jan 23", cost: null }]
+        data
+      : [],
+  };
 }
 
 function valueFormatter(number: number) {
   const formatter = new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 1,
     notation: "compact",
     compactDisplay: "short",
     style: "currency",
@@ -55,36 +106,36 @@ function valueFormatter(number: number) {
 }
 
 const dataChart = [
-  { date: "Jan 23", "This Year": 68560, "Last Year": 28560 },
-  { date: "Feb 23", "This Year": 70320, "Last Year": 30320 },
-  { date: "Mar 23", "This Year": 80233, "Last Year": 70233 },
-  { date: "Apr 23", "This Year": 55123, "Last Year": 45123 },
-  { date: "May 23", "This Year": 56000, "Last Year": 80600 },
-  { date: "Jun 23", "This Year": 81000, "Last Year": 85390 },
-  { date: "Jul 23", "This Year": 85390, "Last Year": 45340 },
-  { date: "Aug 23", "This Year": 80100, "Last Year": 70120 },
-  { date: "Sep 23", "This Year": 75090, "Last Year": 69450 },
-  { date: "Oct 23", "This Year": 71080, "Last Year": 63345 },
-  { date: "Nov 23", "This Year": 61210, "Last Year": 100330 },
-  { date: "Dec 23", "This Year": 60143, "Last Year": 45321 },
-  { date: "Jan 23", "This Year": 68560, "Last Year": 28560 },
-  { date: "Feb 23", "This Year": 70320, "Last Year": 30320 },
-  { date: "Mar 23", "This Year": 80233, "Last Year": 70233 },
-  { date: "Apr 23", "This Year": 55123, "Last Year": 45123 },
-  { date: "May 23", "This Year": 56000, "Last Year": 80600 },
-  { date: "Jun 23", "This Year": 92000, "Last Year": 85390 },
-  { date: "Jul 23", "This Year": 85390, "Last Year": 45340 },
-  { date: "Aug 23", "This Year": 80100, "Last Year": 70120 },
-  { date: "Sep 23", "This Year": 75090, "Last Year": 69450 },
-  { date: "Oct 23", "This Year": 71080, "Last Year": 63345 },
-  { date: "Nov 23", "This Year": 61210, "Last Year": 100330 },
-  { date: "Dec 23", "This Year": 60143, "Last Year": 45321 },
-  { date: "Mar 23", "This Year": 80233, "Last Year": 70233 },
-  { date: "Apr 23", "This Year": 55123, "Last Year": 45123 },
-  { date: "May 23", "This Year": 56000, "Last Year": 80600 },
-  { date: "Jun 23", "This Year": 98000, "Last Year": 85390 },
-  { date: "Jul 23", "This Year": 85390, "Last Year": 45340 },
-  { date: "Aug 23", "This Year": 80100, "Last Year": 70120 },
+  { date: "Jan 23", cost: 68 },
+  { date: "Feb 23", cost: 70 },
+  { date: "Mar 23", cost: 80 },
+  { date: "Apr 23", cost: 55 },
+  { date: "May 23", cost: 56 },
+  { date: "Jun 23", cost: 81 },
+  { date: "Jul 23", cost: 85 },
+  { date: "Aug 23", cost: 80 },
+  { date: "Sep 23", cost: 75 },
+  { date: "Oct 23", cost: 71 },
+  { date: "Nov 23", cost: 61 },
+  { date: "Dec 23", cost: 60 },
+  { date: "Jan 23", cost: 68 },
+  { date: "Feb 23", cost: 70 },
+  { date: "Mar 23", cost: 80 },
+  { date: "Apr 23", cost: 55 },
+  { date: "May 23", cost: 56 },
+  { date: "Jun 23", cost: 92 },
+  { date: "Jul 23", cost: 85 },
+  { date: "Aug 23", cost: 80 },
+  { date: "Sep 23", cost: 75 },
+  { date: "Oct 23", cost: 71 },
+  { date: "Nov 23", cost: 61 },
+  { date: "Dec 23", cost: 60 },
+  { date: "Mar 23", cost: 80 },
+  { date: "Apr 23", cost: 55 },
+  { date: "May 23", cost: 56 },
+  { date: "Jun 23", cost: 98 },
+  { date: "Jul 23", cost: 85 },
+  { date: "Aug 23", cost: 80.2 },
 ];
 
 const currencyFormatter = (number: number) =>
@@ -117,7 +168,9 @@ const dataDonut = [
   },
 ];
 
-export default function Page() {
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const { costs } = loaderData;
+
   return (
     <>
       <section aria-labelledby="stat-cards">
@@ -189,12 +242,12 @@ export default function Page() {
                 This month's cost
               </h3>
               <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
-                $2,604.00
+                $ {costs.reduce((acc, item) => acc + (item.cost || 0), 0)}
               </p>
               <BarChart
-                data={dataChart}
+                data={costs}
                 index="date"
-                categories={["This Year"]}
+                categories={["cost"]}
                 showLegend={false}
                 colors={["blue"]}
                 valueFormatter={valueFormatter}
