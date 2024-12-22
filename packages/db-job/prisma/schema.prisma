@@ -70,7 +70,7 @@ model WorkflowUsageRepo {
   id           Int      @id @default(autoincrement())
   scanId       Int
   repositoryId String
-  workflowId   Int
+  workflowId   BigInt
   runner       String
   totalMs      Int
   createdAt    DateTime @default(now())
@@ -84,7 +84,7 @@ model WorkflowUsageRepoDaily {
   id           Int      @id @default(autoincrement())
   scanId       Int
   repositoryId String
-  workflowId   Int
+  workflowId   BigInt
   workflowName String
   workflowPath String
   queryString  String
