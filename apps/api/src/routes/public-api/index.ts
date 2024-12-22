@@ -28,7 +28,7 @@ export const publicApiRoute = new Hono<{
       .where(eq(workspaceTbl.id, workspaceId));
 
     const workspace = workspaces[0];
-    if (!workspace) throw Error("Gorkspace not found");
+    if (!workspace) throw Error("Workspace not found");
 
     if (workspace.apiToken !== apiKey) throw Error("Invalid apiKey");
 
