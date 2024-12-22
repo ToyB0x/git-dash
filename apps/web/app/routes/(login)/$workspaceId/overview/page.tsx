@@ -8,9 +8,9 @@ import {
   stat as statActionUsageCurrentCycle,
 } from "@repo/schema/statActionUsageCurrentCycle";
 import {
-  type Schema as StatCostSchema,
-  stat as statCost,
-} from "@repo/schema/statCost";
+  type Schema as StatCostsSchema,
+  stat as statCosts,
+} from "@repo/schema/statCosts";
 import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
@@ -56,11 +56,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   }
 
   const token = await auth.currentUser.getIdToken();
-  const fetchCostResult = await fetchReport<StatCostSchema>(
+  const fetchCostsResult = await fetchReport<StatCostsSchema>(
     token,
-    statCost.type,
+    statCosts.type,
     params.workspaceId,
-    statCost.schema,
+    statCosts.schema,
   );
 
   const daysInThisMonth = (): number => {
@@ -73,7 +73,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   });
 
   const data = thisMonthDates.map((day) => {
-    if (!fetchCostResult.success) {
+    if (!fetchCostsResult.success) {
       return {
         date: `${day}`,
         cost: null,
@@ -83,9 +83,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return {
       date: `${day}`,
       cost:
-        new Date(fetchCostResult.data.stats.date).getDate() === day
-          ? fetchCostResult.data.stats.cost
-          : null,
+        fetchCostsResult.data.stats.find(
+          (stat) => new Date(stat.date).getDate() === day,
+        )?.cost || 0,
     };
   });
 
@@ -98,7 +98,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     );
 
   return {
-    costs: fetchCostResult.success
+    costs: fetchCostsResult.success
       ? // ? [fetchCostResult.data.stats, { date: "Jan 23", cost: null }]
         data
       : [],
