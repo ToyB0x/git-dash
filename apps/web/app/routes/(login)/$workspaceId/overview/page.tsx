@@ -41,6 +41,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
       costs: dataChart,
+      actionsUsageCurrentCycle: dataDonut,
     };
   }
 
@@ -90,6 +91,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       ? // ? [fetchCostResult.data.stats, { date: "Jan 23", cost: null }]
         data
       : [],
+    actionsUsageCurrentCycle: dataDonut,
   };
 }
 
@@ -143,33 +145,25 @@ const currencyFormatter = (number: number) =>
 
 const dataDonut = [
   {
-    name: "Ubuntu 16 core",
-    amount: 6730,
-    share: "32.1%",
-    color: "bg-blue-500 dark:bg-blue-500",
+    runnerType: "Ubuntu 16 core",
+    cost: 6730,
   },
   {
-    name: "Ubuntu 2 core",
-    amount: 4120,
-    share: "19.6%",
-    color: "bg-indigo-500 dark:bg-indigo-500",
+    runnerType: "Ubuntu 2 core",
+    cost: 4120,
   },
   {
-    name: "Windows 8 core",
-    amount: 3920,
-    share: "18.6%",
-    color: "bg-violet-500 dark:bg-violet-500",
+    runnerType: "Windows 8 core",
+    cost: 3920,
   },
   {
-    name: "Others",
-    amount: 3210,
-    share: "15.3%",
-    color: "bg-gray-500",
+    runnerType: "Windows 32 core",
+    cost: 2120,
   },
 ];
 
 export default function Page({ loaderData }: Route.ComponentProps) {
-  const { costs } = loaderData;
+  const { costs, actionsUsageCurrentCycle } = loaderData;
 
   return (
     <>
@@ -267,9 +261,9 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             </h3>
             <DonutChart
               className="mx-auto mt-6"
-              data={dataDonut}
-              category="name"
-              value="amount"
+              data={actionsUsageCurrentCycle}
+              category="runnerType"
+              value="cost"
               showLabel={true}
               valueFormatter={currencyFormatter}
               showTooltip={false}
@@ -280,30 +274,94 @@ export default function Page({ loaderData }: Route.ComponentProps) {
               <span>Amount / Share</span>
             </p>
             <ul className="mt-2 divide-y divide-gray-200 text-sm text-gray-500 dark:divide-gray-800 dark:text-gray-500">
-              {dataDonut.slice(0, 4).map((item) => (
-                <li
-                  key={item.name}
-                  className="relative flex items-center justify-between py-2"
-                >
-                  <div className="flex items-center space-x-2.5 truncate">
-                    <span
-                      className={cx(item.color, "size-2.5 shrink-0 rounded-sm")}
-                      aria-hidden={true}
-                    />
-                    <span className="truncate dark:text-gray-300">
-                      {item.name}
-                    </span>
-                  </div>
-                  <p className="flex items-center space-x-2">
-                    <span className="font-medium tabular-nums text-gray-900 dark:text-gray-50">
-                      {currencyFormatter(item.amount)}
-                    </span>
-                    <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium tabular-nums text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                      {item.share}
-                    </span>
-                  </p>
-                </li>
-              ))}
+              {actionsUsageCurrentCycle
+                .sort((a, b) => b.cost - a.cost)
+                .reduce(
+                  (acc, item, i) => {
+                    let color = "";
+
+                    switch (i) {
+                      case 0:
+                        color = "bg-blue-500 dark:bg-blue-500";
+                        break;
+                      case 1:
+                        color = "bg-indigo-500 dark:bg-indigo-500";
+                        break;
+                      case 2:
+                        color = "bg-violet-500 dark:bg-violet-500";
+                        break;
+                      default:
+                        color = "bg-gray-500";
+                    }
+
+                    const totalUsage = actionsUsageCurrentCycle.reduce(
+                      (acc, item) => acc + item.cost,
+                      0,
+                    );
+
+                    if (i < 3) {
+                      const share =
+                        Math.round((item.cost / totalUsage) * 100 * 10) / 10;
+                      return [
+                        // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+                        ...acc,
+                        {
+                          ...item,
+                          share,
+                          color,
+                        },
+                      ];
+                    }
+
+                    const others = {
+                      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+                      cost: i === 3 ? item.cost : item.cost + acc[3]?.cost!,
+                      share: Math.round(
+                        100 -
+                          acc
+                            .slice(0, 3)
+                            .reduce((acc, item) => acc + item.share, 0),
+                      ),
+                      color,
+                      runnerType: "Others",
+                    };
+                    acc[3] = others;
+                    return acc;
+                  },
+                  [] as {
+                    runnerType: string;
+                    cost: number;
+                    share: number;
+                    color: string;
+                  }[],
+                )
+                .map((item) => (
+                  <li
+                    key={item.runnerType}
+                    className="relative flex items-center justify-between py-2"
+                  >
+                    <div className="flex items-center space-x-2.5 truncate">
+                      <span
+                        className={cx(
+                          item.color,
+                          "size-2.5 shrink-0 rounded-sm",
+                        )}
+                        aria-hidden={true}
+                      />
+                      <span className="truncate dark:text-gray-300">
+                        {item.runnerType}
+                      </span>
+                    </div>
+                    <p className="flex items-center space-x-2">
+                      <span className="font-medium tabular-nums text-gray-900 dark:text-gray-50">
+                        {currencyFormatter(item.cost)}
+                      </span>
+                      <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium tabular-nums text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                        {item.share}%
+                      </span>
+                    </p>
+                  </li>
+                ))}
             </ul>
           </Card>
         </div>
