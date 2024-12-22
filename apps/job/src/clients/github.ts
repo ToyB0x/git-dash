@@ -37,6 +37,17 @@ export const getGhClient = async () => {
 };
 
 // NOTE: if you need extend octokit app with installationId
-// export const octokit = await octokitApp.getInstallationOctokit(
-//   getInstallationResult.id,
-// );
+export const getOctokit = async () => {
+  const { data: slug } = await octokitApp.octokit.rest.apps.getAuthenticated();
+
+  logger.debug({ slug });
+
+  const { data: getInstallationResult } =
+    await octokitApp.octokit.rest.apps.getOrgInstallation({
+      org: env.GDASH_GITHUB_ORGANIZATION_NAME,
+    });
+
+  logger.debug({ installation_id: getInstallationResult.id });
+
+  return await octokitApp.getInstallationOctokit(getInstallationResult.id);
+};

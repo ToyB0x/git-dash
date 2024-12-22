@@ -21,6 +21,12 @@ export const aggregateByOrganization = async (
     callback: aggregateRepositories(organization.login, organization.id),
   });
 
+  // comment out to avoid heavy quota consumption
+  // await step({
+  //   stepName: "aggregate:actions-cost",
+  //   callback: aggregate(orgName, repositories),
+  // });
+
   // await aggregateUsers(orgName, organizationId);
   // if (repositoryNames.length !== new Set(repositoryNames).size)
   //   throw new Error("duplicate repository name");
