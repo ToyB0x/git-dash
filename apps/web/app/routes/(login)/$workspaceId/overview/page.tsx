@@ -274,11 +274,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
           <Card className="sm:mx-auto sm:max-w-lg">
             <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50">
-              Total expenses by instance
-              <br />
-              <span className="text-xs text-gray-500">
-                (current billing cycle)
-              </span>
+              Current billing cycle expenses
             </h3>
             <DonutChart
               className="mx-auto mt-6"
