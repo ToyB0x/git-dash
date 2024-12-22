@@ -24,7 +24,7 @@ import { UserProfileDesktop, UserProfileMobile } from "./UserProfile";
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   {
-    name: "Overview (WIP)",
+    name: "Overview (v2)",
     href: siteConfig.baseLinks.overview2,
     icon: RiLineChartLine,
   },

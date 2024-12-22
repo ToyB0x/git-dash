@@ -19,6 +19,7 @@ import {
   RiCoinLine,
   RiGitRepositoryLine,
   RiHome2Line,
+  RiLineChartLine,
   RiLinkM,
   RiMenuLine,
 } from "@remixicon/react";
@@ -26,6 +27,11 @@ import { Link, useLocation } from "react-router";
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
+  {
+    name: "Overview (v2)",
+    href: siteConfig.baseLinks.overview2,
+    icon: RiLineChartLine,
+  },
   {
     name: "Cost",
     href: siteConfig.baseLinks.cost,
