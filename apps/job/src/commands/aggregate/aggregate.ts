@@ -1,6 +1,7 @@
 import { dbClient } from "@/clients";
 import { step } from "@/utils";
 import { aggregate } from "./actions-detail";
+import { aggregate as accregateActionsUsageCurrentCycle } from "./actions-usage-current-cycle";
 // import { aggregate as aggregateExpense } from "./expense";
 // import { aggregate } from "./actions-summary";
 import { aggregateOrganization } from "./organization";
@@ -46,6 +47,12 @@ export const aggregateByOrganization = async (
   await step({
     stepName: "aggregate:actions-cost-detail",
     callback: aggregate(orgName, scanId, repositories),
+  });
+
+  // comment out to avoid heavy quota consumption
+  await step({
+    stepName: "aggregate:actions-usage-current-cycle",
+    callback: accregateActionsUsageCurrentCycle(orgName, scanId),
   });
 
   // await aggregateUsers(orgName, organizationId);
