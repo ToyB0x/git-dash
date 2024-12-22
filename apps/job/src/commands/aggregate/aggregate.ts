@@ -1,6 +1,7 @@
 import { dbClient } from "@/clients";
 import { step } from "@/utils";
 import { aggregate } from "./actions-detail";
+// import { aggregate as aggregateExpense } from "./expense";
 // import { aggregate } from "./actions-summary";
 import { aggregateOrganization } from "./organization";
 import { aggregateRepositories } from "./repositories";
@@ -24,6 +25,12 @@ export const aggregateByOrganization = async (
     stepName: "aggregate:organization",
     callback: aggregateOrganization(orgName),
   });
+
+  // currently unused
+  // await step({
+  //   stepName: "aggregate:expense",
+  //   callback: aggregateExpense(orgName, scanId),
+  // });
 
   const repositories = await step({
     stepName: "aggregate:repositories",
