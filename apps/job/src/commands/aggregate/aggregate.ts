@@ -1,6 +1,7 @@
 import { dbClient } from "@/clients";
 import { step } from "@/utils";
-import { aggregate } from "./actions-summary";
+import { aggregate } from "./actions-detail";
+// import { aggregate } from "./actions-summary";
 import { aggregateOrganization } from "./organization";
 import { aggregateRepositories } from "./repositories";
 // import { aggregatePRs } from "./aggregatePRs";
@@ -29,16 +30,16 @@ export const aggregateByOrganization = async (
     callback: aggregateRepositories(organization.login, organization.id),
   });
 
-  await step({
-    stepName: "aggregate:actions-cost-summary",
-    callback: aggregate(orgName, scanId, repositories),
-  });
+  // await step({
+  //   stepName: "aggregate:actions-cost-summary",
+  //   callback: aggregate(orgName, scanId, repositories),
+  // });
 
   // comment out to avoid heavy quota consumption
-  // await step({
-  //   stepName: "aggregate:actions-cost-detail",
-  //   callback: aggregate(orgName, repositories),
-  // });
+  await step({
+    stepName: "aggregate:actions-cost-detail",
+    callback: aggregate(orgName, scanId, repositories),
+  });
 
   // await aggregateUsers(orgName, organizationId);
   // if (repositoryNames.length !== new Set(repositoryNames).size)
