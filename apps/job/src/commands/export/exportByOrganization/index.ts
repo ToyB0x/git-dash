@@ -99,7 +99,7 @@ export const exportByOrganization = async (
     type: statCost.type,
     version: statCost.version,
     stats: {
-      date: new Date().toDateString(),
+      date: new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString(),
       cost: Math.round(cost * 10) / 10, // 0.1 $ precision
     },
   } satisfies SchemaCost;

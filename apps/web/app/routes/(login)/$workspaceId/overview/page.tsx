@@ -247,9 +247,17 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             <Card>
               <h3 className="text-sm text-gray-500 dark:text-gray-500">
                 This month's cost
+                {/*Actions usage average*/}
               </h3>
               <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
                 $ {costs.reduce((acc, item) => acc + (item.cost || 0), 0)}
+                {/*${" "}*/}
+                {/*{Math.round(*/}
+                {/*    (costs.reduce((acc, item) => acc + (item.cost || 0), 0) /*/}
+                {/*        costs.length) **/}
+                {/*    10,*/}
+                {/*) / 10}{" "}*/}
+                {/*/ day*/}
               </p>
               <BarChart
                 data={costs}
