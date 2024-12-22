@@ -5,7 +5,7 @@
   "scripts": {
     "build": "pnpm generate && tsup",
     "generate": "graphql-codegen --config codegen.ts",
-    "jobs": "node --enable-source-maps --max-old-space-size=8192 dist/index.js",
+    "jobs": "node --enable-source-maps dist/index.js",
     "jobs:dev:aggregate:organization": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate organization",
     "jobs:dev:aggregate:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate group",
     "jobs:dev:export:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs export group",
