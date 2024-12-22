@@ -30,26 +30,24 @@ export const aggregateRepositories = async (
   }
 
   // upsert repositories (because repository name can be changed)
-  await Promise.all(
-    repositories.map(async (repository) => {
-      await dbClient.repository.upsert({
-        where: {
-          id: repository.id,
-        },
-        create: {
-          id: repository.id,
-          name: repository.name,
-          updatedAt: repository.updatedAt,
-          organizationId,
-        },
-        update: {
-          name: repository.name,
-          updatedAt: repository.updatedAt,
-          organizationId,
-        },
-      });
-    }),
-  );
+  for (const repository of repositories) {
+    await dbClient.repository.upsert({
+      where: {
+        id: repository.id,
+      },
+      create: {
+        id: repository.id,
+        name: repository.name,
+        updatedAt: repository.updatedAt,
+        organizationId,
+      },
+      update: {
+        name: repository.name,
+        updatedAt: repository.updatedAt,
+        organizationId,
+      },
+    });
+  }
 
   logger.debug({
     msg: "Aggregate Repositories complete 🎉",
