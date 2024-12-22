@@ -143,19 +143,19 @@ const currencyFormatter = (number: number) =>
 
 const dataDonut = [
   {
-    name: "Github Actions",
+    name: "Ubuntu 16 core",
     amount: 6730,
     share: "32.1%",
     color: "bg-blue-500 dark:bg-blue-500",
   },
   {
-    name: "Github Team Seats",
+    name: "Ubuntu 2 core",
     amount: 4120,
     share: "19.6%",
     color: "bg-indigo-500 dark:bg-indigo-500",
   },
   {
-    name: "Github Copilots",
+    name: "Windows 8 core",
     amount: 3920,
     share: "18.6%",
     color: "bg-violet-500 dark:bg-violet-500",
@@ -259,7 +259,11 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
           <Card className="sm:mx-auto sm:max-w-lg">
             <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50">
-              Total expenses by category
+              Total expenses by instance
+              <br />
+              <span className="text-xs text-gray-500">
+                (current billing cycle)
+              </span>
             </h3>
             <DonutChart
               className="mx-auto mt-6"
