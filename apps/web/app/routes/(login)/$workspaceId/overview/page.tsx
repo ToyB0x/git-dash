@@ -4,6 +4,10 @@ import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
 import {
+  type Schema as StatActionUsageCurrentCycle,
+  stat as statActionUsageCurrentCycle,
+} from "@repo/schema/statActionUsageCurrentCycle";
+import {
   type Schema as StatCostSchema,
   stat as statCost,
 } from "@repo/schema/statCost";
@@ -85,13 +89,22 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     };
   });
 
-  // TODO: fetch data from server
+  const fetchActionUsageCurrentCycleResult =
+    await fetchReport<StatActionUsageCurrentCycle>(
+      token,
+      statActionUsageCurrentCycle.type,
+      params.workspaceId,
+      statActionUsageCurrentCycle.schema,
+    );
+
   return {
     costs: fetchCostResult.success
       ? // ? [fetchCostResult.data.stats, { date: "Jan 23", cost: null }]
         data
       : [],
-    actionsUsageCurrentCycle: dataDonut,
+    actionsUsageCurrentCycle: fetchActionUsageCurrentCycleResult.success
+      ? fetchActionUsageCurrentCycleResult.data.stats
+      : [],
   };
 }
 
@@ -349,7 +362,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                         aria-hidden={true}
                       />
                       <span className="truncate dark:text-gray-300">
-                        {item.runnerType}
+                        {item.runnerType.toUpperCase().replaceAll("_", " ")}
                       </span>
                     </div>
                     <p className="flex items-center space-x-2">
