@@ -22,6 +22,14 @@ model Organization {
   ReviewRequests ReviewRequest[]
 }
 
+model Scan {
+  id                 Int                 @id @default(autoincrement())
+  status             String // RUNNING, COMPLETED, FAILED
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  workflowUsageRepos WorkflowUsageRepo[]
+}
+
 model User {
   id             String   @id
   // type        String // membersWithRole returns a list of real users (not bots)
@@ -42,16 +50,31 @@ model User {
 }
 
 model Repository {
-  id                            String    @id // derived from the GitHub API
+  id                            String   @id // derived from the GitHub API
   name                          String
   updatedAt                     DateTime
   hasVulnerabilityAlertsEnabled Boolean?
   vulnerabilityAlertsTotalCount Int?
   organizationId                String
 
-  prs Pr[]
+  prs            Pr[]
+  workflowUsages WorkflowUsageRepo[]
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+// [{ubuntu4: 1000}, {ubuntu16: 2000}, {windows: 4000}] 等を正規化して持つ
+model WorkflowUsageRepo {
+  id           Int      @id @default(autoincrement())
+  scanId       Int
+  repositoryId String
+  workflowId   Int
+  runner       String
+  totalMs      Int
+  createdAt    DateTime @default(now())
+
+  scan       Scan       @relation(fields: [scanId], references: [id])
+  repository Repository @relation(fields: [repositoryId], references: [id])
 }
 
 model Release {

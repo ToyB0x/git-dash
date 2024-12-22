@@ -8,9 +8,11 @@
     "dev": "tsup --watch",
     "build": "tsup",
     "generate": "prisma generate",
+    "format": "prisma format",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "studio": "prisma studio"
   },
   "dependencies": {
     "@prisma/client": "6.1.0"
