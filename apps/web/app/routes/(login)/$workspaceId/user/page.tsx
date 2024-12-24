@@ -17,6 +17,8 @@ const dataTable = [
   {
     id: 1,
     login: "C0d3r",
+    name: "John Doe",
+    blog: "https://example.com",
     avatarUrl: "https://i.pravatar.cc/300",
     prs: 123,
     reviews: 125,
@@ -25,6 +27,8 @@ const dataTable = [
   {
     id: 2,
     login: "QuickSilver91",
+    name: null,
+    blog: "https://example2.com",
     avatarUrl: "https://i.pravatar.cc/301",
     prs: 96,
     reviews: 93,
@@ -33,6 +37,8 @@ const dataTable = [
   {
     id: 3,
     login: "Rock3tMan",
+    name: "Peter Parker",
+    blog: "https://example3.com",
     avatarUrl: "https://i.pravatar.cc/302",
     prs: 66,
     reviews: 53,
@@ -41,6 +47,8 @@ const dataTable = [
   {
     id: 4,
     login: "BananaEat3r",
+    name: "Tony Stark",
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/303",
     prs: 46,
     reviews: 33,
@@ -49,6 +57,8 @@ const dataTable = [
   {
     id: 5,
     login: "Xg3tt3r",
+    name: "Bruce Wayne",
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/304",
     prs: 26,
     reviews: 23,
@@ -57,6 +67,8 @@ const dataTable = [
   {
     id: 6,
     login: "Xbox231",
+    name: "Clark Kent",
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/305",
     prs: 16,
     reviews: 13,
@@ -65,6 +77,8 @@ const dataTable = [
   {
     id: 7,
     login: "WhoAmI",
+    name: null,
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/306",
     prs: 6,
     reviews: 3,
@@ -73,6 +87,8 @@ const dataTable = [
   {
     id: 8,
     login: "Wat3r",
+    name: "Barry Allen",
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/307",
     prs: 3,
     reviews: 1,
@@ -81,6 +97,8 @@ const dataTable = [
   {
     id: 9,
     login: "Plat1num",
+    name: "Hal Jordan",
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/308",
     prs: 1,
     reviews: 0,
@@ -89,6 +107,8 @@ const dataTable = [
   {
     id: 10,
     login: "Gold3n",
+    name: null,
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/309",
     prs: 1,
     reviews: 0,
@@ -97,6 +117,8 @@ const dataTable = [
   {
     id: 11,
     login: "B1u3",
+    name: "Arthur Curry",
+    blog: null,
     avatarUrl: "https://i.pravatar.cc/310",
     prs: 1,
     reviews: 0,
@@ -127,6 +149,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .select({
       id: userTbl.id,
       login: userTbl.login,
+      name: userTbl.name,
+      blog: userTbl.blog,
       avatarUrl: userTbl.avatarUrl,
       lastUpdate: userTbl.updatedAt,
       // prs: sql<number>`count(${prTbl.authorId})`,
@@ -178,19 +202,17 @@ export default function Page({ loaderData }: Route.ComponentProps) {
               <TableHeaderCell className="text-right">
                 Reviews / month
               </TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                Last Update
-              </TableHeaderCell>
+              <TableHeaderCell className="text-right w-1">HP</TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.map((user) => (
               <TableRow key={user.id}>
-                <TableCell className="p-0">
+                <TableCell className="p-0 h-[3.8rem]">
                   <img
                     src={user.avatarUrl}
                     alt="user"
-                    className="w-8 h-8 rounded-full"
+                    className="w-10 h-10 rounded-full"
                   />
                 </TableCell>
                 <TableCell className="font-medium text-gray-900 dark:text-gray-50">
@@ -198,13 +220,25 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                     to={`${user.login}`}
                     className="underline underline-offset-4"
                   >
-                    {user.login}
+                    {user.login} <br />
                   </Link>
+                  <span className="text-xs text-gray-500">{user.name}</span>
                 </TableCell>
                 <TableCell className="text-right">{user.prs}</TableCell>
                 <TableCell className="text-right">{user.reviews}</TableCell>
                 <TableCell className="text-right">
-                  {new Date(user.lastUpdate).toLocaleString()}
+                  {user.blog && (
+                    <a href={user.blog} target="_blank" rel="noreferrer">
+                      {user.blog.endsWith("/")
+                        ? user.blog
+                            .replace("http://", "")
+                            .replace("https://", "")
+                            .slice(0, -1)
+                        : user.blog
+                            .replace("http://", "")
+                            .replace("https://", "")}
+                    </a>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
