@@ -114,6 +114,9 @@ importers:
       '@repo/db-job':
         specifier: workspace:*
         version: link:../../packages/db-job
+      '@repo/db-shared':
+        specifier: workspace:*
+        version: link:../../packages/db-shared
       '@repo/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -241,6 +244,9 @@ importers:
       '@repo/api':
         specifier: workspace:*
         version: link:../api
+      '@repo/db-shared':
+        specifier: workspace:*
+        version: link:../../packages/db-shared
       '@repo/schema':
         specifier: workspace:*
         version: link:../../packages/schema
