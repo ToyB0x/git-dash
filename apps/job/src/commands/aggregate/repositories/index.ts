@@ -1,1 +1,1 @@
-export * from "./aggregateRepositories";
+export * from "./aggregate";
