@@ -1,5 +1,6 @@
-import { dbClient, getOctokit } from "@/clients";
+import { dbClient, getOctokit, sharedDbClient } from "@/clients";
 import { logger } from "@/utils";
+import { usageCurrentCycleActionOrgTbl } from "@repo/db-shared/schema";
 
 export const aggregate = async (orgName: string, scanId: number) => {
   const octokit = await getOctokit();
@@ -90,7 +91,7 @@ export const aggregate = async (orgName: string, scanId: number) => {
   });
 
   for (const usage of billingActionsCost) {
-    if (!usage) continue;
+    if (!usage || !usage.cost) continue;
 
     await dbClient.actionUsageCurrentCycle.create({
       data: {
@@ -98,6 +99,13 @@ export const aggregate = async (orgName: string, scanId: number) => {
         runnerType: usage.runner,
         cost: usage.cost,
       },
+    });
+
+    await sharedDbClient.insert(usageCurrentCycleActionOrgTbl).values({
+      cost: 1,
+      runnerType: usage.runner,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
   }
 
