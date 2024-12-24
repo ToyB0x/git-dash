@@ -3,7 +3,10 @@ import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
-import { usageCurrentCycleActionOrgTbl, workflowRunTbl } from "@repo/db-shared";
+import {
+  workflowRunTbl,
+  workflowUsageCurrentCycleByRunnerTbl,
+} from "@repo/db-shared";
 import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
@@ -55,9 +58,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: token,
   });
 
-  const actionsUsageCurrentCycle = await wasmDb
+  const workflowUsageCurrentCycleByRunner = await wasmDb
     .select()
-    .from(usageCurrentCycleActionOrgTbl);
+    .from(workflowUsageCurrentCycleByRunnerTbl);
 
   const workflowRuns = await wasmDb.select().from(workflowRunTbl);
   const daysInThisMonth = (): number => {
@@ -80,7 +83,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   return {
     costs: data,
-    actionsUsageCurrentCycle,
+    actionsUsageCurrentCycle: workflowUsageCurrentCycleByRunner,
   };
 }
 
@@ -135,19 +138,19 @@ const currencyFormatter = (number: number) =>
 const dataDonut = [
   {
     runnerType: "Ubuntu 16 core",
-    cost: 6730,
+    dollar: 6730,
   },
   {
     runnerType: "Ubuntu 2 core",
-    cost: 4120,
+    dollar: 4120,
   },
   {
     runnerType: "Windows 8 core",
-    cost: 3920,
+    dollar: 3920,
   },
   {
     runnerType: "Windows 32 core",
-    cost: 2120,
+    dollar: 2120,
   },
 ];
 
@@ -256,7 +259,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
               className="mx-auto mt-6"
               data={actionsUsageCurrentCycle}
               category="runnerType"
-              value="cost"
+              value="dollar"
               showLabel={true}
               valueFormatter={currencyFormatter}
               showTooltip={false}
@@ -268,7 +271,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             </p>
             <ul className="mt-2 divide-y divide-gray-200 text-sm text-gray-500 dark:divide-gray-800 dark:text-gray-500">
               {actionsUsageCurrentCycle
-                .sort((a, b) => b.cost - a.cost)
+                .sort((a, b) => b.dollar - a.dollar)
                 .reduce(
                   (acc, item, i) => {
                     let color = "";
@@ -288,13 +291,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                     }
 
                     const totalUsage = actionsUsageCurrentCycle.reduce(
-                      (acc, item) => acc + item.cost,
+                      (acc, item) => acc + item.dollar,
                       0,
                     );
 
                     if (i < 3) {
                       const share =
-                        Math.round((item.cost / totalUsage) * 100 * 10) / 10;
+                        Math.round((item.dollar / totalUsage) * 100 * 10) / 10;
                       return [
                         // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
                         ...acc,
@@ -307,8 +310,9 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                     }
 
                     const others = {
-                      // biome-ignore lint/style/noNonNullAssertion: <explanation>
-                      cost: i === 3 ? item.cost : item.cost + acc[3]?.cost!,
+                      dollar:
+                        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+                        i === 3 ? item.dollar : item.dollar + acc[3]?.dollar!,
                       share: Math.round(
                         100 -
                           acc
@@ -323,7 +327,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                   },
                   [] as {
                     runnerType: string;
-                    cost: number;
+                    dollar: number;
                     share: number;
                     color: string;
                   }[],
@@ -347,7 +351,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                     </div>
                     <p className="flex items-center space-x-2">
                       <span className="font-medium tabular-nums text-gray-900 dark:text-gray-50">
-                        {currencyFormatter(item.cost)}
+                        {currencyFormatter(item.dollar)}
                       </span>
                       <span className="rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium tabular-nums text-gray-700 dark:bg-gray-800 dark:text-gray-300">
                         {item.share}%
