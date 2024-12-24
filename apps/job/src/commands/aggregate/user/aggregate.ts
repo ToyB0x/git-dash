@@ -1,6 +1,6 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { logger } from "@/utils";
-import { prTbl, userTbl } from "@repo/db-shared";
+import { prTbl, reviewTbl, userTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async () => {
@@ -9,17 +9,22 @@ export const aggregate = async () => {
     .selectDistinct({ authorId: prTbl.authorId })
     .from(prTbl);
 
+  const reviews = await sharedDbClient
+    .selectDistinct({ authorId: reviewTbl.reviewerId })
+    .from(reviewTbl);
+
   // TODO: reviewerのIdも取得する
-  const userIds = prs.map((pr) => pr.authorId);
+  const userIds = new Set([
+    ...prs.map((pr) => pr.authorId),
+    ...reviews.map((review) => review.authorId),
+  ]);
 
   const { errors } = await PromisePool.for(userIds)
     // 8 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
     .process(async (userId, i) => {
-      logger.info(
-        `Start aggregate:user ${userId} (${i + 1}/${userIds.length})`,
-      );
+      logger.info(`Start aggregate:user ${userId} (${i + 1}/${userIds.size})`);
 
       // ref: https://docs.github.com/ja/rest/users/users?apiVersion=2022-11-28#get-a-user-using-their-id
       const user = await octokit.request("GET /user/{account_id}", {

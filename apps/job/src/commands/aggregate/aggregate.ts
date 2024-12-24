@@ -1,6 +1,7 @@
 import { step } from "@/utils";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRepositories } from "./repositories";
+import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
 import { aggregate as aggregateWorkflow } from "./workflow";
 import { aggregate as aggregateWorkflowRun } from "./workflow-run";
@@ -53,14 +54,11 @@ export const aggregateByOrganization = async (): Promise<void> => {
     callback: aggregatePr(repositories),
   });
 
-  // TODO: ReviewのUserも最後に集計する
-  // await step({
-  //   stepName: "aggregate:review",
-  //   callback: aggregateReview(repositories),
-  // });
+  await step({
+    stepName: "aggregate:review",
+    callback: aggregateReview(repositories),
+  });
 
-  // TODO: PRとReviewに含まれるUserを集計する
-  // ref: https://docs.github.com/ja/rest/users/users?apiVersion=2022-11-28#get-a-user-using-their-id
   await step({
     stepName: "aggregate:user-from-pr-and-review",
     callback: aggregateUserFromPrAndReview(),
