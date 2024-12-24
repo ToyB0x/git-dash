@@ -6,7 +6,7 @@ export const newExportCommand = () => {
   exportCmd.description("exporter related commands.");
 
   exportCmd
-    .command("group")
+    .command("workspace")
     .description("export specific organization summary")
     .action(async () => {
       await exportByWorkspace();

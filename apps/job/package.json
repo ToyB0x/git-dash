@@ -7,10 +7,10 @@
     "generate": "graphql-codegen --config codegen.ts",
     "jobs": "node --enable-source-maps dist/index.js",
     "jobs:dev:aggregate:organization": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate organization",
-    "jobs:dev:aggregate:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate group",
-    "jobs:dev:export:group": "pnpm build && dotenv -e ../../.env -- pnpm jobs export group",
+    "jobs:dev:aggregate:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate workspace",
+    "jobs:dev:export:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs export workspace",
     "jobs:dev:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs check config",
-    "jobs:all": "pnpm jobs:dev:aggregate:organization && dotenv -e ../../.env -- pnpm jobs export group",
+    "jobs:all": "pnpm jobs:dev:aggregate:organization && dotenv -e ../../.env -- pnpm jobs export workspace",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
