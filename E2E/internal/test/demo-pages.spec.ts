@@ -24,7 +24,7 @@ test("can sign up and redirect", async ({ page }) => {
 
   // four keys page
   await page.getByRole("link", { name: "Four Keys" }).click();
-  await page.getByRole("link", { name: "org/api" }).click();
+  await page.getByRole("link", { name: "api" }).click();
 
   // vulns page
   await page.getByRole("link", { name: "Vulns" }).click();
@@ -36,5 +36,5 @@ test("can sign up and redirect", async ({ page }) => {
 
   // repositories page
   await page.getByRole("link", { name: "Repositories" }).click();
-  await page.getByRole("link", { name: "org/api" }).click();
+  await page.getByRole("link", { name: "api" }).click();
 });
