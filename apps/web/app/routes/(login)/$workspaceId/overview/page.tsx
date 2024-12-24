@@ -8,7 +8,7 @@ import {
   workflowRunTbl,
   workflowUsageCurrentCycleByRunnerTbl,
 } from "@repo/db-shared";
-import { and, count, gte, isNotNull, lt } from "drizzle-orm";
+import { and, count, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
@@ -68,11 +68,16 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     1,
   );
 
+  const renovateBotId = 29139614;
   const prCountThisMonth = await wasmDb
     .select({ count: count() })
     .from(prTbl)
     .where(
-      and(gte(prTbl.createdAt, thisMonthStartAt), isNotNull(prTbl.merged_at)),
+      and(
+        gte(prTbl.createdAt, thisMonthStartAt),
+        isNotNull(prTbl.merged_at),
+        not(eq(prTbl.authorId, renovateBotId)),
+      ),
     );
 
   const prCountLastMonth = await wasmDb
@@ -83,6 +88,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         gte(prTbl.createdAt, new Date(lastMonthStartAt)),
         lt(prTbl.createdAt, new Date(thisMonthStartAt)),
         isNotNull(prTbl.merged_at),
+        not(eq(prTbl.authorId, renovateBotId)),
       ),
     );
 
