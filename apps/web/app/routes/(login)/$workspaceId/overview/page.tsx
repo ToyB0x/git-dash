@@ -1,8 +1,9 @@
-import { auth, fetchReport } from "@/clients";
+import { auth, fetchReport, hc } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
+import { usageCurrentCycleActionOrgTbl } from "@repo/db-shared";
 import {
   type Schema as StatActionUsageCurrentCycle,
   stat as statActionUsageCurrentCycle,
@@ -11,7 +12,9 @@ import {
   type Schema as StatCostsSchema,
   stat as statCosts,
 } from "@repo/schema/statCosts";
+import { drizzle } from "drizzle-orm/sql-js";
 import { Link, redirect } from "react-router";
+import initSqlJs from "sql.js";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
 const dataStats = [
@@ -96,6 +99,37 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       params.workspaceId,
       statActionUsageCurrentCycle.schema,
     );
+
+  const dbResponse = await hc.api.db[":workspaceId"].$get(
+    {
+      param: {
+        workspaceId: params.workspaceId,
+      },
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
+      },
+    },
+  );
+
+  if (!dbResponse.ok) throw Error("Failed to fetch");
+
+  const sqlPromise = await initSqlJs({
+    // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
+    // You can omit locateFile completely when running in node
+    locateFile: (file) => `https://sql.js.org/dist/${file}`,
+  });
+
+  const base64Text = await dbResponse.text();
+  console.log(base64Text.length);
+  const binaryData = Uint8Array.from(atob(base64Text), (char) =>
+    char.charCodeAt(0),
+  );
+  const sqldb = new sqlPromise.Database(binaryData);
+  const database = drizzle(sqldb);
+  const resDb1 = await database.select().from(usageCurrentCycleActionOrgTbl);
+  console.log(resDb1);
 
   return {
     costs: fetchCostsResult.success

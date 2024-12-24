@@ -1,8 +1,6 @@
 import { auth, hc } from "@/clients";
 import { Sidebar } from "@/components/ui/navigation/sidebar";
-import { drizzle } from "drizzle-orm/sql-js";
 import { Outlet, redirect, useLoaderData } from "react-router";
-import initSqlJs from "sql.js";
 import type { Route } from "../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 
 type LoginLayoutData = {
@@ -46,43 +44,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   );
 
   if (!workspacesResponse.ok) throw Error("Failed to fetch");
-
-  try {
-    const dbResponse = await hc.api.db[":workspaceId"].$get(
-      {
-        param: {
-          workspaceId: params.workspaceId,
-        },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
-        },
-      },
-    );
-
-    if (!dbResponse.ok) throw Error("Failed to fetch");
-
-    const sqlPromise = await initSqlJs({
-      // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
-      // You can omit locateFile completely when running in node
-      locateFile: (file) => `https://sql.js.org/dist/${file}`,
-    });
-
-    const base64Text = await dbResponse.text();
-    console.log(base64Text.length);
-    const binaryData = Uint8Array.from(atob(base64Text), (char) =>
-      char.charCodeAt(0),
-    );
-    const sqldb = new sqlPromise.Database(binaryData);
-    const database = drizzle(sqldb);
-    const resDb1 = database.all("SELECT 111");
-    console.log(resDb1);
-    const resDb2 = database.all("SELECT * from Expense");
-    console.log(resDb2);
-  } catch (e) {
-    console.error(e);
-  }
 
   return {
     me: {
