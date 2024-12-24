@@ -4,19 +4,15 @@ import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
 import {
+  prTbl,
   workflowRunTbl,
   workflowUsageCurrentCycleByRunnerTbl,
 } from "@repo/db-shared";
+import { and, count, gte, isNotNull, lt } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
 const dataStats = [
-  {
-    name: "Pull requests / month",
-    stat: "128",
-    change: "+1.8%",
-    changeType: "positive",
-  },
   {
     name: "Releases / month",
     stat: "42",
@@ -42,6 +38,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return {
       costs: dataChart,
       actionsUsageCurrentCycle: dataDonut,
+      prCountThisMonth: 128,
+      prCountLastMonth: 116,
     };
   }
 
@@ -57,6 +55,36 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     workspaceId: params.workspaceId,
     firebaseToken: token,
   });
+
+  const thisMonthStartAt = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    1,
+  );
+
+  const lastMonthStartAt = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() - 1,
+    1,
+  );
+
+  const prCountThisMonth = await wasmDb
+    .select({ count: count() })
+    .from(prTbl)
+    .where(
+      and(gte(prTbl.createdAt, thisMonthStartAt), isNotNull(prTbl.merged_at)),
+    );
+
+  const prCountLastMonth = await wasmDb
+    .select({ count: count() })
+    .from(prTbl)
+    .where(
+      and(
+        gte(prTbl.createdAt, new Date(lastMonthStartAt)),
+        lt(prTbl.createdAt, new Date(thisMonthStartAt)),
+        isNotNull(prTbl.merged_at),
+      ),
+    );
 
   const workflowUsageCurrentCycleByRunner = await wasmDb
     .select()
@@ -84,6 +112,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return {
     costs: data,
     actionsUsageCurrentCycle: workflowUsageCurrentCycleByRunner,
+    prCountThisMonth: prCountThisMonth[0]?.count || 0,
+    prCountLastMonth: prCountLastMonth[0]?.count || 0,
   };
 }
 
@@ -155,15 +185,17 @@ const dataDonut = [
 ];
 
 export default function Page({ loaderData }: Route.ComponentProps) {
-  const { costs, actionsUsageCurrentCycle } = loaderData;
+  const {
+    costs,
+    actionsUsageCurrentCycle,
+    prCountThisMonth,
+    prCountLastMonth,
+  } = loaderData;
 
   return (
     <>
       <section aria-labelledby="stat-cards">
-        <h1
-          id="vulnerabilities-table"
-          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
+        <h1 className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
           Summary
         </h1>
 
@@ -180,6 +212,27 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         </p>
 
         <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+          <Card className="py-4">
+            <dt className="text-sm font-medium text-gray-500 dark:text-gray-500">
+              Pull requests / month
+            </dt>
+            <dd className="mt-2 flex items-baseline space-x-2.5">
+              <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
+                {prCountThisMonth}
+              </span>
+              <span
+                className={cx(
+                  prCountThisMonth - prCountLastMonth > 0
+                    ? "text-emerald-700 dark:text-emerald-500"
+                    : "text-red-700 dark:text-red-500",
+                  "text-sm font-medium",
+                )}
+              >
+                {Math.round((prCountThisMonth / prCountLastMonth) * 10) / 10}%
+              </span>
+            </dd>
+          </Card>
+
           {dataStats.map((item) => (
             <Card key={item.name} className="py-4">
               <dt className="text-sm font-medium text-gray-500 dark:text-gray-500">
