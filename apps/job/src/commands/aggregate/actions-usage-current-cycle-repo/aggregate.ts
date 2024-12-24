@@ -49,16 +49,28 @@ export const aggregate = async (
             });
             if (!cost) continue;
 
-            await sharedDbClient.insert(usageCurrentCycleActionRepoTbl).values({
-              runnerType,
-              repoName: repository.name,
-              workflowName: workflow.name || "",
-              workflowPath: workflow.path,
-              cost: cost.cost,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              // queryString: "",
-            });
+            await sharedDbClient
+              .insert(usageCurrentCycleActionRepoTbl)
+              .values({
+                id: workflow.id,
+                runnerType,
+                repoName: repository.name,
+                workflowName: workflow.name || "",
+                workflowPath: workflow.path,
+                cost: Math.round(cost.cost * 10) / 10, // round to 1 decimal place
+                createdAt: new Date(),
+                updatedAt: new Date(), // queryString: "",
+              })
+              .onConflictDoUpdate({
+                target: [
+                  usageCurrentCycleActionRepoTbl.cost,
+                  usageCurrentCycleActionRepoTbl.updatedAt,
+                ],
+                set: {
+                  cost: Math.round(cost.cost * 10) / 10,
+                  updatedAt: new Date(),
+                },
+              });
           }
         });
       logger.trace(`inner results: ${results.length}`);
