@@ -36,12 +36,12 @@ export const aggregateByOrganization = async (
   // });
 
   const repositories = await step({
-    stepName: "aggregate:repositories",
+    stepName: "aggregate:repository",
     callback: aggregateRepositories(),
   });
 
   await step({
-    stepName: "aggregate:repositories",
+    stepName: "aggregate:workflow",
     callback: aggregateWorkflow(repositories),
   });
 
