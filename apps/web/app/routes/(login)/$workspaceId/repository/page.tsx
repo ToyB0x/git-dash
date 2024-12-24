@@ -1,4 +1,4 @@
-import { auth, fetchReport } from "@/clients";
+import { auth, getWasmDb } from "@/clients";
 import {
   Table,
   TableBody,
@@ -8,16 +8,16 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
-import {
-  type Schema as StatRepositoriesSchema,
-  stat as statRepositories,
-} from "@repo/schema/statRepositories";
+import { repositoryTbl } from "@repo/db-shared";
+import { asc } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/repository/+types/page";
 
 const dataTable = [
   {
-    repository: "org/api",
+    id: 1,
+    name: "api",
+    owner: "org",
     prs: 124,
     reviews: 21,
     releases: 16,
@@ -25,7 +25,9 @@ const dataTable = [
     lastActivity: "23/09/2023 13:00",
   },
   {
-    repository: "org/frontend",
+    id: 2,
+    name: "frontend",
+    owner: "org",
     prs: 91,
     reviews: 12,
     releases: 9,
@@ -33,7 +35,9 @@ const dataTable = [
     lastActivity: "22/09/2023 10:45",
   },
   {
-    repository: "org/payment",
+    id: 3,
+    name: "payment",
+    owner: "org",
     prs: 61,
     reviews: 9,
     releases: 6,
@@ -41,7 +45,9 @@ const dataTable = [
     lastActivity: "22/09/2023 10:45",
   },
   {
-    repository: "org/backend",
+    id: 4,
+    name: "backend",
+    owner: "org",
     prs: 21,
     reviews: 3,
     releases: 2,
@@ -49,7 +55,9 @@ const dataTable = [
     lastActivity: "21/09/2023 14:30",
   },
   {
-    repository: "org/serviceX",
+    id: 5,
+    name: "serviceX",
+    owner: "org",
     prs: 6,
     reviews: 1,
     releases: 0,
@@ -57,7 +65,9 @@ const dataTable = [
     lastActivity: "24/09/2023 09:15",
   },
   {
-    repository: "org/serviceY",
+    id: 6,
+    name: "serviceY",
+    owner: "org",
     prs: 2,
     reviews: 1,
     releases: 0,
@@ -65,7 +75,9 @@ const dataTable = [
     lastActivity: "23/09/2024 21:42",
   },
   {
-    repository: "org/serviceZ",
+    id: 7,
+    name: "serviceZ",
+    owner: "org",
     prs: 1,
     reviews: 1,
     releases: 0,
@@ -87,26 +99,25 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw redirect("/login");
   }
 
-  const token = await auth.currentUser.getIdToken();
-  const fetchRepositoriesResult = await fetchReport<StatRepositoriesSchema>(
-    token,
-    statRepositories.type,
-    params.workspaceId,
-    statRepositories.schema,
-  );
+  const wasmDb = await getWasmDb({
+    workspaceId: params.workspaceId,
+    firebaseToken: await auth.currentUser.getIdToken(),
+  });
 
-  // TODO: fetch data from server
+  const repos = await wasmDb
+    .select()
+    .from(repositoryTbl)
+    .orderBy(asc(repositoryTbl.name));
+
   return {
-    repositories: fetchRepositoriesResult.success
-      ? fetchRepositoriesResult.data.stats.map((item) => ({
-          repository: item.name,
-          prs: 1,
-          reviews: 1,
-          releases: 1,
-          cost: 1,
-          lastActivity: item.updatedAt,
-        }))
-      : [],
+    repositories: repos.map((repo) => ({
+      ...repo,
+      prs: 1,
+      reviews: 1,
+      releases: 1,
+      cost: 1,
+      lastActivity: new Date(),
+    })),
   };
 }
 
@@ -152,13 +163,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           </TableHead>
           <TableBody>
             {repositories.map((item) => (
-              <TableRow key={item.repository}>
+              <TableRow key={item.id}>
                 <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                   <Link
-                    to={`${item.repository}`}
+                    to={`${item.name}`}
                     className="underline underline-offset-4"
                   >
-                    {item.repository}
+                    {item.name}
                   </Link>
                 </TableCell>
                 <TableCell className="text-right">{item.prs}</TableCell>

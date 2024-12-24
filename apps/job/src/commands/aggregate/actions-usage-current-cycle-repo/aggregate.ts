@@ -5,7 +5,7 @@ import { usageCurrentCycleActionRepoTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async (
-  repositories: { id: string; name: string; updatedAt: string }[],
+  repositories: { id: number; name: string }[],
 ) => {
   const octokit = await getOctokit();
 
@@ -82,5 +82,5 @@ export const aggregate = async (
   logger.trace(`outer errors: ${errors.length}`);
 
   const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data, null, 2));
+  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 };

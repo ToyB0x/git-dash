@@ -5,8 +5,8 @@ import { aggregate as accregateActionsUsageCurrentCycle } from "./actions-usage-
 import { aggregate as accregateActionsUsageCurrentCycleRepo } from "./actions-usage-current-cycle-repo";
 // import { aggregate as aggregateExpense } from "./expense";
 // import { aggregate } from "./actions-summary";
-import { aggregateOrganization } from "./organization";
-import { aggregateRepositories } from "./repositories";
+// import { aggregateOrganization } from "./organization";
+import { aggregate as aggregateRepositories } from "./repositories";
 // import { aggregatePRs } from "./aggregatePRs";
 // import { aggregateUsers } from "./aggregateUsers";
 
@@ -23,10 +23,10 @@ export const aggregateByOrganization = async (
     },
   });
 
-  const organization = await step({
-    stepName: "aggregate:organization",
-    callback: aggregateOrganization(orgName),
-  });
+  // const organization = await step({
+  //   stepName: "aggregate:organization",
+  //   callback: aggregateOrganization(orgName),
+  // });
 
   // currently unused
   // await step({
@@ -36,7 +36,7 @@ export const aggregateByOrganization = async (
 
   const repositories = await step({
     stepName: "aggregate:repositories",
-    callback: aggregateRepositories(organization.login, organization.id),
+    callback: aggregateRepositories(),
   });
 
   // await step({

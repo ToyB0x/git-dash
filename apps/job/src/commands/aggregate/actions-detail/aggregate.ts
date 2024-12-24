@@ -45,6 +45,8 @@ export const aggregate = async (
           repo: repository.name,
           per_page: 1000,
           created: `${queryString}`,
+          // status: "completed",
+          // TODO: 日を跨いで実行中でまだ終了していないActionの取得ができていないため要改善
         },
       );
 
@@ -74,6 +76,7 @@ export const aggregate = async (
                 workflowId: workflowRun.id,
                 workflowName: workflowRun.name || "",
                 workflowPath: workflowRun.path,
+                // createdAt: workflowRun.created_at,
                 queryString,
                 totalMs: value.total_ms,
               },
@@ -88,5 +91,5 @@ export const aggregate = async (
   logger.trace(`outer errors: ${errors.length}`);
 
   const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data, null, 2));
+  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 };
