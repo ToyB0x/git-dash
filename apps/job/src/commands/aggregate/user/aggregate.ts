@@ -16,7 +16,11 @@ export const aggregate = async () => {
     // 8 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
-    .process(async (userId) => {
+    .process(async (userId, i) => {
+      logger.info(
+        `Start aggregate:user ${userId} (${i + 1}/${userIds.length})`,
+      );
+
       // ref: https://docs.github.com/ja/rest/users/users?apiVersion=2022-11-28#get-a-user-using-their-id
       const user = await octokit.request("GET /user/{account_id}", {
         account_id: userId,
@@ -27,8 +31,9 @@ export const aggregate = async () => {
 
       const login = user.data.login;
       const avatar_url = user.data.avatar_url;
+      const updated_at = user.data.updated_at;
 
-      if (!login || !avatar_url) return;
+      if (!login || !avatar_url || !updated_at) return;
 
       await sharedDbClient
         .insert(userTbl)
@@ -36,12 +41,14 @@ export const aggregate = async () => {
           id: userId,
           login: login,
           avatarUrl: avatar_url,
+          updatedAt: updated_at,
         })
         .onConflictDoUpdate({
           target: userTbl.id,
           set: {
             login: login,
             avatarUrl: avatar_url,
+            updatedAt: updated_at,
           },
         });
     });
