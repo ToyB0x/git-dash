@@ -299,7 +299,7 @@ export default function Page() {
           id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Expensive Actions
+          Expensive Actions (Current billing cycle)
         </h1>
         <p className="mt-1 text-gray-500">
           for more details, click on the repository links.
