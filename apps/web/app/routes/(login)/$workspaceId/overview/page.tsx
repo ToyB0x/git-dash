@@ -259,7 +259,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
               className="mx-auto mt-6"
               data={actionsUsageCurrentCycle}
               category="runnerType"
-              value="cost"
+              value="dollar"
               showLabel={true}
               valueFormatter={currencyFormatter}
               showTooltip={false}
