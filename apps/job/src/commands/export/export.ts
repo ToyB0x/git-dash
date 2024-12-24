@@ -1,4 +1,5 @@
 import { dbClient, hc } from "@/clients";
+import { step } from "@/utils";
 import {
   type Schema as SchemaActionUsageCurrentCycle,
   stat as statActionUsageCurrentCycle,
@@ -8,25 +9,16 @@ import {
   stat as statCost,
 } from "@repo/schema/statCost";
 import { type Schema, stat } from "@repo/schema/statRepositories";
+import { prepare } from "./prepare";
 
 export const exportByOrganization = async (
   orgName: string,
   workspaceId: string,
 ): Promise<void> => {
-  const { id: scanId } = await dbClient.scan.findFirstOrThrow({
-    orderBy: {
-      createdAt: "desc",
-    },
+  const { scanId, reportId } = await step({
+    stepName: "export:prepare",
+    callback: prepare(),
   });
-  // create report-meta
-  const resPostMeta = await hc["public-api"]["reports-meta"][
-    ":workspaceId"
-  ].$post({
-    param: { workspaceId },
-  });
-
-  if (!resPostMeta.ok) throw Error("Failed to create report-meta");
-  const { id: reportId } = await resPostMeta.json();
 
   // export repositories
   const result = await dbClient.organization.findUniqueOrThrow({
