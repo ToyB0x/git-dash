@@ -1,4 +1,4 @@
-import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, sqliteTable } from "drizzle-orm/sqlite-core";
 import { workflowTbl } from "./workflow";
 
 export const workflowRunTbl = sqliteTable("workflow_run", {
@@ -6,7 +6,7 @@ export const workflowRunTbl = sqliteTable("workflow_run", {
   dollar: int().notNull(),
   createdAt: int({ mode: "timestamp_ms" }).notNull(),
   updatedAt: int({ mode: "timestamp_ms" }).notNull(), // finish time?
-  workflowId: text("workflow_name")
+  workflowId: int("workflow_name")
     .notNull()
     .references(() => workflowTbl.id, {
       onUpdate: "cascade",
