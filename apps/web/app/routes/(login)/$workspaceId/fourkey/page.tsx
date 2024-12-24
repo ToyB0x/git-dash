@@ -14,7 +14,7 @@ import type { Route } from "../../../../../.react-router/types/app/routes/(login
 
 const dataTable = [
   {
-    repository: "org/api",
+    repository: "api",
     prs: 124,
     changeLeadTime: 1,
     changeFailureRate: 0.2,
