@@ -8,8 +8,8 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
-import { prTbl, userTbl } from "@repo/db-shared";
-import { and, eq, gte } from "drizzle-orm";
+import { prTbl, reviewTbl, userTbl } from "@repo/db-shared";
+import { and, eq, gte, sql } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/user/+types/page";
 
@@ -166,14 +166,29 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .leftJoin(prTbl, eq(userTbl.id, prTbl.authorId))
     .groupBy(prTbl.authorId);
 
+  // ref: https://www.answeroverflow.com/m/1095781782856675368
+  const reviews = await wasmDb
+    .select({
+      userId: reviewTbl.reviewerId,
+      count: sql<number>`cast(count(${reviewTbl.id}) as int)`,
+    })
+    .from(reviewTbl)
+    .where(
+      gte(reviewTbl.createdAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)),
+    )
+    .groupBy(reviewTbl.reviewerId);
+
   return {
     users: users
       .filter((user) => !user.login.startsWith("renovate"))
-      .sort((a, b) => b.prs - a.prs || a.login.localeCompare(b.login))
-      .map((user) => ({
-        ...user,
-        reviews: 1,
-      })),
+      .map((user) => {
+        const review = reviews.find((review) => review.userId === user.id);
+        return {
+          ...user,
+          reviews: review?.count ?? 0,
+        };
+      })
+      .sort((a, b) => b.prs - a.prs || a.login.localeCompare(b.login)),
   };
 }
 export default function Page({ loaderData }: Route.ComponentProps) {
