@@ -29,7 +29,6 @@ export const getWasmDb = async ({
   });
 
   const base64Text = await dbResponse.text();
-  console.log(base64Text.length);
   const binaryData = Uint8Array.from(atob(base64Text), (char) =>
     char.charCodeAt(0),
   );
