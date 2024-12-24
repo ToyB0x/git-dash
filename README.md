@@ -57,3 +57,5 @@ And Merged PR creators will be given a discount on the paid plan.
 - 全体的にTODOコメント部分を再確認する
 - 過去のコストも見れるようにする
 - sql.jsのデータロードでなるべくキャッシュを利用するにようにする
+- workflowRunがQuotaとDB容量を使いすぎるので、擬似的にusageの日時差分で、日時の積算を計算することを検討  
+  (ただし、日時差分とする場合はクエリ実行時刻の影響を受けることに注意)
