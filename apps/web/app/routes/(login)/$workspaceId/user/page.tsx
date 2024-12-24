@@ -1,3 +1,4 @@
+import { auth, getWasmDb } from "@/clients";
 import {
   Table,
   TableBody,
@@ -7,89 +8,153 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
-import { Link } from "react-router";
+import { prTbl, userTbl } from "@repo/db-shared";
+import { and, eq, gte } from "drizzle-orm";
+import { Link, redirect } from "react-router";
+import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/user/+types/page";
 
 const dataTable = [
   {
-    user: "C0d3r",
-    avatar: "https://i.pravatar.cc/300",
+    id: 1,
+    login: "C0d3r",
+    avatarUrl: "https://i.pravatar.cc/300",
     prs: 123,
     reviews: 125,
-    lastActivity: "23/09/2024 13:00",
+    lastUpdate: "23/09/2024 13:00",
   },
   {
-    user: "QuickSilver91",
-    avatar: "https://i.pravatar.cc/301",
+    id: 2,
+    login: "QuickSilver91",
+    avatarUrl: "https://i.pravatar.cc/301",
     prs: 96,
     reviews: 93,
-    lastActivity: "22/09/2024 10:45",
+    lastUpdate: "22/09/2024 10:45",
   },
   {
-    user: "Rock3tMan",
-    avatar: "https://i.pravatar.cc/302",
+    id: 3,
+    login: "Rock3tMan",
+    avatarUrl: "https://i.pravatar.cc/302",
     prs: 66,
     reviews: 53,
-    lastActivity: "22/09/2024 10:45",
+    lastUpdate: "22/09/2024 10:45",
   },
   {
-    user: "BananaEat3r",
-    avatar: "https://i.pravatar.cc/303",
+    id: 4,
+    login: "BananaEat3r",
+    avatarUrl: "https://i.pravatar.cc/303",
     prs: 46,
     reviews: 33,
-    lastActivity: "21/09/2024 14:30",
+    lastUpdate: "21/09/2024 14:30",
   },
   {
-    user: "Xg3tt3r",
-    avatar: "https://i.pravatar.cc/304",
+    id: 5,
+    login: "Xg3tt3r",
+    avatarUrl: "https://i.pravatar.cc/304",
     prs: 26,
     reviews: 23,
-    lastActivity: "24/09/2024 09:15",
+    lastUpdate: "24/09/2024 09:15",
   },
   {
-    user: "Xbox231",
-    avatar: "https://i.pravatar.cc/305",
+    id: 6,
+    login: "Xbox231",
+    avatarUrl: "https://i.pravatar.cc/305",
     prs: 16,
     reviews: 13,
-    lastActivity: "24/09/2024 09:15",
+    lastUpdate: "24/09/2024 09:15",
   },
   {
-    user: "WhoAmI",
-    avatar: "https://i.pravatar.cc/306",
+    id: 7,
+    login: "WhoAmI",
+    avatarUrl: "https://i.pravatar.cc/306",
     prs: 6,
     reviews: 3,
-    lastActivity: "24/09/2024 09:15",
+    lastUpdate: "24/09/2024 09:15",
   },
   {
-    user: "Wat3r",
-    avatar: "https://i.pravatar.cc/307",
+    id: 8,
+    login: "Wat3r",
+    avatarUrl: "https://i.pravatar.cc/307",
     prs: 3,
     reviews: 1,
-    lastActivity: "24/09/2024 09:15",
+    lastUpdate: "24/09/2024 09:15",
   },
   {
-    user: "Plat1num",
-    avatar: "https://i.pravatar.cc/308",
+    id: 9,
+    login: "Plat1num",
+    avatarUrl: "https://i.pravatar.cc/308",
     prs: 1,
     reviews: 0,
-    lastActivity: "24/09/2024 09:15",
+    lastUpdate: "24/09/2024 09:15",
   },
   {
-    user: "Gold3n",
-    avatar: "https://i.pravatar.cc/309",
+    id: 10,
+    login: "Gold3n",
+    avatarUrl: "https://i.pravatar.cc/309",
     prs: 1,
     reviews: 0,
-    lastActivity: "24/09/2024 09:15",
+    lastUpdate: "24/09/2024 09:15",
   },
   {
-    user: "B1u3",
-    avatar: "https://i.pravatar.cc/310",
+    id: 11,
+    login: "B1u3",
+    avatarUrl: "https://i.pravatar.cc/310",
     prs: 1,
     reviews: 0,
-    lastActivity: "24/09/2024 09:15",
+    lastUpdate: "24/09/2024 09:15",
   },
 ];
 
-export default function Page() {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+  if (params.workspaceId === "demo") {
+    return {
+      users: dataTable,
+    };
+  }
+
+  await auth.authStateReady();
+
+  if (!auth.currentUser) {
+    throw redirect("/login");
+  }
+
+  const wasmDb = await getWasmDb({
+    workspaceId: params.workspaceId,
+    firebaseToken: await auth.currentUser.getIdToken(),
+  });
+
+  // ref: https://www.answeroverflow.com/m/1095781782856675368
+  const users = await wasmDb
+    .select({
+      id: userTbl.id,
+      login: userTbl.login,
+      avatarUrl: userTbl.avatarUrl,
+      lastUpdate: userTbl.updatedAt,
+      // prs: sql<number>`count(${prTbl.authorId})`,
+      prs: wasmDb.$count(
+        prTbl,
+        and(
+          eq(userTbl.id, prTbl.authorId),
+          gte(prTbl.createdAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)),
+        ),
+      ),
+    })
+    .from(userTbl)
+    .leftJoin(prTbl, eq(userTbl.id, prTbl.authorId))
+    .groupBy(prTbl.authorId);
+
+  return {
+    users: users
+      .filter((user) => !user.login.startsWith("renovate"))
+      .sort((a, b) => b.prs - a.prs || a.login.localeCompare(b.login))
+      .map((user) => ({
+        ...user,
+        reviews: 1,
+      })),
+  };
+}
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const { users } = loaderData;
+
   return (
     <section aria-labelledby="users-table" className="h-screen">
       <h1
@@ -114,32 +179,32 @@ export default function Page() {
                 Reviews / month
               </TableHeaderCell>
               <TableHeaderCell className="text-right">
-                Last Activity
+                Last Update
               </TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataTable.map((item) => (
-              <TableRow key={item.user}>
+            {users.map((user) => (
+              <TableRow key={user.id}>
                 <TableCell className="p-0">
                   <img
-                    src={item.avatar}
+                    src={user.avatarUrl}
                     alt="user"
                     className="w-8 h-8 rounded-full"
                   />
                 </TableCell>
                 <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                   <Link
-                    to={`${item.user}`}
+                    to={`${user.login}`}
                     className="underline underline-offset-4"
                   >
-                    {item.user}
+                    {user.login}
                   </Link>
                 </TableCell>
-                <TableCell className="text-right">{item.prs}</TableCell>
-                <TableCell className="text-right">{item.reviews}</TableCell>
+                <TableCell className="text-right">{user.prs}</TableCell>
+                <TableCell className="text-right">{user.reviews}</TableCell>
                 <TableCell className="text-right">
-                  {item.lastActivity}
+                  {new Date(user.lastUpdate).toLocaleString()}
                 </TableCell>
               </TableRow>
             ))}
