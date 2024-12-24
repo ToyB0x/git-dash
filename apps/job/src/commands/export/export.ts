@@ -12,7 +12,6 @@ import { prepare } from "./prepare";
 import { repositories } from "./repositories";
 
 export const exportByOrganization = async (
-  orgName: string,
   workspaceId: string,
 ): Promise<void> => {
   const { scanId, reportId } = await step({

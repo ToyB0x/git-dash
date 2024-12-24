@@ -10,10 +10,7 @@ export const newExportCommand = () => {
     .command("group")
     .description("export specific organization summary")
     .action(async () => {
-      await exportByOrganization(
-        env.GDASH_GITHUB_ORGANIZATION_NAME,
-        env.GDASH_WORKSPACE_ID,
-      );
+      await exportByOrganization(env.GDASH_WORKSPACE_ID);
     });
 
   return exportCmd;
