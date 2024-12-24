@@ -18,9 +18,13 @@ import {
   dataLoaderActions4Core,
   dataLoaderActions16Core,
 } from "@/routes/(login)/$workspaceId/cost/dataLoaders";
-import { usageCurrentCycleActionRepoTbl } from "@repo/db-shared";
+import {
+  repositoryTbl,
+  workflowTbl,
+  workflowUsageCurrentCycleTbl,
+} from "@repo/db-shared";
 import { startOfToday, subDays } from "date-fns";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
@@ -179,16 +183,29 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   });
 
   const workflows = await wasmDb
-    .select()
-    .from(usageCurrentCycleActionRepoTbl)
-    .orderBy(desc(usageCurrentCycleActionRepoTbl.cost))
+    .select({
+      workflowId: workflowTbl.id,
+      workflowName: workflowTbl.name,
+      workflowPath: workflowTbl.path,
+      dollar: workflowUsageCurrentCycleTbl.dollar,
+      repositoryName: repositoryTbl.name,
+    })
+    .from(workflowUsageCurrentCycleTbl)
+    .orderBy(desc(workflowUsageCurrentCycleTbl.dollar))
+    .innerJoin(workflowTbl, eq(workflowUsageCurrentCycleTbl.id, workflowTbl.id))
+    .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
     .limit(30);
 
   return {
     dataActions2Core,
     dataActions4Core,
     dataActions16Core,
-    workflows,
+    workflows: workflows.map((workflow) => ({
+      repoName: workflow.repositoryName,
+      workflowName: workflow.workflowName,
+      workflowPath: workflow.workflowPath,
+      cost: workflow.dollar,
+    })),
   };
 }
 
