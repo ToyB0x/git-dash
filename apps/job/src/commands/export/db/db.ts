@@ -8,7 +8,7 @@ export const db = async ({
 }: {
   reportId: string;
 }) => {
-  const file = await readFile("../../packages/db-job/sqlite/job.db");
+  const file = await readFile("../../packages/db-shared/sqlite/shared.db");
 
   const json = {
     reportId,

@@ -102,7 +102,7 @@ export const aggregate = async (orgName: string, scanId: number) => {
     });
 
     await sharedDbClient.insert(usageCurrentCycleActionOrgTbl).values({
-      cost: 1,
+      cost: usage.cost,
       runnerType: usage.runner,
       createdAt: new Date(),
       updatedAt: new Date(),
