@@ -7,6 +7,7 @@ import { aggregate as accregateActionsUsageCurrentCycleRepo } from "./actions-us
 // import { aggregate } from "./actions-summary";
 // import { aggregateOrganization } from "./organization";
 import { aggregate as aggregateRepositories } from "./repositories";
+import { aggregate as aggregateWorkflow } from "./workflow";
 // import { aggregatePRs } from "./aggregatePRs";
 // import { aggregateUsers } from "./aggregateUsers";
 
@@ -37,6 +38,11 @@ export const aggregateByOrganization = async (
   const repositories = await step({
     stepName: "aggregate:repositories",
     callback: aggregateRepositories(),
+  });
+
+  await step({
+    stepName: "aggregate:repositories",
+    callback: aggregateWorkflow(repositories),
   });
 
   // await step({
