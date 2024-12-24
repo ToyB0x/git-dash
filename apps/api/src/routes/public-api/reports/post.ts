@@ -55,6 +55,7 @@ const handlers = factory.createHandlers(
         prevReportParsed = v.parse(statCosts.schema, await prevReportR2.json());
       }
 
+      // TODO: 同日中に2回レポート送信された場合にレコードが重複するバグがあるため調整(year / month / day を比較する)
       const merged = prevReportParsed
         ? {
             ...prevReportParsed,
