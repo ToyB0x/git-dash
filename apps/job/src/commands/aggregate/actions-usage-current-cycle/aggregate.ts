@@ -1,6 +1,6 @@
 import { dbClient, getOctokit, sharedDbClient } from "@/clients";
 import { logger } from "@/utils";
-import { usageCurrentCycleActionOrgTbl } from "@repo/db-shared/schema";
+import { usageCurrentCycleActionOrgTbl } from "@repo/db-shared";
 
 export const aggregate = async (orgName: string, scanId: number) => {
   const octokit = await getOctokit();
