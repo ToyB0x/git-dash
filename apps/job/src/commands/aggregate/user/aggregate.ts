@@ -39,8 +39,6 @@ export const aggregate = async () => {
 
       if (!login || !avatar_url || !updated_at) return;
 
-      console.log("inserting user");
-
       await sharedDbClient
         .insert(userTbl)
         .values({
