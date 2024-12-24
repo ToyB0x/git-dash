@@ -15,6 +15,13 @@
       "when": 1735046223800,
       "tag": "0001_solid_forgotten_one",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1735051932418,
+      "tag": "0002_rich_baron_strucker",
+      "breakpoints": true
     }
   ]
 }

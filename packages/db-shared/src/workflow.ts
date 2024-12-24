@@ -7,7 +7,7 @@ export const workflowTbl = sqliteTable("workflow", {
   path: text("path").notNull(),
   createdAt: int({ mode: "timestamp_ms" }).notNull(),
   updatedAt: int({ mode: "timestamp_ms" }).notNull(),
-  repositoryId: int()
+  repositoryId: int("repository_id")
     .notNull()
     .references(() => repositoryTbl.id, {
       onUpdate: "cascade",
