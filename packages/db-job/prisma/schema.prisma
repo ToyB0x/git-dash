@@ -42,15 +42,45 @@ model ActionUsageCurrentCycle {
   scan Scan @relation(fields: [scanId], references: [id])
 }
 
+// DBが二つあるからややこしい？
+// - 現状のままDB２つ、ブラウザ用にJsonをWrite / Readする
+// - DBを1つ(APIから書き込み)、ブラウザはDBからReadする
+// - AppDBを1つ / Analysis DBを1つ(直接書き込み)、ブラウザは企業ごとのDBをマウントしてReadする --> これはWASMにも転用可能
+model Workflow {
+  id           Int      @id @default(autoincrement())
+  scanId       Int
+  runnerType   String
+  cost         Int // dollar
+  createdAt    DateTime @default(now())
+  repositoryId String
+
+  // scan       Scan       @relation(fields: [scanId], references: [id])
+  // repository Repository @relation(fields: [repositoryId], references: [id])
+}
+
+
+model ActionUsageCurrentCyclePerRepo {
+  id           Int      @id @default(autoincrement())
+  scanId       Int
+  runnerType   String
+  cost         Int // dollar
+  createdAt    DateTime @default(now())
+  repositoryId String
+
+  scan       Scan       @relation(fields: [scanId], references: [id])
+  repository Repository @relation(fields: [repositoryId], references: [id])
+}
+
 model Scan {
-  id                            Int                       @id @default(autoincrement())
-  status                        String // RUNNING, COMPLETED, FAILED
-  createdAt                     DateTime                  @default(now())
-  updatedAt                     DateTime                  @updatedAt
-  workflowUsageRepos            WorkflowUsageRepo[]
-  workflowUsageRepoDailies      WorkflowUsageRepoDaily[]
-  expenses                      Expense[]
-  actionUsageUsageCurrentCycles ActionUsageCurrentCycle[]
+  id                              Int                              @id @default(autoincrement())
+  status                          String // RUNNING, COMPLETED, FAILED
+  createdAt                       DateTime                         @default(now())
+  updatedAt                       DateTime                         @updatedAt
+  workflowUsageRepos              WorkflowUsageRepo[]
+  workflowUsageRepoDailies        WorkflowUsageRepoDaily[]
+  expenses                        Expense[]
+  actionUsageUsageCurrentCycles   ActionUsageCurrentCycle[]
+  actionUsageCurrentCyclePerRepos ActionUsageCurrentCyclePerRepo[]
 }
 
 model User {
@@ -83,8 +113,9 @@ model Repository {
   prs            Pr[]
   workflowUsages WorkflowUsageRepo[]
 
-  organization             Organization             @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  workflowUsageRepoDailies WorkflowUsageRepoDaily[]
+  organization                    Organization                     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  workflowUsageRepoDailies        WorkflowUsageRepoDaily[]
+  actionUsageCurrentCyclePerRepos ActionUsageCurrentCyclePerRepo[]
 }
 
 // [{ubuntu4: 1000}, {ubuntu16: 2000}, {windows: 4000}] 等を正規化して持つ
