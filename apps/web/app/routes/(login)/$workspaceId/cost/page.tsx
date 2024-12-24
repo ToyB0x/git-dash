@@ -20,6 +20,7 @@ import {
 } from "@/routes/(login)/$workspaceId/cost/dataLoaders";
 import { usageCurrentCycleActionRepoTbl } from "@repo/db-shared";
 import { startOfToday, subDays } from "date-fns";
+import { desc } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
@@ -177,7 +178,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: await auth.currentUser.getIdToken(),
   });
 
-  const workflows = await wasmDb.select().from(usageCurrentCycleActionRepoTbl);
+  const workflows = await wasmDb
+    .select()
+    .from(usageCurrentCycleActionRepoTbl)
+    .orderBy(desc(usageCurrentCycleActionRepoTbl.cost))
+    .limit(15);
 
   return {
     dataActions2Core,
