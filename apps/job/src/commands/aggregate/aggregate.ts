@@ -1,16 +1,10 @@
 import { dbClient } from "@/clients";
 import { step } from "@/utils";
-// import { aggregate } from "./actions-detail";
 import { aggregate as accregateActionsUsageCurrentCycle } from "./actions-usage-current-cycle";
-// import { aggregate as aggregateExpense } from "./expense";
-// import { aggregate } from "./actions-summary";
-// import { aggregateOrganization } from "./organization";
 import { aggregate as aggregateRepositories } from "./repositories";
 import { aggregate as aggregateWorkflow } from "./workflow";
 import { aggregate as aggregateWorkflowRun } from "./workflow-run";
 import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current-cycle";
-// import { aggregatePRs } from "./aggregatePRs";
-// import { aggregateUsers } from "./aggregateUsers";
 
 export const maxOld = new Date(
   Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
@@ -51,6 +45,17 @@ export const aggregateByOrganization = async (
     callback: aggregateWorkflowRun(repositories),
   });
 
+  await step({
+    stepName: "aggregate:workflow-usage-current-cycle",
+    callback: workflowUsageCurrentCycle(),
+  });
+
+  // comment out to avoid heavy quota consumption
+  await step({
+    stepName: "aggregate:org-summary",
+    callback: accregateActionsUsageCurrentCycle(orgName, scanId),
+  });
+
   // await step({
   //   stepName: "aggregate:actions-cost-summary",
   //   callback: aggregate(orgName, scanId, repositories),
@@ -61,18 +66,6 @@ export const aggregateByOrganization = async (
   //   stepName: "aggregate:actions-cost-detail",
   //   callback: aggregate(orgName, scanId, repositories),
   // });
-
-  // comment out to avoid heavy quota consumption
-  await step({
-    stepName: "aggregate:actions-usage-current-cycle",
-    callback: accregateActionsUsageCurrentCycle(orgName, scanId),
-  });
-
-  // comment out to avoid heavy quota consumption
-  await step({
-    stepName: "aggregate:workflow-usage-current-cycle",
-    callback: workflowUsageCurrentCycle(),
-  });
 
   // await aggregateUsers(orgName, organizationId);
   // if (repositoryNames.length !== new Set(repositoryNames).size)

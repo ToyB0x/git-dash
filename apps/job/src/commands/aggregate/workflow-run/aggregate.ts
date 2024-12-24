@@ -35,7 +35,7 @@ export const aggregate = async (
     .withConcurrency(8)
     .process(async (repository, i) => {
       logger.info(
-        `Start aggregate:actions-cost ${repository.name} (${i + 1}/${repositories.length})`,
+        `Start aggregate:workflow-cost ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
       const workflowRuns = await octokit.paginate(
