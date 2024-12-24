@@ -6,7 +6,7 @@ export const workflowRunTbl = sqliteTable("workflow_run", {
   dollar: int().notNull(),
   createdAt: int({ mode: "timestamp_ms" }).notNull(),
   updatedAt: int({ mode: "timestamp_ms" }).notNull(), // finish time?
-  workflowId: int("workflow_name")
+  workflowId: int("workflow_id")
     .notNull()
     .references(() => workflowTbl.id, {
       onUpdate: "cascade",

@@ -5,78 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1735025569082,
-      "tag": "0000_gigantic_corsair",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1735030350708,
-      "tag": "0001_chunky_demogoblin",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1735031206298,
-      "tag": "0002_ordinary_newton_destine",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1735034622531,
-      "tag": "0003_perfect_roland_deschain",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1735037945738,
-      "tag": "0004_silky_roughhouse",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1735038677299,
-      "tag": "0005_square_gravity",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "6",
-      "when": 1735039350840,
-      "tag": "0006_chemical_sally_floyd",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "6",
-      "when": 1735041434682,
-      "tag": "0007_eager_hawkeye",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "6",
-      "when": 1735042705791,
-      "tag": "0008_military_aqueduct",
-      "breakpoints": true
-    },
-    {
-      "idx": 9,
-      "version": "6",
-      "when": 1735043594526,
-      "tag": "0009_lying_madame_web",
-      "breakpoints": true
-    },
-    {
-      "idx": 10,
-      "version": "6",
-      "when": 1735044014226,
-      "tag": "0010_noisy_microchip",
+      "when": 1735044635285,
+      "tag": "0000_white_may_parker",
       "breakpoints": true
     }
   ]

@@ -1,1 +1,0 @@
-ALTER TABLE `repository` ADD `owner` text NOT NULL;
