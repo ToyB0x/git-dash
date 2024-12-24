@@ -1,13 +1,9 @@
-import { auth, fetchReport, getWasmDb } from "@/clients";
+import { auth, getWasmDb } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
-import { usageCurrentCycleActionOrgTbl } from "@repo/db-shared";
-import {
-  type Schema as StatCostsSchema,
-  stat as statCosts,
-} from "@repo/schema/statCosts";
+import { usageCurrentCycleActionOrgTbl, workflowRunTbl } from "@repo/db-shared";
 import { Link, redirect } from "react-router";
 import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
@@ -53,38 +49,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   }
 
   const token = await auth.currentUser.getIdToken();
-  const fetchCostsResult = await fetchReport<StatCostsSchema>(
-    token,
-    statCosts.type,
-    params.workspaceId,
-    statCosts.schema,
-  );
-
-  const daysInThisMonth = (): number => {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  };
-
-  const thisMonthDates = [...Array(daysInThisMonth()).keys()].map((index) => {
-    return index + 1;
-  });
-
-  const data = thisMonthDates.map((day) => {
-    if (!fetchCostsResult.success) {
-      return {
-        date: `${day}`,
-        cost: null,
-      };
-    }
-
-    return {
-      date: `${day}`,
-      cost:
-        fetchCostsResult.data.stats.find(
-          (stat) => new Date(stat.date).getDate() === day,
-        )?.cost || 0,
-    };
-  });
 
   const wasmDb = await getWasmDb({
     workspaceId: params.workspaceId,
@@ -95,11 +59,27 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .select()
     .from(usageCurrentCycleActionOrgTbl);
 
+  const workflowRuns = await wasmDb.select().from(workflowRunTbl);
+  const daysInThisMonth = (): number => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  };
+
+  const thisMonthDates = [...Array(daysInThisMonth()).keys()].map((index) => {
+    return index + 1;
+  });
+
+  const data = thisMonthDates.map((day) => {
+    return {
+      date: `${day}`,
+      cost: workflowRuns
+        .filter((run) => new Date(run.createdAt).getDate() === day)
+        .reduce((acc, run) => acc + run.dollar, 0),
+    };
+  });
+
   return {
-    costs: fetchCostsResult.success
-      ? // ? [fetchCostResult.data.stats, { date: "Jan 23", cost: null }]
-        data
-      : [],
+    costs: data,
     actionsUsageCurrentCycle,
   };
 }
