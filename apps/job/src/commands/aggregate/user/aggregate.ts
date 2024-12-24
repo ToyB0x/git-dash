@@ -35,10 +35,6 @@ export const aggregate = async () => {
       const blog = user.data.blog as string | null;
       const updated_at = user.data.updated_at as string;
 
-      console.log(
-        `login: ${login}, avatar_url: ${avatar_url}, updated_at: ${updated_at}`,
-      );
-
       if (!login || !avatar_url || !updated_at) return;
 
       await sharedDbClient
