@@ -85,7 +85,7 @@ export const aggregate = async (
             .insert(workflowRunTbl)
             .values({
               id: workflowRun.id,
-              dollar: Math.round(dollar * 10) / 10, // round to 1 decimal place
+              dollar: Math.round(dollar * 1000) / 1000, // 0.001 dollar
               createdAt: new Date(workflowRun.created_at),
               updatedAt: new Date(workflowRun.updated_at),
               workflowId: workflowRun.workflow_id,
@@ -93,7 +93,7 @@ export const aggregate = async (
             .onConflictDoUpdate({
               target: workflowRunTbl.id,
               set: {
-                dollar: Math.round(dollar * 10) / 10, // round to 1 decimal place
+                dollar: Math.round(dollar * 1000) / 1000, // 0.001 dollar
                 updatedAt: new Date(),
               },
             });
