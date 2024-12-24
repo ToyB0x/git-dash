@@ -2,11 +2,12 @@ import { dbClient } from "@/clients";
 import { step } from "@/utils";
 // import { aggregate } from "./actions-detail";
 import { aggregate as accregateActionsUsageCurrentCycle } from "./actions-usage-current-cycle";
-import { aggregate as accregateActionsUsageCurrentCycleRepo } from "./actions-usage-current-cycle-repo";
 // import { aggregate as aggregateExpense } from "./expense";
 // import { aggregate } from "./actions-summary";
 // import { aggregateOrganization } from "./organization";
 import { aggregate as aggregateRepositories } from "./repositories";
+import { aggregate as aggregateWorkflow } from "./workflow";
+import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current-cycle";
 // import { aggregatePRs } from "./aggregatePRs";
 // import { aggregateUsers } from "./aggregateUsers";
 
@@ -35,8 +36,13 @@ export const aggregateByOrganization = async (
   // });
 
   const repositories = await step({
-    stepName: "aggregate:repositories",
+    stepName: "aggregate:repository",
     callback: aggregateRepositories(),
+  });
+
+  await step({
+    stepName: "aggregate:workflow",
+    callback: aggregateWorkflow(repositories),
   });
 
   // await step({
@@ -58,8 +64,8 @@ export const aggregateByOrganization = async (
 
   // comment out to avoid heavy quota consumption
   await step({
-    stepName: "aggregate:actions-usage-current-cycle-repo",
-    callback: accregateActionsUsageCurrentCycleRepo(repositories),
+    stepName: "aggregate:workflow-usage-current-cycle",
+    callback: workflowUsageCurrentCycle(),
   });
 
   // await aggregateUsers(orgName, organizationId);
