@@ -5,7 +5,7 @@ import { usageCurrentCycleActionRepoTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async (
-  repositories: { id: string; name: string; updatedAt: string }[],
+  repositories: { id: number; name: string }[],
 ) => {
   const octokit = await getOctokit();
 
