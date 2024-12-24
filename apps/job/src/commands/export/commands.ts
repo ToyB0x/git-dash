@@ -1,6 +1,6 @@
 import { env } from "@/env";
 import { Command } from "commander";
-import { exportByOrganization } from "./exportByOrganization";
+import { exportByOrganization } from "./export";
 
 export const newExportCommand = () => {
   const exportCmd = new Command("export");

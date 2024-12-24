@@ -1,5 +1,4 @@
 import { dbClient, hc } from "@/clients";
-import { env } from "@/env";
 import {
   type Schema as SchemaActionUsageCurrentCycle,
   stat as statActionUsageCurrentCycle,
@@ -22,17 +21,9 @@ export const exportByOrganization = async (
   // create report-meta
   const resPostMeta = await hc["public-api"]["reports-meta"][
     ":workspaceId"
-  ].$post(
-    {
-      param: { workspaceId },
-    },
-    {
-      headers: {
-        "X-GDASH-WORKSPACE-ID": workspaceId,
-        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
-      },
-    },
-  );
+  ].$post({
+    param: { workspaceId },
+  });
 
   if (!resPostMeta.ok) throw Error("Failed to create report-meta");
   const { id: reportId } = await resPostMeta.json();
@@ -63,15 +54,7 @@ export const exportByOrganization = async (
     })),
   } satisfies Schema;
 
-  await hc["public-api"].reports.$post(
-    { json: repositoriesJson },
-    {
-      headers: {
-        "X-GDASH-WORKSPACE-ID": workspaceId,
-        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
-      },
-    },
-  );
+  await hc["public-api"].reports.$post({ json: repositoriesJson });
 
   // export cost
   const usages = await dbClient.workflowUsageRepoDaily.findMany({
@@ -104,15 +87,7 @@ export const exportByOrganization = async (
     },
   } satisfies SchemaCost;
 
-  await hc["public-api"].reports.$post(
-    { json: costJson },
-    {
-      headers: {
-        "X-GDASH-WORKSPACE-ID": workspaceId,
-        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
-      },
-    },
-  );
+  await hc["public-api"].reports.$post({ json: costJson });
 
   // export cost
   const actionUsageCurrentCycle =
@@ -130,33 +105,17 @@ export const exportByOrganization = async (
     })),
   } satisfies SchemaActionUsageCurrentCycle;
 
-  await hc["public-api"].reports.$post(
-    { json: actionUsageCurrentCycleJson },
-    {
-      headers: {
-        "X-GDASH-WORKSPACE-ID": workspaceId,
-        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
-      },
-    },
-  );
+  await hc["public-api"].reports.$post({ json: actionUsageCurrentCycleJson });
 
   // send finish status
-  await hc["public-api"]["reports-meta"][":workspaceId"].$patch(
-    {
-      param: { workspaceId },
-      json: {
-        reportId,
-        workspaceId,
-        status: "FINISHED",
-      },
+  await hc["public-api"]["reports-meta"][":workspaceId"].$patch({
+    param: { workspaceId },
+    json: {
+      reportId,
+      workspaceId,
+      status: "FINISHED",
     },
-    {
-      headers: {
-        "X-GDASH-WORKSPACE-ID": workspaceId,
-        "X-GDASH-WORKSPACE-API-KEY": env.GDASH_WORKSPACE_API_KEY,
-      },
-    },
-  );
+  });
 
   console.log("Export Done!");
 };
