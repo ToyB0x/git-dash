@@ -36,6 +36,8 @@ const handlers = factory.createHandlers(async (c) => {
 
   if (!obj) throw Error("Not Found");
 
+  // NOTE: ブラウザのキャッシュを5分間有効にすることによりファイル転送を防止しつつ、5分以上経過した場合には最新のデータを取得する
+  c.header("Cache-Control", "private, max-age=300");
   return c.body(await obj.text());
 });
 
