@@ -182,7 +182,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .select()
     .from(usageCurrentCycleActionRepoTbl)
     .orderBy(desc(usageCurrentCycleActionRepoTbl.cost))
-    .limit(15);
+    .limit(30);
 
   return {
     dataActions2Core,
