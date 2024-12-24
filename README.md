@@ -56,3 +56,4 @@ And Merged PR creators will be given a discount on the paid plan.
 - プロダクション環境またはSTG環境またはDEV環境をセットアップして運用を開始する(Firebaseのセットアップが必要かもしれない)
 - 全体的にTODOコメント部分を再確認する
 - 過去のコストも見れるようにする
+- sql.jsのデータロードでなるべくキャッシュを利用するにようにする

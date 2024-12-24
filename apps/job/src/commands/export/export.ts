@@ -1,5 +1,6 @@
 import { logger, step } from "@/utils";
 import { cost } from "./cost";
+import { db } from "./db";
 import { finalize } from "./finalize";
 import { prepare } from "./prepare";
 import { repositories } from "./repositories";
@@ -24,6 +25,11 @@ export const exportByWorkspace = async (): Promise<void> => {
   await step({
     stepName: "export:usage",
     callback: usage({ scanId, reportId }),
+  });
+
+  await step({
+    stepName: "export:db",
+    callback: db({ reportId }),
   });
 
   await step({

@@ -3,6 +3,7 @@ import {
   verifyFirebaseAuth,
 } from "@hono/firebase-auth";
 import { Hono } from "hono";
+import { dbRoute } from "./db";
 import { memberRoute } from "./members";
 import { reportMetaRoute } from "./report-meta";
 import { reportRoute } from "./reports";
@@ -27,4 +28,5 @@ export const apiRoute = new Hono<{ Bindings: Env }>()
   .route("/members", memberRoute)
   .route("/reports", reportRoute)
   .route("/reports-meta", reportMetaRoute)
-  .route("/users", userRoute);
+  .route("/users", userRoute)
+  .route("/db", dbRoute);

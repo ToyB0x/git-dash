@@ -2,6 +2,7 @@ import { workspaceTbl } from "@repo/db-api/schema";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
+import { dbRoute } from "./db";
 import { reportsRoute } from "./reports";
 import { reportsMetaRoute } from "./reports-meta";
 import { testRoute } from "./test";
@@ -37,4 +38,5 @@ export const publicApiRoute = new Hono<{
   })
   .route("/reports", reportsRoute)
   .route("/reports-meta", reportsMetaRoute)
-  .route("/test", testRoute);
+  .route("/test", testRoute)
+  .route("/db", dbRoute);
