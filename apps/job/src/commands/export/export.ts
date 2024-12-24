@@ -8,8 +8,8 @@ import {
   type Schema as SchemaCost,
   stat as statCost,
 } from "@repo/schema/statCost";
-import { type Schema, stat } from "@repo/schema/statRepositories";
 import { prepare } from "./prepare";
+import { repositories } from "./repositories";
 
 export const exportByOrganization = async (
   orgName: string,
@@ -20,33 +20,10 @@ export const exportByOrganization = async (
     callback: prepare(),
   });
 
-  // export repositories
-  const result = await dbClient.organization.findUniqueOrThrow({
-    where: { login: orgName },
-    select: {
-      repositories: {
-        select: {
-          name: true,
-          updatedAt: true,
-        },
-        orderBy: {
-          updatedAt: "desc",
-        },
-      },
-    },
+  await step({
+    stepName: "export:repositories",
+    callback: repositories(reportId),
   });
-
-  const repositoriesJson = {
-    reportId,
-    type: stat.type,
-    version: stat.version,
-    stats: result.repositories.map((repository) => ({
-      name: repository.name,
-      updatedAt: repository.updatedAt.getTime(),
-    })),
-  } satisfies Schema;
-
-  await hc["public-api"].reports.$post({ json: repositoriesJson });
 
   // export cost
   const usages = await dbClient.workflowUsageRepoDaily.findMany({
