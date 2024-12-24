@@ -15,6 +15,13 @@
       "when": 1735030350708,
       "tag": "0001_chunky_demogoblin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1735031206298,
+      "tag": "0002_ordinary_newton_destine",
+      "breakpoints": true
     }
   ]
 }
