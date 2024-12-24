@@ -59,3 +59,5 @@ And Merged PR creators will be given a discount on the paid plan.
 - sql.jsのデータロードでなるべくキャッシュを利用するにようにする
 - workflowRunがQuotaとDB容量を使いすぎるので、擬似的にusageの日時差分で、日時の積算を計算することを検討  
   (ただし、日時差分とする場合はクエリ実行時刻の影響を受けることに注意)
+- PRテーブルのファイルサイズを削減する
+　`SELECT name, sum(pgsize) AS size FROM dbstat GROUP BY name ORDER BY size DESC LIMIT 10;`
