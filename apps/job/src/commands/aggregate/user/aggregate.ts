@@ -12,7 +12,7 @@ export const aggregate = async () => {
   // TODO: reviewerのIdも取得する
   const userIds = prs.map((pr) => pr.authorId);
 
-  await PromisePool.for(userIds)
+  const { errors } = await PromisePool.for(userIds)
     // 8 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
@@ -33,7 +33,13 @@ export const aggregate = async () => {
       const avatar_url = user.data.avatar_url;
       const updated_at = user.data.updated_at;
 
+      console.log(
+        `login: ${login}, avatar_url: ${avatar_url}, updated_at: ${updated_at}`,
+      );
+
       if (!login || !avatar_url || !updated_at) return;
+
+      console.log("inserting user");
 
       await sharedDbClient
         .insert(userTbl)
@@ -41,17 +47,21 @@ export const aggregate = async () => {
           id: userId,
           login: login,
           avatarUrl: avatar_url,
-          updatedAt: updated_at,
+          updatedAt: new Date(updated_at),
         })
         .onConflictDoUpdate({
           target: userTbl.id,
           set: {
             login: login,
             avatarUrl: avatar_url,
-            updatedAt: updated_at,
+            updatedAt: new Date(updated_at),
           },
         });
     });
+
+  if (errors.length) {
+    logger.error(errors.length);
+  }
 
   const rateLimit = await octokit.rest.rateLimit.get();
   logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
