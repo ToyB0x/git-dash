@@ -53,3 +53,6 @@ And Merged PR creators will be given a discount on the paid plan.
   - Githubアプリか敢えて追加で組織に許可されたfine-grainedトークンしかBillingにアクセスできない
 - 顧客ごとにGithubアプリを作ってもらう運用のドキュメントを書く
 - Fetch機能のResumeを可能とする
+- プロダクション環境またはSTG環境またはDEV環境をセットアップして運用を開始する(Firebaseのセットアップが必要かもしれない)
+- 全体的にTODOコメント部分を再確認する
+- 過去のコストも見れるようにする
