@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm generate && tsup",
+    "build": "tsup",
+    "build:with-generate": "pnpm generate && tsup",
     "generate": "graphql-codegen --config codegen.ts",
     "jobs": "node --enable-source-maps dist/index.js",
     "jobs:dev:aggregate:organization": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate organization",
