@@ -32,6 +32,7 @@ export const aggregate = async () => {
           target: repositoryTbl.id,
           set: {
             name: repo.name,
+            owner: repo.owner.login,
             updatedAt: repo.updated_at ? new Date(repo.updated_at) : new Date(),
           },
         });
@@ -44,7 +45,7 @@ export const aggregate = async () => {
   }
 
   const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data, null, 2));
+  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 
   return results;
 };

@@ -91,5 +91,5 @@ export const aggregate = async (
   logger.trace(`outer errors: ${errors.length}`);
 
   const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data, null, 2));
+  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 };
