@@ -43,10 +43,13 @@ export const aggregate = async (
             workflowUsage.data.billable,
           )) {
             if (!value.total_ms) continue;
+
+            console.warn(value);
             const cost = calcActionsCostFromTime({
               runner: runnerType,
               milliSec: value.total_ms,
             });
+            console.warn(cost);
             if (!cost) continue;
 
             await sharedDbClient
@@ -62,10 +65,7 @@ export const aggregate = async (
                 updatedAt: new Date(), // queryString: "",
               })
               .onConflictDoUpdate({
-                target: [
-                  usageCurrentCycleActionRepoTbl.cost,
-                  usageCurrentCycleActionRepoTbl.updatedAt,
-                ],
+                target: usageCurrentCycleActionRepoTbl.id,
                 set: {
                   cost: Math.round(cost.cost * 10) / 10,
                   updatedAt: new Date(),
