@@ -1,13 +1,11 @@
-import { hc } from "@/clients";
-import { step } from "@/utils";
+import { logger, step } from "@/utils";
 import { cost } from "./cost";
+import { finalize } from "./finalize";
 import { prepare } from "./prepare";
 import { repositories } from "./repositories";
 import { usage } from "./usage";
 
-export const exportByOrganization = async (
-  workspaceId: string,
-): Promise<void> => {
+export const exportByOrganization = async (): Promise<void> => {
   const { scanId, reportId } = await step({
     stepName: "export:prepare",
     callback: prepare(),
@@ -28,15 +26,10 @@ export const exportByOrganization = async (
     callback: usage({ scanId, reportId }),
   });
 
-  // send finish status
-  await hc["public-api"]["reports-meta"][":workspaceId"].$patch({
-    param: { workspaceId },
-    json: {
-      reportId,
-      workspaceId,
-      status: "FINISHED",
-    },
+  await step({
+    stepName: "export:finalize",
+    callback: finalize({ reportId }),
   });
 
-  console.log("Export Done!");
+  logger.info("Export Done!");
 };

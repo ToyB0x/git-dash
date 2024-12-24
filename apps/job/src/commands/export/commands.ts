@@ -1,4 +1,3 @@
-import { env } from "@/env";
 import { Command } from "commander";
 import { exportByOrganization } from "./export";
 
@@ -10,7 +9,7 @@ export const newExportCommand = () => {
     .command("group")
     .description("export specific organization summary")
     .action(async () => {
-      await exportByOrganization(env.GDASH_WORKSPACE_ID);
+      await exportByOrganization();
     });
 
   return exportCmd;
