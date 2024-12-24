@@ -1,4 +1,4 @@
-import { auth } from "@/clients";
+import { auth, getWasmDb } from "@/clients";
 import {
   Table,
   TableBody,
@@ -18,6 +18,7 @@ import {
   dataLoaderActions4Core,
   dataLoaderActions16Core,
 } from "@/routes/(login)/$workspaceId/cost/dataLoaders";
+import { usageCurrentCycleActionRepoTbl } from "@repo/db-shared";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
@@ -120,63 +121,74 @@ const data3: KpiEntryExtended[] = [
 
 const dataTable = [
   {
-    repository: "org/api",
-    action: "unit test",
-    costs: "$3,509",
-    time: 1024,
-    lastRun: "23/09/2023 13:00",
+    repoName: "org/api",
+    workflowName: "unit test",
+    workflowPath: "test.yml",
+    cost: "$3,509",
   },
   {
-    repository: "org/frontend",
-    action: "visual regression test",
-    costs: "$5,720",
-    time: 894,
-    lastRun: "22/09/2023 10:45",
+    repoName: "org/frontend",
+    workflowName: "visual regression test",
+    workflowPath: "ui-test.yml",
+    cost: "$5,720",
   },
   {
-    repository: "org/payment",
-    action: "build",
-    costs: "$5,720",
-    time: 781,
-    lastRun: "22/09/2023 10:45",
+    repoName: "org/payment",
+    workflowName: "build",
+    workflowPath: "build.yml",
+    cost: "$5,720",
   },
   {
-    repository: "org/backend",
-    action: "unit test",
-    costs: "$4,210",
-    time: 651,
-    lastRun: "21/09/2023 14:30",
+    repoName: "org/backend",
+    workflowName: "unit test",
+    workflowPath: "test.yml",
+    cost: "$4,210",
   },
   {
-    repository: "org/serviceX",
-    action: "E2E test",
-    costs: "$2,101",
-    time: 424,
-    lastRun: "24/09/2023 09:15",
+    repoName: "org/serviceX",
+    workflowName: "E2E test",
+    workflowPath: "e2e.yml",
+    cost: "$2,101",
   },
 ];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
+  const dataActions2Core = await dataLoaderActions2Core(true);
+  const dataActions4Core = await dataLoaderActions4Core(true);
+  const dataActions16Core = await dataLoaderActions16Core(true);
+
+  if (params.workspaceId === "demo") {
+    return {
+      dataActions2Core,
+      dataActions4Core,
+      dataActions16Core,
+      workflows: dataTable,
+    };
+  }
+
   await auth.authStateReady();
-  const isDemo = params.workspaceId === "demo";
-  if (!auth.currentUser && !isDemo) {
+
+  if (!auth.currentUser) {
     throw redirect("/sign-in");
   }
 
-  const dataActions2Core = await dataLoaderActions2Core(isDemo);
-  const dataActions4Core = await dataLoaderActions4Core(isDemo);
-  const dataActions16Core = await dataLoaderActions16Core(isDemo);
+  const wasmDb = await getWasmDb({
+    workspaceId: params.workspaceId,
+    firebaseToken: await auth.currentUser.getIdToken(),
+  });
+
+  const workflows = await wasmDb.select().from(usageCurrentCycleActionRepoTbl);
 
   return {
     dataActions2Core,
     dataActions4Core,
     dataActions16Core,
+    workflows,
   };
 }
 
 export default function Page() {
-  const { dataActions2Core, dataActions4Core, dataActions16Core } =
+  const { dataActions2Core, dataActions4Core, dataActions16Core, workflows } =
     useLoaderData<typeof clientLoader>();
 
   const maxDate = startOfToday();
@@ -294,30 +306,32 @@ export default function Page() {
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
                 <TableHeaderCell>Action</TableHeaderCell>
-                <TableHeaderCell>Time(min)</TableHeaderCell>
+                <TableHeaderCell>File</TableHeaderCell>
+                {/*<TableHeaderCell>Time(min)</TableHeaderCell>*/}
                 <TableHeaderCell className="text-right">Costs</TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Last run
-                </TableHeaderCell>
+                {/*<TableHeaderCell className="text-right">*/}
+                {/*  Last run*/}
+                {/*</TableHeaderCell>*/}
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataTable.map((item) => (
-                <TableRow key={item.repository}>
+              {workflows.map((item) => (
+                <TableRow key={item.repoName + item.workflowPath}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                     <Link
-                      to={`../repositories/${item.repository}`}
+                      to={`../repositories/${item.repoName}`}
                       className="underline underline-offset-4"
                     >
-                      {item.repository}
+                      {item.repoName}
                     </Link>
                   </TableCell>
-                  <TableCell>{item.action}</TableCell>
-                  <TableCell>{item.time}</TableCell>
-                  <TableCell className="text-right">
-                    {item.costs} / month
+                  <TableCell>{item.workflowName}</TableCell>
+                  <TableCell>
+                    {item.workflowPath.replace(".github/workflows/", "")}
                   </TableCell>
-                  <TableCell className="text-right">{item.lastRun}</TableCell>
+                  {/*<TableCell>{item.time}</TableCell>*/}
+                  <TableCell className="text-right">${item.cost}</TableCell>
+                  {/*<TableCell className="text-right">{item.lastRun}</TableCell>*/}
                 </TableRow>
               ))}
             </TableBody>
