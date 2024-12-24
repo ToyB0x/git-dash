@@ -1,12 +1,12 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const usageCurrentCycleActionOrgTbl = sqliteTable(
   "usage_current_cycle_action_org",
   {
-    id: integer({ mode: "number" }).primaryKey(),
-    cost: integer().notNull(),
+    id: int().primaryKey(),
+    cost: int().notNull(),
     runnerType: text("runner_type"),
-    createdAt: integer({ mode: "timestamp_ms" }).notNull(),
-    updatedAt: integer({ mode: "timestamp_ms" }).notNull(),
+    createdAt: int({ mode: "timestamp_ms" }).notNull(),
+    updatedAt: int({ mode: "timestamp_ms" }).notNull(),
   },
 );
