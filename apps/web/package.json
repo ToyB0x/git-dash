@@ -6,6 +6,7 @@
     "build": "NODE_ENV=production react-router build",
     "dev": "react-router dev",
     "start:preview": "vite preview",
+    "build-and-preview": "pnpm build && pnpm start:preview",
     "deploy": "pnpm build && wrangler pages deploy",
     "deploy:prd": "wrangler pages deploy --branch main",
     "typecheck": "react-router typegen && tsc"

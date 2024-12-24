@@ -17,7 +17,10 @@ const firebaseAppBrowser = initializeApp(firebaseConfigsBrowser);
 
 const _auth = getAuth(firebaseAppBrowser);
 
-if (publicViteEnv.MODE === "development") {
+if (
+  publicViteEnv.MODE === "development" || // with dev mode
+  publicViteEnv.VITE_PUBLIC_FIREBASE_PROJECT_ID === "local" // with production mode but in ci / e2e
+) {
   connectAuthEmulator(_auth, "http://127.0.0.1:9099");
 }
 
