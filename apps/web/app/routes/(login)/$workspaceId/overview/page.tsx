@@ -5,10 +5,6 @@ import { DonutChart } from "@/components/DonutChart";
 import { cx } from "@/lib/utils";
 import { usageCurrentCycleActionOrgTbl } from "@repo/db-shared";
 import {
-  type Schema as StatActionUsageCurrentCycle,
-  stat as statActionUsageCurrentCycle,
-} from "@repo/schema/statActionUsageCurrentCycle";
-import {
   type Schema as StatCostsSchema,
   stat as statCosts,
 } from "@repo/schema/statCosts";
@@ -92,14 +88,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     };
   });
 
-  const fetchActionUsageCurrentCycleResult =
-    await fetchReport<StatActionUsageCurrentCycle>(
-      token,
-      statActionUsageCurrentCycle.type,
-      params.workspaceId,
-      statActionUsageCurrentCycle.schema,
-    );
-
   const dbResponse = await hc.api.db[":workspaceId"].$get(
     {
       param: {
@@ -128,17 +116,16 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   );
   const sqldb = new sqlPromise.Database(binaryData);
   const database = drizzle(sqldb);
-  const resDb1 = await database.select().from(usageCurrentCycleActionOrgTbl);
-  console.log(resDb1);
+  const actionsUsageCurrentCycle = await database
+    .select()
+    .from(usageCurrentCycleActionOrgTbl);
 
   return {
     costs: fetchCostsResult.success
       ? // ? [fetchCostResult.data.stats, { date: "Jan 23", cost: null }]
         data
       : [],
-    actionsUsageCurrentCycle: fetchActionUsageCurrentCycleResult.success
-      ? fetchActionUsageCurrentCycleResult.data.stats
-      : [],
+    actionsUsageCurrentCycle,
   };
 }
 
