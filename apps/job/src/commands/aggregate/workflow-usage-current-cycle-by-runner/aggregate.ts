@@ -22,14 +22,14 @@ export const aggregate = async () => {
       .insert(workflowUsageCurrentCycleByRunnerTbl)
       .values({
         runnerType: usage.runner,
-        dollar: usage.cost,
+        dollar: Math.round(usage.cost * 10) / 10, // round to 1 decimal place
         createdAt: new Date(),
         updatedAt: new Date(),
       })
       .onConflictDoUpdate({
         target: workflowUsageCurrentCycleByRunnerTbl.runnerType,
         set: {
-          dollar: usage.cost,
+          dollar: Math.round(usage.cost * 10) / 10, // round to 1 decimal place
           updatedAt: new Date(),
         },
       });
