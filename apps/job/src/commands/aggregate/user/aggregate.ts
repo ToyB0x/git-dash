@@ -29,13 +29,11 @@ export const aggregate = async () => {
         },
       });
 
-      const login = user.data.login;
-      const avatar_url = user.data.avatar_url;
-      const updated_at = user.data.updated_at;
-
-      console.log(
-        `login: ${login}, avatar_url: ${avatar_url}, updated_at: ${updated_at}`,
-      );
+      const login = user.data.login as string;
+      const avatar_url = user.data.avatar_url as string;
+      const name = user.data.name as string | null;
+      const blog = user.data.blog as string | null;
+      const updated_at = user.data.updated_at as string;
 
       if (!login || !avatar_url || !updated_at) return;
 
@@ -44,6 +42,8 @@ export const aggregate = async () => {
         .values({
           id: userId,
           login: login,
+          name: name,
+          blog: blog,
           avatarUrl: avatar_url,
           updatedAt: new Date(updated_at),
         })
@@ -51,6 +51,8 @@ export const aggregate = async () => {
           target: userTbl.id,
           set: {
             login: login,
+            name: name,
+            blog: blog,
             avatarUrl: avatar_url,
             updatedAt: new Date(updated_at),
           },
