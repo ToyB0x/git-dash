@@ -9,30 +9,42 @@ export const aggregate = async (
 ) => {
   const octokit = await getOctokit();
   // TODO: 直近に更新されていないリポジトリは除外して高速化する
-  await PromisePool.for(repositories.slice(0, 5))
-    // parent: 8 , child: 10 = max 80 concurrent requests
+  await PromisePool.for(repositories)
+    // 8 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
     .process(async (repository) => {
-      // eg: "2024-12-01";
-      const now = new Date();
-      const createdAfter = `${now.getFullYear()}-${
-        now.getMonth() // 1 month ago
-      }-${now.getDate().toString().padStart(2, "0")}`;
-
       // ref: https://docs.github.com/ja/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests
-      const prs = await octokit.paginate(octokit.rest.pulls.list, {
-        owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
-        repo: repository.name,
-        per_page: 100,
-        sort: "created",
-        created: `:>=${createdAfter}`,
-      });
+      // const prs = await octokit.paginate(octokit.rest.pulls.listReviewCommentsForRepo, {
+      const prs = await octokit.paginate(
+        octokit.rest.pulls.list,
+        {
+          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          repo: repository.name,
+          per_page: 100,
+          state: "all",
+          sort: "created",
+          direction: "desc",
+        },
+        (response, done) => {
+          if (
+            response.data.find(
+              (pr) =>
+                new Date(pr.created_at).getTime() <
+                new Date(
+                  Date.now() - 1 /* month */ * 60 * 60 * 24 * 30 * 1000,
+                ).getTime(),
+            )
+          ) {
+            done();
+          }
+          return response.data;
+        },
+      );
 
       await PromisePool.for(prs)
-        // parent: 8 , child: 10 = max 80 concurrent requests
         // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
-        .withConcurrency(10)
+        .withConcurrency(1)
         .process(async (pr) => {
           const authorId = pr.user?.id;
           if (!authorId) return;
