@@ -1,12 +1,13 @@
-import { dbClient, getOctokit, sharedDbClient } from "@/clients";
+import { getOctokit, sharedDbClient } from "@/clients";
+import { env } from "@/env";
 import { calcActionsCostFromTime, logger } from "@/utils";
-import { usageCurrentCycleActionOrgTbl } from "@repo/db-shared";
+import { workflowUsageCurrentCycleByRunnerTbl } from "@repo/db-shared";
 
-export const aggregate = async (orgName: string, scanId: number) => {
+export const aggregate = async () => {
   const octokit = await getOctokit();
 
   const billingAction = await octokit.rest.billing.getGithubActionsBillingOrg({
-    org: orgName,
+    org: env.GDASH_GITHUB_ORGANIZATION_NAME,
   });
   const billingActionsCost = Object.entries(
     billingAction.data.minutes_used_breakdown,
@@ -17,22 +18,21 @@ export const aggregate = async (orgName: string, scanId: number) => {
   for (const usage of billingActionsCost) {
     if (!usage || !usage.cost) continue;
 
-    // prisma: postgres db
-    await dbClient.actionUsageCurrentCycle.create({
-      data: {
-        scanId,
+    await sharedDbClient
+      .insert(workflowUsageCurrentCycleByRunnerTbl)
+      .values({
         runnerType: usage.runner,
-        cost: usage.cost,
-      },
-    });
-
-    // Drizzle: shared db
-    await sharedDbClient.insert(usageCurrentCycleActionOrgTbl).values({
-      cost: usage.cost,
-      runnerType: usage.runner,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+        dollar: usage.cost,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: workflowUsageCurrentCycleByRunnerTbl.runnerType,
+        set: {
+          dollar: usage.cost,
+          updatedAt: new Date(),
+        },
+      });
   }
 
   const rateLimit = await octokit.rest.rateLimit.get();
