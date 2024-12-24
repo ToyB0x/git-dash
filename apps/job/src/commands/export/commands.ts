@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { exportByOrganization } from "./export";
+import { exportByWorkspace } from "./export";
 
 export const newExportCommand = () => {
   const exportCmd = new Command("export");
@@ -9,7 +9,7 @@ export const newExportCommand = () => {
     .command("group")
     .description("export specific organization summary")
     .action(async () => {
-      await exportByOrganization();
+      await exportByWorkspace();
     });
 
   return exportCmd;

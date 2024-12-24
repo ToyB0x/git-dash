@@ -5,7 +5,7 @@ import { prepare } from "./prepare";
 import { repositories } from "./repositories";
 import { usage } from "./usage";
 
-export const exportByOrganization = async (): Promise<void> => {
+export const exportByWorkspace = async (): Promise<void> => {
   const { scanId, reportId } = await step({
     stepName: "export:prepare",
     callback: prepare(),
