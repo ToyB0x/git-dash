@@ -1,4 +1,4 @@
-import { auth } from "@/clients";
+import { auth, getWasmDb } from "@/clients";
 import {
   Table,
   TableBody,
@@ -17,11 +17,17 @@ import {
   dataLoaderVulnerabilityHigh,
   dataLoaderVulnerabilityLow,
 } from "@/routes/(login)/$workspaceId/vuln/dataLoaders";
+import {
+  repositoryTbl,
+  workflowTbl,
+  workflowUsageCurrentCycleTbl,
+} from "@repo/db-shared";
 import { startOfToday, subDays } from "date-fns";
+import { desc, eq } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { redirect, useLoaderData, useParams } from "react-router";
-import type { Route } from "../../../../.react-router/types/app/routes/(login)/$workspaceId.users.$userId/+types/page";
+import type { Route } from "../../../../.react-router/types/app/routes/(login)/$workspaceId.repositories.$repositoryId/+types/page";
 import {
   dataLoaderChangeFailureRate,
   dataLoaderChangeLeadTime,
@@ -123,51 +129,42 @@ const data3: KpiEntryExtended[] = [
   },
 ];
 
-const dataTable = [
+const workflowUsageCurrentCyclesDemo = [
   {
-    action: "unit test",
-    costs: "$3,509.00",
-    instance: "Ubuntu 16-core",
-    time: 1024,
-    lastRun: "23/09/2023 13:00",
+    workflowId: 1,
+    workflowName: "unit test",
+    dollar: "1,509.21",
+    workflowPath: "unit.yml",
   },
   {
-    action: "visual regression test",
-    costs: "$5,720.00",
-    instance: "Ubuntu 16-core",
-    time: 894,
-    lastRun: "22/09/2023 10:45",
+    workflowId: 2,
+    workflowName: "visual regression test",
+    dollar: "720.42",
+    workflowPath: "visual-regression.yml",
   },
   {
-    action: "build",
-    costs: "$5,720.00",
-    instance: "Ubuntu 4-core",
-    time: 781,
-    lastRun: "22/09/2023 10:45",
+    workflowId: 3,
+    workflowName: "build",
+    dollar: "532.20",
+    workflowPath: "build.yml",
   },
   {
-    action: "unit test",
-    costs: "$4,200.00",
-    instance: "Ubuntu 4-core",
-    time: 651,
-    lastRun: "21/09/2023 14:30",
+    workflowId: 4,
+    workflowName: "type check",
+    dollar: "341.01",
+    workflowPath: "typecheck.yml",
   },
   {
-    action: "E2E test",
-    costs: "$2,100.00",
-    instance: "Ubuntu 2-core",
-    time: 424,
-    lastRun: "24/09/2023 09:15",
+    workflowId: 5,
+    workflowName: "E2E test",
+    dollar: "21.10",
+    workflowPath: "e2e.yml",
   },
 ];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
-  await auth.authStateReady();
   const isDemo = params.workspaceId === "demo";
-  if (!auth.currentUser && !isDemo) {
-    throw redirect("/sign-in");
-  }
 
   const dataChangeLeadTime = await dataLoaderChangeLeadTime(isDemo);
   const dataRelease = await dataLoaderRelease(isDemo);
@@ -180,6 +177,46 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
   const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
 
+  if (isDemo) {
+    return {
+      dataChangeLeadTime,
+      dataRelease,
+      dataChangeFailureRate,
+      dataFailedDeploymentRecoveryTime,
+      dataVulnerabilityCritical,
+      dataVulnerabilityHigh,
+      dataVulnerabilityLow,
+      workflowUsageCurrentCycles: workflowUsageCurrentCyclesDemo,
+    };
+  }
+
+  await auth.authStateReady();
+
+  if (!auth.currentUser) {
+    throw redirect("/sign-in");
+  }
+
+  const token = await auth.currentUser.getIdToken();
+
+  const wasmDb = await getWasmDb({
+    workspaceId: params.workspaceId,
+    firebaseToken: token,
+  });
+
+  const workflowUsageCurrentCycles = await wasmDb
+    .select({
+      workflowId: workflowTbl.id,
+      workflowName: workflowTbl.name,
+      workflowPath: workflowTbl.path,
+      dollar: workflowUsageCurrentCycleTbl.dollar,
+      repositoryName: repositoryTbl.name,
+    })
+    .from(workflowUsageCurrentCycleTbl)
+    .orderBy(desc(workflowUsageCurrentCycleTbl.dollar))
+    .innerJoin(workflowTbl, eq(workflowUsageCurrentCycleTbl.id, workflowTbl.id))
+    .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
+    .where(eq(repositoryTbl.name, params.repositoryId));
+
   return {
     dataChangeLeadTime,
     dataRelease,
@@ -188,6 +225,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
+    workflowUsageCurrentCycles,
   };
 }
 
@@ -200,6 +238,7 @@ export default function Page() {
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
+    workflowUsageCurrentCycles,
   } = useLoaderData<typeof clientLoader>();
   const { repositoryId } = useParams();
 
@@ -368,7 +407,7 @@ export default function Page() {
           id="actions-cost"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Actions cost
+          Actions cost (current billing cycle)
         </h1>
 
         <TableRoot className="mt-8">
@@ -376,24 +415,18 @@ export default function Page() {
             <TableHead>
               <TableRow>
                 <TableHeaderCell>Action</TableHeaderCell>
-                <TableHeaderCell>Instance</TableHeaderCell>
-                <TableHeaderCell>Time(min)</TableHeaderCell>
+                <TableHeaderCell>Path</TableHeaderCell>
                 <TableHeaderCell className="text-right">Costs</TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Last run
-                </TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataTable.map((item) => (
-                <TableRow key={item.action}>
+              {workflowUsageCurrentCycles.map((item) => (
+                <TableRow key={item.workflowId}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    {item.action}
+                    {item.workflowName}
                   </TableCell>
-                  <TableCell>{item.instance}</TableCell>
-                  <TableCell>{item.time}</TableCell>
-                  <TableCell className="text-right">{item.costs}</TableCell>
-                  <TableCell className="text-right">{item.lastRun}</TableCell>
+                  <TableCell>{item.workflowPath}</TableCell>
+                  <TableCell className="text-right">${item.dollar}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
