@@ -225,7 +225,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
-    workflowUsageCurrentCycles,
+    workflowUsageCurrentCycles: workflowUsageCurrentCycles.filter(
+      ({ dollar }) => dollar > 0,
+    ),
   };
 }
 
