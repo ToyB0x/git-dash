@@ -65,7 +65,7 @@ export const aggregateByOrganization = async (
   // comment out to avoid heavy quota consumption
   await step({
     stepName: "aggregate:actions-usage-current-cycle-repo",
-    callback: accregateActionsUsageCurrentCycleRepo(repositories),
+    callback: accregateActionsUsageCurrentCycleRepo(),
   });
 
   // await aggregateUsers(orgName, organizationId);
