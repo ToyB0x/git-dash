@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD `updatedAt` integer NOT NULL;
