@@ -1,0 +1,1 @@
+ALTER TABLE `usage_current_cycle_action_repo` DROP COLUMN `runner_type`;

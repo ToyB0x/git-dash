@@ -39,39 +39,40 @@ export const aggregate = async (
             workflow_id: workflow.id,
           });
 
+          let cost = 0;
           for (const [runnerType, value] of Object.entries(
             workflowUsage.data.billable,
           )) {
             if (!value.total_ms) continue;
 
-            console.warn(value);
-            const cost = calcActionsCostFromTime({
+            const _cost = calcActionsCostFromTime({
               runner: runnerType,
               milliSec: value.total_ms,
             });
-            console.warn(cost);
-            if (!cost) continue;
 
-            await sharedDbClient
-              .insert(usageCurrentCycleActionRepoTbl)
-              .values({
-                id: workflow.id,
-                runnerType,
-                repoName: repository.name,
-                workflowName: workflow.name || "",
-                workflowPath: workflow.path,
-                cost: Math.round(cost.cost * 10) / 10, // round to 1 decimal place
-                createdAt: new Date(),
-                updatedAt: new Date(), // queryString: "",
-              })
-              .onConflictDoUpdate({
-                target: usageCurrentCycleActionRepoTbl.id,
-                set: {
-                  cost: Math.round(cost.cost * 10) / 10,
-                  updatedAt: new Date(),
-                },
-              });
+            if (!_cost || !_cost.cost) continue;
+
+            cost += _cost.cost;
           }
+
+          await sharedDbClient
+            .insert(usageCurrentCycleActionRepoTbl)
+            .values({
+              id: workflow.id,
+              repoName: repository.name,
+              workflowName: workflow.name || "",
+              workflowPath: workflow.path,
+              cost: Math.round(cost * 10) / 10, // round to 1 decimal place
+              createdAt: new Date(),
+              updatedAt: new Date(), // queryString: "",
+            })
+            .onConflictDoUpdate({
+              target: usageCurrentCycleActionRepoTbl.id,
+              set: {
+                cost: Math.round(cost * 10) / 10,
+                updatedAt: new Date(),
+              },
+            });
         });
       logger.trace(`inner results: ${results.length}`);
       logger.trace(`inner errors: ${errors.length}`);
