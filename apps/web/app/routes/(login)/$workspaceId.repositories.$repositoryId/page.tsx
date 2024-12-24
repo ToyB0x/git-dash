@@ -201,7 +201,7 @@ export default function Page() {
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
   } = useLoaderData<typeof clientLoader>();
-  const { orgId, repositoryId } = useParams();
+  const { repositoryId } = useParams();
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -218,7 +218,7 @@ export default function Page() {
           id="repository-summary"
           className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-2xl dark:text-gray-50"
         >
-          {orgId}/{repositoryId}
+          {repositoryId}
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <CategoryBarCard

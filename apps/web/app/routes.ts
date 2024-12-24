@@ -50,7 +50,7 @@ export default [
     ),
     route("repositories", "routes/(login)/$workspaceId/repository/page.tsx"),
     route(
-      "repositories/:orgId/:repositoryId",
+      "repositories/:repositoryId",
       "routes/(login)/$workspaceId.repositories.$repositoryId/page.tsx",
     ),
   ]),
