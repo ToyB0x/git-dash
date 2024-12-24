@@ -93,6 +93,7 @@ export const aggregate = async (orgName: string, scanId: number) => {
   for (const usage of billingActionsCost) {
     if (!usage || !usage.cost) continue;
 
+    // prisma: postgres db
     await dbClient.actionUsageCurrentCycle.create({
       data: {
         scanId,
@@ -101,6 +102,7 @@ export const aggregate = async (orgName: string, scanId: number) => {
       },
     });
 
+    // Drizzle: shared db
     await sharedDbClient.insert(usageCurrentCycleActionOrgTbl).values({
       cost: usage.cost,
       runnerType: usage.runner,
