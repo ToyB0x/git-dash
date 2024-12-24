@@ -59,8 +59,6 @@ export const aggregateByOrganization = async (): Promise<void> => {
     callback: aggregateReview(repositories),
   });
 
-  // TODO: PRとReviewに含まれるUserを集計する
-  // ref: https://docs.github.com/ja/rest/users/users?apiVersion=2022-11-28#get-a-user-using-their-id
   await step({
     stepName: "aggregate:user-from-pr-and-review",
     callback: aggregateUserFromPrAndReview(),
