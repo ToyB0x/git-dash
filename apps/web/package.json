@@ -34,6 +34,7 @@
     "@react-stately/datepicker": "3.11.0",
     "@remixicon/react": "4.6.0",
     "@repo/api": "workspace:*",
+    "@repo/db-shared": "workspace:*",
     "@repo/schema": "workspace:*",
     "clsx": "2.1.1",
     "date-fns": "4.1.0",

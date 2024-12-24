@@ -114,6 +114,9 @@ importers:
       '@repo/db-job':
         specifier: workspace:*
         version: link:../../packages/db-job
+      '@repo/db-shared':
+        specifier: workspace:*
+        version: link:../../packages/db-shared
       '@repo/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -241,6 +244,9 @@ importers:
       '@repo/api':
         specifier: workspace:*
         version: link:../api
+      '@repo/db-shared':
+        specifier: workspace:*
+        version: link:../../packages/db-shared
       '@repo/schema':
         specifier: workspace:*
         version: link:../../packages/schema
@@ -382,6 +388,22 @@ importers:
       tsup:
         specifier: 8.3.5
         version: 8.3.5(jiti@2.4.0)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
+      typescript:
+        specifier: 5.7.2
+        version: 5.7.2
+
+  packages/db-shared:
+    dependencies:
+      drizzle-orm:
+        specifier: 0.38.2
+        version: 0.38.2(@cloudflare/workers-types@4.20241218.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      drizzle-kit:
+        specifier: 0.30.1
+        version: 0.30.1
       typescript:
         specifier: 5.7.2
         version: 5.7.2
@@ -5241,7 +5263,6 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@3.1.3:
