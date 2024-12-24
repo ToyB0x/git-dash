@@ -38,7 +38,7 @@ export const aggregate = async (
         `Start aggregate:actions-cost ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
-      const workflows = await octokit.paginate(
+      const workflowRuns = await octokit.paginate(
         octokit.rest.actions.listWorkflowRunsForRepo,
         {
           owner: orgName,
@@ -48,15 +48,15 @@ export const aggregate = async (
         },
       );
 
-      const { results, errors } = await PromisePool.for(workflows)
+      const { results, errors } = await PromisePool.for(workflowRuns)
         // parent: 8 , child: 10 = max 80 concurrent requests
         // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
         .withConcurrency(10)
-        .process(async (workflow) => {
+        .process(async (workflowRun) => {
           const workflowUsage = await octokit.rest.actions.getWorkflowRunUsage({
             owner: orgName,
             repo: repository.name,
-            run_id: workflow.id,
+            run_id: workflowRun.id,
           });
 
           logger.trace(
@@ -71,9 +71,9 @@ export const aggregate = async (
                 scanId,
                 runner,
                 repositoryId: repository.id,
-                workflowId: workflow.id,
-                workflowName: workflow.name || "",
-                workflowPath: workflow.path,
+                workflowId: workflowRun.id,
+                workflowName: workflowRun.name || "",
+                workflowPath: workflowRun.path,
                 queryString,
                 totalMs: value.total_ms,
               },
