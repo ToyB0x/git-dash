@@ -81,13 +81,22 @@ export const aggregate = async (
             dollar += cost.cost;
           }
 
-          await sharedDbClient.insert(workflowRunTbl).values({
-            id: workflowRun.id,
-            dollar,
-            createdAt: new Date(workflowRun.created_at),
-            updatedAt: new Date(workflowRun.updated_at),
-            workflowId: workflowRun.workflow_id,
-          });
+          await sharedDbClient
+            .insert(workflowRunTbl)
+            .values({
+              id: workflowRun.id,
+              dollar: Math.round(dollar * 10) / 10, // round to 1 decimal place
+              createdAt: new Date(workflowRun.created_at),
+              updatedAt: new Date(workflowRun.updated_at),
+              workflowId: workflowRun.workflow_id,
+            })
+            .onConflictDoUpdate({
+              target: workflowRunTbl.id,
+              set: {
+                dollar: Math.round(dollar * 10) / 10, // round to 1 decimal place
+                updatedAt: new Date(),
+              },
+            });
         });
     });
 
