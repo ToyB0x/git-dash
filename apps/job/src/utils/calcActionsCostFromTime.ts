@@ -4,18 +4,18 @@ export const calcActionsCostFromTime = ({
 }: { runner: string; milliSec: number }) => {
   const minutes = Math.ceil(milliSec / (1000 * 60));
   // https://docs.github.com/ja/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions#per-minute-rates-for-standard-runners
-  switch (runner) {
-    case "UBUNTU":
+  switch (runner.toLowerCase()) {
+    case "ubuntu":
       return {
         runner,
         cost: minutes * 0.008,
       };
-    case "MACOS":
+    case "macos":
       return {
         runner,
         cost: minutes * 0.08,
       };
-    case "WINDOWS":
+    case "windows":
       return {
         runner,
         cost: minutes * 0.016,
