@@ -54,8 +54,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/schema
       drizzle-orm:
-        specifier: 0.38.2
-        version: 0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.38.3
+        version: 0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
       hono:
         specifier: 4.6.14
         version: 4.6.14
@@ -91,8 +91,8 @@ importers:
         specifier: 22.10.2
         version: 22.10.2
       drizzle-orm:
-        specifier: 0.38.2
-        version: 0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.38.3
+        version: 0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
       firebase-admin:
         specifier: 13.0.2
         version: 13.0.2(encoding@0.1.13)
@@ -133,8 +133,8 @@ importers:
         specifier: 8.0.0
         version: 8.0.0
       drizzle-orm:
-        specifier: 0.38.2
-        version: 0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.38.3
+        version: 0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
       graphql:
         specifier: 16.10.0
         version: 16.10.0
@@ -263,8 +263,8 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
       drizzle-orm:
-        specifier: 0.38.2
-        version: 0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.38.3
+        version: 0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
       firebase:
         specifier: 11.1.0
         version: 11.1.0
@@ -348,11 +348,11 @@ importers:
   packages/db-api:
     dependencies:
       drizzle-orm:
-        specifier: 0.38.2
-        version: 0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.38.3
+        version: 0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
       drizzle-valibot:
         specifier: 0.3.1
-        version: 0.3.1(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.9(typescript@5.7.2))
+        version: 0.3.1(drizzle-orm@0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.9(typescript@5.7.2))
       nanoid:
         specifier: 5.0.9
         version: 5.0.9
@@ -401,8 +401,8 @@ importers:
   packages/db-shared:
     dependencies:
       drizzle-orm:
-        specifier: 0.38.2
-        version: 0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.38.3
+        version: 0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -4174,8 +4174,8 @@ packages:
     resolution: {integrity: sha512-HmA/NeewvHywhJ2ENXD3KvOuM/+K2dGLJfxVfIHsGwaqKICJnS+Ke2L6UcSrSrtMJLJaT0Im1Qv4TFXfaZShyw==}
     hasBin: true
 
-  drizzle-orm@0.38.2:
-    resolution: {integrity: sha512-eCE3yPRAskLo1WpM9OHpFaM70tBEDsWhwR/0M3CKyztAXKR9Qs3asZlcJOEliIcUSg8GuwrlY0dmYDgmm6y5GQ==}
+  drizzle-orm@0.38.3:
+    resolution: {integrity: sha512-w41Y+PquMpSff/QDRGdItG0/aWca+/J3Sda9PPGkTxBtjWQvgU1jxlFBXdjog5tYvTu58uvi3PwR1NuCx0KeZg==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -11450,7 +11450,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0):
+  drizzle-orm@0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0):
     optionalDependencies:
       '@cloudflare/workers-types': 4.20241224.0
       '@electric-sql/pglite': 0.2.14
@@ -11465,9 +11465,9 @@ snapshots:
       react: 19.0.0
       sql.js: 1.12.0
 
-  drizzle-valibot@0.3.1(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.9(typescript@5.7.2)):
+  drizzle-valibot@0.3.1(drizzle-orm@0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.9(typescript@5.7.2)):
     dependencies:
-      drizzle-orm: 0.38.2(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
+      drizzle-orm: 0.38.3(@cloudflare/workers-types@4.20241224.0)(@electric-sql/pglite@0.2.14)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@prisma/client@6.1.0(prisma@6.1.0))(@types/better-sqlite3@7.6.12)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(prisma@6.1.0)(react@19.0.0)(sql.js@1.12.0)
       valibot: 1.0.0-beta.9(typescript@5.7.2)
 
   dset@3.1.4: {}
