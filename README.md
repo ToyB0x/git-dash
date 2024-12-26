@@ -61,3 +61,7 @@ And Merged PR creators will be given a discount on the paid plan.
   (ただし、日時差分とする場合はクエリ実行時刻の影響を受けることに注意)
 - PRテーブルのファイルサイズを削減する
 　`SELECT name, sum(pgsize) AS size FROM dbstat GROUP BY name ORDER BY size DESC LIMIT 10;`
+- 現在の簡易実装であるAPIキーをよりセキュアにするためハッシュ化したデータを保存するようにする(ハッシュ計算元はどこにも保存しない)
+- Usersページをアルファベット順でソートする & テーブル自体にブラウザ上のソート機能を追加
+- http://localhost:10000/workspace1/users/{userLogin} のreview list の UIを改善
+- 初回サインアップ直後に、収集結果のDBがない状態で必ず画面エラーが起こるためハンドリングを追加する
