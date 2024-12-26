@@ -1,4 +1,4 @@
-import { auth } from "@/clients";
+import { auth, getWasmDb } from "@/clients";
 import {
   Table,
   TableBody,
@@ -12,7 +12,9 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
+import { prTbl, repositoryTbl, reviewTbl, userTbl } from "@repo/db-shared";
 import { startOfToday, subDays } from "date-fns";
+import { desc, eq } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData, useParams } from "react-router";
@@ -163,26 +165,59 @@ const dataTable = [
 ];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
-  await auth.authStateReady();
   const isDemo = params.workspaceId === "demo";
-  if (!auth.currentUser && !isDemo) {
-    throw redirect("/sign-in");
-  }
 
   const dataPrOpen = await dataLoaderPrOpen(isDemo);
   const dataPrMerge = await dataLoaderPrMerge(isDemo);
   const dataReviews = await dataLoaderReviews(isDemo);
 
+  if (isDemo) {
+    return {
+      dataPrOpen,
+      dataPrMerge,
+      dataReviews,
+      reviews: [],
+    };
+  }
+
+  await auth.authStateReady();
+
+  if (!auth.currentUser) {
+    throw redirect("/sign-in");
+  }
+
+  const token = await auth.currentUser.getIdToken();
+
+  const wasmDb = await getWasmDb({
+    workspaceId: params.workspaceId,
+    firebaseToken: token,
+  });
+
+  const reviews = await wasmDb
+    .select({
+      id: reviewTbl.id,
+      prId: reviewTbl.prId,
+      prNumber: prTbl.number,
+      repoName: repositoryTbl.name,
+      repoOwner: repositoryTbl.owner,
+    })
+    .from(reviewTbl)
+    .innerJoin(userTbl, eq(userTbl.id, reviewTbl.reviewerId))
+    .innerJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+    .innerJoin(repositoryTbl, eq(repositoryTbl.id, prTbl.repositoryId))
+    .where(eq(userTbl.login, params.userId))
+    .orderBy(desc(reviewTbl.createdAt));
+
   return {
     dataPrOpen,
     dataPrMerge,
     dataReviews,
+    reviews,
   };
 }
 
 export default function Page() {
-  const { dataPrOpen, dataPrMerge, dataReviews } =
+  const { dataPrOpen, dataPrMerge, dataReviews, reviews } =
     useLoaderData<typeof clientLoader>();
   const { userId } = useParams();
 
@@ -330,6 +365,42 @@ export default function Page() {
                   <TableCell className="text-right">
                     {item.lastActivity}
                   </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+      </section>
+
+      <section aria-labelledby="review">
+        <h1 className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+          Recent Reviews ({reviews.length} reviews in this month)
+        </h1>
+
+        <TableRoot className="mt-8">
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableHeaderCell>Repository</TableHeaderCell>
+                <TableHeaderCell className="text-right">
+                  Review ID
+                </TableHeaderCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {reviews.slice(0, 10).map((review) => (
+                <TableRow key={review.id}>
+                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                    <a
+                      href={`https://github.com/${review.repoOwner}/${review.repoName}/pull/${review.prNumber}`}
+                      className="underline underline-offset-4"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {`${review.repoName}/${review.prNumber}`}
+                    </a>
+                  </TableCell>
+                  <TableCell className="text-right">{review.id}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
