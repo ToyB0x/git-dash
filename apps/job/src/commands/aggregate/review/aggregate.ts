@@ -3,7 +3,7 @@ import { env } from "@/env";
 import { logger } from "@/utils";
 import { prTbl, reviewTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
@@ -16,7 +16,7 @@ export const aggregate = async (
     .withConcurrency(8)
     .process(async (repository, i) => {
       logger.info(
-        `Start aggregate:review-cost ${repository.name} (${i + 1}/${repositories.length})`,
+        `Start aggregate:review ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
       // ref: https://docs.github.com/ja/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-in-a-repository
@@ -49,29 +49,40 @@ export const aggregate = async (
         // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
         .withConcurrency(1)
         .process(async (review) => {
-          if (review.pull_request_review_id === null) return;
+          if (!review.pull_request_url) return;
+
+          const prNumber = review.pull_request_url.split("/").slice(-1)[0];
+          if (!prNumber) return;
 
           const prs = await sharedDbClient
             .select()
             .from(prTbl)
-            .where(eq(prTbl.id, review.pull_request_review_id));
+            .where(
+              and(
+                eq(prTbl.number, Number(prNumber)),
+                eq(prTbl.repositoryId, repository.id),
+              ),
+            );
 
           // Skip self review
           if (prs.find((pr) => pr.authorId === review.user.id)) return;
+          const prId = prs[0]?.id;
+
+          if (!prId) return;
 
           await sharedDbClient
             .insert(reviewTbl)
             .values({
               id: review.id,
               reviewerId: review.user.id,
-              prId: review.pull_request_review_id,
+              prId,
               createdAt: new Date(review.created_at),
             })
             .onConflictDoUpdate({
               target: reviewTbl.id,
               set: {
                 reviewerId: review.user.id,
-                prId: review.pull_request_review_id,
+                prId,
                 createdAt: new Date(review.created_at),
               },
             });
