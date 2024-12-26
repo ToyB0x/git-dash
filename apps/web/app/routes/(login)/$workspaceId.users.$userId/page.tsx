@@ -173,6 +173,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (isDemo) {
     return {
+      user: {
+        avatarUrl: "https://i.pravatar.cc/300",
+      },
       dataPrOpen,
       dataPrMerge,
       dataReviews,
@@ -193,6 +196,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: token,
   });
 
+  const users = await wasmDb
+    .select()
+    .from(userTbl)
+    .where(eq(userTbl.login, params.userId));
+  const user = users[0];
+  if (!user) throw Error("User not found");
+
   const reviews = await wasmDb
     .select({
       id: reviewTbl.id,
@@ -209,6 +219,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .orderBy(desc(reviewTbl.createdAt));
 
   return {
+    user,
     dataPrOpen,
     dataPrMerge,
     dataReviews,
@@ -217,7 +228,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 }
 
 export default function Page() {
-  const { dataPrOpen, dataPrMerge, dataReviews, reviews } =
+  const { user, dataPrOpen, dataPrMerge, dataReviews, reviews } =
     useLoaderData<typeof clientLoader>();
   const { userId } = useParams();
 
@@ -237,7 +248,7 @@ export default function Page() {
           className="flex items-center text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           <img
-            src="https://i.pravatar.cc/300"
+            src={user.avatarUrl}
             alt="user"
             className="w-12 h-12 rounded-full mr-3"
           />
