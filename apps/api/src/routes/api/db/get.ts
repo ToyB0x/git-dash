@@ -38,7 +38,8 @@ const handlers = factory.createHandlers(async (c) => {
 
   // NOTE: ブラウザのキャッシュを5分間有効にすることによりファイル転送を防止しつつ、5分以上経過した場合には最新のデータを取得する
   c.header("Cache-Control", "private, max-age=300");
-  return c.body(await obj.text());
+  c.header("Content-Type", "application/octet-stream");
+  return c.body(obj.body);
 });
 
 export const getHandler = handlers;
