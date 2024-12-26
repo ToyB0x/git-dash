@@ -28,10 +28,8 @@ export const getWasmDb = async ({
     locateFile: (file) => `https://sql.js.org/dist/${file}`,
   });
 
-  const base64Text = await dbResponse.text();
-  const binaryData = Uint8Array.from(atob(base64Text), (char) =>
-    char.charCodeAt(0),
+  const sqldb = new sqlPromise.Database(
+    new Uint8Array(await dbResponse.arrayBuffer()),
   );
-  const sqldb = new sqlPromise.Database(binaryData);
   return drizzle(sqldb);
 };

@@ -12,13 +12,20 @@ const factory = createFactory<{
   };
 }>();
 
-const validator = vValidator("json", v.variant("type", [stat.schema]));
+const validator = vValidator(
+  "form",
+  v.object({
+    reportId: v.string(),
+    type: v.literal(stat.type),
+    file: v.instance(File),
+  }),
+);
 
 const handlers = factory.createHandlers(
-  bodyLimit({ maxSize: 5 * 1024 * 1024 }), // 5 MB
+  bodyLimit({ maxSize: 10 * 1024 * 1024 }), // 10 MB
   validator,
   async (c) => {
-    const validated = c.req.valid("json");
+    const validated = c.req.valid("form");
 
     await c.env.REPORT_BUCKET.put(
       getR2Path({
@@ -26,7 +33,7 @@ const handlers = factory.createHandlers(
         reportId: validated.reportId,
         type: validated.type,
       }),
-      validated.stats.data,
+      validated.file,
     );
 
     return c.json({ success: true });
