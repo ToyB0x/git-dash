@@ -1,0 +1,39 @@
+name = "gdash-api-prd"
+main = "src/index.ts"
+compatibility_date = "2024-12-04"
+
+[limits]
+cpu_ms = 100 # To prevent accidental runaway bills or denial-of-wallet attacks (maybe ignored on free-plan)
+
+[vars]
+PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
+
+# compatibility_flags = [ "nodejs_compat" ]
+
+# [vars]
+# MY_VAR = "my-variable"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+[[kv_namespaces]]
+binding = "PUBLIC_JWK_CACHE_KV"
+id = "3c6d35b5a9f146318ca7aef77bb0afc3" # kv_namespace=gdash-prd
+
+[[r2_buckets]]
+binding = "REPORT_BUCKET"
+bucket_name = "gdash-prd"
+
+[[ d1_databases ]]
+binding = "DB_API"
+database_name = "gdash-prd" # just management displayName (not used programatically)
+database_id = "541fd247-d508-4c31-839f-b7a469236465"
+migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrangler.toml
+
+# [ai]
+# binding = "AI"
+
+# [observability]
+# enabled = true
+# head_sampling_rate = 1

@@ -14,7 +14,10 @@
     "dev:tsc": "tsc -p tsconfig.build.json --watch",
     "dev:wrangler": "wrangler dev --persist-to ../../.emu-cloudflare",
     "build": "tsc -p tsconfig.build.json",
-    "deploy": "wrangler deploy --minify",
+    "//deploy:env": "however cloudflare pages can use env, pages can't use env. below is the workaround for deloy as possible as same way both apps",
+    "deploy:development": "wrangler deploy --config ./wrangler-dev.toml --minify",
+    "deploy:staging": "wrangler deploy --config ./wrangler-stg.toml --minify",
+    "deploy:production": "wrangler deploy --config ./wrangler-prd.toml --minify",
     "cf-typegen": "wrangler types",
     "typecheck": "tsc --noEmit"
   },
