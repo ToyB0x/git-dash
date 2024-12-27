@@ -31,25 +31,28 @@ const handlers = factory.createHandlers(validator, async (c) => {
   const matchedUser = users[0];
   if (!matchedUser) throw Error("User not found");
 
-  // 自身を初期ユーザとして登録
-  const insertedWorkspace = await db
-    .insert(workspaceTbl)
-    .values({
-      id: generateNewWorkspaceId(),
-      displayName: validated.displayName,
-      role: validated.role,
-    })
-    .returning();
+  const generatedWorkspaceId = generateNewWorkspaceId();
 
-  if (!insertedWorkspace[0]) throw Error("Failed to create workspace");
+  await db.batch([
+    // add workspace
+    db
+      .insert(workspaceTbl)
+      .values({
+        id: generatedWorkspaceId,
+        displayName: validated.displayName,
+      }),
 
-  await db.insert(usersToWorkspaces).values({
-    userId: matchedUser.id,
-    workspaceId: insertedWorkspace[0].id,
-    role: "OWNER",
-  });
+    // add self as owner
+    db
+      .insert(usersToWorkspaces)
+      .values({
+        userId: matchedUser.id,
+        workspaceId: generatedWorkspaceId,
+        role: "OWNER",
+      }),
+  ]);
 
-  return c.json({ success: true });
+  return c.json({ success: true, workspaceId: generatedWorkspaceId });
 });
 
 export const postHandler = handlers;
