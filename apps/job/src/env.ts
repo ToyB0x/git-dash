@@ -11,7 +11,7 @@ const envSchema = v.object({
   GDASH_GITHUB_INTERNAL_APP_ID: v.pipe(v.string(), v.minLength(5)),
   GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: v.pipe(
     v.string(),
-    v.minLength(100),
+    v.minLength(50),
   ),
   GDASH_WORKSPACE_ID: v.pipe(v.string(), v.minLength(3)),
   GDASH_WORKSPACE_API_KEY: v.pipe(v.string(), v.minLength(5)),
