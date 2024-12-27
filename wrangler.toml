@@ -9,6 +9,7 @@ routes = [
 cpu_ms = 100 # To prevent accidental runaway bills or denial-of-wallet attacks (maybe ignored on free-plan)
 
 [vars]
+PUBLIC_FIREBASE_PROJECT_ID = "git-dash-dev"
 PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
 
 # compatibility_flags = [ "nodejs_compat" ]
@@ -31,13 +32,13 @@ bucket_name = "report-prd"
 
 [[ d1_databases ]]
 binding = "DB_API"
-database_name = "gdash-prd" # just management displayName (not used programatically)
-database_id = "34cdcf5e-6899-41ff-b694-40d85e68d6e3"
+database_name = "gdash-dev" # just management displayName (not used programatically)
+database_id = "a97798a3-5027-4a2b-a1a7-ddff5517782f"
 migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrangler.toml
 
 # [ai]
 # binding = "AI"
 
-# [observability]
-# enabled = true
-# head_sampling_rate = 1
+[observability.logs]
+enabled = true
+head_sampling_rate = 1

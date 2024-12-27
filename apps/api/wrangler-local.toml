@@ -1,4 +1,4 @@
-name = "gdash-api-stg"
+name = "gdash-api-local"
 main = "src/index.ts"
 compatibility_date = "2024-12-04"
 
@@ -6,7 +6,7 @@ compatibility_date = "2024-12-04"
 cpu_ms = 100 # To prevent accidental runaway bills or denial-of-wallet attacks (maybe ignored on free-plan)
 
 [vars]
-PUBLIC_FIREBASE_PROJECT_ID = "git-dash-stg"
+PUBLIC_FIREBASE_PROJECT_ID = "local"
 PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
 
 # compatibility_flags = [ "nodejs_compat" ]
@@ -17,16 +17,16 @@ PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
 
 [[kv_namespaces]]
 binding = "PUBLIC_JWK_CACHE_KV"
-id = "a4c321033a0c4a8ab3fbe59a3e271f16" # kv_namespace=gdash-stg
+id = "e4a620b15d9e4d09bce68db4d112c86c" # kv_namespace=gdash-dev
 
 [[r2_buckets]]
 binding = "REPORT_BUCKET"
-bucket_name = "gdash-stg"
+bucket_name = "gdash-dev"
 
 [[ d1_databases ]]
 binding = "DB_API"
-database_name = "gdash-stg" # just management displayName (not used programatically)
-database_id = "b30b5da8-7662-497a-8a96-b23db3b864bd"
+database_name = "gdash-dev" # just management displayName (not used programatically)
+database_id = "a97798a3-5027-4a2b-a1a7-ddff5517782f"
 migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrangler.toml
 
 # [ai]

@@ -1,4 +1,4 @@
-import { auth } from "@/clients";
+import { auth, hc } from "@/clients";
 import Forms from "@/routes/(logout)/Forms";
 import type { Route } from "@@/(logout)/+types/sign-in";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -20,7 +20,19 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const password = formData.get("password");
   if (typeof password !== "string") throw Error("password is invalid");
 
-  await signInWithEmailAndPassword(auth, email, password);
+  const { user } = await signInWithEmailAndPassword(auth, email, password);
+
+  const res = await hc.api.users.$post(
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${await user.getIdToken()}`,
+      },
+    },
+  );
+
+  if (!res.ok) throw Error("Failed to create a user");
+
   return redirect("/");
 }
 
