@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Deploy
         run: echo "Deploying to development"
-#      - name: Deploy
-#        uses: ToyB0x/git-dash/.github/workflows/deploy-base.yml@feat/deploy-ci
+      - name: Deploy
+        uses: ToyB0x/git-dash/.github/workflows/deploy-base.yml@feat/deploy-ci
 #        with:
 #          environment: development
 #          # secrets: inherit
