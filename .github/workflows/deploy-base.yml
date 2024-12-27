@@ -52,10 +52,10 @@ jobs:
         run: pnpm deploy:${{ inputs.enviroment }}
         working-directory: apps/api
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: 123
 
       - name: deploy web
         run: pnpm deploy:${{ inputs.enviroment }}
         working-directory: apps/web
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: 123
