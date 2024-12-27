@@ -10,7 +10,7 @@ import {
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
-import { generateHash } from "../../../utils/hash";
+import { generateHash } from "../../../utils";
 
 const factory = createFactory<{ Bindings: Env }>();
 
