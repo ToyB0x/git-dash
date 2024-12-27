@@ -7,18 +7,14 @@ const idLength = 8;
 const idAlphabet =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-const generateNewApiToken = (): string => nanoid(32);
+// NOTE: about security
+// ref: https://github.com/ai/nanoid?tab=readme-ov-file#security
+export const generateNewWorkspaceApiToken = (): string => nanoid(32);
 
 export const workspaceTbl = sqliteTable("workspace", {
   id: text({ length: idLength }).primaryKey(),
   displayName: text({ length: 24 }).notNull(),
-  role: text({ enum: ["OWNER", "ADMIN", "MEMBER"] }).notNull(),
-  // TODO: トークンをデフォルトで作らないようにする /　トークンの作成, 削除機能を作る
-  // NOTE: about security
-  // ref: https://github.com/ai/nanoid?tab=readme-ov-file#security
-  apiToken: text("api_token", { length: 32 })
-    .notNull()
-    .$default(generateNewApiToken),
+  apiTokenHash: text("api_token_hash", { length: 32 }),
   createdAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
@@ -38,5 +34,14 @@ const createWorkspaceSchema = createInsertSchema(workspaceTbl, {
 
 export const postWorkspaceSchema = v.pick(createWorkspaceSchema, [
   "displayName",
-  "role",
 ]);
+
+const updateWorkspaceApiTokenSchema = createInsertSchema(workspaceTbl, {
+  id: v.string(),
+  apiTokenHash: v.nullable(v.string()),
+});
+
+export const patchWorkspaceApiTokenSchema = v.pick(
+  updateWorkspaceApiTokenSchema,
+  ["id"],
+);

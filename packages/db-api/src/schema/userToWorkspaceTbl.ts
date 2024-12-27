@@ -18,7 +18,7 @@ export const usersToWorkspaces = sqliteTable(
         onUpdate: "cascade",
         onDelete: "cascade",
       }),
-    role: text({ enum: ["OWNER", "MEMBER"] }).notNull(),
+    role: text({ enum: ["OWNER", "ADMIN", "MEMBER"] }).notNull(),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.userId, t.workspaceId] }),

@@ -15,6 +15,20 @@
       "when": 1734576844535,
       "tag": "0001_happy_nick_fury",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1735284151453,
+      "tag": "0002_oval_zaladane",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1735326591217,
+      "tag": "0003_normal_corsair",
+      "breakpoints": true
     }
   ]
 }
