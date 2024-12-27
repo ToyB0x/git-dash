@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Deploy
-        uses: ToyB0x/git-dash/.github/workflows/deploy-base.yml@main
+        uses: ToyB0x/git-dash/.github/workflows/deploy-base.yml@feat/deploy-ci
         with:
           environment: development
           # secrets: inherit
