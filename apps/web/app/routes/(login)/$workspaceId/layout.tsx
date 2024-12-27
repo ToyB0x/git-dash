@@ -1,7 +1,7 @@
 import { auth, hc } from "@/clients";
 import { Sidebar } from "@/components/ui/navigation/sidebar";
+import type { Route } from "@@/(login)/$workspaceId/+types/layout";
 import { Outlet, redirect, useLoaderData } from "react-router";
-import type { Route } from "../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 
 type LoginLayoutData = {
   me: {

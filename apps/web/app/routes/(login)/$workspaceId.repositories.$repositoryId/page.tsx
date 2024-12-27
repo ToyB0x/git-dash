@@ -8,6 +8,7 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
+import { NoDataMessage } from "@/components/ui/no-data";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
@@ -17,6 +18,7 @@ import {
   dataLoaderVulnerabilityHigh,
   dataLoaderVulnerabilityLow,
 } from "@/routes/(login)/$workspaceId/vuln/dataLoaders";
+import type { Route } from "@@/(login)/$workspaceId.repositories.$repositoryId/+types/page";
 import {
   repositoryTbl,
   workflowTbl,
@@ -26,8 +28,7 @@ import { startOfToday, subDays } from "date-fns";
 import { desc, eq } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { redirect, useLoaderData, useParams } from "react-router";
-import type { Route } from "../../../../.react-router/types/app/routes/(login)/$workspaceId.repositories.$repositoryId/+types/page";
+import { redirect, useParams } from "react-router";
 import {
   dataLoaderChangeFailureRate,
   dataLoaderChangeLeadTime,
@@ -203,6 +204,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: token,
   });
 
+  if (!wasmDb) return null;
+
   const workflowUsageCurrentCycles = await wasmDb
     .select({
       workflowId: workflowTbl.id,
@@ -231,7 +234,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-export default function Page() {
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const loadData = loaderData;
+  if (!loadData) return NoDataMessage;
+
   const {
     dataChangeLeadTime,
     dataRelease,
@@ -241,7 +247,8 @@ export default function Page() {
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
     workflowUsageCurrentCycles,
-  } = useLoaderData<typeof clientLoader>();
+  } = loadData;
+
   const { repositoryId } = useParams();
 
   const maxDate = startOfToday();
