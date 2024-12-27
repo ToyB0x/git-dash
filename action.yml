@@ -5,18 +5,6 @@ branding:
   color: 'blue'
   icon: 'activity'
 inputs:
-  target-repositories:
-    description: |-
-      List of repositories to analyze. These are newline-separated.
-      If not provided, all repositories that the token can access to will be analyzed.
-
-      Example:
-      ```yml
-      target-repositories: |-
-        OWNER/REPO1
-        OWNER/REPO2
-      ```
-    required: true
   GDASH_GITHUB_ORGANIZATION_NAME:
     description: "GitHub organization name to analyze"
     required: true
@@ -36,10 +24,6 @@ inputs:
   GDASH_WORKSPACE_API_KEY:
     description: "Group API key to send report"
     required: true
-  GDASH_PROJECT_ID:
-    description: "Group API key to send report"
-    required: false
-    default: "gdash-prd"
 runs:
   using: "composite"
   steps:
@@ -71,7 +55,6 @@ runs:
       shell: bash
       working-directory: apps/job
       env:
-        GDASH_PROJECT_ID: ${{ inputs.GDASH_PROJECT_ID }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
