@@ -9,4 +9,4 @@ jobs:
     uses: ./.github/workflows/deploy-base.yml
     with:
       environment: development
-      secrets: inherit
+    secrets: inherit
