@@ -8,10 +8,11 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
+import { NoDataMessage } from "@/components/ui/no-data";
+import type { Route } from "@@/(login)/$workspaceId/user/+types/page";
 import { prTbl, reviewTbl, userTbl } from "@repo/db-shared";
 import { and, eq, gte, sql } from "drizzle-orm";
 import { Link, redirect } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/user/+types/page";
 
 const dataTable = [
   {
@@ -144,6 +145,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: await auth.currentUser.getIdToken(),
   });
 
+  if (!wasmDb) return null;
+
   // ref: https://www.answeroverflow.com/m/1095781782856675368
   const users = await wasmDb
     .select({
@@ -192,7 +195,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 export default function Page({ loaderData }: Route.ComponentProps) {
-  const { users } = loaderData;
+  const loadData = loaderData;
+  if (!loadData) return NoDataMessage;
+
+  const { users } = loadData;
 
   return (
     <section aria-labelledby="users-table" className="h-screen">
