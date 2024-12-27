@@ -1,19 +1,22 @@
-import { literal, object, parse, string, union } from "valibot";
+import * as v from "valibot";
 
-const envSchema = object({
-  GDASH_ENV: union([
-    literal("test"),
-    literal("local"),
-    literal("dev"),
-    literal("stg"),
-    literal("prd"),
+const envSchema = v.object({
+  GDASH_ENV: v.union([
+    v.literal("test"),
+    v.literal("local"),
+    v.literal("dev"),
+    v.literal("stg"),
+    v.literal("prd"),
   ]),
-  GDASH_GITHUB_INTERNAL_APP_ID: string(),
-  GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: string(),
-  GDASH_WORKSPACE_ID: string(),
-  GDASH_WORKSPACE_API_KEY: string(),
-  GDASH_GITHUB_ORGANIZATION_NAME: string(),
+  GDASH_GITHUB_INTERNAL_APP_ID: v.pipe(v.string(), v.minLength(5)),
+  GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: v.pipe(
+    v.string(),
+    v.minLength(100),
+  ),
+  GDASH_WORKSPACE_ID: v.pipe(v.string(), v.minLength(3)),
+  GDASH_WORKSPACE_API_KEY: v.pipe(v.string(), v.minLength(5)),
+  GDASH_GITHUB_ORGANIZATION_NAME: v.pipe(v.string(), v.minLength(3)),
   // GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: string(),
 });
 
-export const env = parse(envSchema, process.env);
+export const env = v.parse(envSchema, process.env);
