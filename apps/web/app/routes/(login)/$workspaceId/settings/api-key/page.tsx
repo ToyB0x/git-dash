@@ -26,13 +26,16 @@ export async function clientAction({ params }: Route.ClientActionArgs) {
   return (await res.json()).newApiToken;
 }
 
-export default function Page() {
+export default function Page({ params }: Route.ComponentProps) {
+  const { workspaceId } = params;
   const actionData = useActionData();
 
   if (!actionData)
     return (
       <Form method="POST">
-        <button type="submit">API キーを発行する</button>
+        <button type="submit" disabled={workspaceId === "demo"}>
+          API キーを発行する
+        </button>
       </Form>
     );
 
