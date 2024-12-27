@@ -6,15 +6,16 @@ on:
         required: true
         type: string
 
+env:
+  VITE_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.VITE_PUBLIC_FIREBASE_PROJECT_ID }}
+  VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: ${{ secrets.VITE_PUBLIC_FIREBASE_BROWSER_API_KEY }}
+  VITE_PUBLIC_API_SERVER_URL: ${{ secrets.VITE_PUBLIC_API_SERVER_URL }}
+
 jobs:
   deploy:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      VITE_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.VITE_PUBLIC_FIREBASE_PROJECT_ID }}
-      VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: ${{ secrets.VITE_PUBLIC_FIREBASE_BROWSER_API_KEY }}
-      VITE_PUBLIC_API_SERVER_URL: ${{ secrets.VITE_PUBLIC_API_SERVER_URL }}
     steps:
       - name: Check out
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -48,13 +49,13 @@ jobs:
         run: pnpm build
 
       - name: deploy api
-        run: pnpm deploy:${{ inputs.enviroment }}
+        run: 'pnpm deploy:${{ inputs.enviroment }}'
         working-directory: apps/api
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: deploy web
-        run: pnpm deploy:${{ inputs.enviroment }}
+        run: 'pnpm deploy:${{ inputs.enviroment }}'
         working-directory: apps/web
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
