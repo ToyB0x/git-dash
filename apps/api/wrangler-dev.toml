@@ -35,4 +35,3 @@ migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrang
 [observability.logs]
 enabled = true
 head_sampling_rate = 1
-ling_rate = 1

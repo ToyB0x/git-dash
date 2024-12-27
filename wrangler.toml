@@ -32,8 +32,8 @@ bucket_name = "report-prd"
 
 [[ d1_databases ]]
 binding = "DB_API"
-database_name = "gdash-prd" # just management displayName (not used programatically)
-database_id = "34cdcf5e-6899-41ff-b694-40d85e68d6e3"
+database_name = "gdash-dev" # just management displayName (not used programatically)
+database_id = "a97798a3-5027-4a2b-a1a7-ddff5517782f"
 migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrangler.toml
 
 # [ai]
@@ -42,4 +42,3 @@ migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrang
 [observability.logs]
 enabled = true
 head_sampling_rate = 1
-ling_rate = 1
