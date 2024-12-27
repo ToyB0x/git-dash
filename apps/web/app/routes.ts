@@ -53,6 +53,17 @@ export default [
       "repositories/:repositoryId",
       "routes/(login)/$workspaceId.repositories.$repositoryId/page.tsx",
     ),
+
+    // NOTE: 以下のNestedRouteの記法では上手く動かなかったので後で調査する
+    // route("settings", "routes/(login)/$workspaceId/layout.tsx", [
+    //   index("routes/(login)/$workspaceId/settings/page.tsx"),
+    //   route("api-key", "routes/(login)/$workspaceId/settings/api-key/page.tsx"),
+    // ]),
+    route("settings", "routes/(login)/$workspaceId/settings/page.tsx"),
+    route(
+      "settings/api-key",
+      "routes/(login)/$workspaceId/settings/api-key/page.tsx",
+    ),
   ]),
 
   // logout state layout
