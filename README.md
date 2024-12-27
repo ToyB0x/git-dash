@@ -65,3 +65,4 @@ And Merged PR creators will be given a discount on the paid plan.
 - Usersページをアルファベット順でソートする & テーブル自体にブラウザ上のソート機能を追加
 - http://localhost:10000/workspace1/users/{userLogin} のreview list の UIを改善
 - 初回サインアップ直後に、収集結果のDBがない状態で必ず画面エラーが起こるためハンドリングを追加する
+- サインアップ時のパスワードポリシーをFirebaseに設定した上で、入力フォームに制限のバリデーションと文言を追加
