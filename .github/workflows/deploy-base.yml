@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: deploy web
-        run: 'echo ${{ inputs.enviroment }}'
+      - name: environment
+        run:  echo The environment is ${{ inputs.environment }}
 
       - name: deploy web
         run: 'echo :${{ inputs.enviroment }}'
