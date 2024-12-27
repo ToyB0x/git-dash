@@ -1,6 +1,6 @@
 import { auth, hc } from "@/clients";
+import type { Route } from "@@/(login)/$workspaceId/settings/api-key/+types/page";
 import { Form, redirect, useActionData } from "react-router";
-import type { Route } from "../../../../../../.react-router/types/app/routes/(login)/$workspaceId/settings/api-key/+types/page";
 
 export async function clientAction({ params }: Route.ClientActionArgs) {
   await auth.authStateReady();
