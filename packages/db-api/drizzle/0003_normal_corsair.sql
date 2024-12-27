@@ -1,0 +1,1 @@
+ALTER TABLE `workspace` RENAME COLUMN "api_token" TO "api_token_hash";

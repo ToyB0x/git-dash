@@ -16,8 +16,7 @@ const handlers = factory.createHandlers(async (c) => {
     .select({
       id: workspaceTbl.id,
       displayName: workspaceTbl.displayName,
-      role: workspaceTbl.role,
-      apiKey: workspaceTbl.apiToken,
+      role: usersToWorkspaces.role,
     })
     .from(usersToWorkspaces)
     .leftJoin(userTbl, eq(usersToWorkspaces.userId, userTbl.id))
@@ -32,12 +31,7 @@ const handlers = factory.createHandlers(async (c) => {
         id: string;
         displayName: string;
         role: "OWNER" | "ADMIN" | "MEMBER";
-        apiKey: string;
-      } =>
-        !!workspace.id &&
-        !!workspace.role &&
-        !!workspace.displayName &&
-        !!workspace.apiKey,
+      } => !!workspace.id && !!workspace.role && !!workspace.displayName,
     ),
   );
 });
