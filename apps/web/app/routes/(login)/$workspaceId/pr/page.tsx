@@ -16,11 +16,11 @@ import {
   dataLoaderPrMerge,
   dataLoaderPrOpen,
 } from "@/routes/(login)/$workspaceId/pr/dataLoaders";
+import type { Route } from "@@/(login)/$workspaceId/pr/+types/page";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 
 type KpiEntry = {
   title: string;
