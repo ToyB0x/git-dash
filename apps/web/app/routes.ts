@@ -18,7 +18,6 @@ export default [
     // コミットグラフ: 組織横断のコミットグラフ
     index("routes/(login)/$workspaceId/index.tsx"),
     route("overview", "routes/(login)/$workspaceId/overview/page.tsx"),
-    route("overview2", "routes/(login)/$workspaceId/overview2/page.tsx"),
     // リポジトリ横断の4key table
     route("fourkeys", "routes/(login)/$workspaceId/fourkey/page.tsx"),
     // 分析バー: マージまでの時間の平均の階層をCategoryBarCardで表示？
