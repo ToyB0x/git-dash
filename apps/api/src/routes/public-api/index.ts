@@ -2,6 +2,7 @@ import { workspaceTbl } from "@repo/db-api/schema";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
+import { generateHash } from "../../utils/hash";
 import { dbRoute } from "./db";
 import { reportsRoute } from "./reports";
 import { reportsMetaRoute } from "./reports-meta";
@@ -31,7 +32,8 @@ export const publicApiRoute = new Hono<{
     const workspace = workspaces[0];
     if (!workspace) throw Error("Workspace not found");
 
-    if (workspace.apiToken !== apiKey) throw Error("Invalid apiKey");
+    if (workspace.apiTokenHash !== (await generateHash(apiKey)))
+      throw Error("Invalid apiKey");
 
     c.set("validWorkspaceId", workspace.id);
     return next();
