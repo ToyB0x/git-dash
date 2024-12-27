@@ -1,0 +1,39 @@
+name = "gdash-api-dev"
+main = "src/index.ts"
+compatibility_date = "2024-12-04"
+
+[limits]
+cpu_ms = 100 # To prevent accidental runaway bills or denial-of-wallet attacks (maybe ignored on free-plan)
+
+[vars]
+PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
+
+# compatibility_flags = [ "nodejs_compat" ]
+
+# [vars]
+# MY_VAR = "my-variable"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+[[kv_namespaces]]
+binding = "PUBLIC_JWK_CACHE_KV"
+id = "e4a620b15d9e4d09bce68db4d112c86c" # kv_namespace=gdash-dev
+
+[[r2_buckets]]
+binding = "REPORT_BUCKET"
+bucket_name = "gdash-dev"
+
+[[ d1_databases ]]
+binding = "DB_API"
+database_name = "gdash-dev" # just management displayName (not used programatically)
+database_id = "a97798a3-5027-4a2b-a1a7-ddff5517782f"
+migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrangler.toml
+
+# [ai]
+# binding = "AI"
+
+# [observability]
+# enabled = true
+# head_sampling_rate = 1
