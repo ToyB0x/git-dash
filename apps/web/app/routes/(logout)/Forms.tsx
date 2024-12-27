@@ -56,9 +56,9 @@ export default function Forms({
                 type="password"
                 id="password"
                 name="password"
-                autoComplete="password"
                 placeholder="Password"
                 className="mt-2"
+                autoComplete={isSignedIn ? "current-password" : "new-password"}
               />
             </div>
             <Button type="submit" className="mt-4 w-full">
