@@ -1,12 +1,12 @@
 import { literal, object, parse, string, union } from "valibot";
 
 const envSchema = object({
-  GDASH_PROJECT_ID: union([
-    literal("gdash-test"),
-    literal("gdash-local"),
-    literal("gdash-dev"),
-    literal("gdash-stg"),
-    literal("gdash-prd"),
+  GDASH_ENV: union([
+    literal("test"),
+    literal("local"),
+    literal("dev"),
+    literal("stg"),
+    literal("prd"),
   ]),
   GDASH_GITHUB_INTERNAL_APP_ID: string(),
   GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: string(),

@@ -18,14 +18,9 @@ jobs:
       - name: run marketplace action
         uses: './' # Uses an action in the root directory
         with:
-          GDASH_PROJECT_ID: "gdash-test"
+          GDASH_ENV: "dev"
           GDASH_GITHUB_ORGANIZATION_NAME: "test-org-name"
           GDASH_GITHUB_INTERNAL_APP_ID: "1092643"
           GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: "-----BEGIN RSA PRIVATE KEY-----\nXXXXXX\n-----END RSA PRIVATE KEY-----"
-          # for clasic token or fine grained token (currently not documented / not well-supported)
-          # GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: "test-personal-access-token"
           GDASH_WORKSPACE_ID: "test-group-id"
           GDASH_WORKSPACE_API_KEY: "test-group-api-key"
-          target-repositories: |-
-            OWNER/REPO1
-            OWNER/REPO2
