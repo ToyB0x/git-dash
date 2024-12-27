@@ -12,11 +12,11 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
+import type { Route } from "@@/(login)/$workspaceId/review/+types/page";
 import { startOfToday, subDays } from "date-fns";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useLoaderData } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
 import { dataLoaderReviewCount, dataLoaderReviewTime } from "./dataLoaders";
 
 type KpiEntry = {

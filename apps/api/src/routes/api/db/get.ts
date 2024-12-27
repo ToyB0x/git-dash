@@ -23,7 +23,7 @@ const handlers = factory.createHandlers(async (c) => {
     .limit(1);
 
   if (lastReportMeta.length === 0 || !lastReportMeta[0]?.id) {
-    return c.json(null);
+    throw Error("Not Found");
   }
 
   const obj = await c.env.REPORT_BUCKET.get(

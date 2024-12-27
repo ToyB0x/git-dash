@@ -8,6 +8,7 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
+import { NoDataMessage } from "@/components/ui/no-data";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
@@ -18,6 +19,7 @@ import {
   dataLoaderActions4Core,
   dataLoaderActions16Core,
 } from "@/routes/(login)/$workspaceId/cost/dataLoaders";
+import type { Route } from "@@/(login)/$workspaceId/cost/+types/page";
 import {
   repositoryTbl,
   workflowTbl,
@@ -27,8 +29,7 @@ import { startOfToday, subDays } from "date-fns";
 import { desc, eq } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { Link, redirect, useLoaderData } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/+types/layout";
+import { Link, redirect } from "react-router";
 
 export type KpiEntry = {
   title: string;
@@ -182,6 +183,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: await auth.currentUser.getIdToken(),
   });
 
+  if (!wasmDb) return null;
+
   const workflows = await wasmDb
     .select({
       workflowId: workflowTbl.id,
@@ -209,9 +212,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-export default function Page() {
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const loadData = loaderData;
+  if (!loadData) return NoDataMessage;
+
   const { dataActions2Core, dataActions4Core, dataActions16Core, workflows } =
-    useLoaderData<typeof clientLoader>();
+    loadData;
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<

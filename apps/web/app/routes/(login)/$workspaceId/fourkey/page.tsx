@@ -9,8 +9,8 @@ import {
   TableRow,
 } from "@/components/Table";
 
+import type { Route } from "@@/(login)/$workspaceId/fourkey/+types/page";
 import { Link, redirect } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/fourkey/+types/page";
 
 const dataTable = [
   {

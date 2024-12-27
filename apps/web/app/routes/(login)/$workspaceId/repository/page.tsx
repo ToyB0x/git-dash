@@ -8,10 +8,11 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
+import { NoDataMessage } from "@/components/ui/no-data";
+import type { Route } from "@@/(login)/$workspaceId/repository/+types/page";
 import { repositoryTbl } from "@repo/db-shared";
 import { asc } from "drizzle-orm";
 import { Link, redirect } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/repository/+types/page";
 
 const dataTable = [
   {
@@ -104,6 +105,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: await auth.currentUser.getIdToken(),
   });
 
+  if (!wasmDb) return null;
+
   const repos = await wasmDb
     .select()
     .from(repositoryTbl)
@@ -122,7 +125,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 }
 
 export default function Page({ loaderData }: Route.ComponentProps) {
-  const { repositories } = loaderData;
+  const loadData = loaderData;
+  if (!loadData) return NoDataMessage;
+
+  const { repositories } = loadData;
 
   if (!repositories.length) {
     return <>データ取得中です</>;

@@ -2,7 +2,9 @@ import { auth, getWasmDb } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
+import { NoDataMessage } from "@/components/ui/no-data";
 import { cx } from "@/lib/utils";
+import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
 import {
   prTbl,
   workflowRunTbl,
@@ -10,7 +12,6 @@ import {
 } from "@repo/db-shared";
 import { and, count, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 import { Link, redirect } from "react-router";
-import type { Route } from "../../../../../.react-router/types/app/routes/(login)/$workspaceId/overview/+types/page";
 
 const dataStats = [
   {
@@ -55,6 +56,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     workspaceId: params.workspaceId,
     firebaseToken: token,
   });
+
+  if (!wasmDb) return null;
 
   const thisMonthStartAt = new Date(
     new Date().getFullYear(),
@@ -191,12 +194,15 @@ const dataDonut = [
 ];
 
 export default function Page({ loaderData }: Route.ComponentProps) {
+  const loadData = loaderData;
+  if (!loadData) return NoDataMessage;
+
   const {
     costs,
     actionsUsageCurrentCycle,
     prCountThisMonth,
     prCountLastMonth,
-  } = loaderData;
+  } = loadData;
 
   return (
     <>

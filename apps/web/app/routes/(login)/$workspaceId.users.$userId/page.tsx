@@ -8,17 +8,18 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
+import { NoDataMessage } from "@/components/ui/no-data";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
+import type { Route } from "@@/(login)/$workspaceId.users.$userId/+types/page";
 import { prTbl, repositoryTbl, reviewTbl, userTbl } from "@repo/db-shared";
 import { startOfToday, subDays } from "date-fns";
 import { desc, eq } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { Link, redirect, useLoaderData, useParams } from "react-router";
-import type { Route } from "../../../../.react-router/types/app/routes/(login)/$workspaceId.users.$userId/+types/page";
+import { Link, redirect, useParams } from "react-router";
 import {
   dataLoaderPrMerge,
   dataLoaderPrOpen,
@@ -196,6 +197,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     firebaseToken: token,
   });
 
+  if (!wasmDb) return null;
+
   const users = await wasmDb
     .select()
     .from(userTbl)
@@ -227,9 +230,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-export default function Page() {
-  const { user, dataPrOpen, dataPrMerge, dataReviews, reviews } =
-    useLoaderData<typeof clientLoader>();
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const loadData = loaderData;
+  if (!loadData) return NoDataMessage;
+
+  const { user, dataPrOpen, dataPrMerge, dataReviews, reviews } = loadData;
+
   const { userId } = useParams();
 
   const maxDate = startOfToday();
