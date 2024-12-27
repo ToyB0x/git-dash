@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import type { ReactNode } from "react";
-import { useParams } from "react-router";
+import { Form, useParams } from "react-router";
 
 export type ModalProps = {
   children: ReactNode;
@@ -33,7 +33,7 @@ export function ModalAddWorkspace({
       <Dialog onOpenChange={onOpenChange}>
         <DialogTrigger className={className}>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-2xl">
-          <form>
+          <Form action="/workspaces" method="POST">
             <DialogHeader>
               <DialogTitle>Add new workspace</DialogTitle>
               <DialogDescription className="mt-1 text-sm leading-6">
@@ -60,17 +60,15 @@ export function ModalAddWorkspace({
                   Go back
                 </Button>
               </DialogClose>
-              <DialogClose asChild>
-                <Button
-                  type="submit"
-                  className="w-full sm:w-fit"
-                  disabled={isDemo}
-                >
-                  Add workspace
-                </Button>
-              </DialogClose>
+              <Button
+                type="submit"
+                disabled={isDemo}
+                className="w-full sm:w-fit"
+              >
+                Add workspace
+              </Button>
             </DialogFooter>
-          </form>
+          </Form>
         </DialogContent>
       </Dialog>
     </>

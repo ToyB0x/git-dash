@@ -10,6 +10,7 @@ export default [
   layout("routes/(login)/layout.tsx", [
     index("routes/(login)/index.tsx"),
     route("settings", "routes/(login)/settings.tsx"),
+    route("workspaces", "routes/(login)/workspaces.tsx"),
   ]),
 
   // login state layout (group)
