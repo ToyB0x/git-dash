@@ -6,7 +6,7 @@ permissions:
 
 jobs:
   deploy-dev:
-    uses: ToyB0x/git-dash/.github/workflows/deploy-base.yml@feat/deploy-ci
+    uses: toyb0x/git-dash/.github/workflows/deploy-base.yml@feat/deploy-ci
     with:
       environment: development
       secrets: inherit
