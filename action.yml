@@ -24,6 +24,10 @@ inputs:
   GDASH_WORKSPACE_API_KEY:
     description: "Group API key to send report"
     required: true
+  GDASH_ENV:
+    description: "git-dash environment (normally prd)"
+    required: false
+    default: "prd"
 runs:
   using: "composite"
   steps:
@@ -55,6 +59,7 @@ runs:
       shell: bash
       working-directory: apps/job
       env:
+        GDASH_ENV: ${{ inputs.GDASH_ENV }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}

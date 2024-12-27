@@ -2,9 +2,9 @@ import { env } from "@/env";
 import { hcWithType } from "@repo/api/hc";
 
 export const hc = hcWithType(
-  env.GDASH_PROJECT_ID === "gdash-local"
+  env.GDASH_ENV === "local"
     ? "http://localhost:8787"
-    : `https://${env.GDASH_PROJECT_ID}.api.git-dash.com`,
+    : `https://gdash-api-${env.GDASH_ENV}.xxxxxxxxxxxxxxxxx.workers.dev`,
   {
     headers: {
       "X-GDASH-WORKSPACE-ID": env.GDASH_WORKSPACE_ID,
