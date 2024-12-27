@@ -39,6 +39,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="git-dash" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://git-dash.com" />
+        <meta property="og:site_name" content="git-dash" />
+        <meta property="og:description" content="Git analytics app" />
         <Meta />
         <Links />
       </head>
