@@ -28,6 +28,10 @@ inputs:
     description: "git-dash environment (normally prd)"
     required: false
     default: "prd"
+  ONLY_CONFIG_CHECK:
+    description: "if true, only check config"
+    required: false
+    default: "false"
 runs:
   using: "composite"
   steps:
@@ -65,5 +69,29 @@ runs:
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
         GDASH_GITHUB_INTERNAL_APP_ID: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_ID }}
         GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING }}
-        # for clasic token or fine grained token (currently not documented / not well-supported)
-        # GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: ${{ inputs.GDASH_GITHUB_PERSONAL_ACCESS_TOKEN }}
+
+    - name: Collect Stats
+      run: pnpm jobs aggregate organization
+      shell: bash
+      if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
+      working-directory: apps/job
+      env:
+        GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
+        GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
+        GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
+        GDASH_GITHUB_INTERNAL_APP_ID: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_ID }}
+        GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING }}
+
+    - name: Report Result
+      run: pnpm jobs export workspace
+      shell: bash
+      if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
+      working-directory: apps/job
+      env:
+        GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
+        GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
+        GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
+        GDASH_GITHUB_INTERNAL_APP_ID: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_ID }}
+        GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: ${{ inputs.GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING }}

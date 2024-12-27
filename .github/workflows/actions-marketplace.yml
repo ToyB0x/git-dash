@@ -24,3 +24,4 @@ jobs:
           GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: "-----BEGIN RSA PRIVATE KEY-----\nXXXXXX\n-----END RSA PRIVATE KEY-----"
           GDASH_WORKSPACE_ID: "test-group-id"
           GDASH_WORKSPACE_API_KEY: "test-group-api-key"
+          ONLY_CONFIG_CHECK: 'true'
