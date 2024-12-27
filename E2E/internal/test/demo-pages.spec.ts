@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
 
-test("can sign up and redirect", async ({ page }) => {
+test("can see demo pages", async ({ page }) => {
   // overview page
   await page.goto("http://localhost:10000/demo");
   await page.getByText("128").click();

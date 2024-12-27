@@ -22,11 +22,14 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
   const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-  const res = await hc.api.users.$post({
-    headers: {
-      Authorization: `Bearer ${await user.getIdToken()}`,
+  const res = await hc.api.users.$post(
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${await user.getIdToken()}`,
+      },
     },
-  });
+  );
 
   if (!res.ok) throw Error("Failed to create a user");
 
