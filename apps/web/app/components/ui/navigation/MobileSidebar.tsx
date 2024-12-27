@@ -66,18 +66,18 @@ const navigation = [
 ] as const;
 
 const shortcuts = [
+  // {
+  //   name: "Add new user",
+  //   href: "#",
+  //   icon: RiLinkM,
+  // },
   {
-    name: "Add new user",
-    href: "#",
+    name: "Settings",
+    href: "settings",
     icon: RiLinkM,
   },
   {
-    name: "Learn how to use",
-    href: "#",
-    icon: RiLinkM,
-  },
-  {
-    name: "Create support ticket",
+    name: "Add Analytics",
     href: "#",
     icon: RiLinkM,
   },
@@ -142,7 +142,8 @@ export default function MobileSidebar() {
               </ul>
               <div>
                 <span className="text-sm font-medium leading-6 text-gray-500 sm:text-xs">
-                  Shortcuts
+                  {/*Shortcuts*/}
+                  Manage
                 </span>
                 <ul aria-label="shortcuts" className="space-y-0.5">
                   {shortcuts.map((item) => (
@@ -150,7 +151,7 @@ export default function MobileSidebar() {
                       <Link
                         to={item.href}
                         className={cx(
-                          pathname === item.href || pathname.includes(item.href)
+                          isActive(item.href)
                             ? "text-indigo-600 dark:text-indigo-400"
                             : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                           "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 font-medium transition hover:bg-gray-100 sm:text-sm hover:dark:bg-gray-900",
