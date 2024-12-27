@@ -20,6 +20,7 @@ export const getWasmDb = async ({
 
   if (!dbResponse.ok) {
     console.error("failed to get db");
+    return null;
   }
 
   const sqlPromise = await initSqlJs({
