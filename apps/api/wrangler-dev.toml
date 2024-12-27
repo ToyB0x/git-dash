@@ -6,12 +6,10 @@ compatibility_date = "2024-12-04"
 cpu_ms = 100 # To prevent accidental runaway bills or denial-of-wallet attacks (maybe ignored on free-plan)
 
 [vars]
+PUBLIC_FIREBASE_PROJECT_ID = "git-dash-dev"
 PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
 
 # compatibility_flags = [ "nodejs_compat" ]
-
-# [vars]
-# MY_VAR = "my-variable"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
@@ -34,6 +32,7 @@ migrations_dir = "drizzle" # relative path from packages/[db-package-name]/wrang
 # [ai]
 # binding = "AI"
 
-# [observability]
-# enabled = true
-# head_sampling_rate = 1
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+ling_rate = 1

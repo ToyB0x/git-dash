@@ -7,7 +7,11 @@ import { publicApiRoute } from "./routes/public-api";
 export const app = new Hono()
   .use(
     cors({
-      origin: ["http://localhost:10000", "http://localhost:20000"],
+      origin: (origin) => {
+        return origin.endsWith(".git-dash.com")
+          ? origin
+          : "http://localhost:10000";
+      },
     }),
   )
   .route("/health", healthRoute)
