@@ -8,5 +8,5 @@ jobs:
   deploy-dev:
     uses: ./.github/workflows/deploy-base.yml
     with:
-      environment: development
+      environment: 'development'
     secrets: inherit

@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       environment:
-        default: development
+        default: 'development'
         required: true
         type: string
 
