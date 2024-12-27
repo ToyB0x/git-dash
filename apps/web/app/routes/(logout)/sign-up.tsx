@@ -1,8 +1,8 @@
 import { auth } from "@/clients";
 import Forms from "@/routes/(logout)/Forms";
+import type { Route } from "@@/(logout)/+types/sign-up";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { redirect } from "react-router";
-import type { Route } from "../../../.react-router/types/app/routes/(logout)/+types/sign-up";
 
 export function meta() {
   return [
