@@ -3,7 +3,7 @@ on:
   push
 
 permissions:
-  contents: read # for checkout repository
+  contents: write # for updating tag
 
 jobs:
   test:
