@@ -1,7 +1,6 @@
-// groups/{workspaceId}/reports/{reportId}/types/{type}/data.json
+// groups/{workspaceId}/reports/{reportId}/sqlite.db
 export const getR2Path = ({
   workspaceId,
   reportId,
-  type,
-}: { workspaceId: string; reportId: string; type: string }) =>
-  `workspaces/${workspaceId}/reports/${reportId}/types/${type}/data.json`;
+}: { workspaceId: string; reportId: string }) =>
+  `workspaces/${workspaceId}/reports/${reportId}/sqlite.db.gz`;
