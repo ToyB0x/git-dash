@@ -4,7 +4,7 @@ import { logger } from "@/utils/logger";
 type Options<T> = {
   stepName: string;
   callback: Promise<T>;
-  showUsage?: boolean;
+  showUsage?: boolean | undefined;
 };
 
 export const step = async <T>(options: Options<T>): Promise<T> => {
@@ -16,12 +16,12 @@ export const step = async <T>(options: Options<T>): Promise<T> => {
     const result = await options.callback;
     logger.info(`Finish ${options.stepName}`);
 
-    if (options.showUsage) {
+    if (options.showUsage !== false) {
       const usageAfter = await getUsage();
       const usedOnEnd = usageAfter.data.rate.used;
       logger.info(
         `Usage: ${JSON.stringify(
-          { ...usedOnEnd, diff: usedOnEnd - usedOnStart },
+          { ...usageAfter.data.rate, diff: usedOnEnd - usedOnStart },
           null,
           2,
         )}`,
