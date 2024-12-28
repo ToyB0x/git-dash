@@ -1,2 +1,0 @@
-# Override wrangler.toml vars
-PUBLIC_FIREBASE_PROJECT_ID="your-firebase-project-id"
