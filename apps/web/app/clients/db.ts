@@ -9,7 +9,13 @@ export const getWasmDb = async ({
   workspaceId: string;
   firebaseToken: string;
 }) => {
-  const dbResponse = await hc.api.db[":workspaceId"].$get(
+  const sqlPromise = initSqlJs({
+    // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
+    // You can omit locateFile completely when running in node
+    locateFile: (file) => `https://sql.js.org/dist/${file}`,
+  });
+
+  const dbResponsePromise = hc.api.db[":workspaceId"].$get(
     {
       param: { workspaceId },
     },
@@ -18,17 +24,13 @@ export const getWasmDb = async ({
     },
   );
 
+  const [sql, dbResponse] = await Promise.all([sqlPromise, dbResponsePromise]);
+
   if (!dbResponse.ok) {
     return null;
   }
 
-  const sqlPromise = await initSqlJs({
-    // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
-    // You can omit locateFile completely when running in node
-    locateFile: (file) => `https://sql.js.org/dist/${file}`,
-  });
-
-  const sqldb = new sqlPromise.Database(
+  const sqldb = new sql.Database(
     new Uint8Array(await unGzip(await dbResponse.arrayBuffer())),
   );
   return drizzle(sqldb);
