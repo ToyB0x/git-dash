@@ -7,13 +7,12 @@ import { createFactory } from "hono/factory";
 const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
+  // TODO: 認証処理の実装
   // TODO: Implement your business logic here
   // - authenticated user
   // - extract workspaceId and other params from request
   // - store r2 meta data to db
 
-  const type = c.req.param("type");
-  if (!type) throw Error("type is required");
   const workspaceId = c.req.param("workspaceId");
   if (!workspaceId) throw Error("workspaceId is required");
 
@@ -34,7 +33,6 @@ const handlers = factory.createHandlers(async (c) => {
     getR2Path({
       workspaceId,
       reportId: lastReportMeta[0].id,
-      type,
     }),
   );
 

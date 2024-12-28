@@ -31,7 +31,6 @@ const handlers = factory.createHandlers(
       getR2Path({
         workspaceId: c.var.validWorkspaceId,
         reportId: validated.reportId,
-        type: validated.type,
       }),
       validated.file,
     );
