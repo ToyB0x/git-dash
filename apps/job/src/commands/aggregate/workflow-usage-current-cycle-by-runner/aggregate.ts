@@ -1,6 +1,6 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { env } from "@/env";
-import { calcActionsCostFromTime, logger } from "@/utils";
+import { calcActionsCostFromTime } from "@/utils";
 import { workflowUsageCurrentCycleByRunnerTbl } from "@repo/db-shared";
 
 export const aggregate = async () => {

@@ -1,6 +1,5 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { env } from "@/env";
-import { logger } from "@/utils";
 import { prTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
