@@ -78,6 +78,13 @@
       "when": 1735063729956,
       "tag": "0010_greedy_juggernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1735368697840,
+      "tag": "0011_chilly_juggernaut",
+      "breakpoints": true
     }
   ]
 }
