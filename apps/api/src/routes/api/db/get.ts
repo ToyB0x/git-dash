@@ -1,7 +1,7 @@
 import { getFirebaseToken } from "@hono/firebase-auth";
-import { reportTbl } from "@repo/db-api/schema";
+import { reportTbl, userTbl, usersToWorkspaces } from "@repo/db-api/schema";
 import { getR2Path } from "@repo/schema/path";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 
@@ -13,6 +13,27 @@ const handlers = factory.createHandlers(async (c) => {
 
   const db = drizzle(c.env.DB_API);
   const workspaceId = c.req.param("workspaceId");
+
+  // TODO: 以下の権限チェックをMiddlewareに切り出す
+  const users = await db
+    .select()
+    .from(userTbl)
+    .where(eq(userTbl.firebaseUid, idToken.uid));
+
+  const user = users[0];
+  if (!user) throw Error("User not found");
+
+  const isBelongingWorkspace = await db
+    .select()
+    .from(usersToWorkspaces)
+    .where(
+      and(
+        eq(usersToWorkspaces.userId, user.id),
+        eq(usersToWorkspaces.workspaceId, workspaceId),
+      ),
+    );
+
+  if (!isBelongingWorkspace.length) throw Error("User not in workspace");
 
   const lastReportMeta = await db
     .select({ id: reportTbl.id })
