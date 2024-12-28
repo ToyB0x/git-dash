@@ -66,3 +66,4 @@ And Merged PR creators will be given a discount on the paid plan.
 - http://localhost:10000/workspace1/users/{userLogin} のreview list の UIを改善
 - 初回サインアップ直後に、収集結果のDBがない状態の画面メッセージについて、何をすれば良いのかのオンボーディングUIを追加・改善する
 - サインアップ時のパスワードポリシーをFirebaseに設定した上で、入力フォームに制限のバリデーションと文言を追加
+- APIの権限周りをMiddlewareに切り出し、漏れなく適用した上で最終確認する
