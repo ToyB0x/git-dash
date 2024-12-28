@@ -19,7 +19,6 @@
     "@graphql-typed-document-node/core": "3.2.0",
     "@libsql/client": "0.14.0",
     "@repo/api": "workspace:*",
-    "@repo/db-job": "workspace:*",
     "@repo/db-shared": "workspace:*",
     "@repo/utils": "workspace:*",
     "@supercharge/promise-pool": "3.2.0",
