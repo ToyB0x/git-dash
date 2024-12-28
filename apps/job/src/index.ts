@@ -2,8 +2,8 @@ import { Command } from "commander";
 import {
   newAggregateCommand,
   newCheckCommand,
+  newDbCommand,
   newExportCommand,
-  newReportCommand,
 } from "./commands";
 
 const main = async () => {
@@ -11,7 +11,7 @@ const main = async () => {
   program.addCommand(newAggregateCommand());
   program.addCommand(newCheckCommand());
   program.addCommand(newExportCommand());
-  program.addCommand(newReportCommand());
+  program.addCommand(newDbCommand());
 
   try {
     await program.parseAsync();
