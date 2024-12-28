@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { hc } from "@/clients";
+import { filePath, hc } from "@/clients";
 import { stat } from "@repo/schema/statFile";
 
 export const db = async ({
@@ -7,7 +7,7 @@ export const db = async ({
 }: {
   reportId: string;
 }) => {
-  const file = await readFile("../../packages/db-shared/sqlite/shared.db");
+  const file = await readFile(filePath);
   const gziped = await gzip(file);
 
   await hc["public-api"].db.$post({

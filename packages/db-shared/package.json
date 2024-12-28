@@ -9,12 +9,15 @@
     "build": "tsup",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:generate:with-env": "DB_FILE_NAME=./sqlite/shared.db drizzle-kit generate",
+    "db:migrate:with-env": "DB_FILE_NAME=./sqlite/shared.db drizzle-kit migrate",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "drizzle-orm": "0.38.3"
   },
   "devDependencies": {
+    "@types/node": "22.10.2",
     "@tsconfig/strictest": "2.0.5",
     "drizzle-kit": "0.30.1",
     "typescript": "5.7.2",

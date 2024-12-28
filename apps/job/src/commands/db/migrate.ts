@@ -7,7 +7,9 @@ import { logger } from "@/utils";
 export const migrate = () => {
   try {
     logger.info("Migrating database file");
-    const stdout = execSync("pnpm --filter @repo/db-shared db:migrate");
+    const stdout = execSync(
+      `DB_FILE_NAME=${filePath} pnpm --filter @repo/db-shared db:migrate`,
+    );
     logger.info(stdout.toString());
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   } catch (e: any) {
