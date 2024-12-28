@@ -22,7 +22,10 @@ export const aggregate = async () => {
       repositoryName: repositoryTbl.name,
     })
     .from(workflowTbl)
-    .leftJoin(workflowUsageCurrentCycleTbl, eq(workflowTbl.id, workflowUsageCurrentCycleTbl.id))
+    .leftJoin(
+      workflowUsageCurrentCycleTbl,
+      eq(workflowTbl.id, workflowUsageCurrentCycleTbl.id),
+    )
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id));
 
   const targetWorkflows = allWorkflows.filter(
