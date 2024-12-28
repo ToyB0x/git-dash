@@ -27,7 +27,7 @@ export const aggregate = async () => {
     .withConcurrency(8)
     .process(async (workflow, i) => {
       logger.info(
-        `Start aggregate:workflow-cost (${i + 1}/${workflows.length})`,
+        `Start aggregate:workflow-usage-current-cycle: (${i + 1}/${workflows.length})`,
       );
 
       const workflowUsage = await octokit.rest.actions.getWorkflowUsage({
@@ -68,7 +68,4 @@ export const aggregate = async () => {
           },
         });
     });
-
-  const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 };

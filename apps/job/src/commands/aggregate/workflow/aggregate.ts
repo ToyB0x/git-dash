@@ -1,6 +1,5 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { env } from "@/env";
-import { logger } from "@/utils";
 import { workflowTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
@@ -49,7 +48,4 @@ export const aggregate = async (
             });
         });
     });
-
-  const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 };
