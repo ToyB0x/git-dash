@@ -1,4 +1,7 @@
 import { Hono } from "hono";
+import { getHandler } from "./get";
 import { postHandler } from "./post";
 
-export const dbRoute = new Hono().post(":workspaceId", ...postHandler);
+export const dbRoute = new Hono()
+  .get("", ...getHandler)
+  .post("", ...postHandler);
