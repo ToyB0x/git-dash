@@ -1,5 +1,6 @@
 import { auth, hc } from "@/clients";
 import { Sidebar } from "@/components/ui/navigation/sidebar";
+import { NoDataMessageForError } from "@/components/ui/no-data";
 import type { Route } from "@@/(login)/$workspaceId/+types/layout";
 import { Outlet, redirect, useLoaderData } from "react-router";
 
@@ -63,6 +64,25 @@ export default function Layout() {
         <div className="relative">
           <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
             <Outlet context={{ workspaces }} />
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  console.error(error);
+
+  const { me, workspaces } = useLoaderData<typeof clientLoader>();
+
+  return (
+    <div className="mx-auto max-w-screen-2xl">
+      <Sidebar email={me.email} workspaces={workspaces} />
+      <main className="lg:pl-72">
+        <div className="relative">
+          <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
+            <NoDataMessageForError />
           </div>
         </div>
       </main>
