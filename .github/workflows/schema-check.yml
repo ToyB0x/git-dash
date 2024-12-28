@@ -20,8 +20,11 @@ jobs:
       - name: Create comment file
         run: |
           cat  << EOF > comment.md
-          The schema has changed.
-          Please run `drizzle-kit generate` to ensure new schema files are generated.
+          :bell: The schema has changed. :bell:
+
+          - [ ] Please run `drizzle-kit generate` to ensure new schema files are generated.
+          - [ ] Please check the impact on users using older DB versions.
+
           EOF
 
       - name: Create PR comment
