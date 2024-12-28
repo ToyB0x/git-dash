@@ -12,22 +12,31 @@ import { eq } from "drizzle-orm";
 export const aggregate = async () => {
   const octokit = await getOctokit();
 
-  const workflows = await sharedDbClient
+  // NOTE: workflow fileの数だけリクエストを投げるため、ymlファイルが多い場合はQuotaに注意(300ファイルある場合は 300 Pointsも消費してしまう)
+  // (Quota節約のため、Workflowファイルが配置されているリポジトリのみチェックする)
+  // TODO: 現在はワークフローファイルがなくても今月WorkflowRunがあった場合は集計対象とする(Fileベースではなく、WorkflowRunベースが正しいかもしれない)
+  const allWorkflows = await sharedDbClient
     .select({
       workflowId: workflowTbl.id,
+      lastAggregatedAt: workflowUsageCurrentCycleTbl.updatedAt,
       repositoryName: repositoryTbl.name,
     })
     .from(workflowTbl)
+    .leftJoin(workflowUsageCurrentCycleTbl, eq(workflowTbl.id, workflowUsageCurrentCycleTbl.id))
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id));
 
+  const targetWorkflows = allWorkflows.filter(
+    (workflow) => workflow.lastAggregatedAt?.getDate() !== new Date().getDate(), // 既に本日一度でも集計している場合はスキップ
+  );
+
   // TODO: 直近に更新されていないリポジトリは除外して高速化する
-  await PromisePool.for(workflows)
+  await PromisePool.for(targetWorkflows)
     // parent: 8 , child: 10 = max 80 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
     .process(async (workflow, i) => {
       logger.info(
-        `Start aggregate:workflow-usage-current-cycle: (${i + 1}/${workflows.length})`,
+        `Start aggregate:workflow-usage-current-cycle: (${i + 1}/${targetWorkflows.length})`,
       );
 
       const workflowUsage = await octokit.rest.actions.getWorkflowUsage({
