@@ -1,5 +1,6 @@
 import { step } from "@/utils";
 import { aggregate as aggregatePr } from "./pr";
+import { aggregate as aggregateRelease } from "./release";
 import { aggregate as aggregateRepositories } from "./repositories";
 import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
@@ -28,6 +29,12 @@ export const aggregateByOrganization = async (): Promise<void> => {
       (repository.updated_at &&
         new Date(repository.updated_at).getTime() > maxOldForRepo),
   );
+
+  // NOTE: リポジトリ数に応じてQuotaを消費
+  await step({
+    stepName: "aggregate:release",
+    callback: aggregateRelease(filteredRepositories),
+  });
 
   // NOTE: リポジトリ数に応じてQuotaを消費
   await step({
