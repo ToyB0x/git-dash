@@ -24,7 +24,6 @@
     },
     "typecheck": {
       "dependsOn": [
-        "generate",
         "build" // need api type definitions build
       ]
     },
