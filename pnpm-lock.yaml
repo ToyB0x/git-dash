@@ -38,6 +38,9 @@ importers:
       start-server-and-test:
         specifier: 2.0.9
         version: 2.0.9
+      typescript:
+        specifier: 5.7.2
+        version: 5.7.2
 
   apps/api:
     dependencies:
