@@ -24,7 +24,7 @@ export const aggregateByOrganization = async (): Promise<void> => {
   //   callback: aggregateExpense(orgName, scanId),
   // });
 
-  const repositories = await step({
+  await step({
     stepName: "aggregate:repository",
     callback: aggregateRepositories(),
   });
