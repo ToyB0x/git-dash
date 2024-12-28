@@ -91,9 +91,9 @@ importers:
       '@repo/db-api':
         specifier: workspace:*
         version: link:../../packages/db-api
-      '@repo/db-job':
+      '@repo/db-shared':
         specifier: workspace:*
-        version: link:../../packages/db-job
+        version: link:../../packages/db-shared
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
@@ -382,28 +382,6 @@ importers:
       wrangler:
         specifier: 3.99.0
         version: 3.99.0(@cloudflare/workers-types@4.20241224.0)
-
-  packages/db-job:
-    dependencies:
-      '@prisma/client':
-        specifier: 6.1.0
-        version: 6.1.0(prisma@6.1.0)
-    devDependencies:
-      '@tsconfig/strictest':
-        specifier: 2.0.5
-        version: 2.0.5
-      '@types/node':
-        specifier: 22.10.2
-        version: 22.10.2
-      prisma:
-        specifier: 6.1.0
-        version: 6.1.0
-      tsup:
-        specifier: 8.3.5
-        version: 8.3.5(jiti@2.4.0)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
-      typescript:
-        specifier: 5.7.2
-        version: 5.7.2
 
   packages/db-shared:
     dependencies:
@@ -9858,10 +9836,13 @@ snapshots:
   '@prisma/client@6.1.0(prisma@6.1.0)':
     optionalDependencies:
       prisma: 6.1.0
+    optional: true
 
-  '@prisma/debug@6.1.0': {}
+  '@prisma/debug@6.1.0':
+    optional: true
 
-  '@prisma/engines-version@6.1.0-21.11f085a2012c0f4778414c8db2651556ee0ef959': {}
+  '@prisma/engines-version@6.1.0-21.11f085a2012c0f4778414c8db2651556ee0ef959':
+    optional: true
 
   '@prisma/engines@6.1.0':
     dependencies:
@@ -9869,16 +9850,19 @@ snapshots:
       '@prisma/engines-version': 6.1.0-21.11f085a2012c0f4778414c8db2651556ee0ef959
       '@prisma/fetch-engine': 6.1.0
       '@prisma/get-platform': 6.1.0
+    optional: true
 
   '@prisma/fetch-engine@6.1.0':
     dependencies:
       '@prisma/debug': 6.1.0
       '@prisma/engines-version': 6.1.0-21.11f085a2012c0f4778414c8db2651556ee0ef959
       '@prisma/get-platform': 6.1.0
+    optional: true
 
   '@prisma/get-platform@6.1.0':
     dependencies:
       '@prisma/debug': 6.1.0
+    optional: true
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -13982,6 +13966,7 @@ snapshots:
       '@prisma/engines': 6.1.0
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   proc-log@3.0.0: {}
 
