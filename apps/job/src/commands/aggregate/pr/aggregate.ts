@@ -1,5 +1,6 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { env } from "@/env";
+import { logger } from "@/utils";
 import { prTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
@@ -12,7 +13,11 @@ export const aggregate = async (
     // 8 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
-    .process(async (repository) => {
+    .process(async (repository, i) => {
+      logger.info(
+        `Start aggregate:pr ${repository.name} (${i + 1}/${repositories.length})`,
+      );
+
       // ref: https://docs.github.com/ja/rest/pulls/pulls?apiVersion=2022-11-28#list-pull-requests
       // const prs = await octokit.paginate(octokit.rest.pulls.listReviewCommentsForRepo, {
       const prs = await octokit.paginate(

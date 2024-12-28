@@ -35,9 +35,10 @@ export const aggregate = async (
     .withConcurrency(8)
     .process(async (repository, i) => {
       logger.info(
-        `Start aggregate:workflow-run:cost ${repository.name} (${i + 1}/${repositories.length})`,
+        `Start aggregate:workflow-run-and-each-run-cost:cost ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
+      // NOTE: リポジトリ数分だけリクエストを投げるため、リポジトリ数が多い場合はQuotaに注意(500リポジトリ * リポジトリあたり2回ページングした場合は 1000 Pointsも消費してしまう)
       const workflowRuns = await octokit.paginate(
         octokit.rest.actions.listWorkflowRunsForRepo,
         {

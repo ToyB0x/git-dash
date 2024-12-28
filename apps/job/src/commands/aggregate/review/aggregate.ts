@@ -30,6 +30,7 @@ export const aggregate = async (
           direction: "desc",
         },
         (response, done) => {
+          // 指定期間以上取得した場合は終了
           if (
             response.data.find(
               (review) =>
@@ -41,6 +42,30 @@ export const aggregate = async (
           ) {
             done();
           }
+
+          // 既に過去に取得済みの場合は終了 (1日のReviewは通常ページング上限の100件に収まることが多くあまり意味がないためコメントアウト)
+          // if (
+          //   response.data.find((review) => {
+          //     const matchedRecords = sharedDbClient
+          //       .select()
+          //       .from(reviewTbl)
+          //       .where(eq(reviewTbl.id, review.id));
+          //
+          //     const matchedRecord = matchedRecords[0];
+          //     if (!matchedRecord) return false;
+          //
+          //     const pr = sharedDbClient
+          //       .select()
+          //       .from(prTbl)
+          //       .where(eq(prTbl.id, matchedRecord.prId));
+          //
+          //     // 過去に取得済みのPRかつ、そのPRがマージされている場合は終了
+          //     if (!pr[0]) return !!pr[0].mergedAt;
+          //   })
+          // ) {
+          //   done();
+          // }
+
           return response.data;
         },
       );
