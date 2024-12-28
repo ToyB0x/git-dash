@@ -1,6 +1,5 @@
 import { step } from "@/utils";
 import { aggregate as aggregatePr } from "./pr";
-import { prepare } from "./prepare";
 import { aggregate as aggregateRelease } from "./release";
 import { aggregate as aggregateRepositories } from "./repositories";
 import { aggregate as aggregateReview } from "./review";
@@ -17,8 +16,6 @@ const maxOldForRepo = new Date(
 const isTodaySunday = new Date().getDay() === 0;
 
 export const aggregateByOrganization = async (): Promise<void> => {
-  await prepare();
-
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
   const repositories = await step({
     stepName: "aggregate:repository",
