@@ -67,7 +67,4 @@ export const aggregate = async () => {
   if (errors.length) {
     logger.error(errors.length);
   }
-
-  const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 };

@@ -35,7 +35,7 @@ export const aggregate = async (
     .withConcurrency(8)
     .process(async (repository, i) => {
       logger.info(
-        `Start aggregate:workflow-cost ${repository.name} (${i + 1}/${repositories.length})`,
+        `Start aggregate:workflow-run:cost ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
       const workflowRuns = await octokit.paginate(
@@ -99,7 +99,4 @@ export const aggregate = async (
             });
         });
     });
-
-  const rateLimit = await octokit.rest.rateLimit.get();
-  logger.info(JSON.stringify(rateLimit.data.rate, null, 2));
 };
