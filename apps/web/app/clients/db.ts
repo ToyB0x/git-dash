@@ -29,7 +29,14 @@ export const getWasmDb = async ({
   });
 
   const sqldb = new sqlPromise.Database(
-    new Uint8Array(await dbResponse.arrayBuffer()),
+    new Uint8Array(await unGzip(await dbResponse.arrayBuffer())),
   );
   return drizzle(sqldb);
+};
+
+const unGzip = async (buffer: ArrayBuffer) => {
+  const decompressedStream = new Blob([buffer])
+    .stream()
+    .pipeThrough(new DecompressionStream("gzip"));
+  return await new Response(decompressedStream).arrayBuffer();
 };

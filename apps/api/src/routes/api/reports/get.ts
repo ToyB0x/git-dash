@@ -7,6 +7,7 @@ import { createFactory } from "hono/factory";
 const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
+  // TODO: 認証処理の実装
   // TODO: Implement your business logic here
   // - authenticated user
   // - extract workspaceId and other params from request
