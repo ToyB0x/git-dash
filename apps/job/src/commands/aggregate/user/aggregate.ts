@@ -1,6 +1,6 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { logger } from "@/utils";
-import { prTbl, reviewTbl, userTbl } from "@repo/db-shared";
+import { prTbl, releaseTbl, reviewTbl, userTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async () => {
@@ -13,9 +13,14 @@ export const aggregate = async () => {
     .selectDistinct({ authorId: reviewTbl.reviewerId })
     .from(reviewTbl);
 
+  const releases = await sharedDbClient
+    .selectDistinct({ authorId: releaseTbl.authorId })
+    .from(releaseTbl);
+
   const userIds = new Set([
     ...prs.map((pr) => pr.authorId),
     ...reviews.map((review) => review.authorId),
+    ...releases.map((release) => release.authorId),
   ]);
 
   const currentUsers = await sharedDbClient.select().from(userTbl);
