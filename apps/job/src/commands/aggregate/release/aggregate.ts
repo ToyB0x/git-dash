@@ -42,6 +42,10 @@ export const aggregate = async (
         if (release.draft || release.prerelease || !release.published_at)
           continue;
 
+        console.log(
+          `Inserting release ${release.id} for repository ${repository.id}`,
+        );
+
         await sharedDbClient
           .insert(releaseTbl)
           .values({
