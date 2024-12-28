@@ -1,6 +1,6 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { env } from "@/env";
-import { releaseTbl, workflowTbl } from "@repo/db-shared";
+import { releaseTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async (
@@ -18,13 +18,28 @@ export const aggregate = async (
         {
           owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: repository.name,
-          per_page: 1000,
+          per_page: 100,
           draft: false,
+        },
+        (response, done) => {
+          if (
+            response.data.find(
+              (release) =>
+                new Date(release.created_at).getTime() <
+                new Date(
+                  Date.now() - 1 /* month */ * 60 * 60 * 24 * 30 * 1000,
+                ).getTime(),
+            )
+          ) {
+            done();
+          }
+          return response.data;
         },
       );
 
       for (const release of releases) {
-        if (release.draft || release.prerelease || !release.published_at) continue
+        if (release.draft || release.prerelease || !release.published_at)
+          continue;
 
         await sharedDbClient
           .insert(releaseTbl)
@@ -33,7 +48,9 @@ export const aggregate = async (
             url: release.html_url,
             authorId: release.author.id,
             title: release.name,
-            publishedAt: release.published_at ? new Date(release.published_at) : null,
+            publishedAt: release.published_at
+              ? new Date(release.published_at)
+              : null,
             body: release.body,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -45,13 +62,15 @@ export const aggregate = async (
               url: release.html_url,
               authorId: release.author.id,
               title: release.name,
-              publishedAt: release.published_at ? new Date(release.published_at) : null,
+              publishedAt: release.published_at
+                ? new Date(release.published_at)
+                : null,
               body: release.body,
               createdAt: new Date(),
               updatedAt: new Date(),
               repositoryId: repository.id,
             },
           });
-      };
+      }
     });
 };
