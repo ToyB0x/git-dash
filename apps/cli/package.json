@@ -4,7 +4,11 @@
   "type": "module",
   "scripts": {
     "run:setup": "tsx ./setup/index.ts",
+    "run:update-tag:dev": "tsx ./update-tag/dev.ts",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@actions/github": "6.0.0"
   },
   "devDependencies": {
     "@libsql/client": "0.14.0",
