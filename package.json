@@ -7,7 +7,6 @@
     "dev:e2e": "pnpm --filter @repo/db-api db:reset:local && firebase emulators:exec --ui 'pnpm build && pnpm --filter @repo/web start:preview & pnpm --filter @repo/api dev'",
     "e2e:run": "turbo e2e:run",
     "emulator": "firebase emulators:start",
-    "generate": "turbo run generate",
     "typecheck": "turbo typecheck",
     "format-and-lint": "biome check .",
     "format-and-lint:fix": "biome check . --write"
