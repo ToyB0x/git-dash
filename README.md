@@ -13,7 +13,7 @@ We are working on the practical implementation.
 We currently provide [Github Actions](https://github.com/marketplace/actions/git-dash-com) with the following features:  
 
 - Collect git / github activity
-- Report to backend server (and report can view on our web site) 
+- Report to backend server (and report can view on [our web site](https://v0.git-dash.com)) 
 
 Please run above actions on your repository.
 
