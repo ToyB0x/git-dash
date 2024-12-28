@@ -12,8 +12,6 @@ const handlers = factory.createHandlers(async (c) => {
   // - extract workspaceId and other params from request
   // - store r2 meta data to db
 
-  const type = c.req.param("type");
-  if (!type) throw Error("type is required");
   const workspaceId = c.req.param("workspaceId");
   if (!workspaceId) throw Error("workspaceId is required");
 
@@ -34,7 +32,6 @@ const handlers = factory.createHandlers(async (c) => {
     getR2Path({
       workspaceId,
       reportId: lastReportMeta[0].id,
-      type,
     }),
   );
 

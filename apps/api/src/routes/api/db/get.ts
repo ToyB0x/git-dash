@@ -1,7 +1,6 @@
 import { getFirebaseToken } from "@hono/firebase-auth";
 import { reportTbl } from "@repo/db-api/schema";
 import { getR2Path } from "@repo/schema/path";
-import { stat } from "@repo/schema/statFile";
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
@@ -30,7 +29,6 @@ const handlers = factory.createHandlers(async (c) => {
     getR2Path({
       workspaceId,
       reportId: lastReportMeta[0].id,
-      type: stat.type,
     }),
   );
 
@@ -38,7 +36,8 @@ const handlers = factory.createHandlers(async (c) => {
 
   // NOTE: ブラウザのキャッシュを5分間有効にすることによりファイル転送を防止しつつ、5分以上経過した場合には最新のデータを取得する
   c.header("Cache-Control", "private, max-age=300");
-  c.header("Content-Type", "application/octet-stream");
+  c.header("Content-Type", "application/vnd.sqlite3");
+  c.header("Content-Encoding", "gzip");
   return c.body(obj.body);
 });
 
