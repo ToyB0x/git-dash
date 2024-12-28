@@ -13,7 +13,6 @@ export const aggregate = async () => {
     .selectDistinct({ authorId: reviewTbl.reviewerId })
     .from(reviewTbl);
 
-  // TODO: reviewerのIdも取得する
   const userIds = new Set([
     ...prs.map((pr) => pr.authorId),
     ...reviews.map((review) => review.authorId),
