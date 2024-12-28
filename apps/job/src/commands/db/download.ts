@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { filePath, hc } from "@/clients";
 import { logger } from "@/utils";
 
-export const prepare = async () => {
+export const download = async () => {
   logger.info("Downloading database file");
   const res = await hc["public-api"].db.$get();
 
