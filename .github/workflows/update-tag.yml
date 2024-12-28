@@ -8,7 +8,7 @@ permissions:
   contents: write # for updating tag
 
 jobs:
-  test:
+  dev:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
