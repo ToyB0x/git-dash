@@ -2,6 +2,7 @@ import { getOctokit, sharedDbClient } from "@/clients";
 import { env } from "@/env";
 import { releaseTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
+import { desc, notInArray } from "drizzle-orm";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
@@ -73,4 +74,22 @@ export const aggregate = async (
           });
       }
     });
+
+  const latestReleases = await sharedDbClient
+    .select()
+    .from(releaseTbl)
+    .orderBy(desc(releaseTbl.publishedAt))
+    .limit(5);
+
+  await sharedDbClient
+    .update(releaseTbl)
+    .set({
+      body: null,
+    })
+    .where(
+      notInArray(
+        releaseTbl.id,
+        latestReleases.map((release) => release.id),
+      ),
+    );
 };
