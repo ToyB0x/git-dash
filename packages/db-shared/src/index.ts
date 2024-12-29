@@ -5,4 +5,4 @@ export * from "./review";
 export * from "./user";
 export * from "./workflow";
 export * from "./workflowUsageCurrentCycle";
-export * from "./workflowUsageCurrentCycleByRunner";
+export * from "./workflowUsageCurrentCycleOrg";
