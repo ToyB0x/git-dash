@@ -215,22 +215,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       repositoryName: repositoryTbl.name,
     })
     .from(workflowUsageCurrentCycleTbl)
+    .orderBy(desc(workflowUsageCurrentCycleTbl.createdAt))
     .innerJoin(
       workflowTbl,
-      eq(workflowUsageCurrentCycleTbl.workflowId, workflowTbl.id),
+      eq(workflowTbl.id, workflowUsageCurrentCycleTbl.workflowId),
     )
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
-    .where(eq(repositoryTbl.name, params.repositoryId))
-    // NOTE: 今日の集計結果があるとは限らないためWhere句を削除
-    // .where(
-    //   and(
-    //     gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
-    //     gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1),
-    //     gte(workflowUsageCurrentCycleOrgTbl.day, now.getUTCDate()),
-    //   ),
-    // )
-    .orderBy(desc(workflowUsageCurrentCycleTbl.updatedAt))
-    .limit(100); // limit 100 workflows for later dedup
+    .where(eq(repositoryTbl.name, params.repositoryId));
 
   // 最新の集計結果だけにフィルタリング
   const workflowUsageCurrentCyclesFiltered = workflowUsageCurrentCycles.filter(

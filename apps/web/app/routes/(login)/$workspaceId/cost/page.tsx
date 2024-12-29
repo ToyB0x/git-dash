@@ -75,25 +75,25 @@ const data2: KpiEntryExtended[] = [
   {
     title: "Actions",
     percentage: 50.8,
-    value: "$1961.1",
+    value: "1961.1",
     color: "bg-red-600 dark:bg-red-500",
   },
   {
     title: "Seats",
     percentage: 28.1,
-    value: "$200",
+    value: "200",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
     title: "Copilot",
     percentage: 16.1,
-    value: "$391.9",
+    value: "391.9",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
     title: "Others",
     percentage: 5,
-    value: "$31.9",
+    value: "31.9",
     color: "bg-gray-400 dark:bg-gray-600",
   },
 ];
@@ -102,25 +102,25 @@ const data3: KpiEntryExtended[] = [
   {
     title: "Ubuntu 16-core",
     percentage: 63.8,
-    value: "$1221.1",
+    value: "1221.1",
     color: "bg-red-600 dark:bg-red-500",
   },
   {
     title: "Ubuntu 2-core",
     percentage: 18.1,
-    value: "$202",
+    value: "202",
     color: "bg-purple-600 dark:bg-purple-500",
   },
   {
     title: "Ubuntu 4-core",
     percentage: 16.1,
-    value: "$21.9",
+    value: "21.9",
     color: "bg-indigo-600 dark:bg-indigo-500",
   },
   {
     title: "Others",
     percentage: 5,
-    value: "$3.9",
+    value: "3.9",
     color: "bg-gray-400 dark:bg-gray-600",
   },
 ];
@@ -130,31 +130,31 @@ const dataTable = [
     repoName: "org/api",
     workflowName: "unit test",
     workflowPath: "test.yml",
-    cost: "$3,509",
+    cost: "3,509",
   },
   {
     repoName: "org/frontend",
     workflowName: "visual regression test",
     workflowPath: "ui-test.yml",
-    cost: "$5,720",
+    cost: "5,720",
   },
   {
     repoName: "org/payment",
     workflowName: "build",
     workflowPath: "build.yml",
-    cost: "$5,720",
+    cost: "5,720",
   },
   {
     repoName: "org/backend",
     workflowName: "unit test",
     workflowPath: "test.yml",
-    cost: "$4,210",
+    cost: "4,210",
   },
   {
     repoName: "org/serviceX",
     workflowName: "E2E test",
     workflowPath: "e2e.yml",
-    cost: "$2,101",
+    cost: "2,101",
   },
 ];
 
@@ -194,8 +194,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       repositoryName: repositoryTbl.name,
     })
     .from(workflowUsageCurrentCycleTbl)
-    .orderBy(desc(workflowUsageCurrentCycleTbl.dollar))
-    .innerJoin(workflowTbl, eq(workflowUsageCurrentCycleTbl.id, workflowTbl.id))
+    .orderBy(desc(workflowUsageCurrentCycleTbl.createdAt))
+    .innerJoin(
+      workflowTbl,
+      eq(workflowUsageCurrentCycleTbl.workflowId, workflowTbl.id),
+    )
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
     .limit(30);
 
@@ -203,12 +206,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     dataActions2Core,
     dataActions4Core,
     dataActions16Core,
-    workflows: workflows.map((workflow) => ({
-      repoName: workflow.repositoryName,
-      workflowName: workflow.workflowName,
-      workflowPath: workflow.workflowPath,
-      cost: workflow.dollar,
-    })),
+    workflows: workflows
+      .map((workflow) => ({
+        repoName: workflow.repositoryName,
+        workflowName: workflow.workflowName,
+        workflowPath: workflow.workflowPath,
+        cost: workflow.dollar,
+      }))
+      .sort((a, b) => b.cost - a.cost),
   };
 }
 
