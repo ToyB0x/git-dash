@@ -1,11 +1,14 @@
-import { int, sqliteTable } from "drizzle-orm/sqlite-core";
+import { int, primaryKey, sqliteTable } from "drizzle-orm/sqlite-core";
 import { workflowTbl } from "./workflow";
 
 export const workflowUsageCurrentCycleTbl = sqliteTable(
   "workflow_usage_current_cycle",
   {
-    id: int()
-      .primaryKey()
+    year: int().notNull(),
+    month: int().notNull(),
+    day: int().notNull(),
+    workflowId: int("workflow_id")
+      .notNull()
       .references(() => workflowTbl.id, {
         onUpdate: "cascade",
         onDelete: "cascade",
@@ -14,4 +17,7 @@ export const workflowUsageCurrentCycleTbl = sqliteTable(
     createdAt: int({ mode: "timestamp_ms" }).notNull(),
     updatedAt: int({ mode: "timestamp_ms" }).notNull(),
   },
+  (t) => ({
+    pk: primaryKey({ columns: [t.year, t.month, t.day, t.workflowId] }),
+  }),
 );

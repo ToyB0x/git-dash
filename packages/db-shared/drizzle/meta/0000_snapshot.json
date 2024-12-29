@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "fc06bdcf-f85f-4aa6-b21e-ee5bcbd1791c",
+  "id": "7b1d4690-ae4f-4c00-8064-626d0b2c62c7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "pr": {
@@ -105,7 +105,7 @@
           "name": "url",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "author_id": {
@@ -382,10 +382,31 @@
     "workflow_usage_current_cycle": {
       "name": "workflow_usage_current_cycle",
       "columns": {
-        "id": {
-          "name": "id",
+        "year": {
+          "name": "year",
           "type": "integer",
-          "primaryKey": true,
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "month": {
+          "name": "month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "day": {
+          "name": "day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workflow_id": {
+          "name": "workflow_id",
+          "type": "integer",
+          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -413,12 +434,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "workflow_usage_current_cycle_id_workflow_id_fk": {
-          "name": "workflow_usage_current_cycle_id_workflow_id_fk",
+        "workflow_usage_current_cycle_workflow_id_workflow_id_fk": {
+          "name": "workflow_usage_current_cycle_workflow_id_workflow_id_fk",
           "tableFrom": "workflow_usage_current_cycle",
           "tableTo": "workflow",
           "columnsFrom": [
-            "id"
+            "workflow_id"
           ],
           "columnsTo": [
             "id"
@@ -427,7 +448,17 @@
           "onUpdate": "cascade"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "workflow_usage_current_cycle_year_month_day_workflow_id_pk": {
+          "columns": [
+            "year",
+            "month",
+            "day",
+            "workflow_id"
+          ],
+          "name": "workflow_usage_current_cycle_year_month_day_workflow_id_pk"
+        }
+      },
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
