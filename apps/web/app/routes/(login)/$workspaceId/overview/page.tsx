@@ -121,31 +121,51 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
     .from(workflowUsageCurrentCycleOrgTbl)
+    // NOTE: 今日の集計結果があるとは限らないためWhere句を削除
+    // .where(
+    //   and(
+    //     gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
+    //     gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1),
+    //     gte(workflowUsageCurrentCycleOrgTbl.day, now.getUTCDate()),
+    //   ),
+    // )
     .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt))
-    .limit(100);
+    .limit(100); // limit today 1 * 100 runnerType
 
-  // get latest record by runnerType
+  // 最新の集計結果だけにフィルタリング
   const workflowUsageCurrentCycleOrgFiltered =
     workflowUsageCurrentCycleOrg.filter(
       (item, index, self) =>
         index === self.findIndex((t) => t.runnerType === item.runnerType),
     );
 
-  const workflowRuns = await wasmDb.select().from(workflowRunTbl);
-  const daysInThisMonth = (): number => {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  };
+  const now = new Date();
+  const dailyWorkflowUsageOrgCurrentMonth = await wasmDb
+    .select()
+    .from(workflowUsageCurrentCycleOrgTbl)
+    .where(
+      and(
+        gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
+        gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1 - 1), // 1 month ago
+      ),
+    )
+    .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt));
 
-  const thisMonthDates = [...Array(daysInThisMonth()).keys()].map((index) => {
+  const daysInThisMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+  ).getDate();
+
+  const thisMonthDates = [...Array(daysInThisMonth).keys()].map((index) => {
     return index + 1;
   });
 
   const data = thisMonthDates.map((day) => {
     return {
       date: `${day}`,
-      cost: workflowRuns
-        .filter((run) => new Date(run.createdAt).getDate() === day)
+      cost: dailyWorkflowUsageOrgCurrentMonth
+        .filter((run) => run.day === day)
         .reduce((acc, run) => acc + run.dollar, 0),
     };
   });
