@@ -101,7 +101,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .where(
       and(
         gte(prTbl.createdAt, thisMonthStartAt),
-        isNotNull(prTbl.merged_at),
+        isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
       ),
     );
@@ -113,7 +113,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       and(
         gte(prTbl.createdAt, new Date(lastMonthStartAt)),
         lt(prTbl.createdAt, new Date(thisMonthStartAt)),
-        isNotNull(prTbl.merged_at),
+        isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
       ),
     );
