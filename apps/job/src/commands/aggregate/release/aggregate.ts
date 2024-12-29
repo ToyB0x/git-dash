@@ -29,7 +29,7 @@ export const aggregate = async (
               (release) =>
                 new Date(release.created_at).getTime() <
                 new Date(
-                  Date.now() - 1 /* month */ * 60 * 60 * 24 * 30 * 1000,
+                  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
                 ).getTime(),
             )
           ) {
@@ -40,7 +40,12 @@ export const aggregate = async (
       );
 
       for (const release of releases) {
-        if (release.draft || release.prerelease || !release.published_at)
+        if (
+          release.draft ||
+          release.prerelease ||
+          !release.published_at ||
+          !release.author // RestAPI形式と異なり、authorがnullの場合がある
+        )
           continue;
 
         console.log(
@@ -96,6 +101,7 @@ export const aggregate = async (
       // DB Sizeを減らすためにTextをnullにする
       body: null,
       url: null,
+      title: null,
     })
     .where(
       notInArray(
