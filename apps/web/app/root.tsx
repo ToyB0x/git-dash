@@ -39,11 +39,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="git-dash" />
+        <meta property="og:title" content="Git analytics app" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://git-dash.com" />
         <meta property="og:site_name" content="git-dash" />
-        <meta property="og:description" content="Git analytics app" />
+        <meta
+          property="og:description"
+          content="Peter Drucker said, 'If you can't measure it, you can't improve it.' This app provides insights into your git repositories."
+        />
         <Meta />
         <Links />
       </head>

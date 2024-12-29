@@ -1,14 +1,17 @@
 # git-dash
 
-This is a git analysis tool.
+## Concept
 
-# Project Status
+Peter Drucker said, "If you can't measure it, you can't improve it."  
+This app provides insights into your git repositories.
+
+## Project Status
 
 Currently, the sample implementation as Proof of Concept has been completed.  
 We are working on the practical implementation.  
 (This project also offers a free service as a proof of concept.)
 
-# Github Actions
+## Github Actions
 
 We currently provide [Github Actions](https://github.com/marketplace/actions/git-dash-com) with the following features:  
 
@@ -17,7 +20,7 @@ We currently provide [Github Actions](https://github.com/marketplace/actions/git
 
 Please run above actions on your repository.
 
-# How to Setup
+## How to Setup
 
 WIP
 
