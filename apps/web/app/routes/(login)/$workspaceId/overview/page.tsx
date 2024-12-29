@@ -566,69 +566,72 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             for more details, click on the links.
           </p>
 
-          {releases.map((release) => (
-            <Card
-              className="mt-6 h-64 overflow-y-hidden relative p-0"
-              key={release.id}
-            >
-              <div className="bg-gradient-to-t from-white via-white/50 to-transparent w-full h-12 absolute bottom-0 z-0" />
-              <div className="p-6">
-                <h3 className="flex font-semibold text-gray-900 dark:text-gray-50">
-                  {release.authorAvatarUrl && (
-                    <img
-                      src={release.authorAvatarUrl}
-                      alt="repository"
-                      className="w-12 h-12 rounded-full"
-                    />
-                  )}
+          {releases.map(
+            (release) =>
+              release?.releaseUrl && (
+                <Card
+                  className="mt-6 h-64 overflow-y-hidden relative p-0"
+                  key={release.id}
+                >
+                  <div className="bg-gradient-to-t from-white via-white/50 to-transparent w-full h-12 absolute bottom-0 z-0" />
+                  <div className="p-6">
+                    <h3 className="flex font-semibold text-gray-900 dark:text-gray-50">
+                      {release.authorAvatarUrl && (
+                        <img
+                          src={release.authorAvatarUrl}
+                          alt="repository"
+                          className="w-12 h-12 rounded-full"
+                        />
+                      )}
 
-                  <div className="flex justify-center flex-col pl-4">
-                    <p>
-                      <a
-                        href={release.releaseUrl}
-                        className="underline underline-offset-4 text-lg"
-                        target="_blank"
-                        rel="noreferrer"
+                      <div className="flex justify-center flex-col pl-4">
+                        <p>
+                          <a
+                            href={release.releaseUrl}
+                            className="underline underline-offset-4 text-lg"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {release.title}
+                          </a>
+                        </p>
+                        <Link
+                          to={`../repositories/${release.repositoryName}`}
+                          className="underline underline-offset-4 text-sm text-gray-500"
+                        >
+                          {release.repositoryName}
+                        </Link>
+                      </div>
+                    </h3>
+
+                    <div className="mt-4 text-sm leading-6 text-gray-900 dark:text-gray-50">
+                      <Markdown
+                        components={{
+                          h1: ({ children }) => (
+                            <h1 className="text-lg font-bold">{children}</h1>
+                          ),
+                          h2: ({ children }) => (
+                            <h2 className="text-md font-bold">{children}</h2>
+                          ),
+                          h3: ({ children }) => (
+                            <h3 className="text-md font-bold">{children}</h3>
+                          ),
+                          ul: ({ children }) => (
+                            <ul className="list-disc pl-6">{children}</ul>
+                          ),
+                          strong: ({ children }) => (
+                            <span className="font-semibold">{children}</span>
+                          ),
+                        }}
                       >
-                        {release.title}
-                      </a>
-                    </p>
-                    <Link
-                      to={`../repositories/${release.repositoryName}`}
-                      className="underline underline-offset-4 text-sm text-gray-500"
-                    >
-                      {release.repositoryName}
-                    </Link>
+                        {/* remove html comment */}
+                        {release.body?.replaceAll(/<!--[\s\S]*?-->/g, "")}
+                      </Markdown>
+                    </div>
                   </div>
-                </h3>
-
-                <div className="mt-4 text-sm leading-6 text-gray-900 dark:text-gray-50">
-                  <Markdown
-                    components={{
-                      h1: ({ children }) => (
-                        <h1 className="text-lg font-bold">{children}</h1>
-                      ),
-                      h2: ({ children }) => (
-                        <h2 className="text-md font-bold">{children}</h2>
-                      ),
-                      h3: ({ children }) => (
-                        <h3 className="text-md font-bold">{children}</h3>
-                      ),
-                      ul: ({ children }) => (
-                        <ul className="list-disc pl-6">{children}</ul>
-                      ),
-                      strong: ({ children }) => (
-                        <span className="font-semibold">{children}</span>
-                      ),
-                    }}
-                  >
-                    {/* remove html comment */}
-                    {release.body?.replaceAll(/<!--[\s\S]*?-->/g, "")}
-                  </Markdown>
-                </div>
-              </div>
-            </Card>
-          ))}
+                </Card>
+              ),
+          )}
         </section>
       )}
     </>
