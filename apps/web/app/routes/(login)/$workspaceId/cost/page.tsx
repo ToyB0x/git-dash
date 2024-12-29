@@ -9,10 +9,7 @@ import {
   TableRow,
 } from "@/components/Table";
 import { NoDataMessage } from "@/components/ui/no-data";
-import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
-import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
-import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard";
 import { cx } from "@/lib/utils";
 import {
   dataLoaderActions2Core,
@@ -23,12 +20,11 @@ import type { Route } from "@@/(login)/$workspaceId/cost/+types/page";
 import {
   repositoryTbl,
   workflowTbl,
+  workflowUsageCurrentCycleOrgTbl,
   workflowUsageCurrentCycleTbl,
 } from "@repo/db-shared";
-import { startOfToday, subDays } from "date-fns";
-import { desc, eq } from "drizzle-orm";
-import React from "react";
-import type { DateRange } from "react-day-picker";
+import { endOfToday, startOfToday, subDays } from "date-fns";
+import { and, desc, eq, gt, gte } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 
 export type KpiEntry = {
@@ -38,92 +34,6 @@ export type KpiEntry = {
   allowed: number;
   unit?: string;
 };
-
-const data: KpiEntry[] = [
-  {
-    title: "Seats",
-    percentage: 98.1,
-    current: 119,
-    allowed: 121,
-    unit: "seats",
-  },
-  {
-    title: "Actions (included)",
-    percentage: 100,
-    current: 3000,
-    allowed: 3000,
-    unit: "min",
-  },
-  {
-    title: "Storage",
-    percentage: 26,
-    current: 0.8,
-    allowed: 2,
-    unit: "GB",
-  },
-];
-
-export type KpiEntryExtended = Omit<
-  KpiEntry,
-  "current" | "allowed" | "unit"
-> & {
-  value: string;
-  color: string;
-};
-
-const data2: KpiEntryExtended[] = [
-  {
-    title: "Actions",
-    percentage: 50.8,
-    value: "1961.1",
-    color: "bg-red-600 dark:bg-red-500",
-  },
-  {
-    title: "Seats",
-    percentage: 28.1,
-    value: "200",
-    color: "bg-purple-600 dark:bg-purple-500",
-  },
-  {
-    title: "Copilot",
-    percentage: 16.1,
-    value: "391.9",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "Others",
-    percentage: 5,
-    value: "31.9",
-    color: "bg-gray-400 dark:bg-gray-600",
-  },
-];
-
-const data3: KpiEntryExtended[] = [
-  {
-    title: "Ubuntu 16-core",
-    percentage: 63.8,
-    value: "1221.1",
-    color: "bg-red-600 dark:bg-red-500",
-  },
-  {
-    title: "Ubuntu 2-core",
-    percentage: 18.1,
-    value: "202",
-    color: "bg-purple-600 dark:bg-purple-500",
-  },
-  {
-    title: "Ubuntu 4-core",
-    percentage: 16.1,
-    value: "21.9",
-    color: "bg-indigo-600 dark:bg-indigo-500",
-  },
-  {
-    title: "Others",
-    percentage: 5,
-    value: "3.9",
-    color: "bg-gray-400 dark:bg-gray-600",
-  },
-];
 
 const dataTable = [
   {
@@ -169,6 +79,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       dataActions4Core,
       dataActions16Core,
       workflows: dataTable,
+      usageByRunnerTypes: [],
     };
   }
 
@@ -185,6 +96,44 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (!wasmDb) return null;
 
+  const runnerTypes = await wasmDb
+    .selectDistinct({ runnerType: workflowUsageCurrentCycleOrgTbl.runnerType })
+    .from(workflowUsageCurrentCycleOrgTbl)
+    .where(
+      and(
+        gte(
+          workflowUsageCurrentCycleOrgTbl.updatedAt,
+          subDays(startOfToday(), 60),
+        ),
+        gte(workflowUsageCurrentCycleOrgTbl.dollar, 1),
+      ),
+    );
+
+  const sixtyDays = [...Array(60).keys()].map((index) => {
+    return index + 1;
+  });
+
+  const usageByRunnerTypes = await Promise.all(
+    runnerTypes
+      .sort((a, b) => a.runnerType.localeCompare(b.runnerType) || 0)
+      .map(async ({ runnerType }) => ({
+        runnerType: runnerType,
+        data: await wasmDb
+          .select()
+          .from(workflowUsageCurrentCycleOrgTbl)
+          .where(
+            and(
+              eq(workflowUsageCurrentCycleOrgTbl.runnerType, runnerType),
+              gte(
+                workflowUsageCurrentCycleOrgTbl.updatedAt,
+                subDays(startOfToday(), 60),
+              ),
+            ),
+          )
+          .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt)),
+      })),
+  );
+
   const workflows = await wasmDb
     .select({
       workflowId: workflowTbl.id,
@@ -200,7 +149,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       eq(workflowUsageCurrentCycleTbl.workflowId, workflowTbl.id),
     )
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
-    .limit(30);
+    .where(gt(workflowUsageCurrentCycleTbl.dollar, 5));
 
   return {
     dataActions2Core,
@@ -214,111 +163,120 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         cost: workflow.dollar,
       }))
       .sort((a, b) => b.cost - a.cost),
+
+    usageByRunnerTypes: usageByRunnerTypes.map((usageByRunnerType) => {
+      const usages = sixtyDays.map((day) => {
+        const usage = usageByRunnerType.data.find(
+          (usage) =>
+            new Date(usage.createdAt).getDate() ===
+              subDays(startOfToday(), day - 1).getDate() &&
+            new Date(usage.createdAt).getMonth() ===
+              subDays(startOfToday(), day - 1).getMonth(),
+        );
+
+        return {
+          value: usage?.dollar || null,
+          date: subDays(endOfToday(), day),
+        };
+      });
+
+      return {
+        runnerType: usageByRunnerType.runnerType,
+        data: usages
+          .map((usage, i, self) => ({
+            ...usage,
+            value: usage.value
+              ? usage.value - (self[i - 1]?.value || 0) > 0
+                ? usage.value - (self[i - 1]?.value || 0)
+                : usage.value // 前日比がマイナスになる場合は集計期間がリセットされた境目なので差し引きは不要
+              : null, // 集計データがない場合はnull
+          }))
+          .slice(1, -1), // 最初の2件と最後の2件は前日比を出せないため除外(課金サイクルの境目を避けた場合、最低3日分の集計が必要),
+      };
+    }),
   };
 }
 
-export default function Page({ loaderData }: Route.ComponentProps) {
+export default function Page({ loaderData, params }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const { dataActions2Core, dataActions4Core, dataActions16Core, workflows } =
-    loadData;
+  const isDemo = params.workspaceId === "demo";
 
-  const maxDate = startOfToday();
-  const [selectedDates, setSelectedDates] = React.useState<
-    DateRange | undefined
-  >({
-    from: subDays(maxDate, 30),
-    to: maxDate,
-  });
+  const {
+    dataActions2Core,
+    dataActions4Core,
+    dataActions16Core,
+    workflows,
+    usageByRunnerTypes,
+  } = loadData;
+
+  const endDate = subDays(startOfToday(), 2); // 最初の2件と最後の2件は前日比を出せないため除外(課金サイクルの境目を避けた場合、最低3日分の集計が必要)
+  const span = {
+    from: subDays(endDate, 30),
+    to: endDate,
+  };
 
   return (
     <>
-      <section aria-labelledby="current-billing-cycle">
-        <h1
-          id="current-billing-cycle"
-          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
-          Current billing cycle
-        </h1>
-        <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
-          <ProgressBarCard
-            title="Usage"
-            change="+0.2%"
-            value="96.1%"
-            valueDescription="of reserved seats"
-            ctaDescription="Monthly usage resets in 12 days."
-            ctaText="Manage plan."
-            ctaLink="#"
-            data={data}
-          />
-          <CategoryBarCard
-            title="Costs"
-            change="-1.4%"
-            value="$3293.5"
-            valueDescription="current billing cycle"
-            subtitle="Current costs"
-            ctaDescription="Next payment due"
-            ctaText="December 31, 2024"
-            ctaLink="#"
-            data={data2}
-          />
-          <CategoryBarCard
-            title="Actions"
-            change="+9.4%"
-            value="$1889.5"
-            valueDescription="current billing cycle"
-            subtitle="Current costs"
-            ctaDescription="Next payment due"
-            ctaText="December 31, 2024"
-            ctaLink="#"
-            data={data3}
-          />
-        </div>
-      </section>
       <section aria-labelledby="actions-usage">
         <h1
           id="actions-usage"
-          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Actions usage
+          Actions usage{" "}
+          {!isDemo && (
+            <span className="text-gray-500 text-sm">
+              Based on billing cycle
+            </span>
+          )}
         </h1>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
         <dl
           className={cx(
             "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
           )}
         >
-          <ChartCard
-            title="Actions 2core"
-            type="currency"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataActions2Core.data}
-          />
+          {isDemo ? (
+            <>
+              <ChartCard
+                title="Actions 2core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={span}
+                data={dataActions2Core.data}
+              />
 
-          <ChartCard
-            title="Actions 4core"
-            type="currency"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataActions4Core.data}
-          />
+              <ChartCard
+                title="Actions 4core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={span}
+                data={dataActions4Core.data}
+              />
 
-          <ChartCard
-            title="Actions 16core"
-            type="currency"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            data={dataActions16Core.data}
-          />
+              <ChartCard
+                title="Actions 16core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={span}
+                data={dataActions16Core.data}
+              />
+            </>
+          ) : (
+            usageByRunnerTypes.map((usageByRunnerType) => (
+              <ChartCard
+                key={usageByRunnerType.runnerType}
+                title={usageByRunnerType.runnerType
+                  .toUpperCase()
+                  .replaceAll("_", " ")}
+                type="currency"
+                selectedPeriod="no-comparison"
+                selectedDates={span}
+                accumulation={false}
+                data={usageByRunnerType.data}
+              />
+            ))
+          )}
         </dl>
       </section>
 

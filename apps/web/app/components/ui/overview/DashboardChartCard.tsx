@@ -27,7 +27,7 @@ export type CardProps = {
   selectedPeriod: PeriodValue;
   data: {
     date: Date;
-    value: number;
+    value: number | null;
   }[];
   isThumbnail?: boolean;
   accumulation?: boolean; // グラフの積み上げ表示
