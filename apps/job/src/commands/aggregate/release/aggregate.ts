@@ -93,7 +93,9 @@ export const aggregate = async (
   await sharedDbClient
     .update(releaseTbl)
     .set({
+      // DB Sizeを減らすためにTextをnullにする
       body: null,
+      url: null,
     })
     .where(
       notInArray(

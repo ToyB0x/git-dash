@@ -3,7 +3,7 @@ import { repositoryTbl } from "./repository";
 
 export const releaseTbl = sqliteTable("release", {
   id: int().primaryKey(), // github release id
-  url: text("url").notNull(),
+  url: text("url"),
   authorId: int("author_id").notNull(),
   // NOTE: Release 収集時点ではユーザー情報は取得できていないため、Relationを外す
   // .references(() => userTbl.id, {
