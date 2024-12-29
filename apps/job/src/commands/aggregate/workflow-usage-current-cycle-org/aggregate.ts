@@ -33,7 +33,12 @@ export const aggregate = async () => {
         updatedAt: now,
       })
       .onConflictDoUpdate({
-        target: [workflowUsageCurrentCycleOrgTbl.year, workflowUsageCurrentCycleOrgTbl.month, workflowUsageCurrentCycleOrgTbl.day, workflowUsageCurrentCycleOrgTbl.runnerType],
+        target: [
+          workflowUsageCurrentCycleOrgTbl.year,
+          workflowUsageCurrentCycleOrgTbl.month,
+          workflowUsageCurrentCycleOrgTbl.day,
+          workflowUsageCurrentCycleOrgTbl.runnerType,
+        ],
         set: {
           dollar: Math.round(usage.cost * 10) / 10, // round to 1 decimal place
           updatedAt: now,
