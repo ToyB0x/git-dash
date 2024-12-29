@@ -93,7 +93,7 @@ export const aggregate = async (
     })
     .where(
       notInArray(
-        releaseTbl.id,
+        prTbl.id,
         latestPrs.map((pr) => pr.id),
       ),
     );
