@@ -1,7 +1,5 @@
 # git-dash
 
-This is a git analysis tool.
-
 ## Concept
 
 Peter Drucker said, "If you can't measure it, you can't improve it."  
