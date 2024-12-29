@@ -45,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta property="og:site_name" content="git-dash" />
         <meta
           property="og:description"
-          content="Peter Drucker said, 'If you can't measure it, you can't improve it.' This app provides insights into your git repositories."
+          content="Peter Drucker said, If you can't measure it, you can't improve it. This app provides insights into your git repositories."
         />
         <Meta />
         <Links />

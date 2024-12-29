@@ -147,6 +147,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (!wasmDb) return null;
 
+  const halfYearAgo = new Date(Date.now() - 6 * 30 * 24 * 60 * 60 * 1000);
+
   // ref: https://www.answeroverflow.com/m/1095781782856675368
   const users = await wasmDb
     .select({
@@ -159,10 +161,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       // prs: sql<number>`count(${prTbl.authorId})`,
       prs: wasmDb.$count(
         prTbl,
-        and(
-          eq(userTbl.id, prTbl.authorId),
-          gte(prTbl.createdAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)),
-        ),
+        and(eq(userTbl.id, prTbl.authorId), gte(prTbl.createdAt, halfYearAgo)),
       ),
     })
     .from(userTbl)
@@ -176,9 +175,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       count: sql<number>`cast(count(${reviewTbl.id}) as int)`,
     })
     .from(reviewTbl)
-    .where(
-      gte(reviewTbl.createdAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)),
-    )
+    .where(gte(reviewTbl.createdAt, halfYearAgo))
     .groupBy(reviewTbl.reviewerId);
 
   return {
@@ -217,11 +214,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             <TableRow>
               <TableHeaderCell className="w-1">User</TableHeaderCell>
               <TableHeaderCell />
-              <TableHeaderCell className="text-right">
-                PRs / month
+              <TableHeaderCell className="text-center">
+                Pull Requests
+                <br /> (half year)
               </TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                Reviews / month
+              <TableHeaderCell className="text-center">
+                Reviews
+                <br /> (half year)
               </TableHeaderCell>
               <TableHeaderCell className="text-right w-1">HP</TableHeaderCell>
             </TableRow>
@@ -245,8 +244,8 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                   </Link>
                   <span className="text-xs text-gray-500">{user.name}</span>
                 </TableCell>
-                <TableCell className="text-right">{user.prs}</TableCell>
-                <TableCell className="text-right">{user.reviews}</TableCell>
+                <TableCell className="text-center">{user.prs}</TableCell>
+                <TableCell className="text-center">{user.reviews}</TableCell>
                 <TableCell className="text-right">
                   {user.blog && (
                     <a href={user.blog} target="_blank" rel="noreferrer">
