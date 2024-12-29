@@ -1,18 +1,25 @@
 import { auth, getWasmDb } from "@/clients";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableRoot,
-  TableRow,
-} from "@/components/Table";
+import { SortableTable } from "@/components/ui/SortableTable";
 import { NoDataMessage } from "@/components/ui/no-data";
 import type { Route } from "@@/(login)/$workspaceId/user/+types/page";
 import { prTbl, reviewTbl, userTbl } from "@repo/db-shared";
+import {
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { and, eq, gte, sql } from "drizzle-orm";
 import { Link, redirect } from "react-router";
+
+type User = {
+  id: number;
+  login: string;
+  name: string | null;
+  blog: string | null;
+  avatarUrl: string;
+  prs: number;
+  reviews: number;
+};
 
 const dataTable = [
   {
@@ -23,7 +30,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/300",
     prs: 123,
     reviews: 125,
-    lastUpdate: "23/09/2024 13:00",
   },
   {
     id: 2,
@@ -33,7 +39,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/301",
     prs: 96,
     reviews: 93,
-    lastUpdate: "22/09/2024 10:45",
   },
   {
     id: 3,
@@ -43,7 +48,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/302",
     prs: 66,
     reviews: 53,
-    lastUpdate: "22/09/2024 10:45",
   },
   {
     id: 4,
@@ -53,7 +57,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/303",
     prs: 46,
     reviews: 33,
-    lastUpdate: "21/09/2024 14:30",
   },
   {
     id: 5,
@@ -63,7 +66,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/304",
     prs: 26,
     reviews: 23,
-    lastUpdate: "24/09/2024 09:15",
   },
   {
     id: 6,
@@ -73,7 +75,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/305",
     prs: 16,
     reviews: 13,
-    lastUpdate: "24/09/2024 09:15",
   },
   {
     id: 7,
@@ -83,7 +84,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/306",
     prs: 6,
     reviews: 3,
-    lastUpdate: "24/09/2024 09:15",
   },
   {
     id: 8,
@@ -93,7 +93,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/307",
     prs: 3,
     reviews: 1,
-    lastUpdate: "24/09/2024 09:15",
   },
   {
     id: 9,
@@ -103,7 +102,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/308",
     prs: 1,
     reviews: 0,
-    lastUpdate: "24/09/2024 09:15",
   },
   {
     id: 10,
@@ -113,7 +111,6 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/309",
     prs: 1,
     reviews: 0,
-    lastUpdate: "24/09/2024 09:15",
   },
   {
     id: 11,
@@ -123,9 +120,8 @@ const dataTable = [
     avatarUrl: "https://i.pravatar.cc/310",
     prs: 1,
     reviews: 0,
-    lastUpdate: "24/09/2024 09:15",
   },
-];
+] satisfies User[];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
@@ -147,6 +143,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (!wasmDb) return null;
 
+  const halfYearAgo = new Date(Date.now() - 6 * 30 * 24 * 60 * 60 * 1000);
+
   // ref: https://www.answeroverflow.com/m/1095781782856675368
   const users = await wasmDb
     .select({
@@ -155,14 +153,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       name: userTbl.name,
       blog: userTbl.blog,
       avatarUrl: userTbl.avatarUrl,
-      lastUpdate: userTbl.updatedAt,
       // prs: sql<number>`count(${prTbl.authorId})`,
       prs: wasmDb.$count(
         prTbl,
-        and(
-          eq(userTbl.id, prTbl.authorId),
-          gte(prTbl.createdAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)),
-        ),
+        and(eq(userTbl.id, prTbl.authorId), gte(prTbl.createdAt, halfYearAgo)),
       ),
     })
     .from(userTbl)
@@ -176,9 +170,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       count: sql<number>`cast(count(${reviewTbl.id}) as int)`,
     })
     .from(reviewTbl)
-    .where(
-      gte(reviewTbl.createdAt, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)),
-    )
+    .where(gte(reviewTbl.createdAt, halfYearAgo))
     .groupBy(reviewTbl.reviewerId);
 
   return {
@@ -190,8 +182,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
           ...user,
           reviews: review?.count ?? 0,
         };
-      })
-      .sort((a, b) => b.prs - a.prs || a.login.localeCompare(b.login)),
+      }) satisfies User[],
   };
 }
 export default function Page({ loaderData }: Route.ComponentProps) {
@@ -199,6 +190,110 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   if (!loadData) return NoDataMessage;
 
   const { users } = loadData;
+
+  const table = useReactTable({
+    data: users,
+    columns: [
+      {
+        header: "",
+        accessorKey: "login",
+        enableSorting: false,
+        meta: {
+          headerClassNames: "w-1",
+          cellClassNames: "p-0 pr-2 h-[3.8rem]",
+        },
+        cell: ({ row }) => (
+          <div className="w-10">
+            <img
+              src={row.original.avatarUrl}
+              alt="user"
+              className="w-10 h-10 rounded-full"
+            />
+          </div>
+        ),
+      },
+      {
+        header: "User",
+        accessorKey: "login",
+        enableSorting: true,
+        meta: {
+          // headerClassNames: "w-1",
+        },
+        cell: ({ row }) => (
+          <div className="font-medium text-gray-900 dark:text-gray-50">
+            <Link
+              to={`${row.original.login}`}
+              className="underline underline-offset-4"
+            >
+              {row.original.login} <br />
+            </Link>
+            <span className="text-xs text-gray-500">{row.original.name}</span>
+          </div>
+        ),
+      },
+      {
+        header: () => (
+          <div className="text-center">
+            Pull Requests
+            <br /> (half year)
+          </div>
+        ),
+        accessorKey: "prs",
+        enableSorting: true,
+        meta: {
+          headerContentClassNames: "justify-center",
+          cellClassNames: "text-center",
+        },
+      },
+      {
+        header: () => (
+          <div className="text-center">
+            Reviews
+            <br /> (half year)
+          </div>
+        ),
+        accessorKey: "reviews",
+        enableSorting: true,
+        meta: {
+          headerClassNames: "w-1",
+          headerContentClassNames: "justify-center",
+          cellClassNames: "text-center",
+        },
+      },
+      {
+        header: "HP",
+        enableSorting: false,
+        meta: {
+          headerClassNames: "w-64 text-right",
+          cellClassNames: "text-right",
+        },
+        cell: ({ row }) => {
+          const blog = row.original.blog;
+          if (!blog) return null;
+          return (
+            <a href={blog} target="_blank" rel="noreferrer">
+              {blog.endsWith("/")
+                ? blog
+                    .replace("http://", "")
+                    .replace("https://", "")
+                    .slice(0, -1)
+                : blog.replace("http://", "").replace("https://", "")}
+            </a>
+          );
+        },
+      },
+    ],
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    initialState: {
+      sorting: [
+        {
+          id: "login",
+          desc: false,
+        },
+      ],
+    },
+  });
 
   return (
     <section aria-labelledby="users-table" className="h-screen">
@@ -211,61 +306,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       <p className="mt-1 text-gray-500">
         for more details , click on the user links.
       </p>
-      <TableRoot className="mt-8">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell className="w-1">User</TableHeaderCell>
-              <TableHeaderCell />
-              <TableHeaderCell className="text-right">
-                PRs / month
-              </TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                Reviews / month
-              </TableHeaderCell>
-              <TableHeaderCell className="text-right w-1">HP</TableHeaderCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className="p-0 h-[3.8rem]">
-                  <img
-                    src={user.avatarUrl}
-                    alt="user"
-                    className="w-10 h-10 rounded-full"
-                  />
-                </TableCell>
-                <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                  <Link
-                    to={`${user.login}`}
-                    className="underline underline-offset-4"
-                  >
-                    {user.login} <br />
-                  </Link>
-                  <span className="text-xs text-gray-500">{user.name}</span>
-                </TableCell>
-                <TableCell className="text-right">{user.prs}</TableCell>
-                <TableCell className="text-right">{user.reviews}</TableCell>
-                <TableCell className="text-right">
-                  {user.blog && (
-                    <a href={user.blog} target="_blank" rel="noreferrer">
-                      {user.blog.endsWith("/")
-                        ? user.blog
-                            .replace("http://", "")
-                            .replace("https://", "")
-                            .slice(0, -1)
-                        : user.blog
-                            .replace("http://", "")
-                            .replace("https://", "")}
-                    </a>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableRoot>
+      <SortableTable table={table} />
     </section>
   );
 }
