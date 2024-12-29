@@ -1,9 +1,183 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c08295cd-f79f-4578-b778-92ca6faf3e84",
+  "id": "fc06bdcf-f85f-4aa6-b21e-ee5bcbd1791c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "pr": {
+      "name": "pr",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "merged_at": {
+          "name": "merged_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "author_id": {
+          "name": "author_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "repository_id": {
+          "name": "repository_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "pr_repository_id_repository_id_fk": {
+          "name": "pr_repository_id_repository_id_fk",
+          "tableFrom": "pr",
+          "tableTo": "repository",
+          "columnsFrom": [
+            "repository_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "release": {
+      "name": "release",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "author_id": {
+          "name": "author_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "publishedAt": {
+          "name": "publishedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "repository_id": {
+          "name": "repository_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "release_repository_id_repository_id_fk": {
+          "name": "release_repository_id_repository_id_fk",
+          "tableFrom": "release",
+          "tableTo": "repository",
+          "columnsFrom": [
+            "repository_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "repository": {
       "name": "repository",
       "columns": {
@@ -49,8 +223,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "usage_current_cycle_action_org": {
-      "name": "usage_current_cycle_action_org",
+    "review": {
+      "name": "review",
       "columns": {
         "id": {
           "name": "id",
@@ -59,23 +233,68 @@
           "notNull": true,
           "autoincrement": false
         },
-        "cost": {
-          "name": "cost",
+        "createdAt": {
+          "name": "createdAt",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "runner_type": {
-          "name": "runner_type",
+        "reviewer_id": {
+          "name": "reviewer_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pr_id": {
+          "name": "pr_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "user": {
+      "name": "user",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "login": {
+          "name": "login",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "blog": {
+          "name": "blog",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "avatar_url": {
+          "name": "avatar_url",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -132,8 +351,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "repositoryId": {
-          "name": "repositoryId",
+        "repository_id": {
+          "name": "repository_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -142,71 +361,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "workflow_repositoryId_repository_id_fk": {
-          "name": "workflow_repositoryId_repository_id_fk",
+        "workflow_repository_id_repository_id_fk": {
+          "name": "workflow_repository_id_repository_id_fk",
           "tableFrom": "workflow",
           "tableTo": "repository",
           "columnsFrom": [
-            "repositoryId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "workflow_run": {
-      "name": "workflow_run",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "dollar": {
-          "name": "dollar",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "workflow_id": {
-          "name": "workflow_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "workflow_run_workflow_id_workflow_id_fk": {
-          "name": "workflow_run_workflow_id_workflow_id_fk",
-          "tableFrom": "workflow_run",
-          "tableTo": "workflow",
-          "columnsFrom": [
-            "workflow_id"
+            "repository_id"
           ],
           "columnsTo": [
             "id"
@@ -268,6 +428,75 @@
         }
       },
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "workflow_usage_current_cycle_org": {
+      "name": "workflow_usage_current_cycle_org",
+      "columns": {
+        "year": {
+          "name": "year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "month": {
+          "name": "month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "day": {
+          "name": "day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dollar": {
+          "name": "dollar",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "runner_type": {
+          "name": "runner_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "workflow_usage_current_cycle_org_year_month_day_runner_type_pk": {
+          "columns": [
+            "year",
+            "month",
+            "day",
+            "runner_type"
+          ],
+          "name": "workflow_usage_current_cycle_org_year_month_day_runner_type_pk"
+        }
+      },
       "uniqueConstraints": {},
       "checkConstraints": {}
     }
