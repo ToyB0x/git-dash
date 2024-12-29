@@ -9,8 +9,8 @@
     "build": "tsup",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:generate:with-env": "DB_FILE_NAME=./sqlite/shared.db drizzle-kit generate",
-    "db:migrate:with-env": "DB_FILE_NAME=./sqlite/shared.db drizzle-kit migrate",
+    "db:generate:with-env": "DB_FILE_NAME=./sqlite/schema-check.db drizzle-kit generate",
+    "db:migrate:with-env": "DB_FILE_NAME=./sqlite/schema-check.db drizzle-kit migrate",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

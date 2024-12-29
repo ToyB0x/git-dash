@@ -10,8 +10,7 @@ import {
   releaseTbl,
   repositoryTbl,
   userTbl,
-  workflowRunTbl,
-  workflowUsageCurrentCycleByRunnerTbl,
+  workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
 import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 import Markdown from "react-markdown";
@@ -43,7 +42,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return {
       costs: dataChart,
       releases: [],
-      actionsUsageCurrentCycle: dataDonut,
+      workflowUsageCurrentCycleOrg: dataDonut,
       prCountThisMonth: 128,
       prCountLastMonth: 116,
     };
@@ -119,25 +118,54 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       ),
     );
 
-  const workflowUsageCurrentCycleByRunner = await wasmDb
+  const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
-    .from(workflowUsageCurrentCycleByRunnerTbl);
+    .from(workflowUsageCurrentCycleOrgTbl)
+    // NOTE: 今日の集計結果があるとは限らないためWhere句を削除
+    // .where(
+    //   and(
+    //     gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
+    //     gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1),
+    //     gte(workflowUsageCurrentCycleOrgTbl.day, now.getUTCDate()),
+    //   ),
+    // )
+    .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt))
+    .limit(100); // limit today 1 * 100 runnerType
 
-  const workflowRuns = await wasmDb.select().from(workflowRunTbl);
-  const daysInThisMonth = (): number => {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  };
+  // 最新の集計結果だけにフィルタリング
+  const workflowUsageCurrentCycleOrgFiltered =
+    workflowUsageCurrentCycleOrg.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.runnerType === item.runnerType),
+    );
 
-  const thisMonthDates = [...Array(daysInThisMonth()).keys()].map((index) => {
+  const now = new Date();
+  const dailyWorkflowUsageOrgCurrentMonth = await wasmDb
+    .select()
+    .from(workflowUsageCurrentCycleOrgTbl)
+    .where(
+      and(
+        gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
+        gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1 - 1), // 1 month ago
+      ),
+    )
+    .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt));
+
+  const daysInThisMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+  ).getDate();
+
+  const thisMonthDates = [...Array(daysInThisMonth).keys()].map((index) => {
     return index + 1;
   });
 
   const data = thisMonthDates.map((day) => {
     return {
       date: `${day}`,
-      cost: workflowRuns
-        .filter((run) => new Date(run.createdAt).getDate() === day)
+      cost: dailyWorkflowUsageOrgCurrentMonth
+        .filter((run) => run.day === day)
         .reduce((acc, run) => acc + run.dollar, 0),
     };
   });
@@ -145,7 +173,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   return {
     releases,
     costs: data,
-    actionsUsageCurrentCycle: workflowUsageCurrentCycleByRunner,
+    workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
     prCountThisMonth: prCountThisMonth[0]?.count || 0,
     prCountLastMonth: prCountLastMonth[0]?.count || 0,
   };
@@ -227,7 +255,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
   const {
     costs,
     releases,
-    actionsUsageCurrentCycle,
+    workflowUsageCurrentCycleOrg,
     prCountThisMonth,
     prCountLastMonth,
   } = loadData;
@@ -353,7 +381,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             </h3>
             <DonutChart
               className="mx-auto mt-6"
-              data={actionsUsageCurrentCycle}
+              data={workflowUsageCurrentCycleOrg}
               category="runnerType"
               value="dollar"
               showLabel={true}
@@ -366,7 +394,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
               <span>Amount / Share</span>
             </p>
             <ul className="mt-2 divide-y divide-gray-200 text-sm text-gray-500 dark:divide-gray-800 dark:text-gray-500">
-              {actionsUsageCurrentCycle
+              {workflowUsageCurrentCycleOrg
                 .sort((a, b) => b.dollar - a.dollar)
                 .reduce(
                   (acc, item, i) => {
@@ -386,7 +414,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                         color = "bg-gray-500";
                     }
 
-                    const totalUsage = actionsUsageCurrentCycle.reduce(
+                    const totalUsage = workflowUsageCurrentCycleOrg.reduce(
                       (acc, item) => acc + item.dollar,
                       0,
                     );

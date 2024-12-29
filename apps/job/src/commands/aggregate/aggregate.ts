@@ -5,9 +5,8 @@ import { aggregate as aggregateRepositories } from "./repositories";
 import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
 import { aggregate as aggregateWorkflow } from "./workflow";
-import { aggregate as aggregateWorkflowRunAndEachRunCost } from "./workflow-run";
 import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current-cycle";
-import { aggregate as workflowUsageCurrentCycleActionsBilling } from "./workflow-usage-current-cycle-by-runner";
+import { aggregate as workflowUsageCurrentCycleOrg } from "./workflow-usage-current-cycle-org";
 
 const maxOldForRepo = new Date(
   Date.now() - 1 /* month */ * 60 * 60 * 24 * 30 * 1000,
@@ -42,11 +41,11 @@ export const aggregateByOrganization = async (): Promise<void> => {
     callback: aggregateWorkflow(filteredRepositories),
   });
 
-  // NOTE: Workflowの実行数に応じてQuotaを消費
-  await step({
-    stepName: "aggregate:workflow-run-and-each-run-cost",
-    callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
-  });
+  // // NOTE: Workflowの実行数に応じてQuotaを消費
+  // await step({
+  //   stepName: "aggregate:workflow-run-and-each-run-cost",
+  //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
+  // });
 
   // NOTE: Workflow fileの数に応じてQuotaを消費
   await step({
@@ -56,8 +55,8 @@ export const aggregateByOrganization = async (): Promise<void> => {
 
   // costは1のみ
   await step({
-    stepName: "aggregate:usage-current-cycle-actions-billing",
-    callback: workflowUsageCurrentCycleActionsBilling(),
+    stepName: "aggregate:usage-current-cycle-org",
+    callback: workflowUsageCurrentCycleOrg(),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + PRが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
