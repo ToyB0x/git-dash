@@ -29,7 +29,7 @@ export const aggregate = async (
               (release) =>
                 new Date(release.created_at).getTime() <
                 new Date(
-                  Date.now() - 1 /* month */ * 60 * 60 * 24 * 30 * 1000,
+                  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
                 ).getTime(),
             )
           ) {
