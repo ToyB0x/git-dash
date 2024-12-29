@@ -3,7 +3,11 @@ import { env } from "@/env";
 import { logger } from "@/utils";
 import { releaseTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
-import { desc, notInArray } from "drizzle-orm";
+import { desc, lt, notInArray } from "drizzle-orm";
+
+const maxOldReleaseDate = new Date(
+  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
+);
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
@@ -28,9 +32,7 @@ export const aggregate = async (
             response.data.find(
               (release) =>
                 new Date(release.created_at).getTime() <
-                new Date(
-                  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
-                ).getTime(),
+                maxOldReleaseDate.getTime(),
             )
           ) {
             done();
@@ -88,6 +90,11 @@ export const aggregate = async (
   if (errors.length > 0) {
     logger.error(JSON.stringify(errors));
   }
+
+  // delete old reviews
+  await sharedDbClient
+    .delete(releaseTbl)
+    .where(lt(releaseTbl.createdAt, maxOldReleaseDate));
 
   const latestReleases = await sharedDbClient
     .select()

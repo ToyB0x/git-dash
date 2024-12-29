@@ -2,6 +2,7 @@ import { getOctokit, sharedDbClient } from "@/clients";
 import { logger } from "@/utils";
 import { prTbl, releaseTbl, reviewTbl, userTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
+import { gte } from "drizzle-orm";
 
 export const aggregate = async () => {
   const octokit = await getOctokit();
@@ -23,14 +24,17 @@ export const aggregate = async () => {
     ...releases.map((release) => release.authorId),
   ]);
 
-  const currentUsers = await sharedDbClient.select().from(userTbl);
-  const newUserIds = [...userIds].filter(
-    (userId) => !currentUsers.find((user) => user.id === userId),
-  );
+  const recentUsers = await sharedDbClient
+    .select()
+    .from(userTbl)
+    .where(
+      gte(userTbl.updatedAt, new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)),
+    );
 
-  // 週に一度既存のユーザも情報を更新する
-  const isTodaySunday = new Date().getDay() === 0;
-  const scanUserIds = isTodaySunday ? userIds : newUserIds;
+  // 直近7日以内にデータ更新されていないユーザのみ取得
+  const scanUserIds = [...userIds].filter(
+    (userId) => !recentUsers.find((user) => user.id === userId),
+  );
 
   const { errors } = await PromisePool.for(scanUserIds)
     // 8 concurrent requests
