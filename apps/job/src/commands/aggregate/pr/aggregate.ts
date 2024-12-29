@@ -3,7 +3,11 @@ import { env } from "@/env";
 import { logger } from "@/utils";
 import { prTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
-import { desc, notInArray } from "drizzle-orm";
+import { desc, lt, notInArray } from "drizzle-orm";
+
+const maxOldPrDate = new Date(
+  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
+);
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
@@ -35,10 +39,7 @@ export const aggregate = async (
           if (
             response.data.find(
               (pr) =>
-                new Date(pr.created_at).getTime() <
-                new Date(
-                  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
-                ).getTime(),
+                new Date(pr.created_at).getTime() < maxOldPrDate.getTime(),
             )
           ) {
             done();
@@ -78,6 +79,9 @@ export const aggregate = async (
             });
         });
     });
+
+  // delete old prs
+  await sharedDbClient.delete(prTbl).where(lt(prTbl.createdAt, maxOldPrDate));
 
   const latestPrs = await sharedDbClient
     .select()
