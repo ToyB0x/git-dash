@@ -1,8 +1,9 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { env } from "@/env";
 import { logger } from "@/utils";
-import { prTbl } from "@repo/db-shared";
+import { prTbl, releaseTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
+import { desc, notInArray } from "drizzle-orm";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
@@ -36,7 +37,7 @@ export const aggregate = async (
               (pr) =>
                 new Date(pr.created_at).getTime() <
                 new Date(
-                  Date.now() - 1 /* month */ * 60 * 60 * 24 * 30 * 1000,
+                  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
                 ).getTime(),
             )
           ) {
@@ -59,8 +60,7 @@ export const aggregate = async (
               id: pr.id,
               title: pr.title,
               number: pr.number,
-              state: pr.state,
-              merged_at: pr.merged_at ? new Date(pr.merged_at) : null,
+              mergedAt: pr.merged_at ? new Date(pr.merged_at) : null,
               createdAt: new Date(pr.created_at),
               updatedAt: new Date(pr.updated_at),
               authorId: authorId,
@@ -71,12 +71,30 @@ export const aggregate = async (
               set: {
                 title: pr.title,
                 number: pr.number,
-                state: pr.state,
-                merged_at: pr.merged_at ? new Date(pr.merged_at) : null,
+                mergedAt: pr.merged_at ? new Date(pr.merged_at) : null,
                 updatedAt: new Date(pr.updated_at),
                 authorId: authorId,
               },
             });
         });
     });
+
+  const latestPrs = await sharedDbClient
+    .select()
+    .from(prTbl)
+    .orderBy(desc(prTbl.mergedAt))
+    .limit(100);
+
+  await sharedDbClient
+    .update(prTbl)
+    .set({
+      // DB Sizeを減らすためにTextをnullにする
+      title: null,
+    })
+    .where(
+      notInArray(
+        releaseTbl.id,
+        latestPrs.map((pr) => pr.id),
+      ),
+    );
 };
