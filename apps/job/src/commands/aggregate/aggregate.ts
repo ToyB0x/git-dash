@@ -5,7 +5,6 @@ import { aggregate as aggregateRepositories } from "./repositories";
 import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
 import { aggregate as aggregateWorkflow } from "./workflow";
-import { aggregate as aggregateWorkflowRunAndEachRunCost } from "./workflow-run";
 import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current-cycle";
 import { aggregate as workflowUsageCurrentCycleActionsBilling } from "./workflow-usage-current-cycle-by-runner";
 
@@ -42,11 +41,11 @@ export const aggregateByOrganization = async (): Promise<void> => {
     callback: aggregateWorkflow(filteredRepositories),
   });
 
-  // NOTE: Workflowの実行数に応じてQuotaを消費
-  await step({
-    stepName: "aggregate:workflow-run-and-each-run-cost",
-    callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
-  });
+  // // NOTE: Workflowの実行数に応じてQuotaを消費
+  // await step({
+  //   stepName: "aggregate:workflow-run-and-each-run-cost",
+  //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
+  // });
 
   // NOTE: Workflow fileの数に応じてQuotaを消費
   await step({
