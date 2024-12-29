@@ -73,7 +73,7 @@ export const aggregate = async () => {
             workflowUsageCurrentCycleTbl.year,
             workflowUsageCurrentCycleTbl.month,
             workflowUsageCurrentCycleTbl.day,
-            workflowUsageCurrentCycleTbl.workflowId
+            workflowUsageCurrentCycleTbl.workflowId,
           ],
           set: {
             dollar: Math.round(cost * 10) / 10, // round to 1 decimal place
