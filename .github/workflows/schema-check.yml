@@ -22,7 +22,7 @@ jobs:
           cat  << EOF > comment.md
           ### :bell: The schema has changed. :bell:
 
-          - [ ] Please run `drizzle-kit generate` to ensure new schema files are generated.
+          - [ ] Please run drizzle-kit generate to ensure new schema files are generated.
           - [ ] Please check the impact on users using older DB versions.
 
           EOF
