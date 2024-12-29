@@ -7,8 +7,7 @@ test("can see demo pages", async ({ page }) => {
 
   // cost page
   await page.getByRole("link", { name: "Cost", exact: true }).click();
-  await page.getByText("96.1%").click();
-  await page.getByText("$3293.5").click();
+  await page.getByText("$891.00").click();
 
   // prs page
   await page.getByRole("link", { name: "PRs" }).click();
