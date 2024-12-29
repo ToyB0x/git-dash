@@ -40,7 +40,12 @@ export const aggregate = async (
       );
 
       for (const release of releases) {
-        if (release.draft || release.prerelease || !release.published_at)
+        if (
+          release.draft ||
+          release.prerelease ||
+          !release.published_at ||
+          !release.author // RestAPI形式と異なり、authorがnullの場合がある
+        )
           continue;
 
         console.log(
@@ -96,6 +101,7 @@ export const aggregate = async (
       // DB Sizeを減らすためにTextをnullにする
       body: null,
       url: null,
+      title: null,
     })
     .where(
       notInArray(
