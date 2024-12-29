@@ -3,6 +3,7 @@ import { env } from "@/env";
 import { calcActionsCostFromTime, logger } from "@/utils";
 import { workflowRunTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
+import { eq } from "drizzle-orm";
 
 // NOTE: 企業規模やリポジトリ数によってはかなりのQuotaを消費するため、注意が必要
 // ex. 1リポジトリあたり5Action * 100Runs/monthと仮定して、100リポジトリある場合は　5 * 100 * 100 = 5万回 PointsのQuotaが必要なため
@@ -56,6 +57,14 @@ export const aggregate = async (
         // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
         .withConcurrency(10)
         .process(async (workflowRun) => {
+          const hasRecord = await sharedDbClient
+            .select()
+            .from(workflowRunTbl)
+            .where(eq(workflowRunTbl.id, workflowRun.id));
+
+          // TODO: 既にDBに登録されている2日前以上の利用量は、再度取得しないようにする(現在は２日前かどうかを見ていない)
+          if (hasRecord.length > 0) return;
+
           const workflowUsage = await octokit.rest.actions.getWorkflowRunUsage({
             owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
             repo: repository.name,
