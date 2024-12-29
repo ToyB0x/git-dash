@@ -13,7 +13,7 @@ CREATE TABLE `pr` (
 --> statement-breakpoint
 CREATE TABLE `release` (
 	`id` integer PRIMARY KEY NOT NULL,
-	`url` text NOT NULL,
+	`url` text,
 	`author_id` integer NOT NULL,
 	`name` text,
 	`body` text,
@@ -59,11 +59,15 @@ CREATE TABLE `workflow` (
 );
 --> statement-breakpoint
 CREATE TABLE `workflow_usage_current_cycle` (
-	`id` integer PRIMARY KEY NOT NULL,
+	`year` integer NOT NULL,
+	`month` integer NOT NULL,
+	`day` integer NOT NULL,
+	`workflow_id` integer NOT NULL,
 	`dollar` integer NOT NULL,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL,
-	FOREIGN KEY (`id`) REFERENCES `workflow`(`id`) ON UPDATE cascade ON DELETE cascade
+	PRIMARY KEY(`year`, `month`, `day`, `workflow_id`),
+	FOREIGN KEY (`workflow_id`) REFERENCES `workflow`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `workflow_usage_current_cycle_org` (

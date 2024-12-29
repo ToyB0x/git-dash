@@ -215,10 +215,19 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       repositoryName: repositoryTbl.name,
     })
     .from(workflowUsageCurrentCycleTbl)
-    .orderBy(desc(workflowUsageCurrentCycleTbl.dollar))
-    .innerJoin(workflowTbl, eq(workflowUsageCurrentCycleTbl.id, workflowTbl.id))
+    .orderBy(desc(workflowUsageCurrentCycleTbl.createdAt))
+    .innerJoin(
+      workflowTbl,
+      eq(workflowTbl.id, workflowUsageCurrentCycleTbl.workflowId),
+    )
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
     .where(eq(repositoryTbl.name, params.repositoryId));
+
+  // 最新の集計結果だけにフィルタリング
+  const workflowUsageCurrentCyclesFiltered = workflowUsageCurrentCycles.filter(
+    (item, index, self) =>
+      index === self.findIndex((t) => t.workflowId === item.workflowId),
+  );
 
   return {
     dataChangeLeadTime,
@@ -228,9 +237,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
-    workflowUsageCurrentCycles: workflowUsageCurrentCycles.filter(
-      ({ dollar }) => dollar > 0,
-    ),
+    workflowUsageCurrentCycles: workflowUsageCurrentCyclesFiltered
+      .filter(({ dollar }) => dollar > 0)
+      .sort((a, b) => b.dollar - a.dollar),
   };
 }
 
