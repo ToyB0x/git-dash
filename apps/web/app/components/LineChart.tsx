@@ -28,6 +28,11 @@ import {
 } from "@/lib/chartUtils";
 import { useOnWindowResize } from "@/lib/useOnWindowResize";
 import { cx, percentageFormatter } from "@/lib/utils";
+import type {
+  NameType,
+  Payload,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 import { Badge } from "./Badge";
 import { getBadgeType } from "./ui/overview/DashboardChartCard";
 
@@ -395,29 +400,31 @@ const ChartTooltipRow = ({ value, name, color }: ChartTooltipRowProps) => (
   </div>
 );
 
-interface ChartTooltipProps {
+interface ChartTooltipProps<TValue extends ValueType, TName extends NameType> {
   active: boolean | undefined;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  payload: any;
+  payload: Array<Payload<TValue, TName>>;
   label: string;
   categoryColors: Map<string, string>;
   valueFormatter: (value: number) => string;
 }
 
-const OverviewChartTooltip = ({
+const OverviewChartTooltip = <
+  TValue extends ValueType,
+  TName extends NameType,
+>({
   active,
   payload,
   categoryColors,
   valueFormatter,
-}: ChartTooltipProps) => {
+}: ChartTooltipProps<TValue, TName>) => {
   if (active && payload) {
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const filteredPayload = payload.filter((item: any) => item.type !== "none");
 
     if (!active || !payload) return null;
 
-    const title = payload[0].payload.title;
-    const evolution = payload[0].payload.evolution;
+    const title = payload[0]?.payload.title;
+    const evolution = payload[0]?.payload.evolution;
     if (!title) return null;
 
     return (
@@ -498,7 +505,7 @@ interface LineChartProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string;
     date: Date;
     formattedDate: string;
-    value: number | undefined;
+    value: number | null | undefined;
     previousDate: Date | undefined;
     previousFormattedDate: string | null;
     previousValue: number | null | undefined;
@@ -721,15 +728,16 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
               position={{ y: 0 }}
               content={
                 showTooltip ? (
-                  ({ active, payload, label }) => (
-                    <OverviewChartTooltip
-                      active={active}
-                      payload={payload}
-                      label={label}
-                      valueFormatter={valueFormatter}
-                      categoryColors={categoryColors}
-                    />
-                  )
+                  ({ active, payload, label }) =>
+                    payload && (
+                      <OverviewChartTooltip
+                        active={active}
+                        payload={payload}
+                        label={label}
+                        valueFormatter={valueFormatter}
+                        categoryColors={categoryColors}
+                      />
+                    )
                 ) : (
                   <></>
                 )
