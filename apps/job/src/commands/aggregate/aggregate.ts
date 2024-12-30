@@ -24,7 +24,7 @@ export const aggregateByOrganization = async (): Promise<void> => {
 
   await step({
     stepName: "aggregate:alert",
-    callback: aggregateAlert(repositories),
+    callback: aggregateAlert(),
   });
 
   // NOTE: 通常は1月以内に更新されたリポジトリのみを対象にする(日曜だけは全リポジトリを対象にする)
