@@ -3,22 +3,25 @@ import { env } from "@/env";
 import { logger } from "@/utils";
 import { alertTbl, repositoryTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
-import { eq, isNull, lt, or, } from "drizzle-orm";
+import { eq, isNull, lt, or } from "drizzle-orm";
 
-const maxOldRepositoryDate = new Date(Date.now() - 7 /* days */ * 1000 * 60 * 60 * 24);
+const maxOldRepositoryDate = new Date(
+  Date.now() - 7 /* days */ * 1000 * 60 * 60 * 24,
+);
 
-export const aggregate = async (
-) => {
+export const aggregate = async () => {
   const octokit = await getOctokit();
 
   // NOTE: 直近に更新されていないリポジトリは除外して高速化する
   const repositories = await sharedDbClient
     .select()
     .from(repositoryTbl)
-    .where(or(
-      lt(repositoryTbl.enabledAlertCheckedAt, maxOldRepositoryDate),
-      isNull(repositoryTbl.enabledAlertCheckedAt),
-    ));
+    .where(
+      or(
+        lt(repositoryTbl.enabledAlertCheckedAt, maxOldRepositoryDate),
+        isNull(repositoryTbl.enabledAlertCheckedAt),
+      ),
+    );
 
   await PromisePool.for(repositories)
     // 8 concurrent requests
@@ -29,19 +32,31 @@ export const aggregate = async (
         `Start aggregate:alert-status ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
-      // ref: https://docs.github.com/ja/rest/repos/repos?apiVersion=2022-11-28#check-if-vulnerability-alerts-are-enabled-for-a-repository
-      const isEnabledAlert = await octokit.rest.repos.checkVulnerabilityAlerts({
-        owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
-        repo: repository.name,
-      });
+      try {
+        // ref: https://docs.github.com/ja/rest/repos/repos?apiVersion=2022-11-28#check-if-vulnerability-alerts-are-enabled-for-a-repository
+        const isEnabledAlert =
+          await octokit.rest.repos.checkVulnerabilityAlerts({
+            owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+            repo: repository.name,
+          });
 
-      await sharedDbClient
-        .update(repositoryTbl)
-        .set({
-          enabledAlert: isEnabledAlert.status === 204,
-          enabledAlertCheckedAt: new Date(),
-        })
-        .where(eq(repositoryTbl.id, repository.id));
+        await sharedDbClient
+          .update(repositoryTbl)
+          .set({
+            enabledAlert: isEnabledAlert.status === 204,
+            enabledAlertCheckedAt: new Date(),
+          })
+          .where(eq(repositoryTbl.id, repository.id));
+      } catch (e) {
+        // TODO: statusが404以外の場合のエラーハンドリングを追加
+        await sharedDbClient
+          .update(repositoryTbl)
+          .set({
+            enabledAlert: false,
+            enabledAlertCheckedAt: new Date(),
+          })
+          .where(eq(repositoryTbl.id, repository.id));
+      }
     });
 
   // ref: https://docs.github.com/ja/rest/dependabot/alerts?apiVersion=2022-11-28
@@ -71,11 +86,18 @@ export const aggregate = async (
 
     const existRepo = alertByRepository[alert.repository.id];
     if (existRepo) {
-      const repoSeverity = alertByRepository[alert.repository.id]![alert.security_vulnerability.severity];
+      const repoSeverity =
+        alertByRepository[alert.repository.id]?.[
+          alert.security_vulnerability.severity
+        ];
       if (repoSeverity) {
-        alertByRepository[alert.repository.id]![alert.security_vulnerability.severity]! += 1;
+        alertByRepository[alert.repository.id]![
+          alert.security_vulnerability.severity
+        ]! += 1;
       } else {
-        alertByRepository[alert.repository.id]![alert.security_vulnerability.severity] = 1;
+        alertByRepository[alert.repository.id]![
+          alert.security_vulnerability.severity
+        ] = 1;
       }
     } else {
       alertByRepository[alert.repository.id] = {
