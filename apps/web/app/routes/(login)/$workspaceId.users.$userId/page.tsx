@@ -16,7 +16,7 @@ import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId.users.$userId/+types/page";
 import { prTbl, repositoryTbl, reviewTbl, userTbl } from "@repo/db-shared";
 import { startOfToday, subDays } from "date-fns";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, gte } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useParams } from "react-router";
@@ -120,6 +120,13 @@ const data3: KpiEntryExtended[] = [
   },
 ];
 
+type Activity = {
+  repository: string;
+  prs: number;
+  reviews: number;
+  lastActivity: Date | string | undefined;
+};
+
 const dataTable = [
   {
     repository: "org/api",
@@ -163,7 +170,7 @@ const dataTable = [
     reviews: 1,
     lastActivity: "21/09/2024 11:32",
   },
-];
+] satisfies Activity[];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const isDemo = params.workspaceId === "demo";
@@ -180,7 +187,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       dataPrOpen: dataPrOpen.data,
       dataPrMerge: dataPrMerge.data,
       dataReviews: dataReviews.data,
-      reviews: [],
+      activity: dataTable,
     };
   }
 
@@ -228,6 +235,30 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .where(eq(userTbl.login, params.userId))
     .orderBy(desc(reviewTbl.createdAt));
 
+  const hasPrRepository = await wasmDb
+    .selectDistinct({
+      repositoryId: prTbl.repositoryId,
+    })
+    .from(prTbl)
+    .where(eq(prTbl.authorId, user.id))
+    .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
+
+  const hasReviewRepository = await wasmDb
+    .selectDistinct({
+      repositoryId: prTbl.repositoryId,
+    })
+    .from(reviewTbl)
+    .innerJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+    .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id))
+    .where(eq(reviewTbl.reviewerId, user.id));
+
+  const relatedRepositoryIds = [
+    ...new Set([
+      ...hasPrRepository.map((pr) => pr.repositoryId),
+      ...hasReviewRepository.map((review) => review.repositoryId),
+    ]),
+  ];
+
   return {
     user,
     dataPrOpen: [...Array(300).keys()].map((_, i) => {
@@ -261,6 +292,53 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         ).length,
       };
     }),
+    activity: (await Promise.all(
+      relatedRepositoryIds.map(async (repositoryId) => {
+        const prs = await wasmDb
+          .select()
+          .from(prTbl)
+          .where(
+            and(
+              eq(prTbl.authorId, user.id),
+              eq(prTbl.repositoryId, repositoryId),
+              gte(prTbl.createdAt, subDays(startOfToday(), 180)),
+            ),
+          )
+          .orderBy(desc(prTbl.createdAt));
+
+        const reviews = await wasmDb
+          .select({ createdAt: reviewTbl.createdAt })
+          .from(reviewTbl)
+          .leftJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+          .where(
+            and(
+              eq(reviewTbl.reviewerId, user.id),
+              eq(prTbl.repositoryId, repositoryId),
+              gte(reviewTbl.createdAt, subDays(startOfToday(), 180)),
+            ),
+          )
+          .orderBy(desc(reviewTbl.createdAt));
+
+        const repositoryNames = await wasmDb
+          .select()
+          .from(repositoryTbl)
+          .where(eq(repositoryTbl.id, repositoryId));
+
+        const repositoryName = repositoryNames[0]?.name;
+
+        return {
+          repository: repositoryName || "Unknown",
+          prs: prs.length,
+          reviews: reviews.length,
+          lastActivity:
+            prs[0]?.createdAt && reviews[0]?.createdAt
+              ? prs[0]?.createdAt > reviews[0]?.createdAt
+                ? prs[0]?.createdAt
+                : reviews[0]?.createdAt
+              : prs[0]?.createdAt || reviews[0]?.createdAt,
+        };
+      }),
+    )) satisfies Activity[],
   };
 }
 
@@ -268,7 +346,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const { user, dataPrOpen, dataPrMerge, dataReviews } = loadData;
+  const { user, dataPrOpen, dataPrMerge, dataReviews, activity } = loadData;
 
   const { userId } = useParams();
 
@@ -383,7 +461,8 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           id="high-cost-actions"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Activity by repository
+          Activity by repository{" "}
+          <span className="text-sm text-gray-500">(recent 6 months)</span>
         </h1>
 
         <TableRoot className="mt-8">
@@ -401,11 +480,11 @@ export default function Page({ loaderData }: Route.ComponentProps) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataTable.map((item) => (
+              {activity.map((item) => (
                 <TableRow key={item.repository}>
                   <TableCell className="font-medium text-gray-900 dark:text-gray-50">
                     <Link
-                      to={`${item.repository}`}
+                      to={`../repositories/${item.repository}`}
                       className="underline underline-offset-4"
                     >
                       {item.repository}
@@ -414,7 +493,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                   <TableCell className="text-right">{item.prs}</TableCell>
                   <TableCell className="text-right">{item.reviews}</TableCell>
                   <TableCell className="text-right">
-                    {item.lastActivity}
+                    {item.lastActivity?.toLocaleString() || "-"}
                   </TableCell>
                 </TableRow>
               ))}
