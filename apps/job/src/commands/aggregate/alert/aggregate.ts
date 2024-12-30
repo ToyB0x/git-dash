@@ -9,7 +9,7 @@ const maxOldRepositoryDate = new Date(
   Date.now() - 7 /* days */ * 1000 * 60 * 60 * 24,
 );
 
-export const aggregate = async () => {
+export const aggregate = async (scanId: number) => {
   const octokit = await getOctokit();
 
   // NOTE: 直近に更新されていないリポジトリは除外して高速化する
@@ -114,6 +114,7 @@ export const aggregate = async () => {
       await sharedDbClient
         .insert(alertTbl)
         .values({
+          scanId,
           count,
           year: now.getFullYear(),
           month: now.getMonth() + 1,
@@ -136,6 +137,7 @@ export const aggregate = async () => {
             alertTbl.severity,
           ],
           set: {
+            scanId,
             count,
             updatedAt: now,
           },

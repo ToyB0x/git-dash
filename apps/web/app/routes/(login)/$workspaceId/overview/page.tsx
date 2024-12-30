@@ -2,49 +2,72 @@ import { auth, getWasmDb } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
+import { Tooltip } from "@/components/Tooltip";
 import { NoDataMessage } from "@/components/ui/no-data";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
+import { RiQuestionLine } from "@remixicon/react";
 import {
+  alertTbl,
   prTbl,
   releaseTbl,
   repositoryTbl,
+  scanTbl,
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
-import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
+import { subDays } from "date-fns";
+import {
+  and,
+  count,
+  desc,
+  eq,
+  gte,
+  isNotNull,
+  lt,
+  not,
+  sum,
+} from "drizzle-orm";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
+
+type Stat = {
+  name: string;
+  stat: string | number;
+  change?: number;
+  changeType?: "positive" | "negative";
+};
 
 const dataStats = [
   {
     name: "Releases / month",
     stat: "42",
-    change: "-12.5%",
+    change: 12.5,
     changeType: "negative",
   },
   {
     name: "Change Failure Rate",
     stat: "1.9%",
-    change: "+0.4%",
+    change: 0.4,
     changeType: "positive",
   },
   {
     name: "Vulnerabilities (critical)",
     stat: "29",
-    change: "+19.7%",
+    change: 19.7,
     changeType: "negative",
   },
-];
+] satisfies Stat[];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
+      dataStats,
       costs: dataChart,
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
-      prCountThisMonth: 128,
-      prCountLastMonth: 116,
+      prCountLast30days: 128,
+      prCountLastPeriod: 116,
     };
   }
 
@@ -82,41 +105,87 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .orderBy(desc(releaseTbl.publishedAt))
     .limit(5);
 
-  const thisMonthStartAt = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth(),
-    1,
-  );
-
-  const lastMonthStartAt = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth() - 1,
-    1,
-  );
-
   const renovateBotId = 29139614;
-  const prCountThisMonth = await wasmDb
+  const prCountLast30days = await wasmDb
     .select({ count: count() })
     .from(prTbl)
     .where(
       and(
-        gte(prTbl.createdAt, thisMonthStartAt),
+        gte(prTbl.createdAt, subDays(new Date(), 30)),
         isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
       ),
     );
 
-  const prCountLastMonth = await wasmDb
+  const prCountLastPeriod = await wasmDb
     .select({ count: count() })
     .from(prTbl)
     .where(
       and(
-        gte(prTbl.createdAt, new Date(lastMonthStartAt)),
-        lt(prTbl.createdAt, new Date(thisMonthStartAt)),
+        gte(prTbl.createdAt, subDays(new Date(), 60)),
+        lt(prTbl.createdAt, subDays(new Date(), 30)),
         isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
       ),
     );
+
+  const releaseCountLast30days = await wasmDb
+    .select({ count: count() })
+    .from(releaseTbl)
+    .where(and(gte(releaseTbl.publishedAt, subDays(new Date(), 30))));
+
+  const releaseCountLastPeriod = await wasmDb
+    .select({ count: count() })
+    .from(releaseTbl)
+    .where(
+      and(
+        gte(releaseTbl.publishedAt, subDays(new Date(), 60)),
+        lt(releaseTbl.publishedAt, subDays(new Date(), 30)),
+      ),
+    );
+
+  const latestScan = await wasmDb
+    .select()
+    .from(scanTbl)
+    .orderBy(desc(scanTbl.updatedAt))
+    .limit(1);
+  const latestScanId = latestScan[0]?.id;
+  if (!latestScanId) {
+    return null;
+  }
+
+  const vulnCountToday = await wasmDb
+    .select({ count: sum(alertTbl.count) })
+    .from(alertTbl)
+    .where(
+      and(eq(alertTbl.severity, "CRITICAL"), eq(alertTbl.scanId, latestScanId)),
+    );
+
+  const scan30DayAgo = await wasmDb
+    .select()
+    .from(scanTbl)
+    .where(
+      and(
+        gte(scanTbl.updatedAt, subDays(new Date(), 30)),
+        lt(scanTbl.updatedAt, subDays(new Date(), 29)),
+      ),
+    )
+    .orderBy(desc(scanTbl.updatedAt))
+    .limit(1);
+
+  const scan30DayAgoId = scan30DayAgo[0]?.id;
+
+  const vulnCount30DayAgo = scan30DayAgoId
+    ? await wasmDb
+        .select({ count: sum(alertTbl.count) })
+        .from(alertTbl)
+        .where(
+          and(
+            eq(alertTbl.severity, "CRITICAL"),
+            eq(alertTbl.scanId, scan30DayAgoId),
+          ),
+        )
+    : [];
 
   const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
@@ -193,8 +262,49 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       return { date: item.date, cost: item.cost - beforeDayCost };
     }),
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
-    prCountThisMonth: prCountThisMonth[0]?.count || 0,
-    prCountLastMonth: prCountLastMonth[0]?.count || 0,
+    prCountLast30days: prCountLast30days[0]?.count || 0,
+    prCountLastPeriod: prCountLastPeriod[0]?.count || 0,
+    dataStats: [
+      {
+        name: "Releases / month",
+        stat: (releaseCountLast30days[0]?.count || 0).toString(),
+        change:
+          Math.round(
+            ((releaseCountLast30days[0]?.count || 0) /
+              (releaseCountLastPeriod[0]?.count || 0)) *
+              10,
+          ) / 10,
+        changeType:
+          (releaseCountLast30days[0]?.count || 0) >
+          (releaseCountLastPeriod[0]?.count || 0)
+            ? "positive"
+            : "negative",
+      },
+      {
+        name: "Change Failure Rate",
+        stat: "-",
+      },
+      {
+        name: "Vulnerabilities (critical)",
+        stat: vulnCountToday[0]?.count || 0,
+        change:
+          Number.isInteger(vulnCountToday[0]?.count) &&
+          Number.isInteger(vulnCount30DayAgo[0]?.count)
+            ? Math.round(
+                (Number(vulnCountToday[0]?.count) /
+                  Number(vulnCount30DayAgo[0]?.count)) *
+                  10,
+              ) / 10
+            : undefined,
+        changeType:
+          vulnCount30DayAgo[0]?.count && vulnCountToday[0]?.count
+            ? (vulnCountToday[0]?.count || 0) >
+              (vulnCount30DayAgo[0]?.count || 0)
+              ? "positive"
+              : "negative"
+            : undefined,
+      },
+    ] satisfies Stat[],
   };
 }
 
@@ -275,8 +385,9 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
-    prCountThisMonth,
-    prCountLastMonth,
+    prCountLast30days,
+    prCountLastPeriod,
+    dataStats,
   } = loadData;
 
   return (
@@ -299,46 +410,56 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         </p>
 
         <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-          <Card className="py-4">
-            <dt className="text-sm font-medium text-gray-500 dark:text-gray-500">
-              Pull requests / month
+          <Card className="py-4 pr-4">
+            <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
+              <div>Pull requests / month </div>
+              <Tooltip content="Aggregated values for the last 30 days (compared to the same period last month)">
+                <RiQuestionLine size={18} />
+              </Tooltip>
             </dt>
             <dd className="mt-2 flex items-baseline space-x-2.5">
               <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
-                {prCountThisMonth}
+                {prCountLast30days}
               </span>
               <span
                 className={cx(
-                  prCountThisMonth - prCountLastMonth > 0
+                  prCountLast30days - prCountLastPeriod > 0
                     ? "text-emerald-700 dark:text-emerald-500"
                     : "text-red-700 dark:text-red-500",
                   "text-sm font-medium",
                 )}
               >
-                {Math.round((prCountThisMonth / prCountLastMonth) * 10) / 10}%
+                {Math.round((prCountLast30days / prCountLastPeriod) * 10) / 10}%
               </span>
             </dd>
           </Card>
 
           {dataStats.map((item) => (
-            <Card key={item.name} className="py-4">
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-500">
+            <Card key={item.name} className="py-4 pr-4">
+              <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
                 {item.name}
+                <Tooltip content="Aggregated values for the last 30 days (compared to the same period last month)">
+                  <RiQuestionLine size={18} />
+                </Tooltip>
               </dt>
+
               <dd className="mt-2 flex items-baseline space-x-2.5">
                 <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
                   {item.stat}
                 </span>
-                <span
-                  className={cx(
-                    item.changeType === "positive"
-                      ? "text-emerald-700 dark:text-emerald-500"
-                      : "text-red-700 dark:text-red-500",
-                    "text-sm font-medium",
-                  )}
-                >
-                  {item.change}
-                </span>
+                {item.change && (
+                  <span
+                    className={cx(
+                      item.changeType === "positive"
+                        ? "text-emerald-700 dark:text-emerald-500"
+                        : "text-red-700 dark:text-red-500",
+                      "text-sm font-medium",
+                    )}
+                  >
+                    {item.changeType === "positive" ? "+" : "-"}
+                    {item.change}%
+                  </span>
+                )}
               </dd>
             </Card>
           ))}
