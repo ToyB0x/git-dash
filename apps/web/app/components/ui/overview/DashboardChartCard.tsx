@@ -166,14 +166,17 @@ export function ChartCard({
         <dd className="text-xl text-gray-900 dark:text-gray-50">
           {accumulation
             ? formatter(value)
-            : formatter(chartData?.[chartData?.length - 1]?.value)}
+            : formatter(chartData?.filter((d) => d.value)?.slice(-1)[0]?.value)}
         </dd>
         {selectedPeriod !== "no-comparison" && (
           <dd className="text-sm text-gray-500">
             from{" "}
             {accumulation
               ? formatter(previousValue)
-              : formatter(chartData?.[chartData?.length - 1]?.previousValue)}
+              : formatter(
+                  chartData?.filter((d) => d.value)?.slice(-1)[0]
+                    ?.previousValue,
+                )}
           </dd>
         )}
       </div>

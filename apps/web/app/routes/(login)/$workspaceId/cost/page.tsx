@@ -170,7 +170,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         );
 
         return {
-          value: usage?.dollar || 0,
+          value: usage?.dollar || null,
           date: currentDate,
         };
       });
@@ -193,11 +193,18 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
             }
 
             // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
-            const hasResetBillingCycle = usage.value - beforeDayCost < 0;
+            const hasResetBillingCycle =
+              Number(usage.value) - beforeDayCost < 0;
             if (hasResetBillingCycle) {
               return { date: usage.date, value: usage.value };
             }
-            return { date: usage.date, value: usage.value - beforeDayCost };
+            return {
+              date: usage.date,
+              value:
+                usage.value === null
+                  ? null // 見計測の未来はnull
+                  : usage.value - beforeDayCost,
+            };
           }),
       };
     }),
