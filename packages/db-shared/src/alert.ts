@@ -8,7 +8,7 @@ export const alertTbl = sqliteTable(
     year: int().notNull(),
     month: int().notNull(),
     day: int().notNull(),
-    severity: text("severity").notNull(), // severity of the alert
+    severity: text({ enum: ["CRITICAL", "HIGH", "MEDIUM", "LOW"] }).notNull(), // severity of the alert
     createdAt: int({ mode: "timestamp_ms" }).notNull(),
     updatedAt: int({ mode: "timestamp_ms" }).notNull(),
     repositoryId: int("repository_id")

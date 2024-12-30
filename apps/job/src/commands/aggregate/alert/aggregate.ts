@@ -91,10 +91,12 @@ export const aggregate = async () => {
           alert.security_vulnerability.severity
         ];
       if (repoSeverity) {
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
         alertByRepository[alert.repository.id]![
           alert.security_vulnerability.severity
         ]! += 1;
       } else {
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
         alertByRepository[alert.repository.id]![
           alert.security_vulnerability.severity
         ] = 1;
@@ -116,7 +118,7 @@ export const aggregate = async () => {
           year: now.getFullYear(),
           month: now.getMonth() + 1,
           day: now.getDate(),
-          severity: severity,
+          severity: severity.toUpperCase(),
           createdAt: now,
           updatedAt: now,
           repositoryId: Number(repoId),
