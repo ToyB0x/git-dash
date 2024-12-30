@@ -47,7 +47,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
       prCountLast30days: 128,
-      prCountLastMonth: 116,
+      prCountLastPeriod: 116,
     };
   }
 
@@ -97,7 +97,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       ),
     );
 
-  const prCountLastMonth = await wasmDb
+  const prCountLastPeriod = await wasmDb
     .select({ count: count() })
     .from(prTbl)
     .where(
@@ -185,7 +185,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     }),
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
     prCountLast30days: prCountLast30days[0]?.count || 0,
-    prCountLastMonth: prCountLastMonth[0]?.count || 0,
+    prCountLastPeriod: prCountLastPeriod[0]?.count || 0,
   };
 }
 
@@ -267,7 +267,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     releases,
     workflowUsageCurrentCycleOrg,
     prCountLast30days,
-    prCountLastMonth,
+    prCountLastPeriod,
   } = loadData;
 
   return (
@@ -303,13 +303,13 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
               </span>
               <span
                 className={cx(
-                  prCountLast30days - prCountLastMonth > 0
+                  prCountLast30days - prCountLastPeriod > 0
                     ? "text-emerald-700 dark:text-emerald-500"
                     : "text-red-700 dark:text-red-500",
                   "text-sm font-medium",
                 )}
               >
-                {Math.round((prCountLast30days / prCountLastMonth) * 10) / 10}%
+                {Math.round((prCountLast30days / prCountLastPeriod) * 10) / 10}%
               </span>
             </dd>
           </Card>
