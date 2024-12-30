@@ -19,30 +19,38 @@ import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
 
+type Stat = {
+  name: string;
+  stat: string;
+  change: number;
+  changeType: "positive" | "negative";
+};
+
 const dataStats = [
   {
     name: "Releases / month",
     stat: "42",
-    change: "-12.5%",
+    change: 12.5,
     changeType: "negative",
   },
   {
     name: "Change Failure Rate",
     stat: "1.9%",
-    change: "+0.4%",
+    change: 0.4,
     changeType: "positive",
   },
   {
     name: "Vulnerabilities (critical)",
     stat: "29",
-    change: "+19.7%",
+    change: 19.7,
     changeType: "negative",
   },
-];
+] satisfies Stat[];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
+      dataStats,
       costs: dataChart,
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
@@ -106,6 +114,21 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         lt(prTbl.createdAt, subDays(new Date(), 30)),
         isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
+      ),
+    );
+
+  const releaseCountLast30days = await wasmDb
+    .select({ count: count() })
+    .from(releaseTbl)
+    .where(and(gte(releaseTbl.publishedAt, subDays(new Date(), 30))));
+
+  const releaseCountLastPeriod = await wasmDb
+    .select({ count: count() })
+    .from(releaseTbl)
+    .where(
+      and(
+        gte(releaseTbl.publishedAt, subDays(new Date(), 60)),
+        lt(releaseTbl.publishedAt, subDays(new Date(), 30)),
       ),
     );
 
@@ -186,6 +209,35 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
     prCountLast30days: prCountLast30days[0]?.count || 0,
     prCountLastPeriod: prCountLastPeriod[0]?.count || 0,
+    dataStats: [
+      {
+        name: "Releases / month",
+        stat: (releaseCountLast30days[0]?.count || 0).toString(),
+        change:
+          Math.round(
+            ((releaseCountLast30days[0]?.count || 0) /
+              (releaseCountLastPeriod[0]?.count || 0)) *
+              10,
+          ) / 10,
+        changeType:
+          (releaseCountLast30days[0]?.count || 0) >
+          (releaseCountLastPeriod[0]?.count || 0)
+            ? "positive"
+            : "negative",
+      },
+      {
+        name: "Change Failure Rate",
+        stat: "1.9%",
+        change: 0.4,
+        changeType: "positive",
+      },
+      {
+        name: "Vulnerabilities (critical)",
+        stat: "29",
+        change: 19.7,
+        changeType: "negative",
+      },
+    ] satisfies Stat[],
   };
 }
 
@@ -268,6 +320,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     workflowUsageCurrentCycleOrg,
     prCountLast30days,
     prCountLastPeriod,
+    dataStats,
   } = loadData;
 
   return (
@@ -335,7 +388,8 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                     "text-sm font-medium",
                   )}
                 >
-                  {item.change}
+                  {item.changeType === "positive" ? "+" : "-"}
+                  {item.change}%
                 </span>
               </dd>
             </Card>
