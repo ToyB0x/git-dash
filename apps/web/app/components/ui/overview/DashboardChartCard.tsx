@@ -10,7 +10,7 @@ import {
 import type { DateRange } from "react-day-picker";
 import { getPeriod } from "./DashboardFilterbar";
 
-export type PeriodValue = "previous-period" | "last-year" | "no-comparison";
+export type PeriodValue = "last-year" | "last-month" | "no-comparison";
 
 export type CardProps = {
   title: string;
@@ -86,7 +86,7 @@ export function ChartCard({
           -1,
         ) // データ収集中である本日を含めない
       : null;
-  const prevDates = getPeriod(selectedDates);
+  const prevDates = getPeriod(selectedDates, selectedPeriod);
 
   const prevDatesInterval =
     prevDates?.from && prevDates?.to
@@ -119,11 +119,11 @@ export function ChartCard({
       return {
         title,
         date,
-        formattedDate: formatDate(date, "dd/MM/yyyy"),
+        formattedDate: formatDate(date, "yyyy/MM/dd"),
         value: currentData?.value,
         previousDate: previousData?.date,
         previousFormattedDate: previousData
-          ? formatDate(previousData.date, "dd/MM/yyyy")
+          ? formatDate(previousData.date, "yyyy/MM/dd")
           : null,
         previousValue:
           selectedPeriod !== "no-comparison" ? previousData?.value : null,

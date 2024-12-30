@@ -1,24 +1,44 @@
 import { DateRangePicker } from "@/components/DatePicker";
-import { subYears } from "date-fns";
+import type { PeriodValue } from "@/components/ui/overview/DashboardChartCard";
+import { subMonths, subYears } from "date-fns";
 import type { DateRange } from "react-day-picker";
 
 export const getPeriod = (
   dateRange: DateRange | undefined,
+  selectedPeriod: PeriodValue,
 ): DateRange | undefined => {
   if (!dateRange) return undefined;
   const from = dateRange.from;
   const to = dateRange.to;
-  // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
-  let lastYearFrom;
-  // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
-  let lastYearTo;
-  if (from) {
-    lastYearFrom = subYears(from, 1);
+  if (selectedPeriod === "last-year") {
+    // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+    let lastYearFrom;
+    // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+    let lastYearTo;
+    if (from) {
+      lastYearFrom = subYears(from, 1);
+    }
+    if (to) {
+      lastYearTo = subYears(to, 1);
+    }
+    return { from: lastYearFrom, to: lastYearTo };
   }
-  if (to) {
-    lastYearTo = subYears(to, 1);
+
+  if (selectedPeriod === "last-month") {
+    // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+    let lastMonthFrom;
+    // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+    let lastMonthTo;
+    if (from) {
+      lastMonthFrom = subMonths(from, 1);
+    }
+    if (to) {
+      lastMonthTo = subMonths(to, 1);
+    }
+    return { from: lastMonthFrom, to: lastMonthTo };
   }
-  return { from: lastYearFrom, to: lastYearTo };
+
+  throw Error("Invalid period value");
 };
 
 type FilterbarProps = {

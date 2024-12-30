@@ -177,9 +177,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       user: {
         avatarUrl: "https://i.pravatar.cc/300",
       },
-      dataPrOpen,
-      dataPrMerge,
-      dataReviews,
+      dataPrOpen: dataPrOpen.data,
+      dataPrMerge: dataPrMerge.data,
+      dataReviews: dataReviews.data,
       reviews: [],
     };
   }
@@ -206,11 +206,18 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const user = users[0];
   if (!user) throw Error("User not found");
 
+  const prs = await wasmDb
+    .select()
+    .from(prTbl)
+    .where(eq(prTbl.authorId, user.id))
+    .orderBy(desc(prTbl.createdAt));
+
   const reviews = await wasmDb
     .select({
       id: reviewTbl.id,
       prId: reviewTbl.prId,
       prNumber: prTbl.number,
+      createdAt: reviewTbl.createdAt,
       repoName: repositoryTbl.name,
       repoOwner: repositoryTbl.owner,
     })
@@ -223,10 +230,37 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   return {
     user,
-    dataPrOpen,
-    dataPrMerge,
-    dataReviews,
-    reviews,
+    dataPrOpen: [...Array(300).keys()].map((_, i) => {
+      return {
+        date: subDays(startOfToday(), i),
+        value: prs.filter(
+          (pr) =>
+            pr.createdAt >= subDays(startOfToday(), i) &&
+            pr.createdAt < subDays(startOfToday(), i - 1),
+        ).length,
+      };
+    }),
+    dataPrMerge: [...Array(300).keys()].map((_, i) => {
+      return {
+        date: subDays(startOfToday(), i),
+        value: prs.filter(
+          (pr) =>
+            pr.mergedAt &&
+            pr.mergedAt >= subDays(startOfToday(), i) &&
+            pr.mergedAt < subDays(startOfToday(), i - 1),
+        ).length,
+      };
+    }),
+    dataReviews: [...Array(300).keys()].map((_, i) => {
+      return {
+        date: subDays(startOfToday(), i),
+        value: reviews.filter(
+          (reviews) =>
+            reviews.createdAt >= subDays(startOfToday(), i) &&
+            reviews.createdAt < subDays(startOfToday(), i - 1),
+        ).length,
+      };
+    }),
   };
 }
 
@@ -234,7 +268,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const { user, dataPrOpen, dataPrMerge, dataReviews, reviews } = loadData;
+  const { user, dataPrOpen, dataPrMerge, dataReviews } = loadData;
 
   const { userId } = useParams();
 
@@ -321,25 +355,25 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           <ChartCard
             title="PR Open"
             type="pr"
-            selectedPeriod="last-year"
+            selectedPeriod="last-month"
             selectedDates={selectedDates}
-            data={dataPrOpen.data}
+            data={dataPrOpen}
           />
 
           <ChartCard
             title="PR Merged"
             type="pr"
-            selectedPeriod="last-year"
+            selectedPeriod="last-month"
             selectedDates={selectedDates}
-            data={dataPrMerge.data}
+            data={dataPrMerge}
           />
 
           <ChartCard
             title="Reviews"
             type="review"
-            selectedPeriod="last-year"
+            selectedPeriod="last-month"
             selectedDates={selectedDates}
-            data={dataReviews.data}
+            data={dataReviews}
           />
         </dl>
       </section>
@@ -389,41 +423,41 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         </TableRoot>
       </section>
 
-      <section aria-labelledby="review">
-        <h1 className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
-          Recent Reviews ({reviews.length} reviews in this month)
-        </h1>
+      {/*<section aria-labelledby="review">*/}
+      {/*  <h1 className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">*/}
+      {/*    Recent Reviews ({reviews.length} reviews in this month)*/}
+      {/*  </h1>*/}
 
-        <TableRoot className="mt-8">
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell className="text-right">
-                  Review ID
-                </TableHeaderCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {reviews.slice(0, 10).map((review) => (
-                <TableRow key={review.id}>
-                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    <a
-                      href={`https://github.com/${review.repoOwner}/${review.repoName}/pull/${review.prNumber}`}
-                      className="underline underline-offset-4"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {`${review.repoName}/${review.prNumber}`}
-                    </a>
-                  </TableCell>
-                  <TableCell className="text-right">{review.id}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableRoot>
-      </section>
+      {/*  <TableRoot className="mt-8">*/}
+      {/*    <Table>*/}
+      {/*      <TableHead>*/}
+      {/*        <TableRow>*/}
+      {/*          <TableHeaderCell>Repository</TableHeaderCell>*/}
+      {/*          <TableHeaderCell className="text-right">*/}
+      {/*            Review ID*/}
+      {/*          </TableHeaderCell>*/}
+      {/*        </TableRow>*/}
+      {/*      </TableHead>*/}
+      {/*      <TableBody>*/}
+      {/*        {reviews.slice(0, 10).map((review) => (*/}
+      {/*          <TableRow key={review.id}>*/}
+      {/*            <TableCell className="font-medium text-gray-900 dark:text-gray-50">*/}
+      {/*              <a*/}
+      {/*                href={`https://github.com/${review.repoOwner}/${review.repoName}/pull/${review.prNumber}`}*/}
+      {/*                className="underline underline-offset-4"*/}
+      {/*                target="_blank"*/}
+      {/*                rel="noreferrer"*/}
+      {/*              >*/}
+      {/*                {`${review.repoName}/${review.prNumber}`}*/}
+      {/*              </a>*/}
+      {/*            </TableCell>*/}
+      {/*            <TableCell className="text-right">{review.id}</TableCell>*/}
+      {/*          </TableRow>*/}
+      {/*        ))}*/}
+      {/*      </TableBody>*/}
+      {/*    </Table>*/}
+      {/*  </TableRoot>*/}
+      {/*</section>*/}
     </>
   );
 }
