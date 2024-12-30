@@ -23,7 +23,7 @@ import {
   workflowUsageCurrentCycleOrgTbl,
   workflowUsageCurrentCycleTbl,
 } from "@repo/db-shared";
-import { endOfToday, startOfToday, subDays } from "date-fns";
+import { startOfTomorrow, subDays } from "date-fns";
 import { and, desc, eq, gt, gte } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 
@@ -103,15 +103,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       and(
         gte(
           workflowUsageCurrentCycleOrgTbl.updatedAt,
-          subDays(startOfToday(), 60),
+          subDays(startOfTomorrow(), 60),
         ),
         gte(workflowUsageCurrentCycleOrgTbl.dollar, 1),
       ),
     );
-
-  const sixtyDays = [...Array(60).keys()].map((index) => {
-    return index + 1;
-  });
 
   const usageByRunnerTypes = await Promise.all(
     runnerTypes
@@ -126,7 +122,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
               eq(workflowUsageCurrentCycleOrgTbl.runnerType, runnerType),
               gte(
                 workflowUsageCurrentCycleOrgTbl.updatedAt,
-                subDays(startOfToday(), 60),
+                subDays(startOfTomorrow(), 60),
               ),
             ),
           )
@@ -165,33 +161,44 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       .sort((a, b) => b.cost - a.cost),
 
     usageByRunnerTypes: usageByRunnerTypes.map((usageByRunnerType) => {
-      const usages = sixtyDays.map((day) => {
+      const usages = [...Array(60).keys()].map((_, i) => {
+        const currentDate = subDays(startOfTomorrow(), i);
         const usage = usageByRunnerType.data.find(
           (usage) =>
-            new Date(usage.createdAt).getDate() ===
-              subDays(startOfToday(), day - 1).getDate() &&
-            new Date(usage.createdAt).getMonth() ===
-              subDays(startOfToday(), day - 1).getMonth(),
+            usage.day === currentDate.getDate() &&
+            usage.month === currentDate.getMonth() + 1,
         );
 
         return {
-          value: usage?.dollar || null,
-          date: subDays(endOfToday(), day),
+          value: usage?.dollar || 0,
+          date: currentDate,
         };
       });
 
       return {
         runnerType: usageByRunnerType.runnerType,
         data: usages
-          .map((usage, i, self) => ({
-            ...usage,
-            value: usage.value
-              ? usage.value - (self[i - 1]?.value || 0) > 0
-                ? usage.value - (self[i - 1]?.value || 0)
-                : usage.value // 前日比がマイナスになる場合は集計期間がリセットされた境目なので差し引きは不要
-              : null, // 集計データがない場合はnull
-          }))
-          .slice(1, -1), // 最初の2件と最後の2件は前日比を出せないため除外(課金サイクルの境目を避けた場合、最低3日分の集計が必要),
+          .sort((a, b) => a.date.getTime() - b.date.getTime())
+          .map((usage, index, self) => {
+            // 初日は前日比がないのでコストがわからない
+            if (index === 0) {
+              return { date: usage.date, value: null };
+            }
+
+            // 前日のコストがない場合も差分を計算できない
+            const beforeDayCost = self[index - 1]?.value;
+            const hasBeforeDayCost = !!beforeDayCost && beforeDayCost > 0;
+            if (!hasBeforeDayCost) {
+              return { date: usage.date, value: null };
+            }
+
+            // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
+            const hasResetBillingCycle = usage.value - beforeDayCost < 0;
+            if (hasResetBillingCycle) {
+              return { date: usage.date, value: usage.value };
+            }
+            return { date: usage.date, value: usage.value - beforeDayCost };
+          }),
       };
     }),
   };
@@ -211,7 +218,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     usageByRunnerTypes,
   } = loadData;
 
-  const endDate = subDays(startOfToday(), 2); // 最初の2件と最後の2件は前日比を出せないため除外(課金サイクルの境目を避けた場合、最低3日分の集計が必要)
+  const endDate = startOfTomorrow();
   const span = {
     from: subDays(endDate, 30),
     to: endDate,
