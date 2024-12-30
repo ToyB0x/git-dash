@@ -88,7 +88,7 @@ export const aggregate = async (scanId: number) => {
     if (existRepo) {
       const repoSeverity =
         alertByRepository[alert.repository.id]?.[
-        alert.security_vulnerability.severity
+          alert.security_vulnerability.severity
         ];
       if (repoSeverity) {
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
