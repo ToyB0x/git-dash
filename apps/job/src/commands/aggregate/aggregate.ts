@@ -1,4 +1,5 @@
 import { step } from "@/utils";
+import { aggregate as aggregateAlert } from "./alert";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
 import { aggregate as aggregateRepositories } from "./repositories";
@@ -19,6 +20,11 @@ export const aggregateByOrganization = async (): Promise<void> => {
   const repositories = await step({
     stepName: "aggregate:repository",
     callback: aggregateRepositories(),
+  });
+
+  await step({
+    stepName: "aggregate:alert",
+    callback: aggregateAlert(repositories),
   });
 
   // NOTE: 通常は1月以内に更新されたリポジトリのみを対象にする(日曜だけは全リポジトリを対象にする)
