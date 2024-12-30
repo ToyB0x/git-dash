@@ -1,4 +1,7 @@
+import { sharedDbClient } from "@/clients";
 import { step } from "@/utils";
+import { scanTbl } from "@repo/db-shared";
+import { eq } from "drizzle-orm";
 import { aggregate as aggregateAlert } from "./alert";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
@@ -16,6 +19,14 @@ const maxOldForRepo = new Date(
 const isTodaySunday = new Date().getDay() === 0;
 
 export const aggregateByOrganization = async (): Promise<void> => {
+  const scan = await sharedDbClient
+    .insert(scanTbl)
+    .values({ createdAt: new Date(), updatedAt: new Date() })
+    .returning();
+
+  const scanId = scan[0]?.id;
+  if (!scanId) throw new Error("Failed to create scan");
+
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
   const repositories = await step({
     stepName: "aggregate:repository",
@@ -24,7 +35,7 @@ export const aggregateByOrganization = async (): Promise<void> => {
 
   await step({
     stepName: "aggregate:alert",
-    callback: aggregateAlert(),
+    callback: aggregateAlert(scanId),
   });
 
   // NOTE: 通常は1月以内に更新されたリポジトリのみを対象にする(日曜だけは全リポジトリを対象にする)
@@ -81,6 +92,11 @@ export const aggregateByOrganization = async (): Promise<void> => {
     stepName: "aggregate:user-from-pr-and-review",
     callback: aggregateUserFromPrAndReview(),
   });
+
+  await sharedDbClient
+    .update(scanTbl)
+    .set({ updatedAt: new Date() })
+    .where(eq(scanTbl.id, scanId));
 };
 
 // NOTE: Quota節約のコツ

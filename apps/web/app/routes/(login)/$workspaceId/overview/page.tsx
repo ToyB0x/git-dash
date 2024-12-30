@@ -8,20 +8,32 @@ import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
 import { RiQuestionLine } from "@remixicon/react";
 import {
+  alertTbl,
   prTbl,
   releaseTbl,
   repositoryTbl,
+  scanTbl,
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
 import { subDays } from "date-fns";
-import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
+import {
+  and,
+  count,
+  desc,
+  eq,
+  gte,
+  isNotNull,
+  lt,
+  not,
+  sum,
+} from "drizzle-orm";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
 
 type Stat = {
   name: string;
-  stat: string;
+  stat: string | number;
   change?: number;
   changeType?: "positive" | "negative";
 };
@@ -132,6 +144,49 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       ),
     );
 
+  const latestScan = await wasmDb
+    .select()
+    .from(scanTbl)
+    .orderBy(desc(scanTbl.updatedAt))
+    .limit(1);
+  const latestScanId = latestScan[0]?.id;
+  if (!latestScanId) {
+    return null;
+  }
+
+  const vulnCountToday = await wasmDb
+    .select({ count: sum(alertTbl.count) })
+    .from(alertTbl)
+    .where(
+      and(eq(alertTbl.severity, "CRITICAL"), eq(alertTbl.scanId, latestScanId)),
+    );
+
+  const scan30DayAgo = await wasmDb
+    .select()
+    .from(scanTbl)
+    .where(
+      and(
+        gte(scanTbl.updatedAt, subDays(new Date(), 30)),
+        lt(scanTbl.updatedAt, subDays(new Date(), 29)),
+      ),
+    )
+    .orderBy(desc(scanTbl.updatedAt))
+    .limit(1);
+
+  const scan30DayAgoId = scan30DayAgo[0]?.id;
+
+  const vulnCount30DayAgo = scan30DayAgoId
+    ? await wasmDb
+        .select({ count: sum(alertTbl.count) })
+        .from(alertTbl)
+        .where(
+          and(
+            eq(alertTbl.severity, "CRITICAL"),
+            eq(alertTbl.scanId, scan30DayAgoId),
+          ),
+        )
+    : [];
+
   const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
     .from(workflowUsageCurrentCycleOrgTbl)
@@ -231,9 +286,23 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       },
       {
         name: "Vulnerabilities (critical)",
-        stat: "29",
-        change: 19.7,
-        changeType: "negative",
+        stat: vulnCountToday[0]?.count || 0,
+        change:
+          Number.isInteger(vulnCountToday[0]?.count) &&
+          Number.isInteger(vulnCount30DayAgo[0]?.count)
+            ? Math.round(
+                (Number(vulnCountToday[0]?.count) /
+                  Number(vulnCount30DayAgo[0]?.count)) *
+                  10,
+              ) / 10
+            : undefined,
+        changeType:
+          vulnCount30DayAgo[0]?.count && vulnCountToday[0]?.count
+            ? (vulnCountToday[0]?.count || 0) >
+              (vulnCount30DayAgo[0]?.count || 0)
+              ? "positive"
+              : "negative"
+            : undefined,
       },
     ] satisfies Stat[],
   };
