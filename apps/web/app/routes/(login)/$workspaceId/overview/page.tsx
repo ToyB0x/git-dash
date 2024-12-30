@@ -2,9 +2,11 @@ import { auth, getWasmDb } from "@/clients";
 import { BarChart } from "@/components/BarChart";
 import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
+import { Tooltip } from "@/components/Tooltip";
 import { NoDataMessage } from "@/components/ui/no-data";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
+import { RiQuestionLine } from "@remixicon/react";
 import {
   prTbl,
   releaseTbl,
@@ -12,6 +14,7 @@ import {
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
+import { subDays } from "date-fns";
 import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
@@ -43,7 +46,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       costs: dataChart,
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
-      prCountThisMonth: 128,
+      prCountLast30days: 128,
       prCountLastMonth: 116,
     };
   }
@@ -82,25 +85,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .orderBy(desc(releaseTbl.publishedAt))
     .limit(5);
 
-  const thisMonthStartAt = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth(),
-    1,
-  );
-
-  const lastMonthStartAt = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth() - 1,
-    1,
-  );
-
   const renovateBotId = 29139614;
-  const prCountThisMonth = await wasmDb
+  const prCountLast30days = await wasmDb
     .select({ count: count() })
     .from(prTbl)
     .where(
       and(
-        gte(prTbl.createdAt, thisMonthStartAt),
+        gte(prTbl.createdAt, subDays(new Date(), 30)),
         isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
       ),
@@ -111,8 +102,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .from(prTbl)
     .where(
       and(
-        gte(prTbl.createdAt, new Date(lastMonthStartAt)),
-        lt(prTbl.createdAt, new Date(thisMonthStartAt)),
+        gte(prTbl.createdAt, subDays(new Date(), 60)),
+        lt(prTbl.createdAt, subDays(new Date(), 30)),
         isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
       ),
@@ -193,7 +184,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       return { date: item.date, cost: item.cost - beforeDayCost };
     }),
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
-    prCountThisMonth: prCountThisMonth[0]?.count || 0,
+    prCountLast30days: prCountLast30days[0]?.count || 0,
     prCountLastMonth: prCountLastMonth[0]?.count || 0,
   };
 }
@@ -275,7 +266,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
-    prCountThisMonth,
+    prCountLast30days,
     prCountLastMonth,
   } = loadData;
 
@@ -299,32 +290,39 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         </p>
 
         <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-          <Card className="py-4">
-            <dt className="text-sm font-medium text-gray-500 dark:text-gray-500">
-              Pull requests / month
+          <Card className="py-4 pr-4">
+            <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
+              <div>Pull requests / month </div>
+              <Tooltip content="Aggregated values for the last 30 days (compared to the same period last month)">
+                <RiQuestionLine size={18} />
+              </Tooltip>
             </dt>
             <dd className="mt-2 flex items-baseline space-x-2.5">
               <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
-                {prCountThisMonth}
+                {prCountLast30days}
               </span>
               <span
                 className={cx(
-                  prCountThisMonth - prCountLastMonth > 0
+                  prCountLast30days - prCountLastMonth > 0
                     ? "text-emerald-700 dark:text-emerald-500"
                     : "text-red-700 dark:text-red-500",
                   "text-sm font-medium",
                 )}
               >
-                {Math.round((prCountThisMonth / prCountLastMonth) * 10) / 10}%
+                {Math.round((prCountLast30days / prCountLastMonth) * 10) / 10}%
               </span>
             </dd>
           </Card>
 
           {dataStats.map((item) => (
-            <Card key={item.name} className="py-4">
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-500">
+            <Card key={item.name} className="py-4 pr-4">
+              <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
                 {item.name}
+                <Tooltip content="Aggregated values for the last 30 days (compared to the same period last month)">
+                  <RiQuestionLine size={18} />
+                </Tooltip>
               </dt>
+
               <dd className="mt-2 flex items-baseline space-x-2.5">
                 <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
                   {item.stat}
