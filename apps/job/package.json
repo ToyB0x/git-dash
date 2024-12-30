@@ -23,7 +23,7 @@
     "@repo/db-shared": "workspace:*",
     "@repo/utils": "workspace:*",
     "@supercharge/promise-pool": "3.2.0",
-    "commander": "12.1.0",
+    "commander": "13.0.0",
     "dotenv-cli": "8.0.0",
     "drizzle-orm": "0.38.3",
     "graphql": "16.10.0",
