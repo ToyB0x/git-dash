@@ -118,7 +118,11 @@ export const aggregate = async () => {
           year: now.getFullYear(),
           month: now.getMonth() + 1,
           day: now.getDate(),
-          severity: severity.toUpperCase(),
+          severity: severity.toUpperCase() as
+            | "CRITICAL"
+            | "HIGH"
+            | "MEDIUM"
+            | "LOW",
           createdAt: now,
           updatedAt: now,
           repositoryId: Number(repoId),
