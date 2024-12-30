@@ -1,5 +1,6 @@
 import { int, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { repositoryTbl } from "./repository";
+import { scanTbl } from "./scan";
 
 export const alertTbl = sqliteTable(
   "alert",
@@ -17,9 +18,17 @@ export const alertTbl = sqliteTable(
         onUpdate: "cascade",
         onDelete: "cascade",
       }),
+    // 同一日時に複数回診断された場合はscanIdが上書きされる
+    scanId: int()
+      .notNull()
+      .references(() => scanTbl.id, {
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      }),
   },
   (t) => ({
     pk: primaryKey({
+      // 同一日時に複数回診断された場合はscanIdが上書きされるためscanIdを含めない
       columns: [t.repositoryId, t.year, t.month, t.day, t.severity],
     }),
   }),
