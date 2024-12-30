@@ -172,7 +172,26 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   return {
     releases,
-    costs: data,
+    costs: data.map((item, index, self) => {
+      // 初日は前日比がないのでコストがわからない
+      if (index === 0) {
+        return { date: item.date, cost: null };
+      }
+
+      // 前日のコストがない場合も差分を計算できない
+      const beforeDayCost = self[index - 1]?.cost;
+      const hasBeforeDayCost = beforeDayCost !== undefined && beforeDayCost > 0;
+      if (!hasBeforeDayCost) {
+        return { date: item.date, cost: null };
+      }
+
+      // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
+      const hasResetBillingCycle = item.cost - beforeDayCost < 0;
+      if (hasResetBillingCycle) {
+        return { date: item.date, cost: item.cost };
+      }
+      return { date: item.date, cost: item.cost - beforeDayCost };
+    }),
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
     prCountThisMonth: prCountThisMonth[0]?.count || 0,
     prCountLastMonth: prCountLastMonth[0]?.count || 0,
@@ -352,7 +371,10 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
               <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
                 ${" "}
                 {Math.round(
-                  costs.reduce((acc, item) => acc + (item.cost || 0), 0) * 100,
+                  workflowUsageCurrentCycleOrg.reduce(
+                    (acc, item) => acc + (item.dollar || 0),
+                    0,
+                  ) * 100,
                 ) / 100}
                 {/*${" "}*/}
                 {/*{Math.round(*/}
