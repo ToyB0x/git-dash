@@ -22,8 +22,8 @@ import { Link, redirect } from "react-router";
 type Stat = {
   name: string;
   stat: string;
-  change: number;
-  changeType: "positive" | "negative";
+  change?: number;
+  changeType?: "positive" | "negative";
 };
 
 const dataStats = [
@@ -227,9 +227,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       },
       {
         name: "Change Failure Rate",
-        stat: "1.9%",
-        change: 0.4,
-        changeType: "positive",
+        stat: "-",
       },
       {
         name: "Vulnerabilities (critical)",
@@ -380,17 +378,19 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                 <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
                   {item.stat}
                 </span>
-                <span
-                  className={cx(
-                    item.changeType === "positive"
-                      ? "text-emerald-700 dark:text-emerald-500"
-                      : "text-red-700 dark:text-red-500",
-                    "text-sm font-medium",
-                  )}
-                >
-                  {item.changeType === "positive" ? "+" : "-"}
-                  {item.change}%
-                </span>
+                {item.change && (
+                  <span
+                    className={cx(
+                      item.changeType === "positive"
+                        ? "text-emerald-700 dark:text-emerald-500"
+                        : "text-red-700 dark:text-red-500",
+                      "text-sm font-medium",
+                    )}
+                  >
+                    {item.changeType === "positive" ? "+" : "-"}
+                    {item.change}%
+                  </span>
+                )}
               </dd>
             </Card>
           ))}
