@@ -1,10 +1,11 @@
 import { auth } from "@/clients";
 import { RiAddFill, RiBarChartFill } from "@remixicon/react";
-import { redirect, useOutletContext } from "react-router";
+import { redirect, useNavigate, useOutletContext } from "react-router";
 
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { ModalAddWorkspace } from "@/components/ui/navigation/ModalAddWorkspace";
+import { useLayoutEffect } from "react";
 
 export async function clientLoader() {
   await auth.authStateReady();
@@ -14,16 +15,23 @@ export async function clientLoader() {
 }
 
 export default function Page() {
+  const navigate = useNavigate();
   const { workspaces } = useOutletContext<{
     workspaces: { id: string; displayName: string; role: string }[];
   }>();
 
-  if (Array.isArray(workspaces) && workspaces.length === 0) {
-    return NoWorkspace;
-  }
+  const firstWorkspaceId = workspaces[0]?.id;
 
-  // TODO: Implement the workspace list UI
-  return <pre>{JSON.stringify(workspaces, null, 2)}</pre>;
+  useLayoutEffect(() => {
+    if (firstWorkspaceId) {
+      navigate(`/${firstWorkspaceId}`);
+    }
+  }, [firstWorkspaceId, navigate]);
+
+  // prevent rendering the page content if the user has workspaces
+  if (firstWorkspaceId) return null;
+
+  return NoWorkspace;
 }
 
 const NoWorkspace = (
