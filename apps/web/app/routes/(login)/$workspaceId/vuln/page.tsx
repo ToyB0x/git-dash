@@ -1,4 +1,4 @@
-import { auth } from "@/clients";
+import { auth, getWasmDb } from "@/clients";
 import {
   Table,
   TableBody,
@@ -8,6 +8,7 @@ import {
   TableRoot,
   TableRow,
 } from "@/components/Table";
+import { NoDataMessage } from "@/components/ui/no-data";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { CircleProgressCard } from "@/components/ui/overview/DashboardCicleProgressCard";
@@ -19,10 +20,12 @@ import {
   dataLoaderVulnerabilityLow,
 } from "@/routes/(login)/$workspaceId/vuln/dataLoaders";
 import type { Route } from "@@/(login)/$workspaceId/vuln/+types/page";
-import { startOfToday, subDays } from "date-fns";
+import { alertTbl, repositoryTbl } from "@repo/db-shared";
+import { isDate, startOfToday, subDays } from "date-fns";
+import { asc, desc, eq } from "drizzle-orm";
 import React from "react";
 import type { DateRange } from "react-day-picker";
-import { Link, redirect, useLoaderData } from "react-router";
+import { Link, redirect } from "react-router";
 
 type KpiEntry = {
   title: string;
@@ -64,92 +67,168 @@ const data: KpiEntryExtended[] = [
   },
 ];
 
+type AlertData = {
+  repositoryName: string;
+  countCritical: number | "-";
+  countHigh: number | "-";
+  countMedium: number | "-";
+  countLow: number | "-";
+  lastDetected: Date | null;
+  enabled: boolean | null;
+};
+
 const dataTable = [
   {
-    repository: "org/api",
+    repositoryName: "api",
     countCritical: 124,
     countHigh: 21,
+    countMedium: 16,
     countLow: 16,
-    lastDetected: "23/09/2023 13:00",
-    enabledAnalysis: true,
+    lastDetected: new Date(),
+    enabled: true,
   },
   {
-    repository: "org/frontend",
+    repositoryName: "org/frontend",
     countCritical: 91,
     countHigh: 12,
+    countMedium: 9,
     countLow: 9,
-    lastDetected: "22/09/2023 10:45",
-    enabledAnalysis: true,
+    lastDetected: new Date(),
+    enabled: true,
   },
   {
-    repository: "org/payment",
+    repositoryName: "org/payment",
     countCritical: 61,
     countHigh: 9,
+    countMedium: 6,
     countLow: 6,
-    lastDetected: "22/09/2023 10:45",
-    enabledAnalysis: true,
+    lastDetected: new Date(),
+    enabled: true,
   },
   {
-    repository: "org/backend",
+    repositoryName: "org/backend",
     countCritical: 21,
     countHigh: 3,
+    countMedium: 2,
     countLow: 2,
-    lastDetected: "21/09/2023 14:30",
-    enabledAnalysis: true,
+    lastDetected: new Date(),
+    enabled: true,
   },
   {
-    repository: "org/serviceX",
+    repositoryName: "org/serviceX",
     countCritical: 6,
     countHigh: 1,
+    countMedium: 1,
     countLow: 0,
-    lastDetected: "24/09/2023 09:15",
-    enabledAnalysis: true,
+    lastDetected: new Date(),
+    enabled: true,
   },
   {
-    repository: "org/serviceY",
+    repositoryName: "org/serviceY",
     countCritical: "-",
     countHigh: "-",
+    countMedium: "-",
     countLow: "-",
-    lastDetected: "-",
-    enabledAnalysis: false,
+    lastDetected: new Date(),
+    enabled: false,
   },
   {
-    repository: "org/serviceZ",
+    repositoryName: "org/serviceZ",
     countCritical: "-",
     countHigh: "-",
+    countMedium: "-",
     countLow: "-",
-    lastDetected: "-",
-    enabledAnalysis: false,
+    lastDetected: new Date(),
+    enabled: false,
   },
-];
+] satisfies AlertData[];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
-  await auth.authStateReady();
   const isDemo = params.workspaceId === "demo";
-  if (!auth.currentUser && !isDemo) {
-    throw redirect("/sign-in");
-  }
-
   const dataVulnerabilityCritical =
     await dataLoaderVulnerabilityCritical(isDemo);
   const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
   const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
 
+  // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
+  await auth.authStateReady();
+  if (isDemo) {
+    return {
+      dataVulnerabilityCritical,
+      dataVulnerabilityHigh,
+      dataVulnerabilityLow,
+      alerts: dataTable satisfies AlertData[],
+    };
+  }
+
+  await auth.authStateReady();
+
+  if (!auth.currentUser) {
+    throw redirect("/sign-in");
+  }
+
+  const token = await auth.currentUser.getIdToken();
+
+  const wasmDb = await getWasmDb({
+    workspaceId: params.workspaceId,
+    firebaseToken: token,
+  });
+
+  if (!wasmDb) return null;
+
+  const repositories = await wasmDb
+    .select()
+    .from(repositoryTbl)
+    .orderBy(asc(repositoryTbl.name));
+
   return {
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
+    alerts: (await Promise.all(
+      repositories.map(async (repository) => {
+        const alerts = await wasmDb
+          .selectDistinct({
+            count: alertTbl.count,
+            severity: alertTbl.severity,
+          })
+          .from(alertTbl)
+          .orderBy(desc(alertTbl.updatedAt))
+          .where(eq(alertTbl.repositoryId, repository.id));
+
+        return {
+          repositoryName: repository.name,
+          countCritical:
+            alerts.find((a) => a.severity === "CRITICAL")?.count ??
+            (repository.enabledAlert ? 0 : "-"),
+          countHigh:
+            alerts.find((a) => a.severity === "HIGH")?.count ??
+            (repository.enabledAlert ? 0 : "-"),
+          countMedium:
+            alerts.find((a) => a.severity === "MEDIUM")?.count ??
+            (repository.enabledAlert ? 0 : "-"),
+          countLow:
+            alerts.find((a) => a.severity === "LOW")?.count ??
+            (repository.enabledAlert ? 0 : "-"),
+          lastDetected: repository.enabledAlertCheckedAt,
+          enabled: !!repository.enabledAlert,
+        };
+      }),
+    )) satisfies AlertData[],
   };
 }
 
 // TODO: add PR page
-export default function Page() {
+export default function Page({ loaderData }: Route.ComponentProps) {
+  const loadData = loaderData;
+  if (!loadData) return NoDataMessage;
+
   const {
+    alerts,
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
-  } = useLoaderData<typeof clientLoader>();
+  } = loadData;
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
@@ -259,35 +338,64 @@ export default function Page() {
             <TableHead>
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell>Analysis enabled</TableHeaderCell>
-                <TableHeaderCell>Critical</TableHeaderCell>
-                <TableHeaderCell>High</TableHeaderCell>
-                <TableHeaderCell>Low</TableHeaderCell>
                 <TableHeaderCell className="text-right">
+                  Critical
+                </TableHeaderCell>
+                <TableHeaderCell className="text-right">High</TableHeaderCell>
+                <TableHeaderCell className="text-right">Medium</TableHeaderCell>
+                <TableHeaderCell className="text-right">Low</TableHeaderCell>
+                <TableHeaderCell className="text-center">
+                  Analysis <br />
+                  enabled
+                </TableHeaderCell>
+                <TableHeaderCell className="text-right w-1">
                   Last detected
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataTable.map((item) => (
-                <TableRow key={item.repository}>
-                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    <Link
-                      to={`../repositories/${item.repository}`}
-                      className="underline underline-offset-4"
-                    >
-                      {item.repository}
-                    </Link>{" "}
-                  </TableCell>
-                  <TableCell>{String(item.enabledAnalysis)}</TableCell>
-                  <TableCell>{item.countCritical}</TableCell>
-                  <TableCell>{item.countHigh}</TableCell>
-                  <TableCell>{item.countLow}</TableCell>
-                  <TableCell className="text-right">
-                    {item.lastDetected}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {alerts
+                .sort(
+                  (a, b) =>
+                    (Number.isInteger(b.countCritical)
+                      ? Number(b.countCritical)
+                      : 0) -
+                    (Number.isInteger(a.countCritical)
+                      ? Number(a.countCritical)
+                      : 0),
+                )
+                .map((item) => (
+                  <TableRow key={item.repositoryName}>
+                    <TableCell className="font-medium text-gray-900 dark:text-gray-50">
+                      <Link
+                        to={`../repositories/${item.repositoryName}`}
+                        className="underline underline-offset-4"
+                      >
+                        {item.repositoryName}
+                      </Link>{" "}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {item.countCritical}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {item.countHigh}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {item.countMedium}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {item.countLow}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.enabled ? "⚪" : "-"}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {isDate(item.lastDetected)
+                        ? item.lastDetected.toLocaleString()
+                        : "-"}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableRoot>
