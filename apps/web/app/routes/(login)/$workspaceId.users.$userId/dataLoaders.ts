@@ -1,7 +1,7 @@
 import { generateDailyData } from "@/lib/generateDailyData";
-import { prTbl } from "@repo/db-shared";
+import { prTbl, scanTbl, timelineTbl } from "@repo/db-shared";
 import { subDays } from "date-fns";
-import { and, eq, gte, isNotNull } from "drizzle-orm";
+import { and, desc, eq, gt, gte, inArray, isNotNull } from "drizzle-orm";
 import type { DrizzleSqliteDODatabase } from "drizzle-orm/durable-sqlite";
 
 type GraphData = {
@@ -93,7 +93,11 @@ export const dataLoaderTimeToMerge = async (
   const sumIn30Days = mergedPrsWithMsec
     .filter((pr) => pr.createdAt > subDays(new Date(), 30))
     .reduce((acc, pr) => acc + pr.elapsedMsec, 0);
-  const averageIn30Days = Math.round(sumIn30Days / mergedPrsWithMsec.length);
+  const averageIn30Days = Math.round(
+    sumIn30Days /
+      mergedPrsWithMsec.filter((pr) => pr.createdAt > subDays(new Date(), 30))
+        .length,
+  );
 
   const sumInPrevSpan = mergedPrsWithMsec
     .filter(
@@ -103,7 +107,12 @@ export const dataLoaderTimeToMerge = async (
     )
     .reduce((acc, pr) => acc + pr.elapsedMsec, 0);
   const averageInPrevSpan = Math.round(
-    sumInPrevSpan / mergedPrsWithMsec.length,
+    sumInPrevSpan /
+      mergedPrsWithMsec.filter(
+        (pr) =>
+          pr.createdAt <= subDays(new Date(), 30) &&
+          pr.createdAt > subDays(new Date(), 60),
+      ).length,
   );
 
   const aggregationBase = [
@@ -159,6 +168,183 @@ export const dataLoaderTimeToMerge = async (
               msec.elapsedMsec < base.diffEnd,
           ).length /
             mergedPrsWithMsec.length) *
+          100,
+      ) / 10,
+  }));
+
+  return {
+    averageIn30Days,
+    averageInPrevSpan,
+    improvePercentage:
+      (averageInPrevSpan - averageIn30Days > 0 ? "+" : "-") +
+      Math.round(
+        ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
+      ),
+    bars,
+  };
+};
+
+export const dataLoaderTimeToReview = async (
+  db: DrizzleSqliteDODatabase,
+  userId: number,
+) => {
+  const recentPrIds = await db
+    .selectDistinct({ prId: prTbl.id })
+    .from(prTbl)
+    .where(and(gte(prTbl.createdAt, subDays(new Date(), 60))));
+
+  const reviewRequests = await db
+    .select()
+    .from(timelineTbl)
+    .where(
+      and(
+        eq(timelineTbl.eventType, "review_requested"),
+        eq(timelineTbl.requestedReviewerId, userId),
+        inArray(
+          timelineTbl.prId,
+          recentPrIds.map((pr) => pr.prId),
+        ),
+      ),
+    );
+
+  const renovateBotId = 29139614;
+  const reviewResults = await Promise.all(
+    reviewRequests
+      .filter((request) => request.actorId !== renovateBotId)
+      .map(async (request) => {
+        const firstReviewAfterRequested = await db
+          .select()
+          .from(timelineTbl)
+          .orderBy(timelineTbl.createdAt)
+          .where(
+            and(
+              eq(timelineTbl.prId, request.prId),
+              eq(timelineTbl.eventType, "reviewed"),
+              eq(timelineTbl.actorId, userId),
+              gt(timelineTbl.createdAt, request.createdAt),
+            ),
+          )
+          .limit(1);
+
+        // レビューされていない場合
+        if (firstReviewAfterRequested.length === 0) {
+          const mergedPrs = await db
+            .select()
+            .from(prTbl)
+            .where(and(eq(prTbl.id, request.prId), isNotNull(prTbl.mergedAt)));
+
+          const mergedAt = mergedPrs[0]?.mergedAt;
+          if (mergedAt) {
+            return {
+              ...request,
+              elapsedMsec: mergedAt.getTime() - request.createdAt.getTime(),
+            };
+          }
+
+          const lastScan = await db
+            .select()
+            .from(scanTbl)
+            .orderBy(desc(scanTbl.createdAt))
+            .limit(1);
+          return {
+            ...request,
+            elapsedMsec: lastScan[0]
+              ? lastScan[0].createdAt.getTime() - request.createdAt.getTime()
+              : Date.now() - request.createdAt.getTime(),
+          };
+        }
+
+        return {
+          ...request,
+          elapsedMsec: firstReviewAfterRequested[0]
+            ? firstReviewAfterRequested[0].createdAt.getTime() -
+              request.createdAt.getTime()
+            : Date.now() - request.createdAt.getTime(),
+        };
+      }),
+  );
+
+  const sumIn30Days = reviewResults
+    .filter((result) => result.createdAt > subDays(new Date(), 30))
+    .reduce((acc, result) => acc + result.elapsedMsec, 0);
+  // TODO: この部分が必ずレビューを返した全体の計算になっているので修正
+  const averageIn30Days = Math.round(
+    sumIn30Days /
+      reviewResults.filter(
+        (result) => result.createdAt > subDays(new Date(), 30),
+      ).length,
+  );
+
+  const sumInPrevSpan = reviewResults
+    .filter(
+      (result) =>
+        result.createdAt <= subDays(new Date(), 30) &&
+        result.createdAt > subDays(new Date(), 60),
+    )
+    .reduce((acc, result) => acc + result.elapsedMsec, 0);
+
+  const averageInPrevSpan = Math.round(
+    sumInPrevSpan /
+      reviewResults.filter(
+        (result) =>
+          result.createdAt <= subDays(new Date(), 30) &&
+          result.createdAt > subDays(new Date(), 60),
+      ).length,
+  );
+
+  const aggregationBase = [
+    {
+      title: "0.5 day",
+      diffStart: 0,
+      diffEnd: 60 * 60 * 12 * 1000,
+      value: 0,
+      percentage: 0,
+      color: "bg-green-600 dark:bg-green-500",
+    },
+    {
+      title: "0.6~1 day",
+      diffStart: 60 * 60 * 12 * 1000,
+      diffEnd: 60 * 60 * 24 * 1000,
+      value: 0,
+      percentage: 0,
+      color: "bg-purple-600 dark:bg-purple-500",
+    },
+
+    {
+      title: "2~3 days",
+      diffStart: 60 * 60 * 24 * 1000,
+      diffEnd: 60 * 60 * 24 * 3 * 1000,
+      value: 0,
+      percentage: 0,
+      color: "bg-indigo-600 dark:bg-indigo-500",
+    },
+    {
+      title: "4~ days",
+      diffStart: 60 * 60 * 24 * 3 * 1000,
+      diffEnd: 60 * 60 * 24 * 60 * 1000,
+      value: 0,
+      percentage: 0,
+      color: "bg-gray-400 dark:bg-gray-600",
+    },
+  ];
+
+  const bars = aggregationBase.map((base) => ({
+    ...base,
+    value: `${
+      reviewResults.filter(
+        (msec) =>
+          msec.elapsedMsec >= base.diffStart && msec.elapsedMsec < base.diffEnd,
+      ).length
+    } Reviews`,
+    percentage:
+      Math.round(
+        10 *
+          (reviewResults.filter(
+            (msec) =>
+              msec.elapsedMsec >= base.diffStart &&
+              msec.elapsedMsec < base.diffEnd,
+          ).length /
+            reviewResults.length) *
           100,
       ) / 10,
   }));

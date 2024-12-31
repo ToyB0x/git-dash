@@ -33,6 +33,7 @@ import {
   dataLoaderPrOpen,
   dataLoaderReviews,
   dataLoaderTimeToMerge,
+  dataLoaderTimeToReview,
 } from "./dataLoaders";
 
 type KpiEntry = {
@@ -314,11 +315,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   );
 
   const timeToMerge = await dataLoaderTimeToMerge(wasmDb, user.id);
+  const timeToReview = await dataLoaderTimeToReview(wasmDb, user.id);
 
   return {
     user,
     entries,
     timeToMerge,
+    timeToReview,
     dataPrOpen: [...Array(300).keys()].map((_, i) => {
       return {
         date: subDays(startOfToday(), i),
@@ -413,6 +416,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     activity,
     entries,
     timeToMerge,
+    timeToReview,
   } = loadData;
 
   const { userId } = useParams();
@@ -465,7 +469,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             value={
               isDemo
                 ? "2.1 days"
-                : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 24 * 1000)) / 10} hours`
+                : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
             }
             valueDescription="average merge time"
             subtitle="last 30 days"
@@ -477,14 +481,18 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
 
           <CategoryBarCard
             title="Time until review"
-            change="-1.2%"
-            value="4.6 hours"
+            change={isDemo ? "-1.2%" : `${timeToReview?.improvePercentage}%`}
+            value={
+              isDemo
+                ? "4.6 hours"
+                : `${Math.round((Number(timeToReview?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+            }
             valueDescription="average review time"
             subtitle="last 30 days"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
-            data={data3}
+            data={isDemo ? data3 : timeToReview?.bars || []}
           />
 
           <CategoryBarCard
