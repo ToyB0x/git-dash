@@ -7,7 +7,8 @@ import { subDays } from "date-fns";
 import { and, eq, lt } from "drizzle-orm";
 
 const maxOldReviewDate = new Date(
-  Date.now() - env.GDASH_COLLECT_DAYS /* days */ * 60 * 60 * 24 * 1000,
+  Date.now() -
+    env.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ * 60 * 60 * 24 * 1000,
 );
 
 export const aggregate = async (

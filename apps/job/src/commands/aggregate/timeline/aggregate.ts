@@ -19,7 +19,12 @@ export const aggregate = async () => {
     })
     .from(prTbl)
     .where(
-      and(gte(prTbl.updatedAt, subDays(new Date(), env.GDASH_COLLECT_DAYS))),
+      and(
+        gte(
+          prTbl.updatedAt,
+          subDays(new Date(), env.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS),
+        ),
+      ),
     )
     .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
 
