@@ -302,6 +302,9 @@ importers:
       react-router:
         specifier: 7.1.1
         version: 7.1.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react-time-heatmap:
+        specifier: 0.1.4
+        version: 0.1.4
       recharts:
         specifier: 2.15.0
         version: 2.15.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -6488,6 +6491,9 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  react-time-heatmap@0.1.4:
+    resolution: {integrity: sha512-AhzsLQpWL4kpo6+fdYvC4hl7nvzGKnftJdhBMNBd+200Yu8G8yzyPJnAlmstHHmr1Vo0DH3czAKWytYKM4Fbaw==}
 
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
@@ -14424,6 +14430,8 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       '@types/react': 19.0.2
+
+  react-time-heatmap@0.1.4: {}
 
   react-transition-group@4.4.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
