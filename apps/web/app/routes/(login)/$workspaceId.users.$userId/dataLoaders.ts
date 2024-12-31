@@ -354,11 +354,12 @@ export const dataLoaderTimeToReview = async (
   return {
     averageIn30Days,
     averageInPrevSpan,
-    improvePercentage:
-      (averageInPrevSpan - averageIn30Days > 0 ? "+" : "") +
-      Math.round(
-        ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
-      ),
+    improvePercentage: Number.isNaN(averageInPrevSpan - averageIn30Days)
+      ? null
+      : (averageInPrevSpan - averageIn30Days > 0 ? "+" : "") +
+        Math.round(
+          ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
+        ),
     bars,
   };
 };
@@ -543,11 +544,12 @@ export const dataLoaderTimeToReviewed = async (
   return {
     averageIn30Days,
     averageInPrevSpan,
-    improvePercentage:
-      (averageInPrevSpan - averageIn30Days > 0 ? "+" : "") +
-      Math.round(
-        ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
-      ),
+    improvePercentage: Number.isNaN(averageInPrevSpan - averageIn30Days)
+      ? null
+      : (averageInPrevSpan - averageIn30Days > 0 ? "+" : "") +
+        Math.round(
+          ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
+        ),
     bars,
   };
 };

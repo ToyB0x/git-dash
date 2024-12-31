@@ -19,7 +19,7 @@ export type KpiEntryExtended = Omit<
 
 export type CardProps = {
   title: string;
-  change: string;
+  change: string | undefined | null;
   value: string;
   valueDescription: string;
   subtitle: string;
@@ -48,7 +48,7 @@ export function CategoryBarCard({
             <h3 className="font-bold text-gray-900 sm:text-sm dark:text-gray-50">
               {title}
             </h3>
-            <Badge variant="neutral">{change}</Badge>
+            {change && <Badge variant="neutral">{change}</Badge>}
           </div>
           <p className="mt-2 flex items-baseline gap-2">
             <span className="text-xl text-gray-900 dark:text-gray-50">
