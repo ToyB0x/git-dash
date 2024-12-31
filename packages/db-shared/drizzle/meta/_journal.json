@@ -85,6 +85,20 @@
       "when": 1735611743687,
       "tag": "0011_third_jack_power",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1735686305006,
+      "tag": "0012_happy_wrecking_crew",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1735686434644,
+      "tag": "0013_amused_puppet_master",
+      "breakpoints": true
     }
   ]
 }
