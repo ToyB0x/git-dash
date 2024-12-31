@@ -43,6 +43,13 @@
       "when": 1735605070891,
       "tag": "0005_conscious_union_jack",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1735605551146,
+      "tag": "0006_material_demogoblin",
+      "breakpoints": true
     }
   ]
 }
