@@ -13,6 +13,7 @@ export const aggregate = async () => {
     .select({
       prId: prTbl.id,
       prNumber: prTbl.number,
+      prAuthorId: prTbl.authorId,
       repositoryId: prTbl.repositoryId,
       repositoryName: repositoryTbl.name,
     })
@@ -26,6 +27,13 @@ export const aggregate = async () => {
     .withConcurrency(8)
     .process(async (pr, i) => {
       logger.info(`Start aggregate:timeline (${i + 1}/${recentPrs.length})`);
+      const renovateBotId = 29139614;
+      if (pr.prAuthorId === renovateBotId) {
+        logger.info(
+          `Skip renovate bot PR: ${pr.repositoryName}/pull/#${pr.prNumber}`,
+        );
+        return;
+      }
 
       // ref: https://docs.github.com/ja/rest/issues/timeline?apiVersion=2022-11-28
       // ref: https://docs.github.com/ja/rest/using-the-rest-api/issue-event-types?apiVersion=2022-11-28
