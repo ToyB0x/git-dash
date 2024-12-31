@@ -46,7 +46,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta
           property="og:description"
           content="Peter Drucker said, &quot;If you can't measure it, you can't improve it.&quot;&#x0A;Amazingly, once you measure, your organization automatically start improving."
-          // content="Peter Drucker said, &quot;If you can't measure it, you can't improve it.&quot;&#x0A;If you measure it, it will improve automatically.&#x0A;(Once the analysis results are made public within the organization, people will naturally want to make improvements.)"
         />
         <Meta />
         <Links />
