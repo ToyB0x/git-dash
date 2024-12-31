@@ -34,6 +34,7 @@ import {
   dataLoaderReviews,
   dataLoaderTimeToMerge,
   dataLoaderTimeToReview,
+  dataLoaderTimeToReviewed,
 } from "./dataLoaders";
 
 type KpiEntry = {
@@ -316,6 +317,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   const timeToMerge = await dataLoaderTimeToMerge(wasmDb, user.id);
   const timeToReview = await dataLoaderTimeToReview(wasmDb, user.id);
+  const timeToReviewed = await dataLoaderTimeToReviewed(wasmDb, user.id);
 
   const oldPrs = await wasmDb
     .select()
@@ -336,6 +338,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     entries,
     timeToMerge,
     timeToReview,
+    timeToReviewed,
     maxOldPr,
     maxOldReview,
     dataPrOpen: [...Array(300).keys()].map((_, i) => {
@@ -433,6 +436,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     entries,
     timeToMerge,
     timeToReview,
+    timeToReviewed,
     maxOldPr,
     maxOldReview,
   } = loadData;
@@ -515,14 +519,28 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
 
           <CategoryBarCard
             title="Time until being reviewed"
-            change="+1.4"
-            value="7.1 hours"
+            change={isDemo ? "+1.4%" : `${timeToReviewed?.improvePercentage}%`}
+            // value="7.1 hours"
+            value={
+              isDemo
+                ? "7.1 hours"
+                : `${Math.round((Number(timeToReviewed?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+            }
             valueDescription="average reviewed time"
             subtitle="last 30 days"
             ctaDescription="About four key:"
             ctaText="reference"
             ctaLink="#"
-            data={data}
+            data={
+              isDemo
+                ? data
+                : timeToReviewed?.bars.map((bar) => ({
+                    title: bar.title,
+                    percentage: bar.percentage,
+                    value: `${bar.value} PRs`,
+                    color: bar.color,
+                  })) || []
+            }
           />
         </div>
       </section>
