@@ -8,7 +8,6 @@ export const aggregate = async (
   repositories: { id: number; name: string }[],
 ) => {
   const octokit = await getOctokit();
-  // TODO: 直近に更新されていないリポジトリは除外して高速化する
   await PromisePool.for(repositories)
     // parent: 8 , child: 10 = max 80 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits

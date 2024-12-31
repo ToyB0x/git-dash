@@ -18,9 +18,7 @@ export const aggregate = async () => {
     })
     .from(prTbl)
     .where(
-      and(
-        gte(prTbl.updatedAt, subDays(new Date(), 30)), // 30 日以内に更新されたPR
-      ),
+      and(gte(prTbl.updatedAt, subDays(new Date(), env.GDASH_COLLECT_DAYS))),
     )
     .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
 
@@ -71,5 +69,7 @@ export const aggregate = async () => {
   // delete old commit
   await sharedDbClient
     .delete(prCommitTbl)
-    .where(lt(prCommitTbl.commitAt, subDays(new Date(), 30)));
+    .where(
+      lt(prCommitTbl.commitAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)),
+    );
 };

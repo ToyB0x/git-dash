@@ -6,7 +6,7 @@ import { PromisePool } from "@supercharge/promise-pool";
 import { eq, isNull, lt, or } from "drizzle-orm";
 
 const maxOldRepositoryDate = new Date(
-  Date.now() - 7 /* days */ * 1000 * 60 * 60 * 24,
+  Date.now() - env.GDASH_COLLECT_DAYS /* days */ * 1000 * 60 * 60 * 24,
 );
 
 export const aggregate = async (scanId: number) => {

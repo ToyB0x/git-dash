@@ -7,7 +7,6 @@ import { PromisePool } from "@supercharge/promise-pool";
 export const aggregate = async () => {
   const octokit = await getOctokit();
 
-  // TODO: 直近に更新されていないリポジトリは除外して高速化する
   // ref: https://docs.github.com/ja/rest/repos/repos?apiVersion=2022-11-28
   const repos = await octokit.paginate(octokit.rest.repos.listForOrg, {
     org: env.GDASH_GITHUB_ORGANIZATION_NAME,
