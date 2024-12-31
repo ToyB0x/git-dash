@@ -57,6 +57,20 @@
       "when": 1735607733638,
       "tag": "0007_bumpy_moonstone",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1735607933945,
+      "tag": "0008_famous_hardball",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1735607939086,
+      "tag": "0009_clammy_the_captain",
+      "breakpoints": true
     }
   ]
 }
