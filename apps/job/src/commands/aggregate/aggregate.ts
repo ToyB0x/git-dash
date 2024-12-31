@@ -3,10 +3,12 @@ import { step } from "@/utils";
 import { scanTbl } from "@repo/db-shared";
 import { eq } from "drizzle-orm";
 import { aggregate as aggregateAlert } from "./alert";
+import { aggregate as aggregateCommit } from "./commit";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
 import { aggregate as aggregateRepositories } from "./repositories";
 import { aggregate as aggregateReview } from "./review";
+import { aggregate as aggregateTimeline } from "./timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
 import { aggregate as aggregateWorkflow } from "./workflow";
 import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current-cycle";
@@ -86,6 +88,17 @@ export const aggregateByOrganization = async (): Promise<void> => {
   await step({
     stepName: "aggregate:review",
     callback: aggregateReview(filteredRepositories),
+  });
+
+  // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
+  await step({
+    stepName: "aggregate:timeline",
+    callback: aggregateTimeline(),
+  });
+
+  await step({
+    stepName: "aggregate:commit",
+    callback: aggregateCommit(),
   });
 
   await step({

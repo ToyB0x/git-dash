@@ -19,7 +19,7 @@ export const aggregate = async () => {
     .from(prTbl)
     .where(
       and(
-        gte(prTbl.updatedAt, subDays(new Date(), 14)), // 14 日以内に更新されたPR
+        gte(prTbl.updatedAt, subDays(new Date(), 30)), // 30 日以内に更新されたPR
       ),
     )
     .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
