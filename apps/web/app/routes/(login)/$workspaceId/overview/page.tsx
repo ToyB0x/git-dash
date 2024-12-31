@@ -430,7 +430,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             timeEntries={entries}
             numberOfGroups={10}
             flow
-            showGroups
+            showGroups={false}
           />,
         );
       }
@@ -760,7 +760,12 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         </p>
 
         <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
-          <div className="w-full h-[380px]">{chart}</div>
+          <div className="w-full h-[380px] text-gray-500">{chart}</div>
+          <div className="flex justify-between mt-6 text-sm font-medium text-gray-500">
+            <span>{subDays(Date.now(), 60).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 30).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 0).toLocaleDateString()}</span>
+          </div>
         </Card>
       </section>
 
