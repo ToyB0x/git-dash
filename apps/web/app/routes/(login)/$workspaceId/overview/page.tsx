@@ -561,12 +561,14 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
               </h3>
               <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
                 ${" "}
-                {Math.round(
-                  workflowUsageCurrentCycleOrg.reduce(
-                    (acc, item) => acc + (item.dollar || 0),
-                    0,
-                  ) * 100,
-                ) / 100}
+                {(
+                  Math.round(
+                    workflowUsageCurrentCycleOrg.reduce(
+                      (acc, item) => acc + (item.dollar || 0),
+                      0,
+                    ) * 100,
+                  ) / 100
+                ).toLocaleString()}
                 {/*${" "}*/}
                 {/*{Math.round(*/}
                 {/*    (costs.reduce((acc, item) => acc + (item.cost || 0), 0) /*/}
