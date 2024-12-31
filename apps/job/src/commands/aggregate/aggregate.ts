@@ -1,4 +1,5 @@
 import { sharedDbClient } from "@/clients";
+import { env } from "@/env";
 import { step } from "@/utils";
 import { scanTbl } from "@repo/db-shared";
 import { eq } from "drizzle-orm";
