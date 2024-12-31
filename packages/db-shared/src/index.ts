@@ -1,6 +1,6 @@
 export * from "./alert";
-export * from "./commit";
 export * from "./pr";
+export * from "./prCommit";
 export * from "./release";
 export * from "./repository";
 export * from "./review";
