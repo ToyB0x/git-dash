@@ -18,9 +18,7 @@ export const aggregate = async () => {
     })
     .from(prTbl)
     .where(
-      and(
-        gte(prTbl.updatedAt, subDays(new Date(), 14)), // 14 日以内に更新されたPR
-      ),
+      and(gte(prTbl.updatedAt, subDays(new Date(), env.GDASH_COLLECT_DAYS))),
     )
     .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
 
@@ -91,5 +89,7 @@ export const aggregate = async () => {
   // delete old timelines
   await sharedDbClient
     .delete(timelineTbl)
-    .where(lt(timelineTbl.createdAt, subDays(new Date(), 30)));
+    .where(
+      lt(timelineTbl.createdAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)),
+    );
 };

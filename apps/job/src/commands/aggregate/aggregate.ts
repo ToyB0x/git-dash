@@ -15,7 +15,7 @@ import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current
 import { aggregate as workflowUsageCurrentCycleOrg } from "./workflow-usage-current-cycle-org";
 
 const maxOldForRepo = new Date(
-  Date.now() - 1 /* month */ * 60 * 60 * 24 * 30 * 1000,
+  Date.now() - env.GDASH_COLLECT_DAYS /* days */ * 60 * 60 * 24 * 1000,
 ).getTime();
 
 const isTodaySunday = new Date().getDay() === 0;

@@ -6,7 +6,7 @@ import { PromisePool } from "@supercharge/promise-pool";
 import { and, eq, lt } from "drizzle-orm";
 
 const maxOldReviewDate = new Date(
-  Date.now() - 6 /* month */ * 60 * 60 * 24 * 30 * 1000,
+  Date.now() - env.GDASH_COLLECT_DAYS /* days */ * 60 * 60 * 24 * 1000,
 );
 
 export const aggregate = async (
