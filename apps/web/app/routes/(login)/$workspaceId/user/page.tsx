@@ -8,7 +8,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { and, eq, gte, sql } from "drizzle-orm";
+import { subDays } from "date-fns";
+import { and, asc, eq, gte, sql } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 
 type User = {
@@ -173,6 +174,20 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .where(gte(reviewTbl.createdAt, halfYearAgo))
     .groupBy(reviewTbl.reviewerId);
 
+  const oldPrs = await wasmDb
+    .select()
+    .from(prTbl)
+    .orderBy(asc(prTbl.createdAt))
+    .limit(1);
+  const oldReviews = await wasmDb
+    .select()
+    .from(reviewTbl)
+    .orderBy(asc(reviewTbl.createdAt))
+    .limit(1);
+
+  const maxOldPr = oldPrs[0];
+  const maxOldReview = oldReviews[0];
+
   return {
     users: users
       .filter((user) => !user.login.startsWith("renovate"))
@@ -183,13 +198,15 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
           reviews: review?.count ?? 0,
         };
       }) satisfies User[],
+    maxOldPr,
+    maxOldReview,
   };
 }
 export default function Page({ loaderData }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const { users } = loadData;
+  const { users, maxOldPr, maxOldReview } = loadData;
 
   const table = useReactTable({
     data: users,
@@ -235,7 +252,11 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         header: () => (
           <div className="text-center">
             Pull Requests
-            <br /> (half year)
+            <br /> (
+            {maxOldPr
+              ? `${maxOldPr.createdAt.toLocaleDateString()}~`
+              : `${subDays(new Date(), 180).toLocaleDateString()}~`}
+            )
           </div>
         ),
         accessorKey: "prs",
@@ -249,7 +270,11 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         header: () => (
           <div className="text-center">
             Reviews
-            <br /> (half year)
+            <br /> (
+            {maxOldReview
+              ? `${maxOldReview.createdAt.toLocaleDateString()}~`
+              : `${subDays(new Date(), 180).toLocaleDateString()}~`}
+            )
           </div>
         ),
         accessorKey: "reviews",
