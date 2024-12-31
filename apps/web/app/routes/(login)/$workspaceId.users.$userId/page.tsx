@@ -524,11 +524,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         </h1>
 
         <p className="mt-1 text-gray-500">
-          for more details, check on the{" "}
-          <Link to="../users" className="underline underline-offset-4">
-            users page
-          </Link>
-          .
+          The heatmap shows the number of commits by hour of day.
         </p>
 
         <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
