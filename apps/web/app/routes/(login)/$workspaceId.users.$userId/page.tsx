@@ -23,7 +23,7 @@ import {
   userTbl,
 } from "@repo/db-shared";
 import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
-import { and, count, desc, eq, gte, lt } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, lt } from "drizzle-orm";
 import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useParams } from "react-router";
@@ -317,11 +317,27 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const timeToMerge = await dataLoaderTimeToMerge(wasmDb, user.id);
   const timeToReview = await dataLoaderTimeToReview(wasmDb, user.id);
 
+  const oldPrs = await wasmDb
+    .select()
+    .from(prTbl)
+    .orderBy(asc(prTbl.createdAt))
+    .limit(1);
+  const oldReviews = await wasmDb
+    .select()
+    .from(reviewTbl)
+    .orderBy(asc(reviewTbl.createdAt))
+    .limit(1);
+
+  const maxOldPr = oldPrs[0];
+  const maxOldReview = oldReviews[0];
+
   return {
     user,
     entries,
     timeToMerge,
     timeToReview,
+    maxOldPr,
+    maxOldReview,
     dataPrOpen: [...Array(300).keys()].map((_, i) => {
       return {
         date: subDays(startOfToday(), i),
@@ -417,6 +433,8 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     entries,
     timeToMerge,
     timeToReview,
+    maxOldPr,
+    maxOldReview,
   } = loadData;
 
   const { userId } = useParams();
@@ -587,9 +605,21 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             <TableHead>
               <TableRow>
                 <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell className="text-right">PRs</TableHeaderCell>
-                <TableHeaderCell className="text-right">
+                <TableHeaderCell className="text-center">
+                  Pull Requests
+                  <br /> (
+                  {maxOldPr
+                    ? `${maxOldPr.createdAt.toLocaleDateString()}~`
+                    : `${subDays(new Date(), 180).toLocaleDateString()}~`}
+                  )
+                </TableHeaderCell>
+                <TableHeaderCell className="text-center">
                   Reviews
+                  <br /> (
+                  {maxOldReview
+                    ? `${maxOldReview.createdAt.toLocaleDateString()}~`
+                    : `${subDays(new Date(), 180).toLocaleDateString()}~`}
+                  )
                 </TableHeaderCell>
                 <TableHeaderCell className="text-right">
                   Last Activity
@@ -607,8 +637,8 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                       {item.repository}
                     </Link>
                   </TableCell>
-                  <TableCell className="text-right">{item.prs}</TableCell>
-                  <TableCell className="text-right">{item.reviews}</TableCell>
+                  <TableCell className="text-center">{item.prs}</TableCell>
+                  <TableCell className="text-center">{item.reviews}</TableCell>
                   <TableCell className="text-right">
                     {item.lastActivity?.toLocaleString() || "-"}
                   </TableCell>
