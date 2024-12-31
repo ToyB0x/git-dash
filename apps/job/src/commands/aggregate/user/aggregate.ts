@@ -1,6 +1,12 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { logger } from "@/utils";
-import { prTbl, releaseTbl, reviewTbl, userTbl } from "@repo/db-shared";
+import {
+  prTbl,
+  releaseTbl,
+  reviewTbl,
+  timelineTbl,
+  userTbl,
+} from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { gte } from "drizzle-orm";
 
@@ -18,10 +24,15 @@ export const aggregate = async () => {
     .selectDistinct({ authorId: releaseTbl.authorId })
     .from(releaseTbl);
 
+  const timelines = await sharedDbClient
+    .selectDistinct({ actorId: timelineTbl.actorId })
+    .from(timelineTbl);
+
   const userIds = new Set([
     ...prs.map((pr) => pr.authorId),
     ...reviews.map((review) => review.authorId),
     ...releases.map((release) => release.authorId),
+    ...timelines.map((actor) => actor.actorId),
   ]);
 
   const recentUsers = await sharedDbClient
