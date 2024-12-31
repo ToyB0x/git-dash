@@ -286,7 +286,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                 type="currency"
                 selectedPeriod="no-comparison"
                 selectedDates={span}
-                accumulation={false}
+                accumulation
                 data={usageByRunnerType.data}
               />
             ))

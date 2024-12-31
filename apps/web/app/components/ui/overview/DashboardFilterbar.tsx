@@ -38,7 +38,7 @@ export const getPeriod = (
     return { from: lastMonthFrom, to: lastMonthTo };
   }
 
-  throw Error("Invalid period value");
+  return undefined;
 };
 
 type FilterbarProps = {
