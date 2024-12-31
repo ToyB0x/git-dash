@@ -62,10 +62,24 @@ const dataStats = [
   },
 ] satisfies Stat[];
 
+const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
+  time: subHours(endOfToday(), hour),
+  count:
+    subHours(endOfToday(), hour).getDay() <= 1
+      ? Math.floor(Math.random() * 1.2) // 週末は低頻度にする
+      : // 早朝深夜は低頻度にする
+        subHours(endOfToday(), hour).getHours() < 7 ||
+          subHours(endOfToday(), hour).getHours() > 20
+        ? Math.floor(Math.random() * 1.4)
+        : // 平日の昼間は高頻度にする
+          Math.floor(Math.random() * 6),
+}));
+
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
       dataStats,
+      entries: demoEntries,
       costs: dataChart,
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
@@ -404,15 +418,10 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
 
   const [chart, setChart] = useState<ReactNode | null>(null);
 
-  // const entries = [...Array(24 * 30).keys()].map((hour) => ({
-  //   time: subHours(endOfToday(), hour),
-  //   count: 10,
-  // })) satisfies ITimeEntry[];
-
   const isDemo = params.workspaceId === "demo";
 
   const {
-    entries = [],
+    entries,
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
@@ -678,10 +687,33 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         </div>
       </section>
 
+      <section aria-labelledby="commits">
+        <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+          People Activity
+        </h1>
+
+        <p className="mt-1 text-gray-500">
+          for more details, check on the{" "}
+          <Link to="../users" className="underline underline-offset-4">
+            users page
+          </Link>
+          .
+        </p>
+
+        <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
+          <div className="w-full h-[380px] text-gray-500">{chart}</div>
+          <div className="flex justify-between mt-6 text-sm font-medium text-gray-500">
+            <span>{subDays(Date.now(), 60).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 30).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 0).toLocaleDateString()}</span>
+          </div>
+        </Card>
+      </section>
+
       {isDemo && (
         <section aria-labelledby="releases">
           <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
-            Recent Activity
+            Recent Releases
           </h1>
 
           <p className="mt-1 text-gray-500">
@@ -745,29 +777,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           </Card>
         </section>
       )}
-
-      <section aria-labelledby="commits">
-        <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
-          People Activity
-        </h1>
-
-        <p className="mt-1 text-gray-500">
-          for more details, check on the{" "}
-          <Link to="../users" className="underline underline-offset-4">
-            users page
-          </Link>
-          .
-        </p>
-
-        <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
-          <div className="w-full h-[380px] text-gray-500">{chart}</div>
-          <div className="flex justify-between mt-6 text-sm font-medium text-gray-500">
-            <span>{subDays(Date.now(), 60).toLocaleDateString()}</span>
-            <span>{subDays(Date.now(), 30).toLocaleDateString()}</span>
-            <span>{subDays(Date.now(), 0).toLocaleDateString()}</span>
-          </div>
-        </Card>
-      </section>
 
       {!isDemo && (
         <section aria-labelledby="releases">
