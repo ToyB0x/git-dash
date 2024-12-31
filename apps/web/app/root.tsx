@@ -39,13 +39,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Git analytics app" />
+        <meta property="og:title" content="Git analysis app" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://git-dash.com" />
         <meta property="og:site_name" content="git-dash" />
         <meta
           property="og:description"
-          content="Peter Drucker said, &quot;If you can't measure it, you can't improve it.&quot;"
+          content="Peter Drucker said, &quot;If you can't measure it, you can't improve it.&quot;&#x0A;Amazingly, once you measure, your organization automatically start improving."
+          // content="Peter Drucker said, &quot;If you can't measure it, you can't improve it.&quot;&#x0A;If you measure it, it will improve automatically.&#x0A;(Once the analysis results are made public within the organization, people will naturally want to make improvements.)"
         />
         <Meta />
         <Links />
