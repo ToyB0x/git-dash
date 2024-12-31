@@ -10,4 +10,6 @@ export const repositoryTbl = sqliteTable("repository", {
   }),
   createdAt: int({ mode: "timestamp_ms" }).notNull(),
   updatedAt: int({ mode: "timestamp_ms" }).notNull(),
+  createdAtGithub: int({ mode: "timestamp_ms" }),
+  updatedAtGithub: int({ mode: "timestamp_ms" }),
 });

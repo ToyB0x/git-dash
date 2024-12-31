@@ -4,6 +4,7 @@ export * from "./release";
 export * from "./repository";
 export * from "./review";
 export * from "./scan";
+export * from "./timeline";
 export * from "./user";
 export * from "./workflow";
 export * from "./workflowUsageCurrentCycle";
