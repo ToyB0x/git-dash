@@ -48,6 +48,7 @@ export const aggregate = async () => {
       gte(userTbl.updatedAt, new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)),
     );
 
+  // NOTE: DBに存在しないが過去に存在していたユーザやBotアカウントなどは毎回取得してしまうことに留意
   // 直近7日以内にデータ更新されていないユーザのみ取得
   const scanUserIds = [...userIds].filter(
     (userId) => !recentUsers.find((user) => user.id === userId),

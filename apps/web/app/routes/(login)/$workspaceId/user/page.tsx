@@ -296,7 +296,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           const blog = row.original.blog;
           if (!blog) return null;
           return (
-            <a href={blog} target="_blank" rel="noreferrer">
+            <a
+              href={
+                blog.startsWith("http") ? blog : `https://${blog}` // ドメインしか入っていない場合
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
               {blog.endsWith("/")
                 ? blog
                     .replace("http://", "")
