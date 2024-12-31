@@ -3,7 +3,11 @@
 ## Concept
 
 Peter Drucker said, "If you can't measure it, you can't improve it."  
-This app provides insights into your git repositories.
+
+Amazingly, once you measure, your organization automatically start improving.  
+When the analysis results are made public within the organization, people make improvements on their own.
+
+So this app provides insights into your Git repositories.
 
 ## Project Status
 
