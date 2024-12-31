@@ -1,4 +1,5 @@
 import { auth, getWasmDb } from "@/clients";
+import { Card } from "@/components/Card";
 import {
   Table,
   TableBody,
@@ -14,12 +15,19 @@ import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId.users.$userId/+types/page";
-import { prTbl, repositoryTbl, reviewTbl, userTbl } from "@repo/db-shared";
-import { startOfToday, subDays } from "date-fns";
-import { and, desc, eq, gte } from "drizzle-orm";
-import React from "react";
+import {
+  prCommitTbl,
+  prTbl,
+  repositoryTbl,
+  reviewTbl,
+  userTbl,
+} from "@repo/db-shared";
+import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
+import { and, count, desc, eq, gte, lt } from "drizzle-orm";
+import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { Link, redirect, useParams } from "react-router";
+import type { ITimeEntry } from "react-time-heatmap";
 import {
   dataLoaderPrMerge,
   dataLoaderPrOpen,
@@ -172,6 +180,19 @@ const dataTable = [
   },
 ] satisfies Activity[];
 
+const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
+  time: subHours(endOfToday(), hour),
+  count:
+    subHours(endOfToday(), hour).getDay() <= 1
+      ? Math.floor(Math.random() * 1.1) // 週末は低頻度にする
+      : // 早朝深夜は低頻度にする
+        subHours(endOfToday(), hour).getHours() < 8 ||
+          subHours(endOfToday(), hour).getHours() > 20
+        ? Math.floor(Math.random() * 1.1)
+        : // 平日の昼間は高頻度にする
+          Math.floor(Math.random() * 10),
+}));
+
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const isDemo = params.workspaceId === "demo";
 
@@ -188,6 +209,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       dataPrMerge: dataPrMerge.data,
       dataReviews: dataReviews.data,
       activity: dataTable,
+      entries: demoEntries,
     };
   }
 
@@ -259,8 +281,28 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     ]),
   ];
 
+  const entries: ITimeEntry[] = await Promise.all(
+    [...Array(24 * 60).keys()].map(async (hour) => ({
+      time: subHours(endOfToday(), hour),
+      count:
+        (
+          await wasmDb
+            .select({ count: count() })
+            .from(prCommitTbl)
+            .where(
+              and(
+                eq(prCommitTbl.authorId, user.id),
+                gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
+                lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0,
+    })),
+  );
+
   return {
     user,
+    entries,
     dataPrOpen: [...Array(300).keys()].map((_, i) => {
       return {
         date: subDays(startOfToday(), i),
@@ -346,7 +388,8 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const { user, dataPrOpen, dataPrMerge, dataReviews, activity } = loadData;
+  const { user, dataPrOpen, dataPrMerge, dataReviews, activity, entries } =
+    loadData;
 
   const { userId } = useParams();
 
@@ -357,6 +400,25 @@ export default function Page({ loaderData }: Route.ComponentProps) {
     from: subDays(maxDate, 30),
     to: maxDate,
   });
+
+  const [chart, setChart] = useState<ReactNode | null>(null);
+  useEffect(() => {
+    (async () => {
+      if (typeof window !== "undefined") {
+        const TimeHeatMap = await import("react-time-heatmap");
+        setChart(
+          <TimeHeatMap.TimeHeatMap
+            // TODO: windowサイズに合わせリサイズ
+            // timeEntries={entries.slice(0, 24 * 30)}
+            timeEntries={entries}
+            numberOfGroups={10}
+            flow
+            showGroups={false}
+          />,
+        );
+      }
+    })();
+  }, [entries]);
 
   return (
     <>
@@ -454,6 +516,29 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             data={dataReviews}
           />
         </dl>
+      </section>
+
+      <section aria-labelledby="commits">
+        <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+          User Activity
+        </h1>
+
+        <p className="mt-1 text-gray-500">
+          for more details, check on the{" "}
+          <Link to="../users" className="underline underline-offset-4">
+            users page
+          </Link>
+          .
+        </p>
+
+        <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
+          <div className="w-full h-[380px] text-gray-500">{chart}</div>
+          <div className="flex justify-between mt-6 text-sm font-medium text-gray-500">
+            <span>{subDays(Date.now(), 60).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 30).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 0).toLocaleDateString()}</span>
+          </div>
+        </Card>
       </section>
 
       <section aria-labelledby="high-cost-actions">
