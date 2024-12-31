@@ -3,6 +3,7 @@ import { env } from "@/env";
 import { logger } from "@/utils";
 import { prTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
+import { subDays } from "date-fns";
 import { desc, lt, notInArray } from "drizzle-orm";
 
 const maxOldPrDate = new Date(
@@ -83,7 +84,7 @@ export const aggregate = async (
   // delete old prs
   await sharedDbClient
     .delete(prTbl)
-    .where(lt(prTbl.createdAt, env.GDASH_DISCARD_DAYS));
+    .where(lt(prTbl.createdAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)));
 
   // TODO: ユーザごとにForで回して最後の10件のみタイトルを残す
   const latestPrs = await sharedDbClient

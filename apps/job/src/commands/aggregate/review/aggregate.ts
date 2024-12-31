@@ -3,6 +3,7 @@ import { env } from "@/env";
 import { logger } from "@/utils";
 import { prTbl, reviewTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
+import { subDays } from "date-fns";
 import { and, eq, lt } from "drizzle-orm";
 
 const maxOldReviewDate = new Date(
@@ -119,5 +120,7 @@ export const aggregate = async (
   // delete old reviews
   await sharedDbClient
     .delete(reviewTbl)
-    .where(lt(reviewTbl.createdAt, env.GDASH_DISCARD_DAYS));
+    .where(
+      lt(reviewTbl.createdAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)),
+    );
 };

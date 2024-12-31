@@ -37,8 +37,8 @@ export const aggregate = async () => {
     ...prs.map((pr) => pr.authorId),
     ...reviews.map((review) => review.authorId),
     ...releases.map((release) => release.authorId),
-    ...timelines.map((actor) => actor.actorId),
-    ...commits.map((actor) => actor.actorId),
+    ...timelines.map((timeline) => timeline.actorId),
+    ...commits.map((commit) => commit.authorId),
   ]);
 
   const recentUsers = await sharedDbClient
