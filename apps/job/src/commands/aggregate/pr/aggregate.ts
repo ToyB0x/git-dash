@@ -56,6 +56,12 @@ export const aggregate = async (
           const authorId = pr.user?.id;
           if (!authorId) return;
 
+          const renovateBotId = 29139614;
+          if (pr.prAuthorId === renovateBotId) {
+            logger.info(`Skip renovate #${pr.prNumber}`);
+            return;
+          }
+
           await sharedDbClient
             .insert(prTbl)
             .values({
