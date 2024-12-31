@@ -3,7 +3,6 @@ import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 export const eventTypes = [
   "closed",
   "commented",
-  "committed",
   "merged",
   "ready_for_review",
   "review_requested",
