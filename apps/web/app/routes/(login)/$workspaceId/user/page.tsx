@@ -296,7 +296,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           const blog = row.original.blog;
           if (!blog) return null;
           return (
-            <a href={blog} target="_blank" rel="noreferrer">
+            <a
+              href={
+                blog.startsWith("http") ? blog : `https://${blog}` // ドメインしか入っていない場合
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
               {blog.endsWith("/")
                 ? blog
                     .replace("http://", "")
@@ -331,6 +337,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       <p className="mt-1 text-gray-500">
         for more details , click on the user links.
       </p>
+      <div className="mt-2" />
       <SortableTable table={table} />
     </section>
   );
