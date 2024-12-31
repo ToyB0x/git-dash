@@ -119,5 +119,5 @@ export const aggregate = async (
   // delete old reviews
   await sharedDbClient
     .delete(reviewTbl)
-    .where(lt(reviewTbl.createdAt, maxOldReviewDate));
+    .where(lt(reviewTbl.createdAt, env.GDASH_DISCARD_DAYS));
 };

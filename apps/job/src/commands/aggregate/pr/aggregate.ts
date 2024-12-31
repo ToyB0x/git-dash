@@ -81,8 +81,11 @@ export const aggregate = async (
     });
 
   // delete old prs
-  await sharedDbClient.delete(prTbl).where(lt(prTbl.createdAt, maxOldPrDate));
+  await sharedDbClient
+    .delete(prTbl)
+    .where(lt(prTbl.createdAt, env.GDASH_DISCARD_DAYS));
 
+  // TODO: ユーザごとにForで回して最後の10件のみタイトルを残す
   const latestPrs = await sharedDbClient
     .select()
     .from(prTbl)

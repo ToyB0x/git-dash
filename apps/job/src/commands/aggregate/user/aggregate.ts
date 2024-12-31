@@ -1,6 +1,7 @@
 import { getOctokit, sharedDbClient } from "@/clients";
 import { logger } from "@/utils";
 import {
+  prCommitTbl,
   prTbl,
   releaseTbl,
   reviewTbl,
@@ -28,11 +29,16 @@ export const aggregate = async () => {
     .selectDistinct({ actorId: timelineTbl.actorId })
     .from(timelineTbl);
 
+  const commits = await sharedDbClient
+    .selectDistinct({ authorId: prCommitTbl.authorId })
+    .from(prCommitTbl);
+
   const userIds = new Set([
     ...prs.map((pr) => pr.authorId),
     ...reviews.map((review) => review.authorId),
     ...releases.map((release) => release.authorId),
     ...timelines.map((actor) => actor.actorId),
+    ...commits.map((actor) => actor.actorId),
   ]);
 
   const recentUsers = await sharedDbClient
