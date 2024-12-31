@@ -767,7 +767,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
       {!isDemo && (
         <section aria-labelledby="releases">
           <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
-            Recent Activity
+            Recent Releases
           </h1>
 
           <p className="mt-1 text-gray-500">
