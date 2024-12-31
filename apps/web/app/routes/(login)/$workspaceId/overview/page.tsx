@@ -260,7 +260,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     [...Array(24 * 60).keys()].map(async (hour) => ({
       time: subHours(endOfToday(), hour),
       count:
-        (
+        ((
           await wasmDb
             .select({ count: count() })
             .from(prCommitTbl)
@@ -271,7 +271,19 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
                 not(eq(prCommitTbl.authorId, renovateBotId)),
               ),
             )
-        )[0]?.count || 0,
+        )[0]?.count || 0) +
+        ((
+          await wasmDb
+            .select({ count: count() })
+            .from(prTbl)
+            .where(
+              and(
+                gte(prTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(prTbl.createdAt, subHours(endOfToday(), hour - 1)),
+                not(eq(prTbl.authorId, renovateBotId)),
+              ),
+            )
+        )[0]?.count || 0),
     })),
   );
 
@@ -428,6 +440,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     dataStats,
   } = loadData;
 
+  // ref: https://zenn.dev/harukii/articles/a8b0b085b63244
   const [chart, setChart] = useState<ReactNode | null>(null);
   useEffect(() => {
     (async () => {

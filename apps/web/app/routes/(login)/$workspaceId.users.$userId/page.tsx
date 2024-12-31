@@ -285,7 +285,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     [...Array(24 * 60).keys()].map(async (hour) => ({
       time: subHours(endOfToday(), hour),
       count:
-        (
+        ((
           await wasmDb
             .select({ count: count() })
             .from(prCommitTbl)
@@ -296,7 +296,19 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
                 lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
               ),
             )
-        )[0]?.count || 0,
+        )[0]?.count || 0) +
+        ((
+          await wasmDb
+            .select({ count: count() })
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.reviewerId, user.id),
+                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0),
     })),
   );
 
@@ -524,7 +536,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         </h1>
 
         <p className="mt-1 text-gray-500">
-          The heatmap shows the number of commits by hour of day.
+          The heatmap shows the number of commits and reviews by hour of day.
         </p>
 
         <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
