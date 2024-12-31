@@ -57,8 +57,8 @@ export const aggregate = async (
           if (!authorId) return;
 
           const renovateBotId = 29139614;
-          if (pr.prAuthorId === renovateBotId) {
-            logger.info(`Skip renovate #${pr.prNumber}`);
+          if (authorId === renovateBotId) {
+            logger.info(`Skip renovate #${pr.number}`);
             return;
           }
 
