@@ -32,6 +32,7 @@ import {
   dataLoaderPrMerge,
   dataLoaderPrOpen,
   dataLoaderReviews,
+  dataLoaderTimeToMerge,
 } from "./dataLoaders";
 
 type KpiEntry = {
@@ -312,9 +313,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     })),
   );
 
+  const timeToMerge = await dataLoaderTimeToMerge(wasmDb, user.id);
+
   return {
     user,
     entries,
+    timeToMerge,
     dataPrOpen: [...Array(300).keys()].map((_, i) => {
       return {
         date: subDays(startOfToday(), i),
@@ -396,12 +400,20 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-export default function Page({ loaderData }: Route.ComponentProps) {
+export default function Page({ loaderData, params }: Route.ComponentProps) {
+  const isDemo = params.workspaceId === "demo";
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const { user, dataPrOpen, dataPrMerge, dataReviews, activity, entries } =
-    loadData;
+  const {
+    user,
+    dataPrOpen,
+    dataPrMerge,
+    dataReviews,
+    activity,
+    entries,
+    timeToMerge,
+  } = loadData;
 
   const { userId } = useParams();
 
@@ -449,14 +461,18 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <CategoryBarCard
             title="Time to merge"
-            change="-0.6%"
-            value="2.1 days"
+            change={isDemo ? "-0.6%" : `${timeToMerge?.improvePercentage}%`}
+            value={
+              isDemo
+                ? "2.1 days"
+                : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 24 * 1000)) / 10} hours`
+            }
             valueDescription="average merge time"
             subtitle="last 30 days"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
-            data={data2}
+            data={isDemo ? data2 : timeToMerge?.bars || []}
           />
 
           <CategoryBarCard
