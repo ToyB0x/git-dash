@@ -337,6 +337,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       <p className="mt-1 text-gray-500">
         for more details , click on the user links.
       </p>
+      <div className="mt-2" />
       <SortableTable table={table} />
     </section>
   );

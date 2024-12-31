@@ -1,16 +1,13 @@
 import { auth, getWasmDb } from "@/clients";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableRoot,
-  TableRow,
-} from "@/components/Table";
+import { SortableTable } from "@/components/ui/SortableTable";
 import { NoDataMessage } from "@/components/ui/no-data";
 import type { Route } from "@@/(login)/$workspaceId/repository/+types/page";
 import { repositoryTbl } from "@repo/db-shared";
+import {
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { asc } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 
@@ -23,7 +20,7 @@ const dataTable = [
     reviews: 21,
     releases: 16,
     cost: 3213,
-    lastActivity: "23/09/2023 13:00",
+    lastActivity: new Date(),
   },
   {
     id: 2,
@@ -33,7 +30,7 @@ const dataTable = [
     reviews: 12,
     releases: 9,
     cost: 1213,
-    lastActivity: "22/09/2023 10:45",
+    lastActivity: new Date(),
   },
   {
     id: 3,
@@ -43,7 +40,7 @@ const dataTable = [
     reviews: 9,
     releases: 6,
     cost: 913,
-    lastActivity: "22/09/2023 10:45",
+    lastActivity: new Date(),
   },
   {
     id: 4,
@@ -53,7 +50,7 @@ const dataTable = [
     reviews: 3,
     releases: 2,
     cost: 541,
-    lastActivity: "21/09/2023 14:30",
+    lastActivity: new Date(),
   },
   {
     id: 5,
@@ -63,7 +60,7 @@ const dataTable = [
     reviews: 1,
     releases: 0,
     cost: 213,
-    lastActivity: "24/09/2023 09:15",
+    lastActivity: new Date(),
   },
   {
     id: 6,
@@ -73,7 +70,7 @@ const dataTable = [
     reviews: 1,
     releases: 0,
     cost: 113,
-    lastActivity: "23/09/2024 21:42",
+    lastActivity: new Date(),
   },
   {
     id: 7,
@@ -83,7 +80,7 @@ const dataTable = [
     reviews: 1,
     releases: 0,
     cost: 86,
-    lastActivity: "21/09/2024 11:32",
+    lastActivity: new Date(),
   },
 ];
 
@@ -134,6 +131,88 @@ export default function Page({ loaderData }: Route.ComponentProps) {
     return <>データ取得中です</>;
   }
 
+  const table = useReactTable({
+    data: repositories,
+    columns: [
+      {
+        header: "Repository",
+        accessorKey: "name",
+        enableSorting: true,
+        meta: {
+          headerClassNames: "w-56",
+          cellClassNames: "p-0 pr-2 h-[3.8rem]",
+        },
+        cell: ({ row }) => (
+          <div className="font-medium text-gray-900 dark:text-gray-50">
+            <Link
+              to={`${row.original.name}`}
+              className="underline underline-offset-4"
+            >
+              {row.original.name}
+            </Link>
+          </div>
+        ),
+      },
+      {
+        header: "PRs / month",
+        accessorKey: "prs",
+        enableSorting: true,
+        meta: {
+          headerClassNames: "w-1 text-right",
+          cellClassNames: "text-center",
+        },
+      },
+      {
+        header: "Reviews / month",
+        accessorKey: "reviews",
+        enableSorting: true,
+        meta: {
+          headerClassNames: "w-1 text-right",
+          cellClassNames: "text-center",
+        },
+      },
+      {
+        header: "Release / month",
+        accessorKey: "releases",
+        enableSorting: true,
+        meta: {
+          headerClassNames: "w-1 text-right",
+          cellClassNames: "text-center",
+        },
+      },
+      {
+        header: "Cost / month",
+        accessorKey: "cost",
+        enableSorting: true,
+        meta: {
+          headerClassNames: "w-1 text-right",
+          cellClassNames: "text-center",
+        },
+      },
+      {
+        header: "Last Activity",
+        accessorKey: "lastActivity",
+        enableSorting: true,
+        cell: ({ row }) => row.original.lastActivity.toLocaleString(),
+        meta: {
+          headerClassNames: "w-1 pr-0",
+          headerContentClassNames: "pr-0 justify-end",
+          cellClassNames: "text-right",
+        },
+      },
+    ],
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    initialState: {
+      sorting: [
+        {
+          id: "name",
+          desc: false,
+        },
+      ],
+    },
+  });
+
   return (
     <section aria-labelledby="repository-table" className="h-screen">
       <h1
@@ -145,51 +224,9 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       <p className="mt-1 text-gray-500">
         for more details , click on the repository links.
       </p>
-      <TableRoot className="mt-8">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableHeaderCell>Repository</TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                PRs / month
-              </TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                Reviews / month
-              </TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                Releases / month
-              </TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                Cost / month
-              </TableHeaderCell>
-              <TableHeaderCell className="text-right">
-                Last Activity
-              </TableHeaderCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {repositories.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                  <Link
-                    to={`${item.name}`}
-                    className="underline underline-offset-4"
-                  >
-                    {item.name}
-                  </Link>
-                </TableCell>
-                <TableCell className="text-right">{item.prs}</TableCell>
-                <TableCell className="text-right">{item.reviews}</TableCell>
-                <TableCell className="text-right">{item.releases}</TableCell>
-                <TableCell className="text-right">${item.cost}</TableCell>
-                <TableCell className="text-right">
-                  {new Date(item.lastActivity).toLocaleString()}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableRoot>
+
+      <div className="mt-2" />
+      <SortableTable table={table} />
     </section>
   );
 }
