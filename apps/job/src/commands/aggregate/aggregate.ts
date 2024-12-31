@@ -71,7 +71,7 @@ export const aggregateByOrganization = async (): Promise<void> => {
   // NOTE: Workflow fileの数に応じてQuotaを消費
   await step({
     stepName: "aggregate:workflow-usage-current-cycle",
-    callback: workflowUsageCurrentCycle(),
+    callback: workflowUsageCurrentCycle(scanId),
   });
 
   // costは1のみ

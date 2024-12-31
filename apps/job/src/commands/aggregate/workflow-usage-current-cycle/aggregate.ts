@@ -9,7 +9,7 @@ import {
 import { PromisePool } from "@supercharge/promise-pool";
 import { eq } from "drizzle-orm";
 
-export const aggregate = async () => {
+export const aggregate = async (scanId: number) => {
   const octokit = await getOctokit();
 
   // NOTE: workflow fileの数だけリクエストを投げるため、ymlファイルが多い場合はQuotaに注意(300ファイルある場合は 300 Pointsも消費してしまう)
@@ -60,6 +60,7 @@ export const aggregate = async () => {
       await sharedDbClient
         .insert(workflowUsageCurrentCycleTbl)
         .values({
+          scanId,
           year: now.getUTCFullYear(),
           month: now.getUTCMonth() + 1,
           day: now.getUTCDate(),
@@ -76,6 +77,7 @@ export const aggregate = async () => {
             workflowUsageCurrentCycleTbl.workflowId,
           ],
           set: {
+            scanId,
             dollar: Math.round(cost * 10) / 10, // round to 1 decimal place
             updatedAt: now,
           },

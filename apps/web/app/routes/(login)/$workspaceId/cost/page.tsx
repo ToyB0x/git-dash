@@ -19,12 +19,13 @@ import {
 import type { Route } from "@@/(login)/$workspaceId/cost/+types/page";
 import {
   repositoryTbl,
+  scanTbl,
   workflowTbl,
   workflowUsageCurrentCycleOrgTbl,
   workflowUsageCurrentCycleTbl,
 } from "@repo/db-shared";
 import { startOfTomorrow, subDays } from "date-fns";
-import { and, desc, eq, gt, gte } from "drizzle-orm";
+import { and, desc, eq, gte } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 
 export type KpiEntry = {
@@ -130,35 +131,54 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       })),
   );
 
-  const workflows = await wasmDb
-    .select({
-      workflowId: workflowTbl.id,
-      workflowName: workflowTbl.name,
-      workflowPath: workflowTbl.path,
-      dollar: workflowUsageCurrentCycleTbl.dollar,
-      repositoryName: repositoryTbl.name,
-    })
-    .from(workflowUsageCurrentCycleTbl)
-    .orderBy(desc(workflowUsageCurrentCycleTbl.createdAt))
-    .innerJoin(
-      workflowTbl,
-      eq(workflowUsageCurrentCycleTbl.workflowId, workflowTbl.id),
-    )
-    .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
-    .where(gt(workflowUsageCurrentCycleTbl.dollar, 5));
+  const lastScans = await wasmDb
+    .select()
+    .from(scanTbl)
+    .orderBy(desc(scanTbl.createdAt))
+    .limit(1);
+
+  const lastScan = lastScans[0];
+
+  const workflows = lastScan
+    ? await wasmDb
+        .select({
+          workflowId: workflowTbl.id,
+          workflowName: workflowTbl.name,
+          workflowPath: workflowTbl.path,
+          dollar: workflowUsageCurrentCycleTbl.dollar,
+          repositoryName: repositoryTbl.name,
+        })
+        .from(workflowUsageCurrentCycleTbl)
+        .where(
+          and(
+            eq(workflowUsageCurrentCycleTbl.scanId, lastScan.id),
+            gte(workflowUsageCurrentCycleTbl.dollar, 1),
+          ),
+        )
+        .innerJoin(
+          workflowTbl,
+          eq(workflowUsageCurrentCycleTbl.workflowId, workflowTbl.id),
+        )
+        .innerJoin(
+          repositoryTbl,
+          eq(workflowTbl.repositoryId, repositoryTbl.id),
+        )
+    : null;
 
   return {
     dataActions2Core,
     dataActions4Core,
     dataActions16Core,
     workflows: workflows
-      .map((workflow) => ({
-        repoName: workflow.repositoryName,
-        workflowName: workflow.workflowName,
-        workflowPath: workflow.workflowPath,
-        cost: workflow.dollar,
-      }))
-      .sort((a, b) => b.cost - a.cost),
+      ? workflows
+          .map((workflow) => ({
+            repoName: workflow.repositoryName,
+            workflowName: workflow.workflowName,
+            workflowPath: workflow.workflowPath,
+            cost: workflow.dollar,
+          }))
+          .sort((a, b) => b.cost - a.cost)
+      : [],
 
     usageByRunnerTypes: usageByRunnerTypes.map((usageByRunnerType) => {
       const usages = [...Array(60).keys()].map((_, i) => {
