@@ -9,6 +9,7 @@ import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
 import { RiQuestionLine } from "@remixicon/react";
 import {
   alertTbl,
+  prCommitTbl,
   prTbl,
   releaseTbl,
   repositoryTbl,
@@ -16,7 +17,7 @@ import {
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
-import { subDays } from "date-fns";
+import { endOfToday, subDays, subHours } from "date-fns";
 import {
   and,
   count,
@@ -28,8 +29,10 @@ import {
   not,
   sum,
 } from "drizzle-orm";
+import { type ReactNode, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
+import type { ITimeEntry } from "react-time-heatmap";
 
 type Stat = {
   name: string;
@@ -239,7 +242,27 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     };
   });
 
+  const entries: ITimeEntry[] = await Promise.all(
+    [...Array(24 * 60).keys()].map(async (hour) => ({
+      time: subHours(endOfToday(), hour),
+      count:
+        (
+          await wasmDb
+            .select({ count: count() })
+            .from(prCommitTbl)
+            .where(
+              and(
+                gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
+                lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+                not(eq(prCommitTbl.authorId, renovateBotId)),
+              ),
+            )
+        )[0]?.count || 0,
+    })),
+  );
+
   return {
+    entries,
     releases,
     costs: data.map((item, index, self) => {
       // 初日は前日比がないのでコストがわからない
@@ -379,9 +402,17 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
+  const [chart, setChart] = useState<ReactNode | null>(null);
+
+  // const entries = [...Array(24 * 30).keys()].map((hour) => ({
+  //   time: subHours(endOfToday(), hour),
+  //   count: 10,
+  // })) satisfies ITimeEntry[];
+
   const isDemo = params.workspaceId === "demo";
 
   const {
+    entries = [],
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
@@ -389,6 +420,22 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     prCountLastPeriod,
     dataStats,
   } = loadData;
+
+  useEffect(() => {
+    (async () => {
+      if (typeof window !== "undefined") {
+        const TimeHeatMap = await import("react-time-heatmap");
+        setChart(
+          <TimeHeatMap.TimeHeatMap
+            timeEntries={entries}
+            numberOfGroups={10}
+            flow
+            showGroups
+          />,
+        );
+      }
+    })();
+  }, [entries]);
 
   return (
     <>
@@ -412,7 +459,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           <Card className="py-4 pr-4">
             <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
-              <div>Pull requests / month </div>
+              <div>Pull requests / month</div>
               <Tooltip content="Aggregated values for the last 30 days (compared to the same period last month)">
                 <RiQuestionLine size={18} />
               </Tooltip>
@@ -698,6 +745,24 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           </Card>
         </section>
       )}
+
+      <section aria-labelledby="commits">
+        <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+          People Activity
+        </h1>
+
+        <p className="mt-1 text-gray-500">
+          for more details, check on the{" "}
+          <Link to="../users" className="underline underline-offset-4">
+            users page
+          </Link>
+          .
+        </p>
+
+        <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
+          <div className="w-full h-[380px]">{chart}</div>
+        </Card>
+      </section>
 
       {!isDemo && (
         <section aria-labelledby="releases">
