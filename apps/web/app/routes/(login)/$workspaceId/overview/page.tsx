@@ -416,8 +416,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const [chart, setChart] = useState<ReactNode | null>(null);
-
   const isDemo = params.workspaceId === "demo";
 
   const {
@@ -430,12 +428,15 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     dataStats,
   } = loadData;
 
+  const [chart, setChart] = useState<ReactNode | null>(null);
   useEffect(() => {
     (async () => {
       if (typeof window !== "undefined") {
         const TimeHeatMap = await import("react-time-heatmap");
         setChart(
           <TimeHeatMap.TimeHeatMap
+            // TODO: windowサイズに合わせリサイズ
+            // timeEntries={entries.slice(0, 24 * 30)}
             timeEntries={entries}
             numberOfGroups={10}
             flow
