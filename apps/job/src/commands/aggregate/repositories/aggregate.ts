@@ -46,7 +46,7 @@ export const aggregate = async () => {
     });
 
   if (errors.length) {
-    logger.error("errors occurred: " + errors.length);
+    logger.error(`errors occurred: ${errors.length}`);
     for (const error of errors) {
       logger.error(JSON.stringify(error));
     }
