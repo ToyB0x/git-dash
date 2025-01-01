@@ -77,7 +77,7 @@ export const aggregateByOrganization = async (): Promise<void> => {
   // costは1のみ
   await step({
     stepName: "aggregate:usage-current-cycle-org",
-    callback: workflowUsageCurrentCycleOrg(),
+    callback: workflowUsageCurrentCycleOrg(scanId),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + PRが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
