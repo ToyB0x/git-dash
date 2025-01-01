@@ -182,6 +182,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .orderBy(asc(repositoryTbl.name));
 
   return {
+    repositories,
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
@@ -219,12 +220,15 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 }
 
 // TODO: add PR page
-export default function Page({ loaderData }: Route.ComponentProps) {
+export default function Page({ loaderData, params }: Route.ComponentProps) {
+  const isDemo = params.workspaceId === "demo";
+
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
   const {
     alerts,
+    repositories,
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
@@ -262,15 +266,22 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
           <CircleProgressCard
             title="Analysis enabled Repositories"
-            change="+2"
-            value="71 repositoriess"
+            value={
+              isDemo
+                ? "71 repositoriess"
+                : `${repositories?.filter((r) => r.enabledAlert).length} repositories`
+            }
             valueDescription="enabled"
             subtitle="GitHub Advisory Database Enabled"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
-            child={71}
-            parent={92}
+            child={
+              isDemo
+                ? 71
+                : Number(repositories?.filter((r) => r.enabledAlert).length)
+            }
+            parent={isDemo ? 92 : Number(repositories?.length)}
           />
         </div>
       </section>
