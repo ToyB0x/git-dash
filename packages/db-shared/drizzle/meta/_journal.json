@@ -99,6 +99,13 @@
       "when": 1735686434644,
       "tag": "0013_amused_puppet_master",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1735691448638,
+      "tag": "0014_bumpy_namorita",
+      "breakpoints": true
     }
   ]
 }
