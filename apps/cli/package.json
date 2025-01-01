@@ -15,7 +15,7 @@
     "@repo/db-api": "workspace:*",
     "@repo/db-shared": "workspace:*",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "22.10.2",
+    "@types/node": "22.10.3",
     "drizzle-orm": "0.38.3",
     "firebase-admin": "13.0.2",
     "tsx": "latest",
