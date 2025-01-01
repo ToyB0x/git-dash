@@ -15,8 +15,9 @@ export const aggregate = async (
   repositories: { id: number; name: string }[],
 ) => {
   const octokit = await getOctokit();
+
   // TODO: 直近に更新されていないリポジトリは除外して高速化する
-  await PromisePool.for(repositories)
+  const { errors } = await PromisePool.for(repositories)
     // 8 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
@@ -124,4 +125,11 @@ export const aggregate = async (
     .where(
       lt(reviewTbl.createdAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)),
     );
+
+  if (errors.length) {
+    logger.error("errors occurred: " + errors.length);
+    for (const error of errors) {
+      logger.error(JSON.stringify(error));
+    }
+  }
 };

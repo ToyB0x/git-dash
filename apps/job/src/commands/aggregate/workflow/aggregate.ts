@@ -8,7 +8,8 @@ export const aggregate = async (
   repositories: { id: number; name: string }[],
 ) => {
   const octokit = await getOctokit();
-  await PromisePool.for(repositories)
+
+  const { errors } = await PromisePool.for(repositories)
     // parent: 8 , child: 10 = max 80 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
@@ -27,7 +28,7 @@ export const aggregate = async (
         },
       );
 
-      await PromisePool.for(workflows)
+      const { errors } = await PromisePool.for(workflows)
         // parent: 8 , child: 10 = max 80 concurrent requests
         // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
         .withConcurrency(10)
@@ -52,5 +53,19 @@ export const aggregate = async (
               },
             });
         });
+
+      if (errors.length) {
+        logger.error("errors occurred: " + errors.length);
+        for (const error of errors) {
+          logger.error(JSON.stringify(error));
+        }
+      }
     });
+
+  if (errors.length) {
+    logger.error("errors occurred: " + errors.length);
+    for (const error of errors) {
+      logger.error(JSON.stringify(error));
+    }
+  }
 };

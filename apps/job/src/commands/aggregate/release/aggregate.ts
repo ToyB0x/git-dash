@@ -88,8 +88,11 @@ export const aggregate = async (
       }
     });
 
-  if (errors.length > 0) {
-    logger.error(JSON.stringify(errors));
+  if (errors.length) {
+    logger.error("errors occurred: " + errors.length);
+    for (const error of errors) {
+      logger.error(JSON.stringify(error));
+    }
   }
 
   // delete old reviews

@@ -24,7 +24,7 @@ export const aggregate = async (scanId: number) => {
       ),
     );
 
-  await PromisePool.for(repositories)
+  const { errors } = await PromisePool.for(repositories)
     // 8 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
@@ -143,6 +143,13 @@ export const aggregate = async (scanId: number) => {
             updatedAt: now,
           },
         });
+    }
+  }
+
+  if (errors.length) {
+    logger.error("errors occurred: " + errors.length);
+    for (const error of errors) {
+      logger.error(JSON.stringify(error));
     }
   }
 };
