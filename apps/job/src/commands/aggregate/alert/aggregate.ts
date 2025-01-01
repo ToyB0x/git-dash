@@ -111,39 +111,45 @@ export const aggregate = async (scanId: number) => {
 
   const now = new Date();
   for (const [repoId, severities] of Object.entries(alertByRepository)) {
-    for (const [severity, count] of Object.entries(severities)) {
-      await sharedDbClient
-        .insert(alertTbl)
-        .values({
+    await sharedDbClient
+      .insert(alertTbl)
+      .values({
+        scanId,
+        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+        countCritical: severities?.["critical"] || 0,
+        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+        countHigh: severities?.["high"] || 0,
+        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+        countMedium: severities?.["medium"] || 0,
+        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+        countLow: severities?.["low"] || 0,
+        year: now.getFullYear(),
+        month: now.getMonth() + 1,
+        day: now.getDate(),
+        createdAt: now,
+        updatedAt: now,
+        repositoryId: Number(repoId),
+      })
+      .onConflictDoUpdate({
+        target: [
+          alertTbl.repositoryId,
+          alertTbl.year,
+          alertTbl.month,
+          alertTbl.day,
+        ],
+        set: {
           scanId,
-          count,
-          year: now.getFullYear(),
-          month: now.getMonth() + 1,
-          day: now.getDate(),
-          severity: severity.toUpperCase() as
-            | "CRITICAL"
-            | "HIGH"
-            | "MEDIUM"
-            | "LOW",
-          createdAt: now,
+          // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+          countCritical: severities?.["critical"] || 0,
+          // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+          countHigh: severities?.["high"] || 0,
+          // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+          countMedium: severities?.["medium"] || 0,
+          // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+          countLow: severities?.["low"] || 0,
           updatedAt: now,
-          repositoryId: Number(repoId),
-        })
-        .onConflictDoUpdate({
-          target: [
-            alertTbl.repositoryId,
-            alertTbl.year,
-            alertTbl.month,
-            alertTbl.day,
-            alertTbl.severity,
-          ],
-          set: {
-            scanId,
-            count,
-            updatedAt: now,
-          },
-        });
-    }
+        },
+      });
   }
 
   if (errors.length) {
