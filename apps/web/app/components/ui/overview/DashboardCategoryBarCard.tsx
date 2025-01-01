@@ -19,8 +19,8 @@ export type KpiEntryExtended = Omit<
 
 export type CardProps = {
   title: string;
-  change: string | undefined | null;
-  value: string;
+  change?: string | undefined | null;
+  value: string | number;
   valueDescription: string;
   subtitle: string;
   ctaDescription: string;
