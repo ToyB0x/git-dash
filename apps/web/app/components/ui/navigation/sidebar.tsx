@@ -40,12 +40,12 @@ const navigation = [
   //   href: siteConfig.baseLinks.releases,
   //   icon: RiArrowUpCircleLine,
   // },
+  { name: "Vulns", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
   {
     name: "Four Keys",
     href: siteConfig.baseLinks.fourkeys,
     icon: RiKey2Line,
   },
-  { name: "Vulns", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
   {
     name: "Users",
     href: siteConfig.baseLinks.users,
