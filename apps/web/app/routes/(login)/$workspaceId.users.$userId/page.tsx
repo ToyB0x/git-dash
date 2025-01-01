@@ -485,87 +485,84 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           {userId}
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
-          {isDemo ||
-            (Number.isInteger(timeToMerge?.averageIn30Days) && (
-              <CategoryBarCard
-                title="Time to merge"
-                change={
-                  isDemo
-                    ? "-0.6%"
-                    : timeToMerge?.improvePercentage &&
-                      `${timeToMerge?.improvePercentage}%`
-                }
-                value={
-                  isDemo
-                    ? "2.1 days"
-                    : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
-                }
-                valueDescription="average merge time"
-                subtitle="last 30 days"
-                ctaDescription="About this metrics:"
-                ctaText="reference"
-                ctaLink="#"
-                data={isDemo ? data2 : timeToMerge?.bars || []}
-              />
-            ))}
+          {(isDemo || Number.isInteger(timeToMerge?.averageIn30Days)) && (
+            <CategoryBarCard
+              title="Time to merge"
+              change={
+                isDemo
+                  ? "-0.6%"
+                  : timeToMerge?.improvePercentage &&
+                    `${timeToMerge?.improvePercentage}%`
+              }
+              value={
+                isDemo
+                  ? "2.1 days"
+                  : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              }
+              valueDescription="average merge time"
+              subtitle="last 30 days"
+              ctaDescription="About this metrics:"
+              ctaText="reference"
+              ctaLink="#"
+              data={isDemo ? data2 : timeToMerge?.bars || []}
+            />
+          )}
 
-          {isDemo ||
-            (Number.isInteger(timeToReview?.averageIn30Days) && (
-              <CategoryBarCard
-                title="Time until review"
-                change={
-                  isDemo
-                    ? "-1.2%"
-                    : timeToReview?.improvePercentage &&
-                      `${timeToReview?.improvePercentage}%`
-                }
-                value={
-                  isDemo
-                    ? "4.6 hours"
-                    : `${Math.round((Number(timeToReview?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
-                }
-                valueDescription="average review time"
-                subtitle="last 30 days"
-                ctaDescription="About this metrics:"
-                ctaText="reference"
-                ctaLink="#"
-                data={isDemo ? data3 : timeToReview?.bars || []}
-              />
-            ))}
+          {(isDemo || Number.isInteger(timeToReview?.averageIn30Days)) && (
+            <CategoryBarCard
+              title="Time until review"
+              change={
+                isDemo
+                  ? "-1.2%"
+                  : timeToReview?.improvePercentage &&
+                    `${timeToReview?.improvePercentage}%`
+              }
+              value={
+                isDemo
+                  ? "4.6 hours"
+                  : `${Math.round((Number(timeToReview?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              }
+              valueDescription="average review time"
+              subtitle="last 30 days"
+              ctaDescription="About this metrics:"
+              ctaText="reference"
+              ctaLink="#"
+              data={isDemo ? data3 : timeToReview?.bars || []}
+            />
+          )}
 
-          {isDemo ||
-            (Number.isInteger(timeToReviewed?.averageIn30Days) && (
-              <CategoryBarCard
-                title="Time until being reviewed"
-                change={
-                  isDemo
-                    ? "+1.4%"
-                    : timeToReviewed?.improvePercentage &&
-                      `${timeToReviewed?.improvePercentage}%`
-                }
-                // value="7.1 hours"
-                value={
-                  isDemo
-                    ? "7.1 hours"
-                    : `${Math.round((Number(timeToReviewed?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
-                }
-                valueDescription="average reviewed time"
-                subtitle="last 30 days"
-                ctaDescription="About four key:"
-                ctaText="reference"
-                ctaLink="#"
-                data={
-                  isDemo
-                    ? data
-                    : timeToReviewed?.bars.map((bar) => ({
-                        title: bar.title,
-                        percentage: bar.percentage,
-                        value: `${bar.value} PRs`,
-                        color: bar.color,
-                      })) || []
-                }
-              />
-            ))}
+          {(isDemo || Number.isInteger(timeToReviewed?.averageIn30Days)) && (
+            <CategoryBarCard
+              title="Time until being reviewed"
+              change={
+                isDemo
+                  ? "+1.4%"
+                  : timeToReviewed?.improvePercentage &&
+                    `${timeToReviewed?.improvePercentage}%`
+              }
+              // value="7.1 hours"
+              value={
+                isDemo
+                  ? "7.1 hours"
+                  : `${Math.round((Number(timeToReviewed?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              }
+              valueDescription="average reviewed time"
+              subtitle="last 30 days"
+              ctaDescription="About four key:"
+              ctaText="reference"
+              ctaLink="#"
+              data={
+                isDemo
+                  ? data
+                  : timeToReviewed?.bars.map((bar) => ({
+                      title: bar.title,
+                      percentage: bar.percentage,
+                      value: `${bar.value} PRs`,
+                      color: bar.color,
+                    })) || []
+              }
+            />
+          )}
         </div>
       </section>
       <section aria-labelledby="actions-usage">
