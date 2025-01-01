@@ -553,7 +553,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           <div className="col-span-2">
             <Card>
               <h3 className="text-sm text-gray-500 dark:text-gray-500">
-                This month's cost
+                This billing cycle's
                 {/*Actions usage average*/}
               </h3>
               <div className="flex justify-between items-baseline">
