@@ -65,7 +65,10 @@ export const WorkspacesDropdownDesktop = ({
               aria-hidden="true"
             >
               {currentWorkspace
-                ? currentWorkspace.displayName.slice(0, 2).toUpperCase()
+                ? currentWorkspace.displayName
+                    .replace("-", "")
+                    .slice(0, 2)
+                    .toUpperCase()
                 : " / "}
             </span>
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
@@ -114,7 +117,10 @@ export const WorkspacesDropdownDesktop = ({
                     )}
                     aria-hidden="true"
                   >
-                    {workspace.displayName.slice(0, 2).toUpperCase()}
+                    {workspace.displayName
+                      .replace("-", "")
+                      .slice(0, 2)
+                      .toUpperCase()}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
@@ -195,7 +201,10 @@ export const WorkspacesDropdownMobile = ({
               aria-hidden="true"
             >
               {currentWorkspace
-                ? currentWorkspace.displayName.slice(0, 2).toUpperCase()
+                ? currentWorkspace.displayName
+                    .replace("-", "")
+                    .slice(0, 2)
+                    .toUpperCase()
                 : " / "}
             </span>
             <RiArrowRightSLine
@@ -244,7 +253,10 @@ export const WorkspacesDropdownMobile = ({
                     )}
                     aria-hidden="true"
                   >
-                    {workspace.displayName.slice(0, 2).toUpperCase()}
+                    {workspace.displayName
+                      .replace("-", "")
+                      .slice(0, 2)
+                      .toUpperCase()}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
