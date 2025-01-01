@@ -13,4 +13,11 @@ export const workflowTbl = sqliteTable("workflow", {
       onUpdate: "cascade",
       onDelete: "cascade",
     }),
+  // 実運用上scanIdではなく、updatedAtでの集計を行うためリレーションは持たない
+  // scanId: int()
+  //   .notNull()
+  //   .references(() => scanTbl.id, {
+  //     onUpdate: "cascade",
+  //     onDelete: "cascade",
+  //   }),
 });

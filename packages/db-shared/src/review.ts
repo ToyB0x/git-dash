@@ -12,4 +12,11 @@ export const reviewTbl = sqliteTable("review", {
       onUpdate: "cascade",
       onDelete: "cascade",
     }),
+  // 実運用上scanIdではなく、createdAtでの集計を行うためリレーションは持たない
+  // scanId: int()
+  //   .notNull()
+  //   .references(() => scanTbl.id, {
+  //     onUpdate: "cascade",
+  //     onDelete: "cascade",
+  //   }),
 });

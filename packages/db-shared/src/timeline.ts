@@ -27,4 +27,11 @@ export const timelineTbl = sqliteTable("timeline", {
       onUpdate: "cascade",
       onDelete: "cascade",
     }),
+  // 実運用上scanIdではなく、createdAtでの集計を行うためリレーションは持たない
+  // scanId: int()
+  //   .notNull()
+  //   .references(() => scanTbl.id, {
+  //     onUpdate: "cascade",
+  //     onDelete: "cascade",
+  //   }),
 });
