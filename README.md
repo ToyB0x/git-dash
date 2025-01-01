@@ -9,6 +9,12 @@ When the analysis results are made public within the organization, people make i
 
 So this app provides insights into your Git repositories.
 
+## Milestones
+
+- [ ] rethink and update concepts (current concept is not stable, we are still thinking about it)
+- [ ] update github action to support working without app install
+- [ ] update app to support working on local environment
+
 ## Project Status
 
 Currently, the sample implementation as Proof of Concept has been completed.  
