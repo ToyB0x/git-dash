@@ -1,4 +1,5 @@
 import { int, primaryKey, sqliteTable } from "drizzle-orm/sqlite-core";
+import { repositoryTbl } from "./repository";
 import { scanTbl } from "./scan";
 import { workflowTbl } from "./workflow";
 
@@ -21,6 +22,12 @@ export const workflowUsageCurrentCycleTbl = sqliteTable(
     scanId: int()
       .notNull()
       .references(() => scanTbl.id, {
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      }),
+    repositoryId: int("repository_id") // PRテーブルを経由してリポジトリ情報を取得するのが実務上不便なのでリレーションを追加
+      .notNull()
+      .references(() => repositoryTbl.id, {
         onUpdate: "cascade",
         onDelete: "cascade",
       }),
