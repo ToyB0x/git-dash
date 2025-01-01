@@ -18,17 +18,7 @@ import {
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
 import { endOfToday, subDays, subHours } from "date-fns";
-import {
-  and,
-  count,
-  desc,
-  eq,
-  gte,
-  isNotNull,
-  lt,
-  not,
-  sum,
-} from "drizzle-orm";
+import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 import { type ReactNode, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
@@ -37,7 +27,7 @@ import type { ITimeEntry } from "react-time-heatmap";
 type Stat = {
   name: string;
   stat: string | number;
-  change?: number;
+  change?: number | null;
   changeType?: "positive" | "negative";
 };
 
@@ -171,12 +161,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return null;
   }
 
-  const vulnCountToday = await wasmDb
-    .select({ count: sum(alertTbl.count) })
+  const alertsToday = await wasmDb
+    .select()
     .from(alertTbl)
-    .where(
-      and(eq(alertTbl.severity, "CRITICAL"), eq(alertTbl.scanId, latestScanId)),
-    );
+    .where(eq(alertTbl.scanId, latestScanId));
 
   const scan30DayAgo = await wasmDb
     .select()
@@ -192,16 +180,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   const scan30DayAgoId = scan30DayAgo[0]?.id;
 
-  const vulnCount30DayAgo = scan30DayAgoId
+  const alerts30DayAgo = scan30DayAgoId
     ? await wasmDb
-        .select({ count: sum(alertTbl.count) })
+        .select()
         .from(alertTbl)
-        .where(
-          and(
-            eq(alertTbl.severity, "CRITICAL"),
-            eq(alertTbl.scanId, scan30DayAgoId),
-          ),
-        )
+        .where(and(eq(alertTbl.scanId, scan30DayAgoId)))
     : [];
 
   const workflowUsageCurrentCycleOrg = await wasmDb
@@ -287,6 +270,16 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     })),
   );
 
+  const criticalAlertsToday = alertsToday.reduce(
+    (acc, item) => item.countCritical + acc,
+    0,
+  );
+
+  const criticalAlerts30DayAgo = alerts30DayAgo.reduce(
+    (acc, item) => item.countCritical + acc,
+    0,
+  );
+
   return {
     entries,
     releases,
@@ -335,23 +328,17 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       },
       {
         name: "Vulnerabilities (critical)",
-        stat: vulnCountToday[0]?.count || 0,
+        stat: criticalAlertsToday,
         change:
-          Number.isInteger(vulnCountToday[0]?.count) &&
-          Number.isInteger(vulnCount30DayAgo[0]?.count)
-            ? Math.round(
-                (Number(vulnCountToday[0]?.count) /
-                  Number(vulnCount30DayAgo[0]?.count)) *
-                  10,
-              ) / 10
-            : undefined,
+          criticalAlerts30DayAgo !== 0
+            ? (Math.round(criticalAlertsToday - criticalAlerts30DayAgo * 10) /
+                10) *
+              100
+            : null,
         changeType:
-          vulnCount30DayAgo[0]?.count && vulnCountToday[0]?.count
-            ? (vulnCountToday[0]?.count || 0) >
-              (vulnCount30DayAgo[0]?.count || 0)
-              ? "positive"
-              : "negative"
-            : undefined,
+          criticalAlertsToday - criticalAlerts30DayAgo > 0
+            ? "positive"
+            : "negative",
       },
     ] satisfies Stat[],
   };

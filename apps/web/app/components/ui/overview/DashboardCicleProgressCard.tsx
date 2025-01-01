@@ -3,7 +3,7 @@ import { ProgressCircle } from "@/components/ProgressCircle";
 
 export type CardProps = {
   title: string;
-  change: string;
+  change?: string;
   value: string;
   valueDescription: string;
   subtitle: string;
@@ -12,6 +12,16 @@ export type CardProps = {
   ctaLink: string;
   child: number;
   parent: number;
+};
+
+const getProgressColor = (value: number) => {
+  if (value < 50) {
+    return "error";
+  }
+  if (value < 75) {
+    return "warning";
+  }
+  return "success";
 };
 
 export function CircleProgressCard({
@@ -34,7 +44,7 @@ export function CircleProgressCard({
             <h3 className="font-bold text-gray-900 sm:text-sm dark:text-gray-50">
               {title}
             </h3>
-            <Badge variant="neutral">{change}</Badge>
+            {change && <Badge variant="neutral">{change}</Badge>}
           </div>
           <p className="mt-2 flex items-baseline gap-2">
             <span className="text-xl text-gray-900 dark:text-gray-50">
@@ -43,9 +53,14 @@ export function CircleProgressCard({
             <span className="text-sm text-gray-500">{valueDescription}</span>
           </p>
           <div className="mt-8 px-1 flex items-center gap-x-8">
-            <ProgressCircle value={(child / parent) * 100} radius={50}>
+            <ProgressCircle
+              strokeWidth={8}
+              variant={getProgressColor((child / parent) * 100)}
+              value={(child / parent) * 100}
+              radius={50}
+            >
               <span className="text-sm font-medium text-gray-900 dark:text-gray-50">
-                78%
+                {Math.round((child / parent) * 100 * 10) / 10}%
               </span>
             </ProgressCircle>
             <div>

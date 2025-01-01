@@ -10,21 +10,16 @@ import {
 } from "@/components/Table";
 import { NoDataMessage } from "@/components/ui/no-data";
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
-import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { CircleProgressCard } from "@/components/ui/overview/DashboardCicleProgressCard";
-import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
-import { cx } from "@/lib/utils";
 import {
   dataLoaderVulnerabilityCritical,
   dataLoaderVulnerabilityHigh,
   dataLoaderVulnerabilityLow,
 } from "@/routes/(login)/$workspaceId/vuln/dataLoaders";
 import type { Route } from "@@/(login)/$workspaceId/vuln/+types/page";
-import { alertTbl, repositoryTbl } from "@repo/db-shared";
-import { isDate, startOfToday, subDays } from "date-fns";
+import { alertTbl, repositoryTbl, scanTbl } from "@repo/db-shared";
+import { isDate } from "date-fns";
 import { asc, desc, eq } from "drizzle-orm";
-import React from "react";
-import type { DateRange } from "react-day-picker";
 import { Link, redirect } from "react-router";
 
 type KpiEntry = {
@@ -69,10 +64,10 @@ const data: KpiEntryExtended[] = [
 
 type AlertData = {
   repositoryName: string;
-  countCritical: number | "-";
-  countHigh: number | "-";
-  countMedium: number | "-";
-  countLow: number | "-";
+  countCritical: number;
+  countHigh: number;
+  countMedium: number;
+  countLow: number;
   lastDetected: Date | null;
   enabled: boolean | null;
 };
@@ -125,19 +120,19 @@ const dataTable = [
   },
   {
     repositoryName: "org/serviceY",
-    countCritical: "-",
-    countHigh: "-",
-    countMedium: "-",
-    countLow: "-",
+    countCritical: 0,
+    countHigh: 0,
+    countMedium: 0,
+    countLow: 0,
     lastDetected: new Date(),
     enabled: false,
   },
   {
     repositoryName: "org/serviceZ",
-    countCritical: "-",
-    countHigh: "-",
-    countMedium: "-",
-    countLow: "-",
+    countCritical: 0,
+    countHigh: 0,
+    countMedium: 0,
+    countLow: 0,
     lastDetected: new Date(),
     enabled: false,
   },
@@ -181,37 +176,44 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .from(repositoryTbl)
     .orderBy(asc(repositoryTbl.name));
 
+  const latestScans = await wasmDb
+    .select()
+    .from(scanTbl)
+    .orderBy(desc(scanTbl.createdAt))
+    .limit(1);
+  const lastScan = latestScans[0];
+
+  const alertsSummariesByRepo = lastScan
+    ? await wasmDb
+        .select()
+        .from(alertTbl)
+        .where(eq(alertTbl.scanId, lastScan.id))
+    : [];
+
   return {
+    repositories,
     dataVulnerabilityCritical,
     dataVulnerabilityHigh,
     dataVulnerabilityLow,
     alerts: (await Promise.all(
-      repositories.map(async (repository) => {
-        const alerts = await wasmDb
-          .selectDistinct({
-            count: alertTbl.count,
-            severity: alertTbl.severity,
-          })
-          .from(alertTbl)
-          .orderBy(desc(alertTbl.updatedAt))
-          .where(eq(alertTbl.repositoryId, repository.id));
+      alertsSummariesByRepo.map(async (repository) => {
+        const matchedRepos = await wasmDb
+          .select()
+          .from(repositoryTbl)
+          .where(eq(repositoryTbl.id, repository.repositoryId))
+          .limit(1);
+
+        const repo = matchedRepos[0];
+        if (!repo) throw Error("Repository not found");
 
         return {
-          repositoryName: repository.name,
-          countCritical:
-            alerts.find((a) => a.severity === "CRITICAL")?.count ??
-            (repository.enabledAlert ? 0 : "-"),
-          countHigh:
-            alerts.find((a) => a.severity === "HIGH")?.count ??
-            (repository.enabledAlert ? 0 : "-"),
-          countMedium:
-            alerts.find((a) => a.severity === "MEDIUM")?.count ??
-            (repository.enabledAlert ? 0 : "-"),
-          countLow:
-            alerts.find((a) => a.severity === "LOW")?.count ??
-            (repository.enabledAlert ? 0 : "-"),
-          lastDetected: repository.enabledAlertCheckedAt,
-          enabled: !!repository.enabledAlert,
+          repositoryName: repo.name,
+          countCritical: repository.countCritical,
+          countHigh: repository.countHigh,
+          countMedium: repository.countMedium,
+          countLow: repository.countLow,
+          lastDetected: repo.enabledAlertCheckedAt,
+          enabled: repo.enabledAlert,
         };
       }),
     )) satisfies AlertData[],
@@ -219,24 +221,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 }
 
 // TODO: add PR page
-export default function Page({ loaderData }: Route.ComponentProps) {
+export default function Page({ loaderData, params }: Route.ComponentProps) {
+  const isDemo = params.workspaceId === "demo";
+
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const {
-    alerts,
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
-  } = loadData;
-
-  const maxDate = startOfToday();
-  const [selectedDates, setSelectedDates] = React.useState<
-    DateRange | undefined
-  >({
-    from: subDays(maxDate, 30),
-    to: maxDate,
-  });
+  const { alerts, repositories } = loadData;
 
   return (
     <>
@@ -250,81 +241,171 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <CategoryBarCard
             title="Found Vulnerabilities"
-            change="+1.4"
-            value="141 "
+            // value="141"
+            value={
+              isDemo
+                ? "141"
+                : alerts.reduce(
+                    (acc, repo) =>
+                      acc +
+                      repo.countCritical +
+                      repo.countHigh +
+                      repo.countMedium +
+                      repo.countLow,
+                    0,
+                  )
+            }
             valueDescription="total vulnerabilities"
             subtitle="current result"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
-            data={data}
+            data={
+              isDemo
+                ? data
+                : [
+                    {
+                      title: "Critical",
+                      percentage: 11.2,
+                      value: "12 packages",
+                      color: "bg-red-600 dark:bg-red-500",
+                    },
+                    {
+                      title: "High",
+                      percentage: 31.2,
+                      value: "21 packages",
+                      color: "bg-purple-600 dark:bg-purple-500",
+                    },
+                    {
+                      title: "Medium",
+                      percentage: 21.2,
+                      value: "16 packages",
+                      color: "bg-indigo-600 dark:bg-indigo-500",
+                    },
+                    {
+                      title: "Low",
+                      percentage: 41.2,
+                      value: "42 packages",
+                      color: "bg-gray-400 dark:bg-gray-600",
+                    },
+                  ].map((item, i) => ({
+                    ...item,
+                    value: `${alerts.reduce(
+                      (acc, repo) =>
+                        acc +
+                        (i === 0
+                          ? repo.countCritical
+                          : i === 1
+                            ? repo.countHigh
+                            : i === 2
+                              ? repo.countMedium
+                              : repo.countLow),
+                      0,
+                    )} packages`,
+                    percentage:
+                      (Math.round(
+                        (alerts.reduce(
+                          (acc, repo) =>
+                            acc +
+                            (i === 0
+                              ? repo.countCritical
+                              : i === 1
+                                ? repo.countHigh
+                                : i === 2
+                                  ? repo.countMedium
+                                  : repo.countLow),
+                          0,
+                        ) /
+                          alerts.reduce(
+                            (acc, repo) =>
+                              acc +
+                              repo.countCritical +
+                              repo.countHigh +
+                              repo.countMedium +
+                              repo.countLow,
+                            0,
+                          )) *
+                          1000,
+                      ) *
+                        100) /
+                      1000,
+                  }))
+            }
           />
 
           <CircleProgressCard
             title="Analysis enabled Repositories"
-            change="+2"
-            value="71 repositoriess"
+            value={
+              isDemo
+                ? "71 repositoriess"
+                : `${repositories?.filter((r) => r.enabledAlert).length} repositories`
+            }
             valueDescription="enabled"
             subtitle="GitHub Advisory Database Enabled"
             ctaDescription="About this metrics:"
             ctaText="reference"
             ctaLink="#"
-            child={71}
-            parent={92}
+            child={
+              isDemo
+                ? 71
+                : Number(repositories?.filter((r) => r.enabledAlert).length)
+            }
+            parent={isDemo ? 92 : Number(repositories?.length)}
           />
         </div>
       </section>
-      <section aria-labelledby="vulnerabilities-graph">
-        <h1
-          id="vulnerabilities-graph"
-          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
-          Vulnerabilities Stats
-        </h1>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
-        <dl
-          className={cx(
-            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-          )}
-        >
-          <ChartCard
-            title="Critical Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityCritical.data}
-          />
-          <ChartCard
-            title="High Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityHigh.data}
-          />
-          <ChartCard
-            title="Low Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityLow.data}
-          />
-        </dl>
-      </section>
+
+      {/*<section aria-labelledby="vulnerabilities-graph">*/}
+      {/*  <h1*/}
+      {/*    id="vulnerabilities-graph"*/}
+      {/*    className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"*/}
+      {/*  >*/}
+      {/*    Vulnerabilities Stats*/}
+      {/*  </h1>*/}
+      {/*  <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">*/}
+      {/*    <Filterbar*/}
+      {/*      maxDate={maxDate}*/}
+      {/*      minDate={new Date(2024, 0, 1)}*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      onDatesChange={(dates) => setSelectedDates(dates)}*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*  <dl*/}
+      {/*    className={cx(*/}
+      {/*      "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",*/}
+      {/*    )}*/}
+      {/*  >*/}
+      {/*    <ChartCard*/}
+      {/*      title="Critical Count"*/}
+      {/*      type="vulnerabilities"*/}
+      {/*      selectedPeriod="last-year"*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      accumulation={false}*/}
+      {/*      data={dataVulnerabilityCritical.data}*/}
+      {/*    />*/}
+      {/*    <ChartCard*/}
+      {/*      title="High Count"*/}
+      {/*      type="vulnerabilities"*/}
+      {/*      selectedPeriod="last-year"*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      accumulation={false}*/}
+      {/*      data={dataVulnerabilityHigh.data}*/}
+      {/*    />*/}
+      {/*    <ChartCard*/}
+      {/*      title="Low Count"*/}
+      {/*      type="vulnerabilities"*/}
+      {/*      selectedPeriod="last-year"*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      accumulation={false}*/}
+      {/*      data={dataVulnerabilityLow.data}*/}
+      {/*    />*/}
+      {/*  </dl>*/}
+      {/*</section>*/}
 
       <section aria-labelledby="vulnerabilities-table">
         <h1
           id="vulnerabilities-table"
-          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          className="mt-12 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Vulnerabilities by repository
         </h1>
@@ -333,7 +414,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           for more details, click on the repository links.
         </p>
 
-        <TableRoot className="mt-8">
+        <TableRoot className="mt-2">
           <Table>
             <TableHead>
               <TableRow>
@@ -343,12 +424,14 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                 </TableHeaderCell>
                 <TableHeaderCell className="text-right">High</TableHeaderCell>
                 <TableHeaderCell className="text-right">Medium</TableHeaderCell>
-                <TableHeaderCell className="text-right">Low</TableHeaderCell>
-                <TableHeaderCell className="text-center">
-                  Analysis <br />
-                  enabled
+                <TableHeaderCell className="text-right w-40">
+                  Low
                 </TableHeaderCell>
-                <TableHeaderCell className="text-right w-1">
+                {/*<TableHeaderCell className="text-center">*/}
+                {/*  Analysis <br />*/}
+                {/*  enabled*/}
+                {/*</TableHeaderCell>*/}
+                <TableHeaderCell className="text-right">
                   Last detected
                 </TableHeaderCell>
               </TableRow>
@@ -375,20 +458,20 @@ export default function Page({ loaderData }: Route.ComponentProps) {
                       </Link>{" "}
                     </TableCell>
                     <TableCell className="text-right">
-                      {item.countCritical}
+                      {item.enabled ? item.countCritical : "-"}
                     </TableCell>
                     <TableCell className="text-right">
-                      {item.countHigh}
+                      {item.enabled ? item.countHigh : "-"}
                     </TableCell>
                     <TableCell className="text-right">
-                      {item.countMedium}
+                      {item.enabled ? item.countMedium : "-"}
                     </TableCell>
                     <TableCell className="text-right">
-                      {item.countLow}
+                      {item.enabled ? item.countLow : "-"}
                     </TableCell>
-                    <TableCell className="text-center">
-                      {item.enabled ? "⚪" : "-"}
-                    </TableCell>
+                    {/*<TableCell className="text-center">*/}
+                    {/*  {item.enabled ? "⚪" : "-"}*/}
+                    {/*</TableCell>*/}
                     <TableCell className="text-right">
                       {isDate(item.lastDetected)
                         ? item.lastDetected.toLocaleString()
@@ -400,6 +483,9 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           </Table>
         </TableRoot>
       </section>
+
+      {/* prevent menu layout breaking */}
+      {isDemo && <div className="h-96" />}
     </>
   );
 }
