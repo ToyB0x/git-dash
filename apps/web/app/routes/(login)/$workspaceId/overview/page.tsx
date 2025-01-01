@@ -9,6 +9,7 @@ import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
 import { RiQuestionLine } from "@remixicon/react";
 import {
   alertTbl,
+  billingCycleTbl,
   prCommitTbl,
   prTbl,
   releaseTbl,
@@ -75,6 +76,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       workflowUsageCurrentCycleOrg: dataDonut,
       prCountLast30days: 128,
       prCountLastPeriod: 116,
+      daysInCurrentCycle: 21,
     };
   }
 
@@ -341,6 +343,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
             : "negative",
       },
     ] satisfies Stat[],
+    daysInCurrentCycle: (
+      await wasmDb
+        .select()
+        .from(billingCycleTbl)
+        .orderBy(desc(billingCycleTbl.createdAt))
+        .limit(1)
+    )[0]?.daysLeft,
   };
 }
 
@@ -425,6 +434,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     prCountLast30days,
     prCountLastPeriod,
     dataStats,
+    daysInCurrentCycle,
   } = loadData;
 
   // ref: https://zenn.dev/harukii/articles/a8b0b085b63244
@@ -546,24 +556,30 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                 This month's cost
                 {/*Actions usage average*/}
               </h3>
-              <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
-                ${" "}
-                {(
-                  Math.round(
-                    workflowUsageCurrentCycleOrg.reduce(
-                      (acc, item) => acc + (item.dollar || 0),
-                      0,
-                    ) * 100,
-                  ) / 100
-                ).toLocaleString()}
-                {/*${" "}*/}
-                {/*{Math.round(*/}
-                {/*    (costs.reduce((acc, item) => acc + (item.cost || 0), 0) /*/}
-                {/*        costs.length) **/}
-                {/*    10,*/}
-                {/*) / 10}{" "}*/}
-                {/*/ day*/}
-              </p>
+              <div className="flex justify-between items-baseline">
+                <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
+                  ${" "}
+                  {(
+                    Math.round(
+                      workflowUsageCurrentCycleOrg.reduce(
+                        (acc, item) => acc + (item.dollar || 0),
+                        0,
+                      ) * 100,
+                    ) / 100
+                  ).toLocaleString()}
+                  {/*${" "}*/}
+                  {/*{Math.round(*/}
+                  {/*    (costs.reduce((acc, item) => acc + (item.cost || 0), 0) /*/}
+                  {/*        costs.length) **/}
+                  {/*    10,*/}
+                  {/*) / 10}{" "}*/}
+                  {/*/ day*/}
+                </p>
+                <span className="text-sm text-gray-500">
+                  {daysInCurrentCycle &&
+                    `${daysInCurrentCycle} days left in this cycle`}
+                </span>
+              </div>
               <BarChart
                 data={costs}
                 index="date"
