@@ -12,4 +12,11 @@ export const repositoryTbl = sqliteTable("repository", {
   updatedAt: int({ mode: "timestamp_ms" }).notNull(),
   createdAtGithub: int({ mode: "timestamp_ms" }),
   updatedAtGithub: int({ mode: "timestamp_ms" }),
+  // 実運用上scanIdではなく、updatedAtでの集計を行うためリレーションは持たない
+  // scanId: int()
+  //   .notNull()
+  //   .references(() => scanTbl.id, {
+  //     onUpdate: "cascade",
+  //     onDelete: "cascade",
+  //   }),
 });

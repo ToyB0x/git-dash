@@ -1,4 +1,5 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { repositoryTbl } from "./repository";
 
 export const eventTypes = [
   "closed",
@@ -20,4 +21,17 @@ export const timelineTbl = sqliteTable("timeline", {
     enum: eventTypes,
   }).notNull(),
   createdAt: int({ mode: "timestamp_ms" }).notNull(),
+  repositoryId: int("repository_id") // PRテーブルを経由してリポジトリ情報を取得するのが実務上不便なのでリレーションを追加
+    .notNull()
+    .references(() => repositoryTbl.id, {
+      onUpdate: "cascade",
+      onDelete: "cascade",
+    }),
+  // 実運用上scanIdではなく、createdAtでの集計を行うためリレーションは持たない
+  // scanId: int()
+  //   .notNull()
+  //   .references(() => scanTbl.id, {
+  //     onUpdate: "cascade",
+  //     onDelete: "cascade",
+  //   }),
 });

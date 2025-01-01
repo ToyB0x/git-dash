@@ -12,6 +12,13 @@ export const workflowUsageCurrentCycleOrgTbl = sqliteTable(
     runnerType: text("runner_type").notNull(),
     createdAt: int({ mode: "timestamp_ms" }).notNull(),
     updatedAt: int({ mode: "timestamp_ms" }).notNull(),
+    // 実運用上scanIdではなく、updatedAtでの集計を行うためリレーションは持たない
+    // scanId: int()
+    //   .notNull()
+    //   .references(() => scanTbl.id, {
+    //     onUpdate: "cascade",
+    //     onDelete: "cascade",
+    //   }),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.year, t.month, t.day, t.runnerType] }),

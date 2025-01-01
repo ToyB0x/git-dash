@@ -2,13 +2,21 @@ import { auth, getWasmDb } from "@/clients";
 import { SortableTable } from "@/components/ui/SortableTable";
 import { NoDataMessage } from "@/components/ui/no-data";
 import type { Route } from "@@/(login)/$workspaceId/repository/+types/page";
-import { repositoryTbl } from "@repo/db-shared";
+import {
+  prTbl,
+  releaseTbl,
+  repositoryTbl,
+  reviewTbl,
+  scanTbl,
+  workflowUsageCurrentCycleTbl,
+} from "@repo/db-shared";
 import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { asc } from "drizzle-orm";
+import { subDays } from "date-fns";
+import { and, desc, eq, gte } from "drizzle-orm";
 import { Link, redirect } from "react-router";
 
 const dataTable = [
@@ -104,20 +112,71 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (!wasmDb) return null;
 
-  const repos = await wasmDb
+  const repos = await wasmDb.select().from(repositoryTbl);
+  const latestScans = await wasmDb
     .select()
-    .from(repositoryTbl)
-    .orderBy(asc(repositoryTbl.name));
+    .from(scanTbl)
+    .orderBy(desc(scanTbl.createdAt))
+    .limit(1);
+  const lastScan = latestScans[0];
 
   return {
-    repositories: repos.map((repo) => ({
-      ...repo,
-      prs: 1,
-      reviews: 1,
-      releases: 1,
-      cost: 1,
-      lastActivity: new Date(),
-    })),
+    repositories: await Promise.all(
+      repos.map(async (repo) => ({
+        ...repo,
+        prs: (
+          await wasmDb
+            .select()
+            .from(prTbl)
+            .where(
+              and(
+                eq(prTbl.repositoryId, repo.id),
+                gte(prTbl.createdAt, subDays(new Date(), 30)),
+              ),
+            )
+        ).length,
+        reviews: (
+          await wasmDb
+            .select()
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.repositoryId, repo.id),
+                gte(reviewTbl.createdAt, subDays(new Date(), 30)),
+              ),
+            )
+        ).length,
+        releases: (
+          await wasmDb
+            .select()
+            .from(releaseTbl)
+            .where(
+              and(
+                eq(releaseTbl.repositoryId, repo.id),
+                gte(releaseTbl.publishedAt, subDays(new Date(), 30)),
+              ),
+            )
+        ).length,
+        cost: lastScan
+          ? (
+              await wasmDb
+                .select()
+                .from(workflowUsageCurrentCycleTbl)
+                .where(
+                  and(
+                    eq(workflowUsageCurrentCycleTbl.repositoryId, repo.id),
+                    gte(
+                      workflowUsageCurrentCycleTbl.updatedAt,
+                      subDays(new Date(), 30),
+                    ),
+                    eq(workflowUsageCurrentCycleTbl.scanId, lastScan.id),
+                  ),
+                )
+            ).reduce((acc, cur) => acc + cur.dollar, 0)
+          : 0,
+        lastActivity: repo.updatedAtGithub ?? repo.createdAt,
+      })),
+    ),
   };
 }
 
@@ -154,7 +213,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         ),
       },
       {
-        header: "PRs / month",
+        header: () => (
+          <div>
+            PRs
+            <br />
+            <span className="text-xs text-gray-500">(30 days)</span>
+          </div>
+        ),
         accessorKey: "prs",
         enableSorting: true,
         meta: {
@@ -163,7 +228,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         },
       },
       {
-        header: "Reviews / month",
+        header: () => (
+          <div>
+            Reviews
+            <br />
+            <span className="text-xs text-gray-500">(30 days)</span>
+          </div>
+        ),
         accessorKey: "reviews",
         enableSorting: true,
         meta: {
@@ -172,7 +243,13 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         },
       },
       {
-        header: "Release / month",
+        header: () => (
+          <div>
+            Release
+            <br />
+            <span className="text-xs text-gray-500">(30 days)</span>
+          </div>
+        ),
         accessorKey: "releases",
         enableSorting: true,
         meta: {
@@ -181,7 +258,12 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         },
       },
       {
-        header: "Cost / month",
+        header: () => (
+          <div>
+            Cost <br />
+            <span className="text-xs text-gray-500">(current cycle)</span>
+          </div>
+        ),
         accessorKey: "cost",
         enableSorting: true,
         meta: {
@@ -206,8 +288,8 @@ export default function Page({ loaderData }: Route.ComponentProps) {
     initialState: {
       sorting: [
         {
-          id: "name",
-          desc: false,
+          id: "prs",
+          desc: true,
         },
       ],
     },

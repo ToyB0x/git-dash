@@ -26,15 +26,19 @@ export const aggregate = async () => {
           id: repo.id,
           name: repo.name,
           owner: repo.owner.login,
-          createdAt: repo.created_at ? new Date(repo.created_at) : now,
+          createdAt: now,
+          createdAtGithub: repo.created_at ? new Date(repo.created_at) : null,
           updatedAt: now,
+          updatedAtGithub: repo.updated_at ? new Date(repo.updated_at) : null,
         })
         .onConflictDoUpdate({
           target: repositoryTbl.id,
           set: {
             name: repo.name,
             owner: repo.owner.login,
+            createdAtGithub: repo.created_at ? new Date(repo.created_at) : null,
             updatedAt: now,
+            updatedAtGithub: repo.updated_at ? new Date(repo.updated_at) : null,
           },
         });
 
@@ -42,7 +46,10 @@ export const aggregate = async () => {
     });
 
   if (errors.length) {
-    logger.error(JSON.stringify(errors, null, 2));
+    logger.error(`errors occurred: ${errors.length}`);
+    for (const error of errors) {
+      logger.error(JSON.stringify(error));
+    }
   }
 
   return results;

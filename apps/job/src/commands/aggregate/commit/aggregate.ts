@@ -28,7 +28,7 @@ export const aggregate = async () => {
     )
     .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
 
-  await PromisePool.for(recentPrs)
+  const { errors } = await PromisePool.for(recentPrs)
     .withConcurrency(8)
     .process(async (pr, i) => {
       logger.info(`Start aggregate:commit (${i + 1}/${recentPrs.length})`);
@@ -71,6 +71,7 @@ export const aggregate = async () => {
               id: commit.sha,
               prId: pr.prId,
               authorId,
+              repositoryId: pr.repositoryId,
               commitAt: new Date(commitDateString),
             })
             .onConflictDoNothing({
@@ -78,6 +79,13 @@ export const aggregate = async () => {
             });
         });
     });
+
+  if (errors.length) {
+    logger.error(`errors occurred: ${errors.length}`);
+    for (const error of errors) {
+      logger.error(JSON.stringify(error));
+    }
+  }
 
   // delete old commit
   await sharedDbClient

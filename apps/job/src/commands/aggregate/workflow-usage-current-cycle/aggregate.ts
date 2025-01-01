@@ -19,12 +19,13 @@ export const aggregate = async (scanId: number) => {
     .select({
       workflowId: workflowTbl.id,
       repositoryName: repositoryTbl.name,
+      repositoryId: workflowTbl.repositoryId,
     })
     .from(workflowTbl)
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id));
 
   // TODO: 直近に更新されていないリポジトリは除外して高速化する
-  await PromisePool.for(allWorkflows)
+  const { errors } = await PromisePool.for(allWorkflows)
     // parent: 8 , child: 10 = max 80 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(8)
@@ -66,6 +67,7 @@ export const aggregate = async (scanId: number) => {
           day: now.getUTCDate(),
           dollar: Math.round(cost * 10) / 10, // round to 1 decimal place
           workflowId: workflow.workflowId,
+          repositoryId: workflow.repositoryId,
           createdAt: now,
           updatedAt: now,
         })
@@ -83,4 +85,11 @@ export const aggregate = async (scanId: number) => {
           },
         });
     });
+
+  if (errors.length) {
+    logger.error(`errors occurred: ${errors.length}`);
+    for (const error of errors) {
+      logger.error(JSON.stringify(error));
+    }
+  }
 };
