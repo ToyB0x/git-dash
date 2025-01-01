@@ -2,10 +2,7 @@ import { cx, focusRing } from "@/lib/utils";
 import { siteConfig } from "@/siteConfig";
 import {
   RiAccountCircleLine,
-  RiArrowUpCircleLine,
   RiBugLine,
-  RiChatCheckLine,
-  RiCodeSSlashLine,
   RiCoinLine,
   RiGitRepositoryLine,
   RiHome2Line,
@@ -32,23 +29,23 @@ const navigation = [
     href: siteConfig.baseLinks.cost,
     icon: RiCoinLine,
   },
-  { name: "PRs", href: siteConfig.baseLinks.prs, icon: RiCodeSSlashLine },
-  {
-    name: "Reviews",
-    href: siteConfig.baseLinks.reviews,
-    icon: RiChatCheckLine,
-  },
-  {
-    name: "Releases",
-    href: siteConfig.baseLinks.releases,
-    icon: RiArrowUpCircleLine,
-  },
+  // { name: "PRs", href: siteConfig.baseLinks.prs, icon: RiCodeSSlashLine },
+  // {
+  //   name: "Reviews",
+  //   href: siteConfig.baseLinks.reviews,
+  //   icon: RiChatCheckLine,
+  // },
+  // {
+  //   name: "Releases",
+  //   href: siteConfig.baseLinks.releases,
+  //   icon: RiArrowUpCircleLine,
+  // },
+  { name: "Vulns", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
   {
     name: "Four Keys",
     href: siteConfig.baseLinks.fourkeys,
     icon: RiKey2Line,
   },
-  { name: "Vulns", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
   {
     name: "Users",
     href: siteConfig.baseLinks.users,

@@ -363,6 +363,9 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           </Table>
         </TableRoot>
       </section>
+
+      {/* prevent menu layout breaking */}
+      {isDemo && <div className="h-96" />}
     </>
   );
 }

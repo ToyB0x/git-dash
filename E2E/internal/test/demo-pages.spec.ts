@@ -9,25 +9,13 @@ test("can see demo pages", async ({ page }) => {
   await page.getByRole("link", { name: "Cost", exact: true }).click();
   await page.getByText("Actions 2core").click();
 
-  // prs page
-  await page.getByRole("link", { name: "PRs" }).click();
-  await page.getByText("9.1 days").click();
-
-  // reviews page
-  await page.getByRole("link", { name: "Reviews" }).click();
-  await page.getByText("3.1 hours").click();
-
-  // releases page
-  await page.getByRole("link", { name: "Releases" }).click();
-  await page.getByText("9.1 days").click();
+  // vulns page
+  await page.getByRole("link", { name: "Vulns" }).click();
+  await page.getByText("141").click();
 
   // four keys page
   await page.getByRole("link", { name: "Four Keys" }).click();
   await page.getByRole("link", { name: "api" }).click();
-
-  // vulns page
-  await page.getByRole("link", { name: "Vulns" }).click();
-  await page.getByText("141").click();
 
   // users page
   await page.getByRole("link", { name: "Users" }).click();
