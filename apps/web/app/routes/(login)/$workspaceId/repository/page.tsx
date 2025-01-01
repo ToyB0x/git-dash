@@ -273,6 +273,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           headerClassNames: "w-1 text-right",
           cellClassNames: "text-center",
         },
+        cell: ({ row }) => `$${row.original.cost.toLocaleString()}`,
       },
       {
         header: "Last Activity",
