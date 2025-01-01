@@ -106,6 +106,7 @@ export const aggregate = async (
               id: review.id,
               reviewerId: review.user.id,
               prId,
+              repositoryId: repository.id,
               createdAt: new Date(review.created_at),
             })
             .onConflictDoUpdate({

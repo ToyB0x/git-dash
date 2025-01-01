@@ -19,6 +19,7 @@ export const aggregate = async (scanId: number) => {
     .select({
       workflowId: workflowTbl.id,
       repositoryName: repositoryTbl.name,
+      repositoryId: workflowTbl.repositoryId,
     })
     .from(workflowTbl)
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id));
@@ -66,6 +67,7 @@ export const aggregate = async (scanId: number) => {
           day: now.getUTCDate(),
           dollar: Math.round(cost * 10) / 10, // round to 1 decimal place
           workflowId: workflow.workflowId,
+          repositoryId: workflow.repositoryId,
           createdAt: now,
           updatedAt: now,
         })

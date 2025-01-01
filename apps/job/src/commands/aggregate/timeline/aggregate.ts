@@ -91,6 +91,7 @@ export const aggregate = async () => {
                   ? timeline.requested_reviewer.id
                   : null,
               eventType: eventType as never,
+              repositoryId: pr.repositoryId,
               createdAt: new Date(timeline.created_at),
             })
             .onConflictDoNothing({

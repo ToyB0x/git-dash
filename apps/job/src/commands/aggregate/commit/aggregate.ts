@@ -71,6 +71,7 @@ export const aggregate = async () => {
               id: commit.sha,
               prId: pr.prId,
               authorId,
+              repositoryId: pr.repositoryId,
               commitAt: new Date(commitDateString),
             })
             .onConflictDoNothing({
