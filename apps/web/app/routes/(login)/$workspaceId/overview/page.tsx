@@ -19,7 +19,17 @@ import {
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
 import { endOfToday, subDays, subHours } from "date-fns";
-import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  gte,
+  isNotNull,
+  lt,
+  not,
+} from "drizzle-orm";
 import { type ReactNode, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
@@ -214,32 +224,24 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const dailyWorkflowUsageOrgCurrentMonth = await wasmDb
     .select()
     .from(workflowUsageCurrentCycleOrgTbl)
-    .where(
-      and(
-        gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
-        gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1 - 1), // 1 month ago
-      ),
-    )
-    .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt));
+    .where(gte(workflowUsageCurrentCycleOrgTbl.createdAt, subDays(now, 30)))
+    .orderBy(asc(workflowUsageCurrentCycleOrgTbl.createdAt));
 
-  const daysInThisMonth = new Date(
-    now.getFullYear(),
-    now.getMonth() + 1,
-    0,
-  ).getDate();
+  const data = [...Array(31).keys()]
+    .map((dayBefore) => {
+      const targetDate = subDays(now, dayBefore);
+      const matchedData = dailyWorkflowUsageOrgCurrentMonth.filter(
+        (run) => run.day === targetDate.getDate(),
+      );
 
-  const thisMonthDates = [...Array(daysInThisMonth).keys()].map((index) => {
-    return index + 1;
-  });
-
-  const data = thisMonthDates.map((day) => {
-    return {
-      date: `${day}`,
-      cost: dailyWorkflowUsageOrgCurrentMonth
-        .filter((run) => run.day === day)
-        .reduce((acc, run) => acc + run.dollar, 0),
-    };
-  });
+      return {
+        date: targetDate.getDate(),
+        value: matchedData.length
+          ? matchedData.reduce((acc, run) => acc + run.dollar, 0)
+          : null,
+      };
+    })
+    .reverse();
 
   const entries: ITimeEntry[] = await Promise.all(
     [...Array(24 * 60).keys()].map(async (hour) => ({
@@ -286,24 +288,28 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     entries,
     releases,
     costs: data.map((item, index, self) => {
-      // 初日は前日比がないのでコストがわからない
-      if (index === 0) {
-        return { date: item.date, cost: null };
+      // 前日のコストがない場合は差分を計算できない
+      const beforeDayCost = self[index - 1]?.value;
+      if (beforeDayCost === null) {
+        return { ...item, value: null };
       }
 
-      // 前日のコストがない場合も差分を計算できない
-      const beforeDayCost = self[index - 1]?.cost;
       const hasBeforeDayCost = beforeDayCost !== undefined && beforeDayCost > 0;
       if (!hasBeforeDayCost) {
-        return { date: item.date, cost: null };
+        return { ...item, value: null };
+      }
+
+      // コストがない場合は差分を計算できない
+      if (item.value === null) {
+        return { ...item, value: null };
       }
 
       // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
-      const hasResetBillingCycle = item.cost - beforeDayCost < 0;
+      const hasResetBillingCycle = item.value - beforeDayCost < 0;
       if (hasResetBillingCycle) {
-        return { date: item.date, cost: item.cost };
+        return { ...item, value: item.value };
       }
-      return { date: item.date, cost: item.cost - beforeDayCost };
+      return { ...item, value: item.value - beforeDayCost };
     }),
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
     prCountLast30days: prCountLast30days[0]?.count || 0,
@@ -366,36 +372,37 @@ function valueFormatter(number: number) {
 }
 
 const dataChart = [
-  { date: "Jan 23", cost: 68 },
-  { date: "Feb 23", cost: 70 },
-  { date: "Mar 23", cost: 80 },
-  { date: "Apr 23", cost: 55 },
-  { date: "May 23", cost: 56 },
-  { date: "Jun 23", cost: 81 },
-  { date: "Jul 23", cost: 85 },
-  { date: "Aug 23", cost: 80 },
-  { date: "Sep 23", cost: 75 },
-  { date: "Oct 23", cost: 71 },
-  { date: "Nov 23", cost: 61 },
-  { date: "Dec 23", cost: 60 },
-  { date: "Jan 23", cost: 68 },
-  { date: "Feb 23", cost: 70 },
-  { date: "Mar 23", cost: 80 },
-  { date: "Apr 23", cost: 55 },
-  { date: "May 23", cost: 56 },
-  { date: "Jun 23", cost: 92 },
-  { date: "Jul 23", cost: 85 },
-  { date: "Aug 23", cost: 80 },
-  { date: "Sep 23", cost: 75 },
-  { date: "Oct 23", cost: 71 },
-  { date: "Nov 23", cost: 61 },
-  { date: "Dec 23", cost: 60 },
-  { date: "Mar 23", cost: 80 },
-  { date: "Apr 23", cost: 55 },
-  { date: "May 23", cost: 56 },
-  { date: "Jun 23", cost: 98 },
-  { date: "Jul 23", cost: 85 },
-  { date: "Aug 23", cost: 80.2 },
+  { date: "1", value: Math.random() * 100 },
+  { date: "2", value: Math.random() * 100 },
+  { date: "3", value: Math.random() * 100 },
+  { date: "4", value: Math.random() * 100 },
+  { date: "5", value: Math.random() * 100 },
+  { date: "6", value: Math.random() * 100 },
+  { date: "7", value: Math.random() * 100 },
+  { date: "8", value: Math.random() * 100 },
+  { date: "9", value: Math.random() * 100 },
+  { date: "10", value: Math.random() * 100 },
+  { date: "11", value: Math.random() * 100 },
+  { date: "12", value: Math.random() * 100 },
+  { date: "13", value: Math.random() * 100 },
+  { date: "14", value: Math.random() * 100 },
+  { date: "15", value: Math.random() * 100 },
+  { date: "16", value: Math.random() * 100 },
+  { date: "17", value: Math.random() * 100 },
+  { date: "18", value: Math.random() * 100 },
+  { date: "19", value: Math.random() * 100 },
+  { date: "20", value: Math.random() * 100 },
+  { date: "21", value: Math.random() * 100 },
+  { date: "22", value: Math.random() * 100 },
+  { date: "23", value: Math.random() * 100 },
+  { date: "24", value: Math.random() * 100 },
+  { date: "25", value: Math.random() * 100 },
+  { date: "26", value: Math.random() * 100 },
+  { date: "27", value: Math.random() * 100 },
+  { date: "28", value: Math.random() * 100 },
+  { date: "29", value: Math.random() * 100 },
+  { date: "30", value: Math.random() * 100 },
+  { date: "31", value: Math.random() * 100 },
 ];
 
 const currencyFormatter = (number: number) =>
@@ -552,9 +559,18 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-4 sm:grid-cols-2 lg:mt-6 xl:grid-cols-3">
           <div className="col-span-2">
             <Card>
-              <h3 className="text-sm text-gray-500 dark:text-gray-500">
-                This billing cycle's
-                {/*Actions usage average*/}
+              {/* データ収集中です。正確なコストの計算には最初は2〜3日かかりますという案内とともに、ひとまずWorkflowsRunBillingのデータ収集を3日だけ行いグラフ表示する？ */}
+              <h3 className="flex justify-between">
+                <div className="text-sm text-gray-500 dark:text-gray-500">
+                  This billing cycle's
+                </div>
+
+                {costs.filter((item) => item.value !== null).length < 4 && (
+                  <div className="text-sm text-red-300">
+                    It takes about 3 days to collect the initial data. Please
+                    wait a few days.
+                  </div>
+                )}
               </h3>
               <div className="flex justify-between items-baseline">
                 <p className="font-semibold text-3xl text-gray-900 dark:text-gray-50">
@@ -569,7 +585,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                   ).toLocaleString()}
                   {/*${" "}*/}
                   {/*{Math.round(*/}
-                  {/*    (costs.reduce((acc, item) => acc + (item.cost || 0), 0) /*/}
+                  {/*    (costs.reduce((acc, item) => acc + (item.value || 0), 0) /*/}
                   {/*        costs.length) **/}
                   {/*    10,*/}
                   {/*) / 10}{" "}*/}
@@ -582,8 +598,8 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
               </div>
               <BarChart
                 data={costs}
-                index="date"
-                categories={["cost"]}
+                index="date" // specify object field
+                categories={["value"]}
                 showLegend={false}
                 colors={["blue"]}
                 valueFormatter={valueFormatter}

@@ -158,21 +158,24 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
             )
         ).length,
         cost: lastScan
-          ? (
-              await wasmDb
-                .select()
-                .from(workflowUsageCurrentCycleTbl)
-                .where(
-                  and(
-                    eq(workflowUsageCurrentCycleTbl.repositoryId, repo.id),
-                    gte(
-                      workflowUsageCurrentCycleTbl.updatedAt,
-                      subDays(new Date(), 30),
-                    ),
-                    eq(workflowUsageCurrentCycleTbl.scanId, lastScan.id),
-                  ),
-                )
-            ).reduce((acc, cur) => acc + cur.dollar, 0)
+          ? Math.round(
+              10 *
+                (
+                  await wasmDb
+                    .select()
+                    .from(workflowUsageCurrentCycleTbl)
+                    .where(
+                      and(
+                        eq(workflowUsageCurrentCycleTbl.repositoryId, repo.id),
+                        gte(
+                          workflowUsageCurrentCycleTbl.updatedAt,
+                          subDays(new Date(), 30),
+                        ),
+                        eq(workflowUsageCurrentCycleTbl.scanId, lastScan.id),
+                      ),
+                    )
+                ).reduce((acc, cur) => acc + cur.dollar, 0),
+            ) / 10
           : 0,
         lastActivity: repo.updatedAtGithub ?? repo.createdAt,
       })),
@@ -270,6 +273,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           headerClassNames: "w-1 text-right",
           cellClassNames: "text-center",
         },
+        cell: ({ row }) => `$${row.original.cost.toLocaleString()}`,
       },
       {
         header: "Last Activity",

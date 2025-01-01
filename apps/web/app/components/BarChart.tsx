@@ -536,8 +536,10 @@ type BaseEventProps = {
 type BarChartEventProps = BaseEventProps | null | undefined;
 
 interface BarChartProps extends React.HTMLAttributes<HTMLDivElement> {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  data: Record<string, any>[];
+  data: {
+    date: string | number;
+    value: number | null;
+  }[];
   index: string;
   categories: string[];
   colors?: AvailableChartColorsKeys[];
