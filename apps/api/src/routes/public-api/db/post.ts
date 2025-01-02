@@ -14,7 +14,6 @@ const factory = createFactory<{
 const validator = vValidator(
   "form",
   v.object({
-    reportId: v.string(),
     file: v.instance(File),
   }),
 );

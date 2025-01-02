@@ -9,7 +9,7 @@ export const exportByWorkspace = async (configs: Configs): Promise<void> => {
   await step({
     configs,
     stepName: "export:db",
-    callback: db({ reportId, configs, honoClient: hc }),
+    callback: db({ configs, honoClient: hc }),
     showUsage: false,
   });
 

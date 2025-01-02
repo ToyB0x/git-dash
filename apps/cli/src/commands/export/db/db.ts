@@ -5,11 +5,9 @@ import { sql } from "drizzle-orm";
 
 export const db = async ({
   honoClient,
-  reportId,
   configs,
 }: {
   honoClient: ReturnType<typeof getHonoClient>;
-  reportId: string;
   configs: Configs;
 }) => {
   // VACUUM is used to rebuild the database file, it is used to optimize the database file
@@ -21,7 +19,6 @@ export const db = async ({
 
   await honoClient["public-api"].db.$post({
     form: {
-      reportId,
       file: new File([gziped], "sqlite.db.gz"),
     },
   });
