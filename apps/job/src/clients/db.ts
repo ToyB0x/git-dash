@@ -6,7 +6,7 @@ import { drizzle } from "drizzle-orm/libsql";
 
 // TODO: CLIとして配布しやすいようにパスを変更する
 export const getDbPath = (configs: Configs) =>
-  configs.GDASH_MODE !== "PERSONAL"
+  configs.GDASH_MODE !== "PERSONAL" && configs.GDASH_MODE !== "PERSONAL_SAMPLE"
     ? `../../packages/db-shared/sqlite/${configs.GDASH_WORKSPACE_ID}.db`
     : `../../packages/db-shared/sqlite/personal-${configs.GDASH_GITHUB_ORGANIZATION_NAME}.db`;
 

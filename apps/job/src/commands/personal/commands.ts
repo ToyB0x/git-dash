@@ -35,7 +35,7 @@ export const newPersonalCommand = () => {
       });
 
       const configs = readConfigs({
-        GDASH_MODE: "PERSONAL",
+        GDASH_MODE: "PERSONAL_SAMPLE",
         env: {
           ...process.env,
           GDASH_ENV: "dev",
@@ -57,7 +57,7 @@ export const newPersonalCommand = () => {
       });
 
       const configs = readConfigs({
-        GDASH_MODE: "PERSONAL",
+        GDASH_MODE: "PERSONAL_SAMPLE",
         env: {
           ...process.env,
           GDASH_ENV: "dev",

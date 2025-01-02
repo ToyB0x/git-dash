@@ -51,9 +51,51 @@ const envSchemaPersonalMode = v.object({
     v.literal("stg"),
     v.literal("prd"),
   ]),
-  // TODO: enable report to workspace
-  // GDASH_WORKSPACE_ID: v.pipe(v.string(), v.minLength(3)),
-  // GDASH_WORKSPACE_API_KEY: v.pipe(v.string(), v.minLength(5)),
+  GDASH_WORKSPACE_ID: v.pipe(v.string(), v.minLength(3)),
+  GDASH_WORKSPACE_API_KEY: v.pipe(v.string(), v.minLength(5)),
+  GDASH_GITHUB_ORGANIZATION_NAME: v.pipe(v.string(), v.minLength(3)),
+  GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS: v.optional(
+    v.pipe(
+      v.string(),
+      v.transform((input) => Number(input)),
+      v.number(),
+      v.minValue(1),
+      v.maxValue(180),
+    ),
+    "30",
+  ),
+  GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS: v.optional(
+    v.pipe(
+      v.string(),
+      v.transform((input) => Number(input)),
+      v.number(),
+      v.minValue(1),
+      v.maxValue(180),
+    ),
+    "30",
+  ),
+  GDASH_DISCARD_DAYS: v.optional(
+    v.pipe(
+      v.string(),
+      v.transform((input) => Number(input)),
+      v.number(),
+      v.number(),
+      v.minValue(1),
+      v.maxValue(180),
+    ),
+    "30",
+  ),
+});
+
+const envSchemaPersonalSampleMode = v.object({
+  GDASH_MODE: v.literal("PERSONAL_SAMPLE"),
+  GDASH_ENV: v.union([
+    v.literal("test"),
+    v.literal("local"),
+    v.literal("dev"),
+    v.literal("stg"),
+    v.literal("prd"),
+  ]),
   GDASH_GITHUB_ORGANIZATION_NAME: v.pipe(v.string(), v.minLength(3)),
   GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS: v.optional(
     v.pipe(
@@ -92,7 +134,11 @@ export const readConfigs = ({
   GDASH_MODE,
   env,
 }: {
-  GDASH_MODE: "ORGANIZATION_APP" | "SINGLE_REPOSITORY" | "PERSONAL";
+  GDASH_MODE:
+    | "ORGANIZATION_APP"
+    | "SINGLE_REPOSITORY"
+    | "PERSONAL"
+    | "PERSONAL_SAMPLE";
   env: { [key: string]: string | undefined };
 }) => {
   switch (GDASH_MODE) {
@@ -105,6 +151,11 @@ export const readConfigs = ({
       throw Error("Not implemented yet");
     case "PERSONAL":
       return v.parse(envSchemaPersonalMode, { ...env, GDASH_MODE: "PERSONAL" });
+    case "PERSONAL_SAMPLE":
+      return v.parse(envSchemaPersonalSampleMode, {
+        ...env,
+        GDASH_MODE: "PERSONAL_SAMPLE",
+      });
     // exhaustive check
     default: {
       const _exhaustiveCheck: never = GDASH_MODE;
