@@ -1,5 +1,6 @@
 {
   "name": "@git-dash/e2e-internal",
+  "private": true,
   "scripts": {
     "e2e": "pnpm exec playwright test",
     "e2e:ui": "pnpm exec playwright test --ui",

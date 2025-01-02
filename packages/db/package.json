@@ -1,6 +1,5 @@
 {
   "name": "@git-dash/db",
-  "private": true,
   "version": "0.0.1",
   "type": "module",
   "types": "./src/index.ts",
