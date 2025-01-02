@@ -1,10 +1,10 @@
 {
-  "name": "@repo/root",
+  "name": "@git-dash/root",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "dev:e2e": "pnpm --filter @repo/db-api db:reset:local && firebase emulators:exec --ui 'pnpm build && pnpm --filter @repo/web start:preview & pnpm --filter @repo/api dev'",
+    "dev:e2e": "pnpm --filter @git-dash/db-api db:reset:local && firebase emulators:exec --ui 'pnpm build && pnpm --filter @git-dash/web start:preview & pnpm --filter @git-dash/api dev'",
     "e2e:run": "turbo e2e:run",
     "emulator": "firebase emulators:start",
     "typecheck": "turbo typecheck",

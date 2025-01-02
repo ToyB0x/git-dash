@@ -23,15 +23,15 @@ importers:
 
   E2E/internal:
     devDependencies:
+      '@git-dash/api':
+        specifier: workspace:*
+        version: link:../../apps/api
+      '@git-dash/web':
+        specifier: workspace:*
+        version: link:../../apps/web
       '@playwright/test':
         specifier: 1.49.1
         version: 1.49.1
-      '@repo/api':
-        specifier: workspace:*
-        version: link:../../apps/api
-      '@repo/web':
-        specifier: workspace:*
-        version: link:../../apps/web
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
@@ -47,18 +47,18 @@ importers:
 
   apps/api:
     dependencies:
+      '@git-dash/db-api':
+        specifier: workspace:*
+        version: link:../../packages/db-api
+      '@git-dash/schema':
+        specifier: workspace:*
+        version: link:../../packages/schema
       '@hono/firebase-auth':
         specifier: 1.4.1
         version: 1.4.1(hono@4.6.15)
       '@hono/valibot-validator':
         specifier: 0.5.1
         version: 0.5.1(hono@4.6.15)(valibot@1.0.0-beta.9(typescript@5.7.2))
-      '@repo/db-api':
-        specifier: workspace:*
-        version: link:../../packages/db-api
-      '@repo/schema':
-        specifier: workspace:*
-        version: link:../../packages/schema
       drizzle-orm:
         specifier: 0.38.3
         version: 0.38.3(@cloudflare/workers-types@4.20241230.0)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
@@ -84,21 +84,21 @@ importers:
 
   apps/cli:
     dependencies:
+      '@git-dash/api':
+        specifier: workspace:*
+        version: link:../api
       '@git-dash/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@git-dash/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@inquirer/prompts':
         specifier: 7.2.1
         version: 7.2.1(@types/node@22.10.3)
       '@libsql/client':
         specifier: 0.14.0
         version: 0.14.0
-      '@repo/api':
-        specifier: workspace:*
-        version: link:../api
-      '@repo/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@supercharge/promise-pool':
         specifier: 3.2.0
         version: 3.2.0
@@ -130,7 +130,7 @@ importers:
         specifier: 1.0.0-beta.9
         version: 1.0.0-beta.9(typescript@5.7.2)
     devDependencies:
-      '@repo/schema':
+      '@git-dash/schema':
         specifier: workspace:*
         version: link:../../packages/schema
       '@tsconfig/strictest':
@@ -158,12 +158,12 @@ importers:
       '@git-dash/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@git-dash/db-api':
+        specifier: workspace:*
+        version: link:../../packages/db-api
       '@libsql/client':
         specifier: 0.14.0
         version: 0.14.0
-      '@repo/db-api':
-        specifier: workspace:*
-        version: link:../../packages/db-api
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
@@ -185,9 +185,15 @@ importers:
 
   apps/web:
     dependencies:
+      '@git-dash/api':
+        specifier: workspace:*
+        version: link:../api
       '@git-dash/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@git-dash/schema':
+        specifier: workspace:*
+        version: link:../../packages/schema
       '@internationalized/date':
         specifier: 3.6.0
         version: 3.6.0
@@ -254,12 +260,6 @@ importers:
       '@remixicon/react':
         specifier: 4.6.0
         version: 4.6.0(react@19.0.0)
-      '@repo/api':
-        specifier: workspace:*
-        version: link:../api
-      '@repo/schema':
-        specifier: workspace:*
-        version: link:../../packages/schema
       '@tanstack/react-table':
         specifier: 8.20.6
         version: 8.20.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
