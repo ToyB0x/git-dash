@@ -133,6 +133,9 @@ importers:
       '@supercharge/promise-pool':
         specifier: 3.2.0
         version: 3.2.0
+      cli-table:
+        specifier: 0.3.11
+        version: 0.3.11
       commander:
         specifier: 13.0.0
         version: 13.0.0
@@ -164,6 +167,9 @@ importers:
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
+      '@types/cli-table':
+        specifier: 0.3.4
+        version: 0.3.4
       '@types/node':
         specifier: 22.10.3
         version: 22.10.3
@@ -2926,6 +2932,9 @@ packages:
 
   '@types/caseless@0.12.5':
     resolution: {integrity: sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==}
+
+  '@types/cli-table@0.3.4':
+    resolution: {integrity: sha512-GsALrTL69mlwbAw/MHF1IPTadSLZQnsxe7a80G8l4inN/iEXCOcVeT/S7aRc6hbhqzL9qZ314kHPDQnQ3ev+HA==}
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
@@ -9367,6 +9376,8 @@ snapshots:
       '@types/node': 22.10.3
 
   '@types/caseless@0.12.5': {}
+
+  '@types/cli-table@0.3.4': {}
 
   '@types/connect@3.4.38':
     dependencies:
