@@ -84,9 +84,9 @@ importers:
 
   apps/cli:
     dependencies:
-      '@git-dash/db-shared':
+      '@git-dash/db':
         specifier: workspace:*
-        version: link:../../packages/db-shared
+        version: link:../../packages/db
       '@inquirer/prompts':
         specifier: 7.2.1
         version: 7.2.1(@types/node@22.10.3)
@@ -155,9 +155,9 @@ importers:
         specifier: 6.0.0
         version: 6.0.0
     devDependencies:
-      '@git-dash/db-shared':
+      '@git-dash/db':
         specifier: workspace:*
-        version: link:../../packages/db-shared
+        version: link:../../packages/db
       '@libsql/client':
         specifier: 0.14.0
         version: 0.14.0
@@ -185,9 +185,9 @@ importers:
 
   apps/web:
     dependencies:
-      '@git-dash/db-shared':
+      '@git-dash/db':
         specifier: workspace:*
-        version: link:../../packages/db-shared
+        version: link:../../packages/db
       '@internationalized/date':
         specifier: 3.6.0
         version: 3.6.0
@@ -358,6 +358,28 @@ importers:
         specifier: 3.99.0
         version: 3.99.0(@cloudflare/workers-types@4.20241230.0)
 
+  packages/db:
+    dependencies:
+      drizzle-orm:
+        specifier: 0.38.3
+        version: 0.38.3(@cloudflare/workers-types@4.20241230.0)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+    devDependencies:
+      '@tsconfig/strictest':
+        specifier: 2.0.5
+        version: 2.0.5
+      '@types/node':
+        specifier: 22.10.3
+        version: 22.10.3
+      drizzle-kit:
+        specifier: 0.30.1
+        version: 0.30.1
+      tsup:
+        specifier: 8.3.5
+        version: 8.3.5(jiti@2.4.2)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
+      typescript:
+        specifier: 5.7.2
+        version: 5.7.2
+
   packages/db-api:
     dependencies:
       drizzle-orm:
@@ -388,28 +410,6 @@ importers:
       wrangler:
         specifier: 3.99.0
         version: 3.99.0(@cloudflare/workers-types@4.20241230.0)
-
-  packages/db-shared:
-    dependencies:
-      drizzle-orm:
-        specifier: 0.38.3
-        version: 0.38.3(@cloudflare/workers-types@4.20241230.0)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.2)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
-    devDependencies:
-      '@tsconfig/strictest':
-        specifier: 2.0.5
-        version: 2.0.5
-      '@types/node':
-        specifier: 22.10.3
-        version: 22.10.3
-      drizzle-kit:
-        specifier: 0.30.1
-        version: 0.30.1
-      tsup:
-        specifier: 8.3.5
-        version: 8.3.5(jiti@2.4.2)(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1)
-      typescript:
-        specifier: 5.7.2
-        version: 5.7.2
 
   packages/schema:
     dependencies:
