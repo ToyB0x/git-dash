@@ -1,5 +1,5 @@
 import { sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import { type Configs, env } from "@/env";
 import { step } from "@/utils";
 import { scanTbl } from "@repo/db-shared";
 import { eq } from "drizzle-orm";
@@ -15,14 +15,9 @@ import { aggregate as aggregateWorkflow } from "./workflow";
 import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current-cycle";
 import { aggregate as workflowUsageCurrentCycleOrg } from "./workflow-usage-current-cycle-org";
 
-const maxOldForRepo = new Date(
-  Date.now() -
-    env.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ * 60 * 60 * 24 * 1000,
-).getTime();
-
-const isTodaySunday = new Date().getDay() === 0;
-
-export const aggregateByOrganization = async (): Promise<void> => {
+export const aggregateByOrganization = async (
+  configs: Configs,
+): Promise<void> => {
   const scan = await sharedDbClient
     .insert(scanTbl)
     .values({ createdAt: new Date(), updatedAt: new Date() })
@@ -34,13 +29,24 @@ export const aggregateByOrganization = async (): Promise<void> => {
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
   const repositories = await step({
     stepName: "aggregate:repository",
-    callback: aggregateRepositories(),
+    callback: aggregateRepositories(configs),
   });
 
   await step({
     stepName: "aggregate:alert",
-    callback: aggregateAlert(scanId),
+    callback: aggregateAlert(scanId, configs),
   });
+
+  const maxOldForRepo = new Date(
+    Date.now() -
+      configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
+        60 *
+        60 *
+        24 *
+        1000,
+  ).getTime();
+
+  const isTodaySunday = new Date().getDay() === 0;
 
   // NOTE: 通常は1月以内に更新されたリポジトリのみを対象にする(日曜だけは全リポジトリを対象にする)
   const filteredRepositories = repositories.filter(
@@ -53,13 +59,13 @@ export const aggregateByOrganization = async (): Promise<void> => {
   // NOTE: リポジトリ数に応じてQuotaを消費
   await step({
     stepName: "aggregate:release",
-    callback: aggregateRelease(filteredRepositories),
+    callback: aggregateRelease(filteredRepositories, configs),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費
   await step({
     stepName: "aggregate:workflow",
-    callback: aggregateWorkflow(filteredRepositories),
+    callback: aggregateWorkflow(filteredRepositories, configs),
   });
 
   // // NOTE: Workflowの実行数に応じてQuotaを消費
@@ -71,41 +77,41 @@ export const aggregateByOrganization = async (): Promise<void> => {
   // NOTE: Workflow fileの数に応じてQuotaを消費
   await step({
     stepName: "aggregate:workflow-usage-current-cycle",
-    callback: workflowUsageCurrentCycle(scanId),
+    callback: workflowUsageCurrentCycle(scanId, configs),
   });
 
   // costは1のみ
   await step({
     stepName: "aggregate:usage-current-cycle-org",
-    callback: workflowUsageCurrentCycleOrg(scanId),
+    callback: workflowUsageCurrentCycleOrg(scanId, configs),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + PRが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
     stepName: "aggregate:pr",
-    callback: aggregatePr(filteredRepositories),
+    callback: aggregatePr(filteredRepositories, configs),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
     stepName: "aggregate:review",
-    callback: aggregateReview(filteredRepositories),
+    callback: aggregateReview(filteredRepositories, configs),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
     stepName: "aggregate:timeline",
-    callback: aggregateTimeline(),
+    callback: aggregateTimeline(configs),
   });
 
   await step({
     stepName: "aggregate:commit",
-    callback: aggregateCommit(),
+    callback: aggregateCommit(configs),
   });
 
   await step({
     stepName: "aggregate:user-from-pr-and-review",
-    callback: aggregateUserFromPrAndReview(),
+    callback: aggregateUserFromPrAndReview(configs),
   });
 
   await sharedDbClient

@@ -1,20 +1,25 @@
 import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { prTbl, reviewTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
 import { and, eq, lt } from "drizzle-orm";
 
-const maxOldReviewDate = new Date(
-  Date.now() -
-    env.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ * 60 * 60 * 24 * 1000,
-);
-
 export const aggregate = async (
   repositories: { id: number; name: string }[],
+  configs: Configs,
 ) => {
   const octokit = await getOctokit();
+
+  const maxOldReviewDate = new Date(
+    Date.now() -
+      configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
+        60 *
+        60 *
+        24 *
+        1000,
+  );
 
   // TODO: 直近に更新されていないリポジトリは除外して高速化する
   const { errors } = await PromisePool.for(repositories)
@@ -30,7 +35,7 @@ export const aggregate = async (
       const reviews = await octokit.paginate(
         octokit.rest.pulls.listReviewCommentsForRepo,
         {
-          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: repository.name,
           per_page: 100,
           sort: "created",
@@ -124,7 +129,7 @@ export const aggregate = async (
   await sharedDbClient
     .delete(reviewTbl)
     .where(
-      lt(reviewTbl.createdAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)),
+      lt(reviewTbl.createdAt, subDays(new Date(), configs.GDASH_DISCARD_DAYS)),
     );
 
   if (errors.length) {

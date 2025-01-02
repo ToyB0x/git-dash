@@ -1,19 +1,25 @@
 import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { releaseTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { desc, lt, notInArray } from "drizzle-orm";
 
-const maxOldReleaseDate = new Date(
-  Date.now() -
-    env.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ * 60 * 60 * 24 * 1000,
-);
-
 export const aggregate = async (
   repositories: { id: number; name: string }[],
+  configs: Configs,
 ) => {
   const octokit = await getOctokit();
+
+  const maxOldReleaseDate = new Date(
+    Date.now() -
+      configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
+        60 *
+        60 *
+        24 *
+        1000,
+  );
+
   const { errors } = await PromisePool.for(repositories)
     // parent: 8 , child: 10 = max 80 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
@@ -23,7 +29,7 @@ export const aggregate = async (
       const releases = await octokit.paginate(
         octokit.rest.repos.listReleases,
         {
-          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: repository.name,
           per_page: 100,
           draft: false,

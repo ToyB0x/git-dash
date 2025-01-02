@@ -1,16 +1,16 @@
 import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { Configs } from "@/env";
 import { calcActionsCostFromTime } from "@/utils";
 import {
   billingCycleTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
 
-export const aggregate = async (scanId: number) => {
+export const aggregate = async (scanId: number, configs: Configs) => {
   const octokit = await getOctokit();
 
   const billingStorage = await octokit.rest.billing.getSharedStorageBillingOrg({
-    org: env.GDASH_GITHUB_ORGANIZATION_NAME,
+    org: configs.GDASH_GITHUB_ORGANIZATION_NAME,
   });
 
   await sharedDbClient.insert(billingCycleTbl).values({
@@ -20,7 +20,7 @@ export const aggregate = async (scanId: number) => {
   });
 
   const billingAction = await octokit.rest.billing.getGithubActionsBillingOrg({
-    org: env.GDASH_GITHUB_ORGANIZATION_NAME,
+    org: configs.GDASH_GITHUB_ORGANIZATION_NAME,
   });
 
   const billingActionsCost = Object.entries(

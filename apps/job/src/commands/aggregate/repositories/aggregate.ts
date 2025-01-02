@@ -1,15 +1,15 @@
 import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { repositoryTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
-export const aggregate = async () => {
+export const aggregate = async (configs: Configs) => {
   const octokit = await getOctokit();
 
   // ref: https://docs.github.com/ja/rest/repos/repos?apiVersion=2022-11-28
   const repos = await octokit.paginate(octokit.rest.repos.listForOrg, {
-    org: env.GDASH_GITHUB_ORGANIZATION_NAME,
+    org: configs.GDASH_GITHUB_ORGANIZATION_NAME,
     per_page: 100,
   });
 

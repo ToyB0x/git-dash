@@ -62,7 +62,7 @@ const envSchemaPersonalMode = v.object({
       v.minValue(1),
       v.maxValue(180),
     ),
-    30,
+    "30",
   ),
   GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS: v.optional(
     v.pipe(
@@ -72,7 +72,7 @@ const envSchemaPersonalMode = v.object({
       v.minValue(1),
       v.maxValue(180),
     ),
-    30,
+    "30",
   ),
   GDASH_DISCARD_DAYS: v.optional(
     v.pipe(
@@ -83,21 +83,16 @@ const envSchemaPersonalMode = v.object({
       v.minValue(1),
       v.maxValue(180),
     ),
-    30,
+    "30",
   ),
 });
-
-const configSchema =
-  process.env.GDASH_MODE === "ORGANIZATION_APP"
-    ? envSchemaOrganizationAppMode
-    : envSchemaPersonalMode;
 
 export const readConfigs = ({
   GDASH_MODE,
   env,
 }: {
   GDASH_MODE: "ORGANIZATION_APP" | "SINGLE_REPOSITORY" | "PERSONAL";
-  env: Dict<string>;
+  env: { [key: string]: string | undefined };
 }) => {
   switch (GDASH_MODE) {
     case "ORGANIZATION_APP":
@@ -106,7 +101,7 @@ export const readConfigs = ({
         GDASH_MODE: "ORGANIZATION_APP",
       });
     case "SINGLE_REPOSITORY":
-      return new Error("Not implemented yet");
+      throw Error("Not implemented yet");
     case "PERSONAL":
       return v.parse(envSchemaPersonalMode, { ...env, GDASH_MODE: "PERSONAL" });
     // exhaustive check
@@ -117,4 +112,4 @@ export const readConfigs = ({
   }
 };
 
-export type Configs = v.InferInput<typeof configSchema>;
+export type Configs = ReturnType<typeof readConfigs>;

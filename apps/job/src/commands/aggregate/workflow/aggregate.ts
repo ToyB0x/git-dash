@@ -1,11 +1,12 @@
 import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { workflowTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
+  configs: Configs,
 ) => {
   const octokit = await getOctokit();
 
@@ -22,7 +23,7 @@ export const aggregate = async (
       const workflows = await octokit.paginate(
         octokit.rest.actions.listRepoWorkflows,
         {
-          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: repository.name,
           per_page: 1000,
         },

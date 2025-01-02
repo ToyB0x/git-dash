@@ -1,12 +1,12 @@
 import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { prCommitTbl, prTbl, repositoryTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
 import { and, eq, gte, lt } from "drizzle-orm";
 
-export const aggregate = async () => {
+export const aggregate = async (configs: Configs) => {
   const octokit = await getOctokit();
 
   const recentPrs = await sharedDbClient
@@ -22,7 +22,7 @@ export const aggregate = async () => {
       and(
         gte(
           prTbl.updatedAt,
-          subDays(new Date(), env.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS),
+          subDays(new Date(), configs.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS),
         ),
       ),
     )
@@ -42,7 +42,7 @@ export const aggregate = async () => {
 
       // ref: https://docs.github.com/ja/rest/commits/commits?apiVersion=2022-11-28
       const commits = await octokit.paginate(octokit.rest.pulls.listCommits, {
-        owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+        owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
         repo: pr.repositoryName,
         pull_number: pr.prNumber,
         per_page: 100,
@@ -91,6 +91,6 @@ export const aggregate = async () => {
   await sharedDbClient
     .delete(prCommitTbl)
     .where(
-      lt(prCommitTbl.commitAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)),
+      lt(prCommitTbl.commitAt, subDays(new Date(), configs.GDASH_DISCARD_DAYS)),
     );
 };

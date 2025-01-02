@@ -1,5 +1,5 @@
 import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { Configs } from "@/env";
 import { calcActionsCostFromTime, logger } from "@/utils";
 import {
   repositoryTbl,
@@ -9,7 +9,7 @@ import {
 import { PromisePool } from "@supercharge/promise-pool";
 import { eq } from "drizzle-orm";
 
-export const aggregate = async (scanId: number) => {
+export const aggregate = async (scanId: number, configs: Configs) => {
   const octokit = await getOctokit();
 
   // NOTE: workflow fileの数だけリクエストを投げるため、ymlファイルが多い場合はQuotaに注意(300ファイルある場合は 300 Pointsも消費してしまう)
@@ -35,7 +35,7 @@ export const aggregate = async (scanId: number) => {
       );
 
       const workflowUsage = await octokit.rest.actions.getWorkflowUsage({
-        owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+        owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
         repo: workflow.repositoryName,
         workflow_id: workflow.workflowId,
       });
