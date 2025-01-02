@@ -1,6 +1,6 @@
 {
-  "name": "@repo/utils",
-  "private": true,
+  "name": "@git-dash/utils",
+  "version": "0.0.1",
   "type": "module",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -14,5 +14,6 @@
     "@types/node": "22.10.3",
     "typescript": "5.7.2",
     "tsup": "8.3.5"
-  }
+  },
+  "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }

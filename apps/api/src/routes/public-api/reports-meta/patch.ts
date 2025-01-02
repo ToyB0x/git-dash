@@ -1,5 +1,5 @@
+import { reportTbl } from "@git-dash/db-api/schema";
 import { vValidator } from "@hono/valibot-validator";
-import { reportTbl } from "@repo/db-api/schema";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { bodyLimit } from "hono/body-limit";

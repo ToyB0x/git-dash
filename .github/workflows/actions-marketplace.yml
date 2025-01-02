@@ -19,10 +19,12 @@ jobs:
         uses: './' # Uses an action in the root directory
         with:
           GDASH_ENV: "dev"
-          GDASH_GITHUB_ORGANIZATION_NAME: "test-org-name"
+          # TODO: MODEの追加
+          GDASH_MODE: "ORGANIZATION_APP" # ORGANIZATION_APP | SINGLE_REPOSITORY | SAMPLE
+          GDASH_GITHUB_ORGANIZATION_NAME: "test-org-name" # TODO: ORGANIZATION_APP | SINGLE_REPOSITORY モードのどちらでもActionsの環境変数から取得できるので削除する
           GDASH_GITHUB_INTERNAL_APP_ID: "12345678"
           GDASH_GITHUB_INTERNAL_APP_PRIVATE_KEY_STRING: "-----BEGIN RSA PRIVATE KEY-----\nXXXXXX\n-----END RSA PRIVATE KEY-----"
-          GDASH_WORKSPACE_ID: "test-group-id"
+          GDASH_WORKSPACE_ID: "test-group-id" # NOTE: 技術的にはTokenに含められるが、ユーザ自身が後で再確認しやすいようにymlに直接記載できるように残しておく
           GDASH_WORKSPACE_API_KEY: "test-group-api-key"
           GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS: 180
           GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS: 60

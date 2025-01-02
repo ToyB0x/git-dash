@@ -1,27 +1,48 @@
 {
-  "name": "@repo/cli",
-  "private": true,
+  "name": "@git-dash/cli",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "run:setup": "tsx ./setup/index.ts",
-    "run:update-tag:dev": "tsx ./update-tag/dev.ts",
+    "build": "tsup",
+    "//generate": "graphql-codegen --config codegen.ts",
+    "jobs": "node --enable-source-maps dist/index.js",
+    "jobs:with-env": " dotenv -e ../../.env -- node --enable-source-maps dist/index.js",
+    "jobs:dev:aggregate:organization": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate organization",
+    "jobs:dev:aggregate:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate workspace",
+    "jobs:dev:export:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs export workspace",
+    "jobs:dev:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs check config",
+    "jobs:personal": "pnpm build && pnpm jobs personal",
+    "jobs:personal:show": "pnpm build && pnpm jobs personal show",
+    "jobs:all": "pnpm jobs:dev:aggregate:organization && dotenv -e ../../.env -- pnpm jobs export workspace",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@actions/github": "6.0.0"
+    "@inquirer/prompts": "7.2.1",
+    "@libsql/client": "0.14.0",
+    "@git-dash/api": "workspace:*",
+    "@git-dash/db": "workspace:*",
+    "@git-dash/utils": "workspace:*",
+    "@supercharge/promise-pool": "3.2.0",
+    "cli-table": "0.3.11",
+    "commander": "13.0.0",
+    "date-fns": "4.1.0",
+    "dotenv-cli": "8.0.0",
+    "drizzle-orm": "0.38.3",
+    "octokit": "4.0.3",
+    "pino": "9.6.0",
+    "pino-pretty": "13.0.0",
+    "valibot": "1.0.0-beta.9"
   },
   "devDependencies": {
-    "@libsql/client": "0.14.0",
-    "@repo/db-api": "workspace:*",
-    "@repo/db-shared": "workspace:*",
+    "@git-dash/schema": "workspace:*",
     "@tsconfig/strictest": "2.0.5",
+    "@types/cli-table": "0.3.4",
     "@types/node": "22.10.3",
-    "drizzle-orm": "0.38.3",
-    "firebase-admin": "13.0.2",
-    "tsx": "latest",
+    "tsup": "8.3.5",
     "typescript": "5.7.2"
   },
   "volta": {
     "extends": "../../package.json"
-  }
+  },
+  "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }

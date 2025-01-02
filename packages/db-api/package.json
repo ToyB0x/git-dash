@@ -1,6 +1,6 @@
 {
-  "name": "@repo/db-api",
-  "private": true,
+  "name": "@git-dash/db-api",
+  "version": "0.0.1",
   "type": "module",
   "exports": {
     "./schema": "./src/schema/index.ts"
@@ -31,5 +31,6 @@
     "drizzle-kit": "0.30.1",
     "typescript": "5.7.2",
     "wrangler": "3.99.0"
-  }
+  },
+  "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }

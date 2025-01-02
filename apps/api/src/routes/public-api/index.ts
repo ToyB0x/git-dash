@@ -1,4 +1,4 @@
-import { workspaceTbl } from "@repo/db-api/schema";
+import { workspaceTbl } from "@git-dash/db-api/schema";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";

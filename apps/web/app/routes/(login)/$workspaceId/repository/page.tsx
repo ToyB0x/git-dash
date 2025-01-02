@@ -9,7 +9,7 @@ import {
   reviewTbl,
   scanTbl,
   workflowUsageCurrentCycleTbl,
-} from "@repo/db-shared";
+} from "@git-dash/db";
 import {
   getCoreRowModel,
   getSortedRowModel,

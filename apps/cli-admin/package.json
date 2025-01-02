@@ -1,0 +1,28 @@
+{
+  "name": "@git-dash/cli-admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "run:setup": "tsx ./setup/index.ts",
+    "run:update-tag:dev": "tsx ./update-tag/dev.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@actions/github": "6.0.0"
+  },
+  "devDependencies": {
+    "@libsql/client": "0.14.0",
+    "@git-dash/db-api": "workspace:*",
+    "@git-dash/db": "workspace:*",
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "22.10.3",
+    "drizzle-orm": "0.38.3",
+    "firebase-admin": "13.0.2",
+    "tsx": "latest",
+    "typescript": "5.7.2"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  },
+  "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
+}

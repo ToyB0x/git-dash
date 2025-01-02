@@ -17,8 +17,8 @@
       "**/.wrangler/**",
       "apps/api/worker-configuration.d.ts",
       "apps/job/schema.docs.graphql",
+      "packages/db/drizzle/**",
       "packages/db-api/drizzle/**",
-      "packages/db-shared/drizzle/**",
       "example/**"
     ]
   },

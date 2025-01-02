@@ -5,6 +5,9 @@ branding:
   color: 'blue'
   icon: 'activity'
 inputs:
+  GDASH_MODE:
+    description: "One of the following modes: ORGANIZATION_APP | SINGLE_REPOSITORY | SAMPLE"
+    required: true
   GDASH_GITHUB_ORGANIZATION_NAME:
     description: "GitHub organization name to analyze"
     required: true
@@ -64,15 +67,16 @@ runs:
       shell: bash
 
     - name: Build all packages
-      run: pnpm turbo build --filter=@repo/job
+      run: pnpm turbo build --filter=@git-dash/cli
       shell: bash
 
     - name: Env Check
       run: pnpm jobs check config
       shell: bash
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
@@ -86,9 +90,10 @@ runs:
       run: pnpm jobs db download && pnpm jobs db migrate
       shell: bash
       if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
@@ -102,9 +107,10 @@ runs:
       run: pnpm jobs aggregate organization
       shell: bash
       if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
@@ -118,9 +124,10 @@ runs:
       run: pnpm jobs export workspace
       shell: bash
       if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}

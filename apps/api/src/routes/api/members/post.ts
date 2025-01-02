@@ -1,5 +1,5 @@
+import { usersToWorkspaces } from "@git-dash/db-api/schema";
 import { getFirebaseToken } from "@hono/firebase-auth";
-import { usersToWorkspaces } from "@repo/db-api/schema";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 

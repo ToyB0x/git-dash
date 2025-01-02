@@ -1,10 +1,10 @@
 {
-  "name": "@repo/root",
+  "name": "@git-dash/root",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "dev:e2e": "pnpm --filter @repo/db-api db:reset:local && firebase emulators:exec --ui 'pnpm build && pnpm --filter @repo/web start:preview & pnpm --filter @repo/api dev'",
+    "dev:e2e": "pnpm --filter @git-dash/db-api db:reset:local && firebase emulators:exec --ui 'pnpm build && pnpm --filter @git-dash/web start:preview & pnpm --filter @git-dash/api dev'",
     "e2e:run": "turbo e2e:run",
     "emulator": "firebase emulators:start",
     "typecheck": "turbo typecheck",
@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "2.27.11",
     "firebase-tools": "13.29.1",
     "turbo": "2.3.3"
   },
@@ -25,6 +26,5 @@
     "pnpm": "9.15.2"
   },
   "author": "ToyB0x",
-  "license": " Fair Source Definition: Functional Source License, Version 1.1, MIT Future License",
-  "license-note": "This is a license written by an author who is not knowledgeable about law, in a limited amount of time, and it is subject to improvement or modification in the future"
+  "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }

@@ -1,5 +1,5 @@
-import { reportTbl } from "@repo/db-api/schema";
-import { getR2Path } from "@repo/schema/path";
+import { reportTbl } from "@git-dash/db-api/schema";
+import { getR2Path } from "@git-dash/schema/path";
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
