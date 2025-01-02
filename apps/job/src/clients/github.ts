@@ -6,21 +6,25 @@ import { App, Octokit } from "octokit";
 export const getOctokit = async (configs: Configs) => {
   switch (configs.GDASH_MODE) {
     case "ORGANIZATION_APP":
-      return await getOctokitApp();
-    case "SINGLE_REPOSITORY":
-      throw Error("Not implemented yet");
+      return await getOctokitApp(configs);
+    // case "SINGLE_REPOSITORY":
+    // throw Error("Not implemented yet");
     case "PERSONAL":
       return await getPersonalOctokit();
     // exhaustive check
     default: {
-      const _exhaustiveCheck: never = configs.GDASH_MODE;
-      return _exhaustiveCheck;
+      throw Error("Invalid GDASH_MODE");
+      // const _exhaustiveCheck: never = configs.GDASH_MODE;
+      // return _exhaustiveCheck;
     }
   }
 };
 
 // NOTE: if you need extend octokit app with installationId
 export const getOctokitApp = async (configs: Configs) => {
+  if (configs.GDASH_MODE !== "ORGANIZATION_APP")
+    throw Error("Invalid GDASH_MODE");
+
   // TODO: in the future, we should use octokit-client directly in the app
   // (waiting for https://github.com/octokit/graphql.js/pull/609)
   const octokitApp = new App({
@@ -34,7 +38,7 @@ export const getOctokitApp = async (configs: Configs) => {
 
   const { data: getInstallationResult } =
     await octokitApp.octokit.rest.apps.getOrgInstallation({
-      org: env.GDASH_GITHUB_ORGANIZATION_NAME,
+      org: configs.GDASH_GITHUB_ORGANIZATION_NAME,
     });
 
   logger.debug({ installation_id: getInstallationResult.id });

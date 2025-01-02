@@ -1,4 +1,4 @@
-import { getOctokit, sharedDbClient } from "@/clients";
+import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { eventTypes, prTbl, repositoryTbl, timelineTbl } from "@repo/db-shared";
@@ -6,9 +6,11 @@ import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
 import { and, eq, gte, lt } from "drizzle-orm";
 
-export const aggregate = async (configs: Configs) => {
-  const octokit = await getOctokit();
-
+export const aggregate = async (
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+  configs: Configs,
+) => {
   const recentPrs = await sharedDbClient
     .select({
       prId: prTbl.id,

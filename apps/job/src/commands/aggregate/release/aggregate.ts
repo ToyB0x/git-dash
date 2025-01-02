@@ -1,4 +1,4 @@
-import { getOctokit, sharedDbClient } from "@/clients";
+import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { releaseTbl } from "@repo/db-shared";
@@ -7,10 +7,10 @@ import { desc, lt, notInArray } from "drizzle-orm";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
   configs: Configs,
 ) => {
-  const octokit = await getOctokit();
-
   const maxOldReleaseDate = new Date(
     Date.now() -
       configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *

@@ -1,7 +1,9 @@
 import { getOctokit } from "@/clients";
+import type { Configs } from "@/env";
 import { logger } from "@/utils/logger";
 
 type Options<T> = {
+  configs: Configs;
   stepName: string;
   callback: Promise<T>;
   showUsage?: boolean | undefined;
@@ -10,14 +12,14 @@ type Options<T> = {
 export const step = async <T>(options: Options<T>): Promise<T> => {
   logger.info(`Start ${options.stepName}`);
   try {
-    const usage = await getUsage();
+    const usage = await getUsage(options.configs);
     const usedOnStart = usage.data.rate.used;
 
     const result = await options.callback;
     logger.info(`Finish ${options.stepName}`);
 
     if (options.showUsage !== false) {
-      const usageAfter = await getUsage();
+      const usageAfter = await getUsage(options.configs);
       const usedOnEnd = usageAfter.data.rate.used;
       logger.info(
         `Usage: ${JSON.stringify(
@@ -35,7 +37,7 @@ export const step = async <T>(options: Options<T>): Promise<T> => {
   }
 };
 
-const getUsage = async () => {
-  const octokit = await getOctokit();
+const getUsage = async (configs: Configs) => {
+  const octokit = await getOctokit(configs);
   return await octokit.rest.rateLimit.get();
 };

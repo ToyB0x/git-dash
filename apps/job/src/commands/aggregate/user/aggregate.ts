@@ -1,5 +1,4 @@
-import { getOctokit, sharedDbClient } from "@/clients";
-import type { Configs } from "@/env";
+import type { getDbClient, getOctokit } from "@/clients";
 import { logger } from "@/utils";
 import {
   prCommitTbl,
@@ -12,8 +11,10 @@ import {
 import { PromisePool } from "@supercharge/promise-pool";
 import { gte } from "drizzle-orm";
 
-export const aggregate = async (configs: Configs) => {
-  const octokit = await getOctokit();
+export const aggregate = async (
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+) => {
   const prs = await sharedDbClient
     .selectDistinct({ authorId: prTbl.authorId })
     .from(prTbl);

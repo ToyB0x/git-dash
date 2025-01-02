@@ -1,13 +1,16 @@
-import { getOctokit, sharedDbClient } from "@/clients";
+import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { alertTbl, repositoryTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { eq, isNull, lt, or } from "drizzle-orm";
 
-export const aggregate = async (scanId: number, configs: Configs) => {
-  const octokit = await getOctokit();
-
+export const aggregate = async (
+  scanId: number,
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+  configs: Configs,
+) => {
   const maxOldRepositoryDate = new Date(
     Date.now() -
       configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *

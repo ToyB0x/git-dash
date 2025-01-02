@@ -27,6 +27,8 @@ export const newPersonalCommand = () => {
         message: "Enter target github organization name",
       });
 
+      console.log("targetGithubOrg", targetGithubOrg);
+
       console.info("done! 🎉🎉🎉");
     });
 

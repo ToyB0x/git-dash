@@ -1,4 +1,4 @@
-import { getOctokit, sharedDbClient } from "@/clients";
+import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { calcActionsCostFromTime } from "@/utils";
 import {
@@ -6,9 +6,12 @@ import {
   workflowUsageCurrentCycleOrgTbl,
 } from "@repo/db-shared";
 
-export const aggregate = async (scanId: number, configs: Configs) => {
-  const octokit = await getOctokit();
-
+export const aggregate = async (
+  scanId: number,
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+  configs: Configs,
+) => {
   const billingStorage = await octokit.rest.billing.getSharedStorageBillingOrg({
     org: configs.GDASH_GITHUB_ORGANIZATION_NAME,
   });

@@ -1,4 +1,4 @@
-import { getOctokit, sharedDbClient } from "@/clients";
+import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { prTbl } from "@repo/db-shared";
@@ -8,10 +8,10 @@ import { desc, lt, notInArray } from "drizzle-orm";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
   configs: Configs,
 ) => {
-  const octokit = await getOctokit();
-
   const maxOldPrDate = new Date(
     Date.now() -
       configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
@@ -36,7 +36,7 @@ export const aggregate = async (
       const prs = await octokit.paginate(
         octokit.rest.pulls.list,
         {
-          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: repository.name,
           per_page: 100,
           state: "all",

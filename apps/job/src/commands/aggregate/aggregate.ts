@@ -1,5 +1,5 @@
-import { sharedDbClient } from "@/clients";
-import { type Configs, env } from "@/env";
+import { getDbClient, getOctokit } from "@/clients";
+import type { Configs } from "@/env";
 import { step } from "@/utils";
 import { scanTbl } from "@repo/db-shared";
 import { eq } from "drizzle-orm";
@@ -18,6 +18,9 @@ import { aggregate as workflowUsageCurrentCycleOrg } from "./workflow-usage-curr
 export const aggregateByOrganization = async (
   configs: Configs,
 ): Promise<void> => {
+  const octokit = await getOctokit(configs);
+  const sharedDbClient = getDbClient(configs);
+
   const scan = await sharedDbClient
     .insert(scanTbl)
     .values({ createdAt: new Date(), updatedAt: new Date() })
@@ -28,13 +31,15 @@ export const aggregateByOrganization = async (
 
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
   const repositories = await step({
+    configs,
     stepName: "aggregate:repository",
-    callback: aggregateRepositories(configs),
+    callback: aggregateRepositories(octokit, sharedDbClient, configs),
   });
 
   await step({
+    configs,
     stepName: "aggregate:alert",
-    callback: aggregateAlert(scanId, configs),
+    callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
   });
 
   const maxOldForRepo = new Date(
@@ -58,14 +63,26 @@ export const aggregateByOrganization = async (
 
   // NOTE: リポジトリ数に応じてQuotaを消費
   await step({
+    configs,
     stepName: "aggregate:release",
-    callback: aggregateRelease(filteredRepositories, configs),
+    callback: aggregateRelease(
+      filteredRepositories,
+      sharedDbClient,
+      octokit,
+      configs,
+    ),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費
   await step({
+    configs,
     stepName: "aggregate:workflow",
-    callback: aggregateWorkflow(filteredRepositories, configs),
+    callback: aggregateWorkflow(
+      filteredRepositories,
+      sharedDbClient,
+      octokit,
+      configs,
+    ),
   });
 
   // // NOTE: Workflowの実行数に応じてQuotaを消費
@@ -76,42 +93,69 @@ export const aggregateByOrganization = async (
 
   // NOTE: Workflow fileの数に応じてQuotaを消費
   await step({
+    configs,
     stepName: "aggregate:workflow-usage-current-cycle",
-    callback: workflowUsageCurrentCycle(scanId, configs),
+    callback: workflowUsageCurrentCycle(
+      scanId,
+      sharedDbClient,
+      octokit,
+      configs,
+    ),
   });
 
   // costは1のみ
   await step({
+    configs,
     stepName: "aggregate:usage-current-cycle-org",
-    callback: workflowUsageCurrentCycleOrg(scanId, configs),
+    callback: workflowUsageCurrentCycleOrg(
+      scanId,
+      sharedDbClient,
+      octokit,
+      configs,
+    ),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + PRが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
+    configs,
     stepName: "aggregate:pr",
-    callback: aggregatePr(filteredRepositories, configs),
+    callback: aggregatePr(
+      filteredRepositories,
+      sharedDbClient,
+      octokit,
+      configs,
+    ),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
+    configs,
     stepName: "aggregate:review",
-    callback: aggregateReview(filteredRepositories, configs),
+    callback: aggregateReview(
+      filteredRepositories,
+      sharedDbClient,
+      octokit,
+      configs,
+    ),
   });
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
+    configs,
     stepName: "aggregate:timeline",
-    callback: aggregateTimeline(configs),
+    callback: aggregateTimeline(sharedDbClient, octokit, configs),
   });
 
   await step({
+    configs,
     stepName: "aggregate:commit",
-    callback: aggregateCommit(configs),
+    callback: aggregateCommit(sharedDbClient, octokit, configs),
   });
 
   await step({
+    configs,
     stepName: "aggregate:user-from-pr-and-review",
-    callback: aggregateUserFromPrAndReview(configs),
+    callback: aggregateUserFromPrAndReview(sharedDbClient, octokit),
   });
 
   await sharedDbClient

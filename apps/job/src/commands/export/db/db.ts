@@ -1,20 +1,26 @@
 import { readFile } from "node:fs/promises";
-import { filePath, hc, sharedDbClient } from "@/clients";
+import { getDbClient, getDbPath, type getHonoClient } from "@/clients";
+import type { Configs } from "@/env";
 import { stat } from "@repo/schema/statFile";
 import { sql } from "drizzle-orm";
 
 export const db = async ({
+  honoClient,
   reportId,
+  configs,
 }: {
+  honoClient: ReturnType<typeof getHonoClient>;
   reportId: string;
+  configs: Configs;
 }) => {
   // VACUUM is used to rebuild the database file, it is used to optimize the database file
+  const sharedDbClient = getDbClient(configs);
   await sharedDbClient.run(sql`VACUUM;`);
 
-  const file = await readFile(filePath);
+  const file = await readFile(getDbPath(configs));
   const gziped = await gzip(file);
 
-  await hc["public-api"].db.$post({
+  await honoClient["public-api"].db.$post({
     form: {
       reportId,
       type: stat.type,
