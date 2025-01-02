@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import { apiRoute } from "./routes/api";
 import { healthRoute } from "./routes/health";
 import { publicApiRoute } from "./routes/public-api";
+import { sampleApiRoute } from "./routes/sample-api";
 
 export const app = new Hono()
   .use(
@@ -16,4 +17,5 @@ export const app = new Hono()
   )
   .route("/health", healthRoute)
   .route("/api", apiRoute)
-  .route("/public-api", publicApiRoute);
+  .route("/public-api", publicApiRoute)
+  .route("/sample-api", sampleApiRoute);
