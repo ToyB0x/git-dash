@@ -73,7 +73,7 @@ runs:
     - name: Env Check
       run: pnpm jobs check config
       shell: bash
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
         GDASH_MODE: ${{ inputs.GDASH_MODE }}
@@ -90,7 +90,7 @@ runs:
       run: pnpm jobs db download && pnpm jobs db migrate
       shell: bash
       if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
         GDASH_MODE: ${{ inputs.GDASH_MODE }}
@@ -107,7 +107,7 @@ runs:
       run: pnpm jobs aggregate organization
       shell: bash
       if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
         GDASH_MODE: ${{ inputs.GDASH_MODE }}
@@ -124,7 +124,7 @@ runs:
       run: pnpm jobs export workspace
       shell: bash
       if : ${{ inputs.ONLY_CONFIG_CHECK == 'false' }}
-      working-directory: apps/job
+      working-directory: apps/cli
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
         GDASH_MODE: ${{ inputs.GDASH_MODE }}
