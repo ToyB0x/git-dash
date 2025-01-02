@@ -1,8 +1,8 @@
 import { reportTbl } from "@git-dash/db-api/schema";
-import { getR2Path } from "@git-dash/schema/path";
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
+import { getR2Path } from "../../../constants";
 
 const factory = createFactory<{
   Bindings: Env;
