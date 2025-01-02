@@ -8,7 +8,7 @@ export const exportByWorkspace = async (configs: Configs): Promise<void> => {
 
   const exportedFile = await exportDbFile({ dbClient, configs });
 
-  await honoClient["public-api"].db.$post({
+  await hc["public-api"].db.$post({
     form: {
       file: exportedFile,
     },
