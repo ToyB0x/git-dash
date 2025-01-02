@@ -4,7 +4,6 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { generateHash } from "../../utils";
 import { dbRoute } from "./db";
-import { reportsMetaRoute } from "./reports-meta";
 import { testRoute } from "./test";
 
 export const publicApiRoute = new Hono<{
@@ -37,6 +36,5 @@ export const publicApiRoute = new Hono<{
     c.set("validWorkspaceId", workspace.id);
     return next();
   })
-  .route("/reports-meta", reportsMetaRoute)
   .route("/test", testRoute)
   .route("/db", dbRoute);

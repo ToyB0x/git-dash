@@ -5,7 +5,6 @@ import {
 import { Hono } from "hono";
 import { dbRoute } from "./db";
 import { memberRoute } from "./members";
-import { reportMetaRoute } from "./report-meta";
 import { userRoute } from "./users";
 import { workspaceRoute } from "./workspaces";
 
@@ -25,6 +24,5 @@ export const apiRoute = new Hono<{ Bindings: Env }>()
   })
   .route("/workspaces", workspaceRoute)
   .route("/members", memberRoute)
-  .route("/reports-meta", reportMetaRoute)
   .route("/users", userRoute)
   .route("/db", dbRoute);
