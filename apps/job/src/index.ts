@@ -4,6 +4,7 @@ import {
   newCheckCommand,
   newDbCommand,
   newExportCommand,
+  newPersonalCommand,
 } from "./commands";
 
 const main = async () => {
@@ -12,6 +13,7 @@ const main = async () => {
   program.addCommand(newCheckCommand());
   program.addCommand(newExportCommand());
   program.addCommand(newDbCommand());
+  program.addCommand(newPersonalCommand());
 
   try {
     await program.parseAsync();
