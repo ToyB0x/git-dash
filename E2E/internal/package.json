@@ -17,7 +17,7 @@
     "@repo/web": "workspace:*",
     "@playwright/test": "1.49.1",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "22.10.3",
+    "@types/node": "22.10.4",
     "start-server-and-test": "2.0.9",
     "typescript": "5.7.2"
   }
