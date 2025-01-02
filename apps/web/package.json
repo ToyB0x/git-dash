@@ -7,9 +7,9 @@
     "dev": "react-router dev",
     "start:preview": "vite preview",
     "//deploy:[env]": "currently cloudflare pages only support preview / production enviroment, so manually overwrite config file",
-    "deploy:development": "pnpm build && cp wrangler-dev.toml wrangler.toml && wrangler pages deploy --branch main",
-    "deploy:staging": "pnpm build && cp wrangler-stg.toml wrangler.toml && wrangler pages deploy --branch main && cp wrangler-dev.toml wrangler.toml",
-    "deploy:production": "pnpm build && cp wrangler-prd.toml wrangler.toml && wrangler pages deploy --branch main && cp wrangler-dev.toml wrangler.toml",
+    "deploy:development": "pnpm build && cp wrangler-dev.toml wrangler.toml && wrangler pages deploy --branch main && cp wrangler-local.toml wrangler.toml",
+    "deploy:staging": "pnpm build && cp wrangler-stg.toml wrangler.toml && wrangler pages deploy --branch main && cp wrangler-local.toml wrangler.toml",
+    "deploy:production": "pnpm build && cp wrangler-prd.toml wrangler.toml && wrangler pages deploy --branch main && cp wrangler-local.toml wrangler.toml",
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
