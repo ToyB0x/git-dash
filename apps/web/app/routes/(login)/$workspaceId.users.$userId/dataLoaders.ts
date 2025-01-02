@@ -268,6 +268,8 @@ export const dataLoaderTimeToReview = async (
 
   const sumIn30Days = reviewResults
     .filter((result) => result.createdAt > subDays(new Date(), 30))
+    // NOTE: 5日以上かかった外れ値を除外する例
+    // .filter((result) => result.elapsedMsec < 5 * 60 * 60 * 24 * 1000)
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
   // TODO: この部分が必ずレビューを返した全体の計算になっているので修正
   const averageIn30Days = Math.round(
@@ -458,6 +460,8 @@ export const dataLoaderTimeToReviewed = async (
 
   const sumIn30Days = reviewResults
     .filter((result) => result.createdAt > subDays(new Date(), 30))
+    // NOTE: 5日以上かかった外れ値を除外する例
+    // .filter((result) => result.elapsedMsec < 5 * 60 * 60 * 24 * 1000)
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
 
   const averageIn30Days = Math.round(
