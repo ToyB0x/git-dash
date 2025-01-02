@@ -1,8 +1,8 @@
+import type { getWasmDb } from "@/clients";
 import { generateDailyData } from "@/lib/generateDailyData";
 import { prTbl, scanTbl, timelineTbl } from "@git-dash/db";
 import { subDays } from "date-fns";
 import { and, desc, eq, gt, gte, inArray, isNotNull } from "drizzle-orm";
-import type { DrizzleSqliteDODatabase } from "drizzle-orm/durable-sqlite";
 
 type GraphData = {
   version: "0.1";
@@ -71,7 +71,7 @@ export const dataLoaderReviews = async (
 };
 
 export const dataLoaderTimeToMerge = async (
-  db: DrizzleSqliteDODatabase,
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   userId: number,
 ) => {
   const mergedPrs = await db
@@ -185,7 +185,7 @@ export const dataLoaderTimeToMerge = async (
 };
 
 export const dataLoaderTimeToReview = async (
-  db: DrizzleSqliteDODatabase,
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   userId: number,
 ) => {
   const recentPrIds = await db
@@ -367,7 +367,7 @@ export const dataLoaderTimeToReview = async (
 };
 
 export const dataLoaderTimeToReviewed = async (
-  db: DrizzleSqliteDODatabase,
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   userId: number,
 ) => {
   const recentPrIds = await db
