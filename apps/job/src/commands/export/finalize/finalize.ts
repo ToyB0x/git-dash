@@ -1,17 +1,21 @@
-import { hc } from "@/clients";
-import { env } from "@/env";
+import type { getHonoClient } from "@/clients";
+import type { Configs } from "@/env";
 
 export const finalize = async ({
+  hc,
   reportId,
+  configs,
 }: {
+  hc: ReturnType<typeof getHonoClient>;
   reportId: string;
+  configs: Configs;
 }) => {
   // send finish status
   await hc["public-api"]["reports-meta"][":workspaceId"].$patch({
-    param: { workspaceId: env.GDASH_WORKSPACE_ID },
+    param: { workspaceId: configs.GDASH_WORKSPACE_ID },
     json: {
       reportId,
-      workspaceId: env.GDASH_WORKSPACE_ID,
+      workspaceId: configs.GDASH_WORKSPACE_ID,
       status: "FINISHED",
     },
   });

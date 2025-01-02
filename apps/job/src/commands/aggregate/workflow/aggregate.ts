@@ -1,14 +1,15 @@
-import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { getDbClient, getOctokit } from "@/clients";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { workflowTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+  configs: Configs,
 ) => {
-  const octokit = await getOctokit();
-
   const { errors } = await PromisePool.for(repositories)
     // parent: 8 , child: 10 = max 80 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
@@ -22,7 +23,7 @@ export const aggregate = async (
       const workflows = await octokit.paginate(
         octokit.rest.actions.listRepoWorkflows,
         {
-          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: repository.name,
           per_page: 1000,
         },

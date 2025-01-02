@@ -1,20 +1,26 @@
-import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { getDbClient, getOctokit } from "@/clients";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { prTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
 import { desc, lt, notInArray } from "drizzle-orm";
 
-const maxOldPrDate = new Date(
-  Date.now() -
-    env.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ * 60 * 60 * 24 * 1000,
-);
-
 export const aggregate = async (
   repositories: { id: number; name: string }[],
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+  configs: Configs,
 ) => {
-  const octokit = await getOctokit();
+  const maxOldPrDate = new Date(
+    Date.now() -
+      configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
+        60 *
+        60 *
+        24 *
+        1000,
+  );
+
   // TODO: 直近に更新されていないリポジトリは除外して高速化する
   const { errors } = await PromisePool.for(repositories)
     // 8 concurrent requests
@@ -30,7 +36,7 @@ export const aggregate = async (
       const prs = await octokit.paginate(
         octokit.rest.pulls.list,
         {
-          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: repository.name,
           per_page: 100,
           state: "all",
@@ -91,7 +97,9 @@ export const aggregate = async (
   // delete old prs
   await sharedDbClient
     .delete(prTbl)
-    .where(lt(prTbl.createdAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)));
+    .where(
+      lt(prTbl.createdAt, subDays(new Date(), configs.GDASH_DISCARD_DAYS)),
+    );
 
   // TODO: ユーザごとにForで回して最後の10件のみタイトルを残す
   const latestPrs = await sharedDbClient

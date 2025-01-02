@@ -1,14 +1,16 @@
-import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { getDbClient, getOctokit } from "@/clients";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { eventTypes, prTbl, repositoryTbl, timelineTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
 import { and, eq, gte, lt } from "drizzle-orm";
 
-export const aggregate = async () => {
-  const octokit = await getOctokit();
-
+export const aggregate = async (
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+  configs: Configs,
+) => {
   const recentPrs = await sharedDbClient
     .select({
       prId: prTbl.id,
@@ -22,7 +24,7 @@ export const aggregate = async () => {
       and(
         gte(
           prTbl.updatedAt,
-          subDays(new Date(), env.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS),
+          subDays(new Date(), configs.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS),
         ),
       ),
     )
@@ -47,7 +49,7 @@ export const aggregate = async () => {
       const timelines = await octokit.paginate(
         octokit.rest.issues.listEventsForTimeline,
         {
-          owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+          owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
           repo: pr.repositoryName,
           per_page: 100,
           issue_number: pr.prNumber,
@@ -111,6 +113,9 @@ export const aggregate = async () => {
   await sharedDbClient
     .delete(timelineTbl)
     .where(
-      lt(timelineTbl.createdAt, subDays(new Date(), env.GDASH_DISCARD_DAYS)),
+      lt(
+        timelineTbl.createdAt,
+        subDays(new Date(), configs.GDASH_DISCARD_DAYS),
+      ),
     );
 };

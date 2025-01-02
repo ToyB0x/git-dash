@@ -1,5 +1,5 @@
 import process from "node:process";
-import { env } from "@/env";
+import { readConfigs } from "@/env";
 import { Command } from "commander";
 
 export const newCheckCommand = () => {
@@ -11,8 +11,13 @@ export const newCheckCommand = () => {
     .description("check command envs")
     .action(async () => {
       console.info("Checking envs...");
-      // parse and validate envs
-      env;
+
+      // NOTE: 現在 config check は ORGANIZATION_APP のみをサポートしている (Personal mode は対話式で確認するのでチェックコマンド不要)
+      readConfigs({
+        GDASH_MODE: "ORGANIZATION_APP",
+        env: process.env,
+      });
+
       console.info("Envs are set correctly 🎉🎉🎉");
       process.exit(0);
     });

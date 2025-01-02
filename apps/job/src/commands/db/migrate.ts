@@ -1,9 +1,12 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
-import { filePath } from "@/clients";
+import { getDbPath } from "@/clients";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 
-export const migrate = () => {
+export const migrate = (configs: Configs) => {
+  const filePath = getDbPath(configs);
+
   try {
     logger.info("Migrating database file");
     const stdout = execSync(

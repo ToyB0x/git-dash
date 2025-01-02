@@ -1,17 +1,24 @@
-import { getOctokit, sharedDbClient } from "@/clients";
-import { env } from "@/env";
+import type { getDbClient, getOctokit } from "@/clients";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { alertTbl, repositoryTbl } from "@repo/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { eq, isNull, lt, or } from "drizzle-orm";
 
-const maxOldRepositoryDate = new Date(
-  Date.now() -
-    env.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ * 1000 * 60 * 60 * 24,
-);
-
-export const aggregate = async (scanId: number) => {
-  const octokit = await getOctokit();
+export const aggregate = async (
+  scanId: number,
+  sharedDbClient: ReturnType<typeof getDbClient>,
+  octokit: Awaited<ReturnType<typeof getOctokit>>,
+  configs: Configs,
+) => {
+  const maxOldRepositoryDate = new Date(
+    Date.now() -
+      configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
+        1000 *
+        60 *
+        60 *
+        24,
+  );
 
   // NOTE: 直近に更新されていないリポジトリは除外して高速化する
   const repositories = await sharedDbClient
@@ -37,7 +44,7 @@ export const aggregate = async (scanId: number) => {
         // ref: https://docs.github.com/ja/rest/repos/repos?apiVersion=2022-11-28#check-if-vulnerability-alerts-are-enabled-for-a-repository
         const isEnabledAlert =
           await octokit.rest.repos.checkVulnerabilityAlerts({
-            owner: env.GDASH_GITHUB_ORGANIZATION_NAME,
+            owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
             repo: repository.name,
           });
 
@@ -64,7 +71,7 @@ export const aggregate = async (scanId: number) => {
   const alerts = await octokit.paginate(
     octokit.rest.dependabot.listAlertsForOrg,
     {
-      org: env.GDASH_GITHUB_ORGANIZATION_NAME,
+      org: configs.GDASH_GITHUB_ORGANIZATION_NAME,
       per_page: 100,
       state: "open",
     },

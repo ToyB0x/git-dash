@@ -1,8 +1,12 @@
 import fs from "node:fs";
-import { filePath, hc } from "@/clients";
+import { getDbPath, getHonoClient } from "@/clients";
+import type { Configs } from "@/env";
 import { logger } from "@/utils";
 
-export const download = async () => {
+export const download = async (configs: Configs) => {
+  const hc = getHonoClient(configs);
+  const filePath = getDbPath(configs);
+
   logger.info("Downloading database file");
   const res = await hc["public-api"].db.$get();
 
