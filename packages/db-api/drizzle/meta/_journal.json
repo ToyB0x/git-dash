@@ -36,6 +36,13 @@
       "when": 1735855354271,
       "tag": "0004_cheerful_tag",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1735858837410,
+      "tag": "0005_public_mister_fear",
+      "breakpoints": true
     }
   ]
 }
