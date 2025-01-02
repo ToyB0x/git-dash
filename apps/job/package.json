@@ -4,8 +4,6 @@
   "type": "module",
   "scripts": {
     "build": "tsup",
-    "build:with-generate": "pnpm generate && tsup",
-    "generate": "echo 'Currently not implemented'",
     "//generate": "graphql-codegen --config codegen.ts",
     "jobs": "node --enable-source-maps dist/index.js",
     "jobs:with-env": " dotenv -e ../../.env -- node --enable-source-maps dist/index.js",
@@ -13,10 +11,12 @@
     "jobs:dev:aggregate:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate workspace",
     "jobs:dev:export:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs export workspace",
     "jobs:dev:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs check config",
+    "jobs:personaly": "pnpm build && dotenv -e ../../.env -- pnpm jobs personal",
     "jobs:all": "pnpm jobs:dev:aggregate:organization && dotenv -e ../../.env -- pnpm jobs export workspace",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@inquirer/prompts": "7.2.1",
     "@libsql/client": "0.14.0",
     "@repo/api": "workspace:*",
     "@repo/db-shared": "workspace:*",
