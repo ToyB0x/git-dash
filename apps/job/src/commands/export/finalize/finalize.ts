@@ -10,6 +10,9 @@ export const finalize = async ({
   reportId: string;
   configs: Configs;
 }) => {
+  if (configs.GDASH_MODE === "PERSONAL_SAMPLE")
+    throw Error("personal sample mode is not supported");
+
   // send finish status
   await hc["public-api"]["reports-meta"][":workspaceId"].$patch({
     param: { workspaceId: configs.GDASH_WORKSPACE_ID },

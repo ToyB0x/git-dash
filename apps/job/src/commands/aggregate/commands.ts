@@ -1,6 +1,6 @@
 import { readConfigs } from "@/env";
 import { Command } from "commander";
-import { aggregateByOrganization } from "./aggregate";
+import { aggregateAll } from "./aggregate";
 
 export const newAggregateCommand = () => {
   const aggregate = new Command("aggregate");
@@ -11,7 +11,7 @@ export const newAggregateCommand = () => {
     .description("aggregate specific organization repositories.")
     .action(
       async () =>
-        await aggregateByOrganization(
+        await aggregateAll(
           readConfigs({
             // NOTE: 既存のこのコマンドから呼び出すのは現時点ではORGANIZATION_APPのみ
             GDASH_MODE: "ORGANIZATION_APP",

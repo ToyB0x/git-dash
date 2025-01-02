@@ -11,7 +11,8 @@
     "jobs:dev:aggregate:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate workspace",
     "jobs:dev:export:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs export workspace",
     "jobs:dev:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs check config",
-    "jobs:personaly": "pnpm build && dotenv -e ../../.env -- pnpm jobs personal",
+    "jobs:personal": "pnpm build && pnpm jobs personal",
+    "jobs:personal:show": "pnpm build && pnpm jobs personal show",
     "jobs:all": "pnpm jobs:dev:aggregate:organization && dotenv -e ../../.env -- pnpm jobs export workspace",
     "typecheck": "tsc --noEmit"
   },
@@ -22,6 +23,7 @@
     "@repo/db-shared": "workspace:*",
     "@repo/utils": "workspace:*",
     "@supercharge/promise-pool": "3.2.0",
+    "cli-table": "0.3.11",
     "commander": "13.0.0",
     "date-fns": "4.1.0",
     "dotenv-cli": "8.0.0",
@@ -34,6 +36,7 @@
   "devDependencies": {
     "@repo/schema": "workspace:*",
     "@tsconfig/strictest": "2.0.5",
+    "@types/cli-table": "0.3.4",
     "@types/node": "22.10.3",
     "tsup": "8.3.5",
     "typescript": "5.7.2"

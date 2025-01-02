@@ -15,9 +15,7 @@ import { aggregate as aggregateWorkflow } from "./workflow";
 import { aggregate as workflowUsageCurrentCycle } from "./workflow-usage-current-cycle";
 import { aggregate as workflowUsageCurrentCycleOrg } from "./workflow-usage-current-cycle-org";
 
-export const aggregateByOrganization = async (
-  configs: Configs,
-): Promise<void> => {
+export const aggregateAll = async (configs: Configs): Promise<void> => {
   const octokit = await getOctokit(configs);
   const sharedDbClient = getDbClient(configs);
 
@@ -36,11 +34,13 @@ export const aggregateByOrganization = async (
     callback: aggregateRepositories(octokit, sharedDbClient, configs),
   });
 
-  await step({
-    configs,
-    stepName: "aggregate:alert",
-    callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
-  });
+  if (configs.GDASH_MODE !== "PERSONAL") {
+    await step({
+      configs,
+      stepName: "aggregate:alert",
+      callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
+    });
+  }
 
   const maxOldForRepo = new Date(
     Date.now() -
@@ -61,29 +61,33 @@ export const aggregateByOrganization = async (
         new Date(repository.updated_at).getTime() > maxOldForRepo),
   );
 
-  // NOTE: リポジトリ数に応じてQuotaを消費
-  await step({
-    configs,
-    stepName: "aggregate:release",
-    callback: aggregateRelease(
-      filteredRepositories,
-      sharedDbClient,
-      octokit,
+  if (configs.GDASH_MODE !== "PERSONAL") {
+    // NOTE: リポジトリ数に応じてQuotaを消費
+    await step({
       configs,
-    ),
-  });
+      stepName: "aggregate:release",
+      callback: aggregateRelease(
+        filteredRepositories,
+        sharedDbClient,
+        octokit,
+        configs,
+      ),
+    });
+  }
 
-  // NOTE: リポジトリ数に応じてQuotaを消費
-  await step({
-    configs,
-    stepName: "aggregate:workflow",
-    callback: aggregateWorkflow(
-      filteredRepositories,
-      sharedDbClient,
-      octokit,
+  if (configs.GDASH_MODE !== "PERSONAL") {
+    // NOTE: リポジトリ数に応じてQuotaを消費
+    await step({
       configs,
-    ),
-  });
+      stepName: "aggregate:workflow",
+      callback: aggregateWorkflow(
+        filteredRepositories,
+        sharedDbClient,
+        octokit,
+        configs,
+      ),
+    });
+  }
 
   // // NOTE: Workflowの実行数に応じてQuotaを消費
   // await step({
@@ -91,29 +95,33 @@ export const aggregateByOrganization = async (
   //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
   // });
 
-  // NOTE: Workflow fileの数に応じてQuotaを消費
-  await step({
-    configs,
-    stepName: "aggregate:workflow-usage-current-cycle",
-    callback: workflowUsageCurrentCycle(
-      scanId,
-      sharedDbClient,
-      octokit,
+  if (configs.GDASH_MODE !== "PERSONAL") {
+    // NOTE: Workflow fileの数に応じてQuotaを消費
+    await step({
       configs,
-    ),
-  });
+      stepName: "aggregate:workflow-usage-current-cycle",
+      callback: workflowUsageCurrentCycle(
+        scanId,
+        sharedDbClient,
+        octokit,
+        configs,
+      ),
+    });
+  }
 
-  // costは1のみ
-  await step({
-    configs,
-    stepName: "aggregate:usage-current-cycle-org",
-    callback: workflowUsageCurrentCycleOrg(
-      scanId,
-      sharedDbClient,
-      octokit,
+  if (configs.GDASH_MODE !== "PERSONAL") {
+    // costは1のみ
+    await step({
       configs,
-    ),
-  });
+      stepName: "aggregate:usage-current-cycle-org",
+      callback: workflowUsageCurrentCycleOrg(
+        scanId,
+        sharedDbClient,
+        octokit,
+        configs,
+      ),
+    });
+  }
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + PRが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
