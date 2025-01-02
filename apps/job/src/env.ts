@@ -51,8 +51,9 @@ const envSchemaPersonalMode = v.object({
     v.literal("stg"),
     v.literal("prd"),
   ]),
-  GDASH_WORKSPACE_ID: v.pipe(v.string(), v.minLength(3)),
-  GDASH_WORKSPACE_API_KEY: v.pipe(v.string(), v.minLength(5)),
+  // TODO: enable report to workspace
+  // GDASH_WORKSPACE_ID: v.pipe(v.string(), v.minLength(3)),
+  // GDASH_WORKSPACE_API_KEY: v.pipe(v.string(), v.minLength(5)),
   GDASH_GITHUB_ORGANIZATION_NAME: v.pipe(v.string(), v.minLength(3)),
   GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS: v.optional(
     v.pipe(
