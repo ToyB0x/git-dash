@@ -29,6 +29,6 @@ jobs:
 
       - name: Update dev tag
         run: pnpm run:update-tag:dev
-        working-directory: apps/cli
+        working-directory: apps/cli-admin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
