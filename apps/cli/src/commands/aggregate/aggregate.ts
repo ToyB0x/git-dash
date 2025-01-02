@@ -34,7 +34,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     callback: aggregateRepositories(octokit, sharedDbClient, configs),
   });
 
-  if (configs.GDASH_MODE !== "PERSONAL") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     await step({
       configs,
       stepName: "aggregate:alert",
@@ -61,7 +61,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
         new Date(repository.updated_at).getTime() > maxOldForRepo),
   );
 
-  if (configs.GDASH_MODE !== "PERSONAL") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -75,7 +75,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (configs.GDASH_MODE !== "PERSONAL") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -95,7 +95,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
   // });
 
-  if (configs.GDASH_MODE !== "PERSONAL") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // NOTE: Workflow fileの数に応じてQuotaを消費
     await step({
       configs,
@@ -109,7 +109,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (configs.GDASH_MODE !== "PERSONAL") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // costは1のみ
     await step({
       configs,
@@ -147,18 +147,22 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     ),
   });
 
-  // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
-  await step({
-    configs,
-    stepName: "aggregate:timeline",
-    callback: aggregateTimeline(sharedDbClient, octokit, configs),
-  });
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+    // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
+    await step({
+      configs,
+      stepName: "aggregate:timeline",
+      callback: aggregateTimeline(sharedDbClient, octokit, configs),
+    });
+  }
 
-  await step({
-    configs,
-    stepName: "aggregate:commit",
-    callback: aggregateCommit(sharedDbClient, octokit, configs),
-  });
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+    await step({
+      configs,
+      stepName: "aggregate:commit",
+      callback: aggregateCommit(sharedDbClient, octokit, configs),
+    });
+  }
 
   await step({
     configs,
