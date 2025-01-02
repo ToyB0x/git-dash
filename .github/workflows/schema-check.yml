@@ -2,8 +2,8 @@ name: schema-check
 on:
   pull_request:
     paths:
+      - 'packages/db/src/**'
       - 'packages/db-api/src/**'
-      - 'packages/db-shared/src/**'
 
 permissions:
   contents: read # for checkout repository
