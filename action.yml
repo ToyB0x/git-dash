@@ -64,7 +64,7 @@ runs:
       shell: bash
 
     - name: Build all packages
-      run: pnpm turbo build --filter=@repo/job
+      run: pnpm turbo build --filter=@git-dash/job
       shell: bash
 
     - name: Env Check
