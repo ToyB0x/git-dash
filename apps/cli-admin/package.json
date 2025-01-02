@@ -15,7 +15,7 @@
     "@git-dash/db-api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "22.10.3",
+    "@types/node": "22.10.4",
     "drizzle-orm": "0.38.3",
     "firebase-admin": "13.0.2",
     "tsx": "latest",
