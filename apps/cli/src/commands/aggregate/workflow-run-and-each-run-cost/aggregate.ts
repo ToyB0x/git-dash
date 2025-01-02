@@ -8,7 +8,7 @@
 // import { getOctokit, sharedDbClient } from "@/clients";
 // import { env } from "@/env";
 // import { calcActionsCostFromTime, logger } from "@/utils";
-// import { workflowRunTbl } from "@g-dash/db-shared";
+// import { workflowRunTbl } from "@git-dash/db-shared";
 // import { PromisePool } from "@supercharge/promise-pool";
 // import { eq } from "drizzle-orm";
 //

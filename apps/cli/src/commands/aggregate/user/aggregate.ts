@@ -7,7 +7,7 @@ import {
   reviewTbl,
   timelineTbl,
   userTbl,
-} from "@g-dash/db-shared";
+} from "@git-dash/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { gte } from "drizzle-orm";
 

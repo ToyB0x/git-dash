@@ -21,7 +21,7 @@ import {
   repositoryTbl,
   reviewTbl,
   userTbl,
-} from "@g-dash/db-shared";
+} from "@git-dash/db-shared";
 import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
 import { and, asc, count, desc, eq, gte, lt } from "drizzle-orm";
 import React, { type ReactNode, useEffect, useState } from "react";

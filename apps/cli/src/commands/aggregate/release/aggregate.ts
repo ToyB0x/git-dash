@@ -1,7 +1,7 @@
 import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
-import { releaseTbl } from "@g-dash/db-shared";
+import { releaseTbl } from "@git-dash/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { desc, lt, notInArray } from "drizzle-orm";
 

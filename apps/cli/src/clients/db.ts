@@ -16,7 +16,7 @@ export const getDbClient = (configs: Configs) => {
   if (configs.GDASH_MODE === "PERSONAL") {
     logger.debug("Migrating database file");
     const stdout = execSync(
-      `DB_FILE_NAME=${filePath} pnpm --filter @g-dash/db-shared db:migrate`,
+      `DB_FILE_NAME=${filePath} pnpm --filter @git-dash/db-shared db:migrate`,
     );
     logger.debug(stdout.toString());
   }

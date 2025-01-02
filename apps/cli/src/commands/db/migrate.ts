@@ -10,7 +10,7 @@ export const migrate = (configs: Configs) => {
   try {
     logger.info("Migrating database file");
     const stdout = execSync(
-      `DB_FILE_NAME=${filePath} pnpm --filter @g-dash/db-shared db:migrate`,
+      `DB_FILE_NAME=${filePath} pnpm --filter @git-dash/db-shared db:migrate`,
     );
     logger.info(stdout.toString());
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -26,7 +26,7 @@ export const migrate = (configs: Configs) => {
 
     logger.info("Createing new database file");
     const stdout = execSync(
-      `DB_FILE_NAME=${filePath} pnpm --filter @g-dash/db-shared db:migrate`,
+      `DB_FILE_NAME=${filePath} pnpm --filter @git-dash/db-shared db:migrate`,
     );
     logger.info(stdout.toString());
   }

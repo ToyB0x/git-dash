@@ -13,7 +13,7 @@
   "devDependencies": {
     "@libsql/client": "0.14.0",
     "@repo/db-api": "workspace:*",
-    "@g-dash/db-shared": "workspace:*",
+    "@git-dash/db-shared": "workspace:*",
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "22.10.3",
     "drizzle-orm": "0.38.3",

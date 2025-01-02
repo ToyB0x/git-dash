@@ -17,7 +17,7 @@ import {
   dataLoaderVulnerabilityLow,
 } from "@/routes/(login)/$workspaceId/vuln/dataLoaders";
 import type { Route } from "@@/(login)/$workspaceId/vuln/+types/page";
-import { alertTbl, repositoryTbl, scanTbl } from "@g-dash/db-shared";
+import { alertTbl, repositoryTbl, scanTbl } from "@git-dash/db-shared";
 import { isDate } from "date-fns";
 import { asc, desc, eq } from "drizzle-orm";
 import { Link, redirect } from "react-router";

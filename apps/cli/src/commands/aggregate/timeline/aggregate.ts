@@ -6,7 +6,7 @@ import {
   prTbl,
   repositoryTbl,
   timelineTbl,
-} from "@g-dash/db-shared";
+} from "@git-dash/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
 import { and, eq, gte, lt } from "drizzle-orm";
