@@ -1,5 +1,5 @@
 {
-  "name": "@repo/cli",
+  "name": "@repo/cli-admin",
   "private": true,
   "type": "module",
   "scripts": {

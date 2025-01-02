@@ -1,5 +1,6 @@
 {
-  "name": "@repo/job",
+  "name": "@g-dash/cli",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {
