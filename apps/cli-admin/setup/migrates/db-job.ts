@@ -5,7 +5,7 @@ const withLog = (command: ReturnType<typeof execSync>) => {
 };
 
 export const migrateDbJob = () => {
-  withLog(execSync("pnpm --filter @repo/db-job generate"));
-  withLog(execSync("pnpm --filter @repo/db-job build"));
-  withLog(execSync("pnpm --filter @repo/db-job migrate:deploy"));
+  withLog(execSync("pnpm --filter @git-dash/db-job generate"));
+  withLog(execSync("pnpm --filter @git-dash/db-job build"));
+  withLog(execSync("pnpm --filter @git-dash/db-job migrate:deploy"));
 };

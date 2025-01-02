@@ -4,7 +4,7 @@ import {
   userTbl,
   usersToWorkspaces,
   workspaceTbl,
-} from "@repo/db-api/schema";
+} from "@git-dash/db-api/schema";
 import { drizzle } from "drizzle-orm/libsql";
 import { SampleUser } from "../constants/user";
 

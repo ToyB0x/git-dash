@@ -5,5 +5,5 @@ const withLog = (command: ReturnType<typeof execSync>) => {
 };
 
 export const migrateDbApi = () => {
-  withLog(execSync("pnpm --filter @repo/db-api db:reset:local"));
+  withLog(execSync("pnpm --filter @git-dash/db-api db:reset:local"));
 };
