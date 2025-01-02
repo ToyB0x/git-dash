@@ -37,7 +37,6 @@
     "@remixicon/react": "4.6.0",
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
-    "@git-dash/schema": "workspace:*",
     "@tanstack/react-table": "8.20.6",
     "clsx": "2.1.1",
     "date-fns": "4.1.0",
