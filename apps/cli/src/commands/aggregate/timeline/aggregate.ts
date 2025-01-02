@@ -10,6 +10,7 @@ export const aggregate = async (
   sharedDbClient: ReturnType<typeof getDbClient>,
   octokit: Awaited<ReturnType<typeof getOctokit>>,
   configs: Configs,
+  heatmapDaysAgo?: number,
 ) => {
   const recentPrs = await sharedDbClient
     .select({
@@ -24,7 +25,12 @@ export const aggregate = async (
       and(
         gte(
           prTbl.updatedAt,
-          subDays(new Date(), configs.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS),
+          subDays(
+            new Date(),
+            heatmapDaysAgo
+              ? heatmapDaysAgo
+              : configs.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS,
+          ),
         ),
       ),
     )

@@ -9,7 +9,7 @@ export const aggregate = async (
   octokit: Awaited<ReturnType<typeof getOctokit>>,
   sharedDbClient: ReturnType<typeof getDbClient>,
   configs: Configs,
-  maxOldReleaseDate?: Date,
+  maxOldRepoDate?: Date,
 ) => {
   // ref: https://docs.github.com/ja/rest/repos/repos?apiVersion=2022-11-28
   const repos = await octokit.paginate(
@@ -22,7 +22,7 @@ export const aggregate = async (
     },
     (response, done) => {
       const maxOld =
-        maxOldReleaseDate ||
+        maxOldRepoDate ||
         subDays(new Date(), configs.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS);
       if (
         response.data.find(
@@ -35,7 +35,14 @@ export const aggregate = async (
     },
   );
 
-  const { results, errors } = await PromisePool.for(repos)
+  const recentRepos = repos.filter((repo) => {
+    const maxOld =
+      maxOldRepoDate ||
+      subDays(new Date(), configs.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS);
+    return repo.pushed_at && new Date(repo.pushed_at) >= maxOld;
+  });
+
+  const { results, errors } = await PromisePool.for(recentRepos)
     // parent: 8 , child: 10 = max 80 concurrent requests
     // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
     .withConcurrency(10)

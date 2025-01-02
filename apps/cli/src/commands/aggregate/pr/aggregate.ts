@@ -40,14 +40,14 @@ export const aggregate = async (
           repo: repository.name,
           per_page: 100,
           state: "all",
-          sort: "created",
+          sort: "updated",
           direction: "desc",
         },
         (response, done) => {
           if (
             response.data.find(
               (pr) =>
-                new Date(pr.created_at).getTime() < maxOldPrDate.getTime(),
+                new Date(pr.updated_at).getTime() < maxOldPrDate.getTime(),
             )
           ) {
             done();
@@ -56,7 +56,11 @@ export const aggregate = async (
         },
       );
 
-      await PromisePool.for(prs)
+      const recentPrs = prs.filter(
+        (pr) => new Date(pr.updated_at) >= maxOldPrDate,
+      );
+
+      await PromisePool.for(recentPrs)
         // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
         .withConcurrency(1)
         .process(async (pr) => {
