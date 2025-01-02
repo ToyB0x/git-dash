@@ -7,6 +7,8 @@ import { logger } from "@/utils";
 export const migrate = (configs: Configs) => {
   const filePath = getDbPath(configs);
 
+  // TODO: 全てのモードでマイグレーションの手順を共通化するようコードをリファクタする
+  // (現在はactionsを使う時はpnpm workspaceコマンド、パブリッシュしたcli利用時はnpxを利用する形に分岐してしまっている)
   try {
     logger.info("Migrating database file");
     const stdout = execSync(
