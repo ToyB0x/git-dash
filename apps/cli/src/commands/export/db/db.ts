@@ -1,7 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { getDbClient, getDbPath, type getHonoClient } from "@/clients";
 import type { Configs } from "@/env";
-import { stat } from "@git-dash/schema/statFile";
 import { sql } from "drizzle-orm";
 
 export const db = async ({
@@ -23,7 +22,6 @@ export const db = async ({
   await honoClient["public-api"].db.$post({
     form: {
       reportId,
-      type: stat.type,
       file: new File([gziped], "sqlite.db.gz"),
     },
   });
