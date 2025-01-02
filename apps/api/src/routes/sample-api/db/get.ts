@@ -26,7 +26,7 @@ const handlers = factory.createHandlers(async (c) => {
     throw Error("Sample expired");
   }
 
-  const obj = await c.env.CLIENT_DB_BUCKET_SAMPLE.get(
+  const obj = await c.env.REPORT_DB_BUCKET_SAMPLE.get(
     getR2PathSample({ sampleWorkspaceId }),
   );
 
