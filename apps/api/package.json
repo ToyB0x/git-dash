@@ -1,7 +1,6 @@
 {
   "name": "@git-dash/api",
   "version": "0.0.1",
-  "private": true,
   "type": "module",
   "exports": {
     "./hc": {
@@ -37,5 +36,6 @@
     "@tsconfig/strictest": "2.0.5",
     "wrangler": "3.99.0",
     "typescript": "5.7.2"
-  }
+  },
+  "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }

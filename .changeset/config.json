@@ -7,5 +7,5 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": ["@git-dash/web", "@git-dash/cli-admin", "@git-dash/e2e-internal"]
 }
