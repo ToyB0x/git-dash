@@ -1,6 +1,6 @@
 import process from "node:process";
 import { styleText } from "node:util";
-import { getDbClient, getOctokit } from "@/clients";
+import { getDbClient, getHonoClient, getOctokit } from "@/clients";
 import { aggregate as aggregateCommit } from "@/commands/aggregate/commit";
 import { aggregate as aggregatePr } from "@/commands/aggregate/pr";
 import { aggregate as aggregateRepositories } from "@/commands/aggregate/repositories";
@@ -8,7 +8,7 @@ import { aggregate as aggregateReview } from "@/commands/aggregate/review";
 import { aggregate as aggregateTimeline } from "@/commands/aggregate/timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "@/commands/aggregate/user";
 import { readConfigs } from "@/env";
-import { logger, step } from "@/utils";
+import { exportDbFile, logger, step } from "@/utils";
 import { prTbl, scanTbl } from "@git-dash/db";
 import { confirm, input, number } from "@inquirer/prompts";
 import { subDays } from "date-fns";
@@ -151,6 +151,16 @@ export const defaultCommand = async () => {
     .update(scanTbl)
     .set({ updatedAt: new Date() })
     .where(eq(scanTbl.id, scanId));
+
+  const hc = getHonoClient(configs);
+
+  const file = await exportDbFile({ dbClient: sharedDbClient, configs });
+
+  await hc["sample-api"].db.$post({
+    form: {
+      file: file,
+    },
+  });
 
   logger.info("done! 🎉🎉🎉");
 };
