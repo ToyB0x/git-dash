@@ -1,5 +1,5 @@
 import type { Configs } from "@/env";
-import { hcWithType } from "@repo/api/hc";
+import { hcWithType } from "@git-dash/api/hc";
 
 export const getHonoClient = (configs: Configs) => {
   if (configs.GDASH_MODE === "PERSONAL_SAMPLE")
