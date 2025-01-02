@@ -44,5 +44,6 @@
   },
   "volta": {
     "extends": "../../package.json"
-  }
+  },
+  "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }
