@@ -5,6 +5,9 @@ branding:
   color: 'blue'
   icon: 'activity'
 inputs:
+  GDASH_MODE:
+    description: "One of the following modes: ORGANIZATION_APP | SINGLE_REPOSITORY | SAMPLE"
+    required: true
   GDASH_GITHUB_ORGANIZATION_NAME:
     description: "GitHub organization name to analyze"
     required: true
@@ -73,6 +76,7 @@ runs:
       working-directory: apps/job
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
@@ -89,6 +93,7 @@ runs:
       working-directory: apps/job
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
@@ -105,6 +110,7 @@ runs:
       working-directory: apps/job
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
@@ -121,6 +127,7 @@ runs:
       working-directory: apps/job
       env:
         GDASH_ENV: ${{ inputs.GDASH_ENV }}
+        GDASH_MODE: ${{ inputs.GDASH_MODE }}
         GDASH_GITHUB_ORGANIZATION_NAME: ${{ inputs.GDASH_GITHUB_ORGANIZATION_NAME }}
         GDASH_WORKSPACE_ID: ${{ inputs.GDASH_WORKSPACE_ID }}
         GDASH_WORKSPACE_API_KEY: ${{ inputs.GDASH_WORKSPACE_API_KEY }}
