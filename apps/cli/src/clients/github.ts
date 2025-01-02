@@ -11,6 +11,8 @@ export const getOctokit = async (configs: Configs) => {
     // throw Error("Not implemented yet");
     case "PERSONAL":
       return await getPersonalOctokit();
+    case "PERSONAL_SAMPLE":
+      return await getPersonalOctokit();
     // exhaustive check
     default: {
       throw Error("Invalid GDASH_MODE");
