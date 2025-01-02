@@ -21,7 +21,7 @@
     "@inquirer/prompts": "7.2.1",
     "@libsql/client": "0.14.0",
     "@repo/api": "workspace:*",
-    "@repo/db-shared": "workspace:*",
+    "@g-dash/db-shared": "workspace:*",
     "@repo/utils": "workspace:*",
     "@supercharge/promise-pool": "3.2.0",
     "cli-table": "0.3.11",

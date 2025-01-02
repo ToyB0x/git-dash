@@ -5,7 +5,7 @@ import {
   repositoryTbl,
   workflowTbl,
   workflowUsageCurrentCycleTbl,
-} from "@repo/db-shared";
+} from "@g-dash/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 import { eq } from "drizzle-orm";
 

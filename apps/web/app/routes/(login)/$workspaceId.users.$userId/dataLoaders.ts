@@ -1,5 +1,5 @@
 import { generateDailyData } from "@/lib/generateDailyData";
-import { prTbl, scanTbl, timelineTbl } from "@repo/db-shared";
+import { prTbl, scanTbl, timelineTbl } from "@g-dash/db-shared";
 import { subDays } from "date-fns";
 import { and, desc, eq, gt, gte, inArray, isNotNull } from "drizzle-orm";
 import type { DrizzleSqliteDODatabase } from "drizzle-orm/durable-sqlite";

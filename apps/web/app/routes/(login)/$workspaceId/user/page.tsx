@@ -2,7 +2,7 @@ import { auth, getWasmDb } from "@/clients";
 import { SortableTable } from "@/components/ui/SortableTable";
 import { NoDataMessage } from "@/components/ui/no-data";
 import type { Route } from "@@/(login)/$workspaceId/user/+types/page";
-import { prTbl, reviewTbl, userTbl } from "@repo/db-shared";
+import { prTbl, reviewTbl, userTbl } from "@g-dash/db-shared";
 import {
   getCoreRowModel,
   getSortedRowModel,

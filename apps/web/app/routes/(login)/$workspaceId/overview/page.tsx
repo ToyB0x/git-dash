@@ -6,7 +6,6 @@ import { Tooltip } from "@/components/Tooltip";
 import { NoDataMessage } from "@/components/ui/no-data";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
-import { RiQuestionLine } from "@remixicon/react";
 import {
   alertTbl,
   billingCycleTbl,
@@ -17,7 +16,8 @@ import {
   scanTbl,
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
-} from "@repo/db-shared";
+} from "@g-dash/db-shared";
+import { RiQuestionLine } from "@remixicon/react";
 import { endOfToday, subDays, subHours } from "date-fns";
 import {
   and,

@@ -23,7 +23,7 @@ import {
   repositoryTbl,
   workflowTbl,
   workflowUsageCurrentCycleTbl,
-} from "@repo/db-shared";
+} from "@g-dash/db-shared";
 import { startOfToday, subDays } from "date-fns";
 import { desc, eq } from "drizzle-orm";
 import React from "react";

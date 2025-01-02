@@ -4,7 +4,7 @@ import { calcActionsCostFromTime } from "@/utils";
 import {
   billingCycleTbl,
   workflowUsageCurrentCycleOrgTbl,
-} from "@repo/db-shared";
+} from "@g-dash/db-shared";
 
 export const aggregate = async (
   scanId: number,

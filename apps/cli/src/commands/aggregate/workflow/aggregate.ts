@@ -1,7 +1,7 @@
 import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
-import { workflowTbl } from "@repo/db-shared";
+import { workflowTbl } from "@g-dash/db-shared";
 import { PromisePool } from "@supercharge/promise-pool";
 
 export const aggregate = async (
