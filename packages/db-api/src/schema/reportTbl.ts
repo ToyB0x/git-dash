@@ -13,9 +13,6 @@ export const reportTbl = sqliteTable(
   "report",
   {
     id: text({ length: idLength }).primaryKey(),
-    status: text({
-      enum: ["RUNNING", "FINISHED", "ABORTED", "FAILED"],
-    }).notNull(),
     createdAt: integer({ mode: "timestamp_ms" }).notNull(),
     updatedAt: integer({ mode: "timestamp_ms" }).notNull(),
     workspaceId: text("workspace_id")
