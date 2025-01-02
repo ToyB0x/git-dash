@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { getDbClient, getDbPath, type getHonoClient } from "@/clients";
 import type { Configs } from "@/env";
-import { stat } from "@repo/schema/statFile";
+import { stat } from "@git-dash/schema/statFile";
 import { sql } from "drizzle-orm";
 
 export const db = async ({
