@@ -16,7 +16,7 @@ import {
   scanTbl,
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
-} from "@git-dash/db-shared";
+} from "@git-dash/db";
 import { RiQuestionLine } from "@remixicon/react";
 import { endOfToday, subDays, subHours } from "date-fns";
 import {

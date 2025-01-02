@@ -1,7 +1,7 @@
 import { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { step } from "@/utils";
-import { scanTbl } from "@git-dash/db-shared";
+import { scanTbl } from "@git-dash/db";
 import { eq } from "drizzle-orm";
 import { aggregate as aggregateAlert } from "./alert";
 import { aggregate as aggregateCommit } from "./commit";

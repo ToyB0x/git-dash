@@ -4,7 +4,7 @@ import { getDbClient } from "@/clients";
 import { aggregateAll } from "@/commands/aggregate/aggregate";
 import { readConfigs } from "@/env";
 import { logger } from "@/utils";
-import { prTbl, reviewTbl, userTbl } from "@git-dash/db-shared";
+import { prTbl, reviewTbl, userTbl } from "@git-dash/db";
 import { confirm, input } from "@inquirer/prompts";
 import Table from "cli-table";
 import { Command } from "commander";

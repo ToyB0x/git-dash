@@ -26,7 +26,7 @@ import {
   workflowTbl,
   workflowUsageCurrentCycleOrgTbl,
   workflowUsageCurrentCycleTbl,
-} from "@git-dash/db-shared";
+} from "@git-dash/db";
 import { RiQuestionLine } from "@remixicon/react";
 import { startOfTomorrow, subDays } from "date-fns";
 import { and, desc, eq, gte } from "drizzle-orm";

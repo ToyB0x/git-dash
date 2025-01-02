@@ -1,10 +1,7 @@
 import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { calcActionsCostFromTime } from "@/utils";
-import {
-  billingCycleTbl,
-  workflowUsageCurrentCycleOrgTbl,
-} from "@git-dash/db-shared";
+import { billingCycleTbl, workflowUsageCurrentCycleOrgTbl } from "@git-dash/db";
 
 export const aggregate = async (
   scanId: number,
