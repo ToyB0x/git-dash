@@ -20,9 +20,9 @@
   "dependencies": {
     "@inquirer/prompts": "7.2.1",
     "@libsql/client": "0.14.0",
-    "@repo/api": "workspace:*",
+    "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
-    "@repo/utils": "workspace:*",
+    "@git-dash/utils": "workspace:*",
     "@supercharge/promise-pool": "3.2.0",
     "cli-table": "0.3.11",
     "commander": "13.0.0",
@@ -35,7 +35,7 @@
     "valibot": "1.0.0-beta.9"
   },
   "devDependencies": {
-    "@repo/schema": "workspace:*",
+    "@git-dash/schema": "workspace:*",
     "@tsconfig/strictest": "2.0.5",
     "@types/cli-table": "0.3.4",
     "@types/node": "22.10.3",

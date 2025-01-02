@@ -1,12 +1,12 @@
-import { getFirebaseToken } from "@hono/firebase-auth";
-import { vValidator } from "@hono/valibot-validator";
 import {
   generateNewWorkspaceId,
   postWorkspaceSchema,
   userTbl,
   usersToWorkspaces,
   workspaceTbl,
-} from "@repo/db-api/schema";
+} from "@git-dash/db-api/schema";
+import { getFirebaseToken } from "@hono/firebase-auth";
+import { vValidator } from "@hono/valibot-validator";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";

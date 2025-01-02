@@ -1,5 +1,5 @@
 {
-  "name": "@repo/db-api",
+  "name": "@git-dash/db-api",
   "private": true,
   "type": "module",
   "exports": {

@@ -1,5 +1,5 @@
 {
-  "name": "@repo/schema",
+  "name": "@git-dash/schema",
   "private": true,
   "exports": {
     "./path": "./src/path.ts",

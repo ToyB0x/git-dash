@@ -1,5 +1,5 @@
 {
-  "name": "@repo/utils",
+  "name": "@git-dash/utils",
   "private": true,
   "type": "module",
   "types": "./src/index.ts",

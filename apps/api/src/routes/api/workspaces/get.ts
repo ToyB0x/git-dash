@@ -1,5 +1,9 @@
+import {
+  userTbl,
+  usersToWorkspaces,
+  workspaceTbl,
+} from "@git-dash/db-api/schema";
 import { getFirebaseToken } from "@hono/firebase-auth";
-import { userTbl, usersToWorkspaces, workspaceTbl } from "@repo/db-api/schema";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";

@@ -1,4 +1,4 @@
-import { generateNewReportId, reportTbl } from "@repo/db-api/schema";
+import { generateNewReportId, reportTbl } from "@git-dash/db-api/schema";
 import { drizzle } from "drizzle-orm/d1";
 import { bodyLimit } from "hono/body-limit";
 import { createFactory } from "hono/factory";

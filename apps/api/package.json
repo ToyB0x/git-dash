@@ -1,5 +1,5 @@
 {
-  "name": "@repo/api",
+  "name": "@git-dash/api",
   "type": "module",
   "exports": {
     "./hc": {
@@ -10,7 +10,7 @@
     }
   },
   "scripts": {
-    "dev": "pnpm --filter @repo/api --parallel \"/^dev:.*/\"",
+    "dev": "pnpm --filter @git-dash/api --parallel \"/^dev:.*/\"",
     "dev:tsc": "tsc -p tsconfig.build.json --watch",
     "dev:wrangler": "wrangler dev --config ./wrangler-local.toml --persist-to ../../.emu-cloudflare",
     "build": "tsc -p tsconfig.build.json",
@@ -24,8 +24,8 @@
   "dependencies": {
     "@hono/firebase-auth": "1.4.1",
     "@hono/valibot-validator": "0.5.1",
-    "@repo/db-api": "workspace:*",
-    "@repo/schema": "workspace:*",
+    "@git-dash/db-api": "workspace:*",
+    "@git-dash/schema": "workspace:*",
     "drizzle-orm": "0.38.3",
     "hono": "4.6.15",
     "valibot": "1.0.0-beta.9"

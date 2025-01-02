@@ -1,5 +1,5 @@
 {
-  "name": "@repo/web",
+  "name": "@git-dash/web",
   "private": true,
   "type": "module",
   "scripts": {
@@ -35,9 +35,9 @@
     "@react-router/serve": "7.1.1",
     "@react-stately/datepicker": "3.11.0",
     "@remixicon/react": "4.6.0",
-    "@repo/api": "workspace:*",
+    "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
-    "@repo/schema": "workspace:*",
+    "@git-dash/schema": "workspace:*",
     "@tanstack/react-table": "8.20.6",
     "clsx": "2.1.1",
     "date-fns": "4.1.0",
