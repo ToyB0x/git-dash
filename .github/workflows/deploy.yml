@@ -7,6 +7,8 @@ on:
 permissions:
   contents: read # for checkout repository
 
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   # NOTE: Currentky, we don't use matrix strategy for deploy jobs(maybe in the near future, our deployment strategy will be changed)
   deploy-dev:

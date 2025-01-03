@@ -7,6 +7,8 @@ on:
 permissions:
   contents: write # for updating tag
 
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   dev:
     runs-on: ubuntu-latest
