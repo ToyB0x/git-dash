@@ -25,7 +25,7 @@ const handlers = factory.createHandlers(async (c) => {
   const lastReport = reports[0];
   if (!lastReport) throw Error("Not Found");
 
-  const obj = await c.env.REPORT_DB_BUCKET.get(
+  const obj = await c.env.BUCKET_DB_REPORT.get(
     getR2Path({
       workspaceId,
       reportId: lastReport.id,

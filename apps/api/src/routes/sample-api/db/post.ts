@@ -35,7 +35,7 @@ const handlers = factory.createHandlers(
       updatedAt: new Date(),
     });
 
-    await c.env.REPORT_DB_BUCKET_SAMPLE.put(
+    await c.env.BUCKET_DB_REPORT_SAMPLE.put(
       getR2PathSample({ sampleWorkspaceId }),
       validated.file,
     );
