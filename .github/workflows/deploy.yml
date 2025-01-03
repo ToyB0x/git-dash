@@ -8,8 +8,21 @@ permissions:
   contents: read # for checkout repository
 
 jobs:
+  # NOTE: Currentky, we don't use matrix strategy for deploy jobs(maybe in the near future, our deployment strategy will be changed)
   deploy-dev:
     uses: ./.github/workflows/deploy-base.yml
     with:
       environment: development
+    secrets: inherit
+
+  deploy-stg:
+    uses: ./.github/workflows/deploy-base.yml
+    with:
+      environment: staging
+    secrets: inherit
+
+  deploy-prd:
+    uses: ./.github/workflows/deploy-base.yml
+    with:
+      environment: production
     secrets: inherit
