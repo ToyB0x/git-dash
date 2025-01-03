@@ -17,11 +17,11 @@ id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 [[r2_buckets]]
 binding = "BUCKET_DB_REPORT"
-bucket_name = "gdash-report-db-local"
+bucket_name = "gdash-report-local"
 
 [[r2_buckets]]
 binding = "BUCKET_DB_REPORT_SAMPLE"
-bucket_name = "gdash-report-db-local-sample"
+bucket_name = "gdash-report-local-sample"
 
 [[ d1_databases ]]
 binding = "DB_API"
