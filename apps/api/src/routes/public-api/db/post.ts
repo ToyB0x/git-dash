@@ -44,10 +44,7 @@ const handlers = factory.createHandlers(
     }
 
     await c.env.BUCKET_DB_REPORT.put(
-      getR2Path({
-        workspaceId: c.var.validWorkspaceId,
-        reportId: "validated.reportId",
-      }),
+      getR2Path({ workspaceId: c.var.validWorkspaceId }),
       validated.file,
     );
 
