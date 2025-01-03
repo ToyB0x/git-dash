@@ -162,5 +162,14 @@ export const defaultCommand = async () => {
     },
   });
 
-  logger.info("done! 🎉🎉🎉");
+  const result = await res.json();
+
+  logger.info(
+    `All steps complete! 🎉🎉🎉
+
+Let's check result in sample page!,
+(this url expires in 1 hour),
+
+https://v0.git-dash.com/sample-${result.sampleWorkspaceId}/users`,
+  );
 };
