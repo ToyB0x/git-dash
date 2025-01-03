@@ -1,4 +1,4 @@
-import { reportSampleTbl, reportTbl } from "@git-dash/db-api/schema";
+import { reportSampleTbl } from "@git-dash/db-api/schema";
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
@@ -8,16 +8,19 @@ const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
   const db = drizzle(c.env.DB_API);
-  const sampleWorkspaceId = c.req.param("sampleWorkspaceId");
+  const sampleWorkspaceId = c.req
+    .param("sampleWorkspaceId")
+    .replace("sample-", "");
 
   const lastReportSamples = await db
     .select()
     .from(reportSampleTbl)
     .where(eq(reportSampleTbl.id, sampleWorkspaceId))
-    .orderBy(desc(reportTbl.createdAt))
+    .orderBy(desc(reportSampleTbl.createdAt))
     .limit(1);
 
   const lastReportSample = lastReportSamples[0];
+
   if (!lastReportSample) throw Error("Not Found");
 
   // validate expire 60 minutes
