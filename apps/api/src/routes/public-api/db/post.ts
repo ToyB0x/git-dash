@@ -43,11 +43,8 @@ const handlers = factory.createHandlers(
       throw new Error("Failed to create report");
     }
 
-    await c.env.REPORT_BUCKET.put(
-      getR2Path({
-        workspaceId: c.var.validWorkspaceId,
-        reportId: "validated.reportId",
-      }),
+    await c.env.BUCKET_DB_REPORT.put(
+      getR2Path({ workspaceId: c.var.validWorkspaceId }),
       validated.file,
     );
 

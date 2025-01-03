@@ -14,5 +14,9 @@ const transports = pino.transport({
   ],
 });
 
+// const destination = pino.destination({
+//   sync: true,
+// });
+
 export const logger = pino(transports);
 logger.level = "trace";

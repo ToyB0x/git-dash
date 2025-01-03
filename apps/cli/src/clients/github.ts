@@ -1,6 +1,7 @@
 import { execSync } from "node:child_process";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
+import { throttling } from "@octokit/plugin-throttling";
 import { App, Octokit } from "octokit";
 
 export const getOctokit = async (configs: Configs) => {
@@ -53,8 +54,31 @@ export const getPersonalOctokit = async () => {
     const stdout = execSync("gh auth token");
     const oauthToken = stdout.toString().trim();
 
+    Octokit.plugin(throttling);
+
     return new Octokit({
       auth: oauthToken,
+      throttle: {
+        onRateLimit: (retryAfter, options, octokit, retryCount) => {
+          octokit.log.warn(
+            `Request quota exhausted for request ${options.method} ${options.url}`,
+          );
+
+          if (retryCount < 1) {
+            // only retries once
+            octokit.log.info(`Retrying after ${retryAfter} seconds!`);
+            return true;
+          }
+
+          return false;
+        },
+        onSecondaryRateLimit: (retryAfter, options, octokit) => {
+          // does not retry, only logs a warning
+          octokit.log.warn(
+            `SecondaryRateLimit detected for request ${options.method} ${options.url}, retrying after ${retryAfter} seconds!`,
+          );
+        },
+      },
     });
   } catch (e) {
     console.error(e);

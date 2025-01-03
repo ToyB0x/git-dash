@@ -11,17 +11,17 @@ PUBLIC_JWK_CACHE_KEY = "public-jwk-cache-key"
 
 # compatibility_flags = [ "nodejs_compat" ]
 
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
 [[kv_namespaces]]
 binding = "PUBLIC_JWK_CACHE_KV"
 id = "3c6d35b5a9f146318ca7aef77bb0afc3" # kv_namespace=gdash-prd
 
 [[r2_buckets]]
 binding = "REPORT_BUCKET"
-bucket_name = "gdash-prd"
+bucket_name = "gdash-report-prd"
+
+[[r2_buckets]]
+binding = "REPORT_BUCKET_SAMPLE"
+bucket_name = "gdash-report-prd-sample"
 
 [[ d1_databases ]]
 binding = "DB_API"

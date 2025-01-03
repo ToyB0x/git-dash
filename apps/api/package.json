@@ -19,7 +19,7 @@
     "deploy:development": "wrangler deploy --config ./wrangler-dev.toml --minify",
     "deploy:staging": "wrangler deploy --config ./wrangler-stg.toml --minify",
     "deploy:production": "wrangler deploy --config ./wrangler-prd.toml --minify",
-    "cf-typegen": "wrangler types",
+    "cf-typegen": "wrangler types --config ./wrangler-local.toml",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

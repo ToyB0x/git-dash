@@ -131,15 +131,18 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     };
   }
 
-  await auth.authStateReady();
+  const isSample = params.workspaceId.startsWith("sample-");
 
-  if (!auth.currentUser) {
-    throw redirect("/login");
+  await auth.authStateReady();
+  if (!isSample && !auth.currentUser) {
+    throw redirect("/sign-in");
   }
+
+  const token = await auth.currentUser?.getIdToken();
 
   const wasmDb = await getWasmDb({
     workspaceId: params.workspaceId,
-    firebaseToken: await auth.currentUser.getIdToken(),
+    firebaseToken: token || null,
   });
 
   if (!wasmDb) return null;

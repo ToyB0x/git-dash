@@ -1,15 +1,13 @@
 import process from "node:process";
 import { styleText } from "node:util";
-import { getDbClient, getOctokit } from "@/clients";
-import { aggregate as aggregateCommit } from "@/commands/aggregate/commit";
+import { getDbClient, getHonoClient, getOctokit } from "@/clients";
 import { aggregate as aggregatePr } from "@/commands/aggregate/pr";
 import { aggregate as aggregateRepositories } from "@/commands/aggregate/repositories";
 import { aggregate as aggregateReview } from "@/commands/aggregate/review";
-import { aggregate as aggregateTimeline } from "@/commands/aggregate/timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "@/commands/aggregate/user";
 import { readConfigs } from "@/env";
-import { logger, step } from "@/utils";
-import { prTbl, scanTbl } from "@git-dash/db";
+import { exportDbFile, step } from "@/utils";
+import { scanTbl } from "@git-dash/db";
 import { confirm, input, number } from "@inquirer/prompts";
 import { subDays } from "date-fns";
 import { eq } from "drizzle-orm";
@@ -27,6 +25,15 @@ export const defaultCommand = async () => {
     process.exit(1);
   }
 
+  const confirmMax30Days = await confirm({
+    message: `This sample mode will aggregate data for the last 30 days. Do you want to continue ?
+(Due to the Github API quota, if you want to aggregate more than 30 days, you need to change the configuration like GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS or more easy way is to use other mode)`,
+  });
+
+  if (!confirmMax30Days) {
+    process.exit(1);
+  }
+
   const targetGithubOrg = await input({
     message: "Enter target github organization name",
   });
@@ -34,8 +41,9 @@ export const defaultCommand = async () => {
   const configs = readConfigs({
     GDASH_MODE: "PERSONAL_SAMPLE",
     env: {
-      ...process.env,
-      GDASH_ENV: "dev",
+      // GDASH_ENVが明示されていなければPrdと見なす
+      GDASH_ENV: "prd",
+      ...process.env, // GDASH_ENV は env で上書きされる
       GDASH_GITHUB_ORGANIZATION_NAME: targetGithubOrg,
     },
   });
@@ -102,44 +110,44 @@ export const defaultCommand = async () => {
     callback: aggregateReview(filteredRepos, sharedDbClient, octokit, configs),
   });
 
-  const addvanceAggregateAnswer = await confirm({
-    message: `PR and Review aggregation is complete. Do you want to continue with the advanced aggregation ?
-      (This will consume more API quota and take more time, but will provide more detailed analysis like commit and review heatmaps)`,
-  });
-
-  const prs = await sharedDbClient.select().from(prTbl);
-
-  const heatmapDaysAgo = await number({
-    message: `How many days ago do you want to get commit and review heatmaps ?
-      (default: 14 days, if you specify 60 days, this need approximately ${prs.length * 1.5} quota )`,
-    min: 1,
-    max: 60,
-    default: 14,
-    required: true,
-  });
-
-  if (!addvanceAggregateAnswer) {
-    logger.info("done! 🎉🎉🎉");
-    return;
-  }
+  // const addvanceAggregateAnswer = await confirm({
+  //   message: `PR and Review aggregation is complete. Do you want to continue with the advanced aggregation ?
+  //     (This will consume more API quota and take more time, but will provide more detailed analysis like commit and review heatmaps)`,
+  // });
+  //
+  // const prs = await sharedDbClient.select().from(prTbl);
+  //
+  // const heatmapDaysAgo = await number({
+  //   message: `How many days ago do you want to get commit and review heatmaps ?
+  //     (default: 14 days, if you specify 60 days, this need approximately ${prs.length * 1.5} quota )`,
+  //   min: 1,
+  //   max: 60,
+  //   default: 14,
+  //   required: true,
+  // });
+  //
+  // if (!addvanceAggregateAnswer) {
+  //   logger.info("done! 🎉🎉🎉");
+  //   return;
+  // }
 
   // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
-  await step({
-    configs,
-    stepName: "aggregate:timeline",
-    callback: aggregateTimeline(
-      sharedDbClient,
-      octokit,
-      configs,
-      heatmapDaysAgo,
-    ),
-  });
+  // await step({
+  //   configs,
+  //   stepName: "aggregate:timeline",
+  //   callback: aggregateTimeline(
+  //     sharedDbClient,
+  //     octokit,
+  //     configs,
+  //     heatmapDaysAgo,
+  //   ),
+  // });
 
-  await step({
-    configs,
-    stepName: "aggregate:commit",
-    callback: aggregateCommit(sharedDbClient, octokit, configs, heatmapDaysAgo),
-  });
+  // await step({
+  //   configs,
+  //   stepName: "aggregate:commit",
+  //   callback: aggregateCommit(sharedDbClient, octokit, configs, heatmapDaysAgo),
+  // });
 
   await step({
     configs,
@@ -152,5 +160,30 @@ export const defaultCommand = async () => {
     .set({ updatedAt: new Date() })
     .where(eq(scanTbl.id, scanId));
 
-  logger.info("done! 🎉🎉🎉");
+  const hc = getHonoClient(configs);
+
+  const file = await exportDbFile({ dbClient: sharedDbClient, configs });
+
+  const res = await hc["sample-api"].db.$post({
+    form: {
+      file: file,
+    },
+  });
+
+  const result = await res.json();
+
+  console.info(
+    styleText(
+      "blue",
+      `
+
+
+All steps complete 🎉
+
+Let's check result in sample page!,
+(this url expires in 1 hour),
+
+https://v0.git-dash.com/sample-${result.sampleWorkspaceId}/users`,
+    ),
+  );
 };

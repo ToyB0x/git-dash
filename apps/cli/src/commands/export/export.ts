@@ -1,16 +1,17 @@
-import { getHonoClient } from "@/clients";
+import { getDbClient, getHonoClient } from "@/clients";
 import type { Configs } from "@/env";
-import { logger, step } from "@/utils";
-import { db } from "./db";
+import { exportDbFile, logger } from "@/utils";
 
 export const exportByWorkspace = async (configs: Configs): Promise<void> => {
   const hc = getHonoClient(configs);
+  const dbClient = getDbClient(configs);
 
-  await step({
-    configs,
-    stepName: "export:db",
-    callback: db({ configs, honoClient: hc }),
-    showUsage: false,
+  const exportedFile = await exportDbFile({ dbClient, configs });
+
+  await hc["public-api"].db.$post({
+    form: {
+      file: exportedFile,
+    },
   });
 
   logger.info("Export Done!");
