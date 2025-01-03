@@ -16,8 +16,12 @@ binding = "PUBLIC_JWK_CACHE_KV"
 id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 [[r2_buckets]]
-binding = "REPORT_BUCKET"
-bucket_name = "gdash-local"
+binding = "BUCKET_DB_REPORT"
+bucket_name = "gdash-report-db-local"
+
+[[r2_buckets]]
+binding = "BUCKET_DB_REPORT_SAMPLE"
+bucket_name = "gdash-report-db-local-sample"
 
 [[ d1_databases ]]
 binding = "DB_API"
