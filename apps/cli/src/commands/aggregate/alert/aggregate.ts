@@ -92,8 +92,8 @@ export const aggregate = async (
       );
     }
 
-    const existRepo = alertByRepository[alert.repository.id];
-    if (existRepo) {
+    const isCountedRepo = alertByRepository[alert.repository.id];
+    if (isCountedRepo) {
       const repoSeverity =
         alertByRepository[alert.repository.id]?.[
           alert.security_vulnerability.severity
@@ -118,6 +118,18 @@ export const aggregate = async (
 
   const now = new Date();
   for (const [repoId, severities] of Object.entries(alertByRepository)) {
+    // NOTE: リポジトリ一覧のListでは範囲外だったリポジトリが紛れることがあるので、古いリポジトリはフィルタリングする
+    // (逆に、ここで外部キーエラーにならないようにリポジトリをフェッチしてDB追加するという選択肢もありえる)
+    const hasRecordedRepository = await sharedDbClient
+      .select()
+      .from(repositoryTbl)
+      .where(eq(repositoryTbl.id, Number(repoId)));
+
+    if (!hasRecordedRepository.length) {
+      logger.warn(`repository not found. may be too old repository: ${repoId}`);
+      continue;
+    }
+
     await sharedDbClient
       .insert(alertTbl)
       .values({
