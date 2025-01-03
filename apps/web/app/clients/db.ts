@@ -7,7 +7,7 @@ export const getWasmDb = async ({
   firebaseToken,
 }: {
   workspaceId: string;
-  firebaseToken: string;
+  firebaseToken: string | null;
 }) => {
   const sqlPromise = initSqlJs({
     // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
@@ -15,14 +15,18 @@ export const getWasmDb = async ({
     locateFile: (file) => `https://sql.js.org/dist/${file}`,
   });
 
-  const dbResponsePromise = hc.api.db[":workspaceId"].$get(
-    {
-      param: { workspaceId },
-    },
-    {
-      headers: { Authorization: `Bearer ${firebaseToken}` },
-    },
-  );
+  const dbResponsePromise = firebaseToken
+    ? hc.api.db[":workspaceId"].$get(
+        {
+          param: { workspaceId },
+        },
+        {
+          headers: { Authorization: `Bearer ${firebaseToken}` },
+        },
+      )
+    : hc["sample-api"].db[":sampleWorkspaceId"].$get({
+        param: { sampleWorkspaceId: workspaceId },
+      });
 
   const [sql, dbResponse] = await Promise.all([sqlPromise, dbResponsePromise]);
 
