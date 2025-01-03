@@ -20,7 +20,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
 
   if (!auth.currentUser) {
-    if (params.workspaceId !== "demo") throw redirect("/sign-in");
+    if (
+      params.workspaceId !== "demo" &&
+      !params.workspaceId.startsWith("sample")
+    )
+      throw redirect("/sign-in");
+
     return {
       me: {
         email: "demo@example.com",
