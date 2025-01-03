@@ -25,6 +25,15 @@ export const defaultCommand = async () => {
     process.exit(1);
   }
 
+  const confirmMax30Days = await confirm({
+    message: `This sample mode will aggregate data for the last 30 days. Do you want to continue ?
+(Due to the Github API quota, if you want to aggregate more than 30 days, you need to change the configuration like GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS or more easy way is to use other mode)`,
+  });
+
+  if (!confirmMax30Days) {
+    process.exit(1);
+  }
+
   const targetGithubOrg = await input({
     message: "Enter target github organization name",
   });
