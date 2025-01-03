@@ -41,8 +41,9 @@ export const defaultCommand = async () => {
   const configs = readConfigs({
     GDASH_MODE: "PERSONAL_SAMPLE",
     env: {
-      ...process.env,
-      GDASH_ENV: "dev",
+      // GDASH_ENVが明示されていなければPrdと見なす
+      GDASH_ENV: "prd",
+      ...process.env, // GDASH_ENV は env で上書きされる
       GDASH_GITHUB_ORGANIZATION_NAME: targetGithubOrg,
     },
   });
