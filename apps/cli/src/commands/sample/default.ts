@@ -1,15 +1,13 @@
 import process from "node:process";
 import { styleText } from "node:util";
 import { getDbClient, getHonoClient, getOctokit } from "@/clients";
-import { aggregate as aggregateCommit } from "@/commands/aggregate/commit";
 import { aggregate as aggregatePr } from "@/commands/aggregate/pr";
 import { aggregate as aggregateRepositories } from "@/commands/aggregate/repositories";
 import { aggregate as aggregateReview } from "@/commands/aggregate/review";
-import { aggregate as aggregateTimeline } from "@/commands/aggregate/timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "@/commands/aggregate/user";
 import { readConfigs } from "@/env";
-import { exportDbFile, logger, step } from "@/utils";
-import { prTbl, scanTbl } from "@git-dash/db";
+import { exportDbFile, step } from "@/utils";
+import { scanTbl } from "@git-dash/db";
 import { confirm, input, number } from "@inquirer/prompts";
 import { subDays } from "date-fns";
 import { eq } from "drizzle-orm";
