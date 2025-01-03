@@ -20,7 +20,11 @@ binding = "REPORT_BUCKET"
 bucket_name = "gdash-report-dev"
 
 [[r2_buckets]]
-binding = "REPORT_BUCKET_SAMPLE"
+binding = "BUCKET_DB_REPORT"
+bucket_name = "gdash-report-dev"
+
+[[r2_buckets]]
+binding = "BUCKET_DB_REPORT_SAMPLE"
 bucket_name = "gdash-report-dev-sample"
 
 [[ d1_databases ]]

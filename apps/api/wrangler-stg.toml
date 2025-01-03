@@ -16,11 +16,11 @@ binding = "PUBLIC_JWK_CACHE_KV"
 id = "a4c321033a0c4a8ab3fbe59a3e271f16" # kv_namespace=gdash-stg
 
 [[r2_buckets]]
-binding = "REPORT_BUCKET"
+binding = "BUCKET_DB_REPORT"
 bucket_name = "gdash-report-stg"
 
 [[r2_buckets]]
-binding = "REPORT_BUCKET_SAMPLE"
+binding = "BUCKET_DB_REPORT_SAMPLE"
 bucket_name = "gdash-report-stg-sample"
 
 [[ d1_databases ]]
