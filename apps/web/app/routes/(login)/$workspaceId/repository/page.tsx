@@ -102,7 +102,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
 
   if (!auth.currentUser) {
-    throw redirect("/login");
+    throw redirect("/sign-in");
   }
 
   const wasmDb = await getWasmDb({
