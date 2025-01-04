@@ -40,6 +40,9 @@ export const aggregateSingle = async (
         enabledAlertCheckedAt: new Date(),
       })
       .where(eq(repositoryTbl.id, repoId));
+
+    logger.warn("this repository does not have vulnerability alerts enabled");
+    return;
   }
 
   // ref: https://docs.github.com/ja/rest/dependabot/alerts?apiVersion=2022-11-28#list-dependabot-alerts-for-a-repository
