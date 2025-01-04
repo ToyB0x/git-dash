@@ -8,7 +8,7 @@ permissions:
   actions: read # for fetching base branch bundle stats
 
 jobs:
-  test:
+  test-organization-app-mode:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -29,6 +29,13 @@ jobs:
           GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS: 60
           GDASH_DISCARD_DAYS: 180
           ONLY_CONFIG_CHECK: 'true'
+
+  test-single-repo-mode:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: run marketplace action test as SINGLE_REPOSITORY MODE
         uses: './' # Uses an action in the root directory
