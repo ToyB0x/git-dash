@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import type { Configs } from "@/env";
+import { GDASH_MODES, type Configs } from "@/env";
 import { logger } from "@/utils";
 import { throttling } from "@octokit/plugin-throttling";
 import { App, Octokit } from "octokit";
@@ -7,13 +7,11 @@ import { App, Octokit } from "octokit";
 export const getOctokit = async (configs: Configs) => {
   const mode = configs.GDASH_MODE;
   switch (mode) {
-    case "ORGANIZATION_APP":
+    case GDASH_MODES.ORGANIZATION_APP:
       return await getOctokitApp(configs);
-    case "SINGLE_REPOSITORY":
+    case GDASH_MODES.SINGLE_REPOSITORY:
       return await getOctokitWithToken(configs.GITHUB_TOKEN);
-    case "PERSONAL":
-      return await getOctokitWithToken(getTokenFromGhCommand());
-    case "PERSONAL_SAMPLE":
+    case GDASH_MODES.SAMPLE:
       return await getOctokitWithToken(getTokenFromGhCommand());
     // exhaustive check
     default: {
@@ -25,7 +23,7 @@ export const getOctokit = async (configs: Configs) => {
 
 // NOTE: if you need extend octokit app with installationId
 export const getOctokitApp = async (configs: Configs) => {
-  if (configs.GDASH_MODE !== "ORGANIZATION_APP")
+  if (configs.GDASH_MODE !== GDASH_MODES.ORGANIZATION_APP)
     throw Error("Invalid GDASH_MODE");
 
   // TODO: in the future, we should use octokit-client directly in the app
