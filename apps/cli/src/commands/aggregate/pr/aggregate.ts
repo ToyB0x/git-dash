@@ -43,7 +43,9 @@ export const aggregate = async (
           repo: repository.name,
           per_page: 100,
           state: "all",
-          sort: "updated",
+          // NOTE: updated at よりも createdAt の方が直感と一致するため createdAt でソート (3ヶ月前のPRでもレビューが追加される場合には対応しない)
+          // sort: "updated",
+          sort: "created",
           direction: "desc",
         },
         (response, done) => {
