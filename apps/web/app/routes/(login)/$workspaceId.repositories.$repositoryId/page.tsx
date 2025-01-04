@@ -16,12 +16,14 @@ import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId.repositories.$repositoryId/+types/page";
 import {
+  prCommitTbl,
   repositoryTbl,
+  reviewTbl,
   workflowTbl,
   workflowUsageCurrentCycleTbl,
 } from "@git-dash/db";
 import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
-import { desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, gte, lt } from "drizzle-orm";
 import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { redirect, useParams } from "react-router";
@@ -214,6 +216,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (!wasmDb) return null;
 
+  const repos = await wasmDb
+    .select()
+    .from(repositoryTbl)
+    .where(eq(repositoryTbl.name, params.repositoryId));
+
+  const repositoryId = repos[0]?.id;
+  if (!repositoryId) return null;
+
   const workflowUsageCurrentCycles = await wasmDb
     .select({
       workflowId: workflowTbl.id,
@@ -229,7 +239,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       eq(workflowTbl.id, workflowUsageCurrentCycleTbl.workflowId),
     )
     .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
-    .where(eq(repositoryTbl.name, params.repositoryId));
+    .where(eq(repositoryTbl.id, repositoryId));
 
   // 最新の集計結果だけにフィルタリング
   const workflowUsageCurrentCyclesFiltered = workflowUsageCurrentCycles.filter(
@@ -237,8 +247,39 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       index === self.findIndex((t) => t.workflowId === item.workflowId),
   );
 
+  const entries: ITimeEntry[] = await Promise.all(
+    [...Array(24 * 60).keys()].map(async (hour) => ({
+      time: subHours(endOfToday(), hour),
+      count:
+        ((
+          await wasmDb
+            .select({ count: count() })
+            .from(prCommitTbl)
+            .where(
+              and(
+                eq(prCommitTbl.repositoryId, repositoryId),
+                gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
+                lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0) +
+        ((
+          await wasmDb
+            .select({ count: count() })
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.repositoryId, repositoryId),
+                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0),
+    })),
+  );
+
   return {
-    entries: demoEntries,
+    entries,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
