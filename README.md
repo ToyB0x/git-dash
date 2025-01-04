@@ -45,7 +45,31 @@ Please run above actions on your repository.
 
 ## How to Setup
 
-WIP
+### Local mode  
+
+#### Mac
+```bash
+# Setup Github CLI (widely known as gh command)
+brew install gh
+gh auth login
+
+# Install pnpm (if you don't have it)
+brew install pnpm
+
+# Clone and build this repository
+git clone https://github.com/ToyB0x/git-dash.git
+
+# Install dependencies
+cd git-dash
+pnpm install
+
+# build 
+pnpm build --filter @git-dash/cli
+
+# Run app
+cd apps/cli
+pnpm jobs:sample:interactive
+```
 
 # Architecture
 
