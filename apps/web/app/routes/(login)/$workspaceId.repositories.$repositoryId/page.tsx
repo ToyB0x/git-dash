@@ -168,9 +168,9 @@ const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
       : // 早朝深夜は低頻度にする
         subHours(endOfToday(), hour).getHours() < 8 ||
           subHours(endOfToday(), hour).getHours() > 20
-        ? Math.floor(Math.random() * 1.1)
+        ? Math.floor(Math.random() * 1.2)
         : // 平日の昼間は高頻度にする
-          Math.floor(Math.random() * 10),
+          Math.floor(Math.random() * 4),
 }));
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
