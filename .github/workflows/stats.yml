@@ -1,12 +1,6 @@
 name: Stats
 on:
-  schedule:
-    - cron: '0 1 * * *' # AM 1:00 UTC (JST 10:00)
-
-env:
-  DEFAULT_GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS: 180
-  DEFAULT_GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS: 30
-  DEFAULT_GDASH_DISCARD_DAYS: 180
+  push
 
 jobs:
   stats-dev:
