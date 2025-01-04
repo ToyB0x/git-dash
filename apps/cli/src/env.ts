@@ -83,7 +83,7 @@ const envSchemaPersonalMode = v.object({
       v.minValue(1),
       v.maxValue(180),
     ),
-    "30",
+    "180",
   ),
 });
 
@@ -126,7 +126,7 @@ const envSchemaPersonalSampleMode = v.object({
       v.minValue(1),
       v.maxValue(180),
     ),
-    "30",
+    "180",
   ),
 });
 
