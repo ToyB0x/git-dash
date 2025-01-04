@@ -7,7 +7,10 @@ import { aggregate as aggregateAlert } from "./alert";
 import { aggregate as aggregateCommit } from "./commit";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
-import { aggregate as aggregateRepositories } from "./repositories";
+import {
+  aggregate as aggregateRepositories,
+  aggregateSelfRepo,
+} from "./repositories";
 import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateTimeline } from "./timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
@@ -28,11 +31,18 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   if (!scanId) throw new Error("Failed to create scan");
 
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
-  const repositories = await step({
-    configs,
-    stepName: "aggregate:repository",
-    callback: aggregateRepositories(octokit, sharedDbClient, configs),
-  });
+  const repositories =
+    configs.GDASH_MODE !== "SINGLE_REPOSITORY"
+      ? await step({
+          configs,
+          stepName: "aggregate:repository",
+          callback: aggregateRepositories(octokit, sharedDbClient, configs),
+        })
+      : await step({
+          configs,
+          stepName: "aggregate:repository:self",
+          callback: aggregateSelfRepo(octokit, sharedDbClient),
+        });
 
   if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     await step({
