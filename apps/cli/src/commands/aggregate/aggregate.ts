@@ -44,7 +44,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
           callback: aggregateSelfRepo(octokit, sharedDbClient),
         });
 
-  if (configs.GDASH_MODE === "ORGANIZATION_APP") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     await step({
       configs,
       stepName: "aggregate:alert",
@@ -71,7 +71,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
         new Date(repository.updated_at).getTime() > maxOldForRepo),
   );
 
-  if (configs.GDASH_MODE === "ORGANIZATION_APP") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -85,7 +85,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (configs.GDASH_MODE === "ORGANIZATION_APP") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -105,7 +105,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
   // });
 
-  if (configs.GDASH_MODE === "ORGANIZATION_APP") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // NOTE: Workflow fileの数に応じてQuotaを消費
     await step({
       configs,
@@ -119,7 +119,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (configs.GDASH_MODE === "ORGANIZATION_APP") {
+  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
     // costは1のみ
     await step({
       configs,
