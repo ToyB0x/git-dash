@@ -173,7 +173,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         cell: ({ row }) => (
           <div className="font-medium text-gray-900 dark:text-gray-50">
             <Link
-              to={`${row.original.name}`}
+              to={`../repositories/${row.original.name}`}
               className="underline underline-offset-4"
             >
               {row.original.name}
