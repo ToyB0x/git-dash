@@ -121,8 +121,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
           if (!mostClosestRelease) return null;
 
-          // biome-ignore lint/style/noNonNullAssertion: <explanation>
           return (
+            // biome-ignore lint/style/noNonNullAssertion: <explanation>
             mostClosestRelease.publishedAt!.getTime() - pr.mergedAt!.getTime()
           );
         });
