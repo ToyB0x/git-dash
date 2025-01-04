@@ -1,5 +1,5 @@
 import { getDbClient, getOctokit } from "@/clients";
-import type { Configs } from "@/env";
+import { type Configs, GDASH_MODES } from "@/env";
 import { step } from "@/utils";
 import { scanTbl } from "@git-dash/db";
 import { eq } from "drizzle-orm";
@@ -9,7 +9,7 @@ import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
 import {
   aggregate as aggregateRepositories,
-  aggregateSelfRepo,
+  aggregateSingle,
 } from "./repositories";
 import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateTimeline } from "./timeline";
@@ -32,7 +32,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
 
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
   const repositories =
-    configs.GDASH_MODE !== "SINGLE_REPOSITORY"
+    configs.GDASH_MODE !== GDASH_MODES.SINGLE_REPOSITORY
       ? await step({
           configs,
           stepName: "aggregate:repository",
@@ -40,8 +40,8 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
         })
       : await step({
           configs,
-          stepName: "aggregate:repository:self",
-          callback: aggregateSelfRepo(octokit, sharedDbClient),
+          stepName: "aggregate:repository:signle",
+          callback: aggregateSingle(octokit, sharedDbClient),
         });
 
   if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {

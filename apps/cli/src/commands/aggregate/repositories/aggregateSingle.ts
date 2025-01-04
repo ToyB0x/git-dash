@@ -1,7 +1,7 @@
 import type { getDbClient, getOctokit } from "@/clients";
 import { repositoryTbl } from "@git-dash/db";
 
-export const aggregateSelfRepo = async (
+export const aggregateSingle = async (
   octokit: Awaited<ReturnType<typeof getOctokit>>,
   sharedDbClient: ReturnType<typeof getDbClient>,
 ) => {

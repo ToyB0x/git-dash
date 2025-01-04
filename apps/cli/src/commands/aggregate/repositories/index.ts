@@ -1,2 +1,2 @@
 export * from "./aggregate";
-export * from "./aggregateSelfRepo";
+export * from "./aggregateSingle";
