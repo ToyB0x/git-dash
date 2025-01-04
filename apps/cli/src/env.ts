@@ -170,11 +170,7 @@ export const readConfigs = ({
   GDASH_MODE,
   env,
 }: {
-  GDASH_MODE:
-    | "ORGANIZATION_APP"
-    | "SINGLE_REPOSITORY"
-    | "PERSONAL"
-    | "PERSONAL_SAMPLE";
+  GDASH_MODE: string | undefined;
   env: { [key: string]: string | undefined };
 }) => {
   switch (GDASH_MODE) {
@@ -195,10 +191,8 @@ export const readConfigs = ({
         ...env,
         GDASH_MODE: "PERSONAL_SAMPLE",
       });
-    // exhaustive check
     default: {
-      const _exhaustiveCheck: never = GDASH_MODE;
-      return _exhaustiveCheck;
+      throw Error(`GDASH_MODE is invalid: ${GDASH_MODE}`);
     }
   }
 };
