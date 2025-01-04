@@ -55,7 +55,11 @@ const navigation = [
     href: siteConfig.baseLinks.cost,
     icon: RiCoinLine,
   },
-  { name: "Vulnerabilities", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
+  {
+    name: "Vulnerabilities",
+    href: siteConfig.baseLinks.vulns,
+    icon: RiBugLine,
+  },
   // {
   //   name: "Settings",
   //   href: siteConfig.baseLinks.settings,

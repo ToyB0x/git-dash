@@ -15,7 +15,8 @@ import {
   RiBugLine,
   RiCoinLine,
   RiGitRepositoryLine,
-  RiHome2Line, RiKey2Line,
+  RiHome2Line,
+  RiKey2Line,
   RiLinkM,
   RiMenuLine,
 } from "@remixicon/react";
