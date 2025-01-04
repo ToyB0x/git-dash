@@ -24,11 +24,6 @@ const navigation = [
   //   href: siteConfig.baseLinks.overview2,
   //   icon: RiLineChartLine,
   // },
-  {
-    name: "Cost",
-    href: siteConfig.baseLinks.cost,
-    icon: RiCoinLine,
-  },
   // { name: "PRs", href: siteConfig.baseLinks.prs, icon: RiCodeSSlashLine },
   // {
   //   name: "Reviews",
@@ -40,12 +35,6 @@ const navigation = [
   //   href: siteConfig.baseLinks.releases,
   //   icon: RiArrowUpCircleLine,
   // },
-  { name: "Vulns", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
-  {
-    name: "Four Keys",
-    href: siteConfig.baseLinks.fourkeys,
-    icon: RiKey2Line,
-  },
   {
     name: "Users",
     href: siteConfig.baseLinks.users,
@@ -56,6 +45,17 @@ const navigation = [
     href: siteConfig.baseLinks.repositories,
     icon: RiGitRepositoryLine,
   },
+  {
+    name: "Four Keys",
+    href: siteConfig.baseLinks.fourkeys,
+    icon: RiKey2Line,
+  },
+  {
+    name: "Payments",
+    href: siteConfig.baseLinks.cost,
+    icon: RiCoinLine,
+  },
+  { name: "Vulnerabilities", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
   // {
   //   name: "Settings",
   //   href: siteConfig.baseLinks.settings,
