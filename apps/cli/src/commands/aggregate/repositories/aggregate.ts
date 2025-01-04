@@ -23,6 +23,8 @@ export const aggregate = async (
     (response, done) => {
       const maxOld =
         maxOldRepoDate ||
+        // NOTE: この部分でRepositoryが絞り込まれてしまうと、後続の脆弱性Alert検知Stepのリポジトリ等も絞り込されてしまう
+        // Googleであっても公開リポジトリは2700程度であり、100 * 27 = 27 point で取得できるので、リポジトリ自体は最初に全体を取得しても良いかもしれない
         subDays(new Date(), configs.GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS);
       if (
         response.data.find(
