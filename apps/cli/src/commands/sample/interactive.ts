@@ -75,22 +75,29 @@ export const interactiveCommand = async () => {
 
   const targetRepositories = await checkbox({
     message: "Select repositories you want to check\n",
-    choices: repositories.map((r) => ({
-      name: r.name,
-      value: r,
-      checked: true,
-    })),
+    choices: repositories
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((r) => ({
+        name: r.name,
+        value: r,
+        checked: true,
+      })),
   });
 
   const scanDays = await number({
-    message: "How many days do you want to scan ?",
+    message: "How many days do you want to scan ? (max 60 days)",
     min: 1,
-    max: repositories.length,
-    default: repositories.length,
+    max: 60,
+    default: 30,
     required: true,
   });
 
   if (typeof scanDays !== "number") throw Error("scanDays is not a number");
+
+  console.log(
+    "\nScanning repositories.",
+    "This take few minutes, please wait...\n",
+  );
 
   await step({
     configs,
