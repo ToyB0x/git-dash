@@ -11,15 +11,18 @@ export const aggregate = async (
   sharedDbClient: ReturnType<typeof getDbClient>,
   octokit: Awaited<ReturnType<typeof getOctokit>>,
   configs: Configs,
+  maxOldDate?: Date,
 ) => {
-  const maxOldPrDate = new Date(
-    Date.now() -
-      configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
-        60 *
-        60 *
-        24 *
-        1000,
-  );
+  const maxOldPrDate =
+    maxOldDate ??
+    new Date(
+      Date.now() -
+        configs.GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS /* days */ *
+          60 *
+          60 *
+          24 *
+          1000,
+    );
 
   // TODO: 直近に更新されていないリポジトリは除外して高速化する
   const { errors } = await PromisePool.for(repositories)
