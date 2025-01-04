@@ -1,0 +1,20 @@
+name: Stats
+on: push
+
+jobs:
+  stats-dev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: development
+    steps:
+      - uses: ToyB0x/git-dash@dev
+        with:
+            GDASH_ENV: "dev"
+            GDASH_MODE: "SINGLE_REPOSITORY"
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GDASH_GITHUB_ORGANIZATION_NAME: ${{ github.repository_owner }}
+            GDASH_WORKSPACE_ID: ${{ vars.GDASH_WORKSPACE_ID }}
+            GDASH_WORKSPACE_API_KEY: ${{ secrets.GDASH_WORKSPACE_API_KEY }}
+            GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS: 7
+            GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS: 7
+            GDASH_DISCARD_DAYS: 180

@@ -1,4 +1,4 @@
-import type { Configs } from "@/env";
+import { type Configs, GDASH_MODES } from "@/env";
 import { hcWithType } from "@git-dash/api/hc";
 
 export const getHonoClient = (configs: Configs) => {
@@ -7,10 +7,7 @@ export const getHonoClient = (configs: Configs) => {
       ? "http://localhost:8787"
       : `https://gdash-api-${configs.GDASH_ENV}.xxxxxxxxxxxxxxxxx.workers.dev`;
 
-  if (
-    configs.GDASH_MODE === "PERSONAL" ||
-    configs.GDASH_MODE === "PERSONAL_SAMPLE"
-  ) {
+  if (configs.GDASH_MODE === GDASH_MODES.SAMPLE) {
     return hcWithType(apiUrl);
   }
 

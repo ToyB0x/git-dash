@@ -1,13 +1,19 @@
 import { getDbClient, getOctokit } from "@/clients";
-import type { Configs } from "@/env";
+import { type Configs, GDASH_MODES } from "@/env";
 import { step } from "@/utils";
 import { scanTbl } from "@git-dash/db";
 import { eq } from "drizzle-orm";
-import { aggregate as aggregateAlert } from "./alert";
+import {
+  aggregate as aggregateAlert,
+  aggregateSingle as aggregateAlertSingleRepository,
+} from "./alert";
 import { aggregate as aggregateCommit } from "./commit";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
-import { aggregate as aggregateRepositories } from "./repositories";
+import {
+  aggregate as aggregateRepositories,
+  aggregateSingle as aggregateRepositorySingle,
+} from "./repositories";
 import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateTimeline } from "./timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
@@ -28,18 +34,35 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   if (!scanId) throw new Error("Failed to create scan");
 
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
-  const repositories = await step({
-    configs,
-    stepName: "aggregate:repository",
-    callback: aggregateRepositories(octokit, sharedDbClient, configs),
-  });
+  const repositories =
+    configs.GDASH_MODE !== GDASH_MODES.SINGLE_REPOSITORY
+      ? await step({
+          configs,
+          stepName: "aggregate:repository",
+          callback: aggregateRepositories(octokit, sharedDbClient, configs),
+        })
+      : await step({
+          configs,
+          stepName: "aggregate:repository:signle",
+          callback: aggregateRepositorySingle(octokit, sharedDbClient),
+        });
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
-    await step({
-      configs,
-      stepName: "aggregate:alert",
-      callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
-    });
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
+    configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP
+      ? await step({
+          configs,
+          stepName: "aggregate:alert",
+          callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
+        })
+      : await step({
+          configs,
+          stepName: "aggregate:alert:single",
+          callback: aggregateAlertSingleRepository(
+            scanId,
+            sharedDbClient,
+            octokit,
+          ),
+        });
   }
 
   const maxOldForRepo = new Date(
@@ -61,7 +84,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
         new Date(repository.updated_at).getTime() > maxOldForRepo),
   );
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -75,7 +98,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -95,7 +118,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
   // });
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: Workflow fileの数に応じてQuotaを消費
     await step({
       configs,
@@ -109,7 +132,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP) {
     // costは1のみ
     await step({
       configs,
@@ -147,7 +170,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     ),
   });
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
     await step({
       configs,
@@ -156,7 +179,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     await step({
       configs,
       stepName: "aggregate:commit",
