@@ -1,3 +1,4 @@
+import process from "node:process";
 import { migrate } from "@/commands/db/migrate";
 import { readConfigs } from "@/env";
 import { Command } from "commander";
@@ -14,8 +15,8 @@ export const newDbCommand = () => {
       async () =>
         await download(
           readConfigs({
-            // NOTE: 現時点でこのコマンドが直接使われるのはORGANIZATION_APPのみ
-            GDASH_MODE: "ORGANIZATION_APP",
+            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+            GDASH_MODE: process.env["GDASH_MODE"],
             env: process.env,
           }),
         ),
@@ -27,8 +28,8 @@ export const newDbCommand = () => {
     .action(() =>
       migrate(
         readConfigs({
-          // NOTE: 現時点でこのコマンドが直接使われるのはORGANIZATION_APPのみ
-          GDASH_MODE: "ORGANIZATION_APP",
+          // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+          GDASH_MODE: process.env["GDASH_MODE"],
           env: process.env,
         }),
       ),
