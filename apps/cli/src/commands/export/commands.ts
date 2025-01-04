@@ -1,3 +1,4 @@
+import process from "node:process";
 import { readConfigs } from "@/env";
 import { Command } from "commander";
 import { exportByWorkspace } from "./export";
@@ -12,8 +13,8 @@ export const newExportCommand = () => {
     .action(async () => {
       await exportByWorkspace(
         readConfigs({
-          // NOTE: 既存のこのコマンドから呼び出すのはORGANIZATION_APPのみ
-          GDASH_MODE: "ORGANIZATION_APP",
+          // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+          GDASH_MODE: process.env["GDASH_MODE"],
           env: process.env,
         }),
       );

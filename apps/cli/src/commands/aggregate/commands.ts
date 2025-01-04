@@ -1,3 +1,4 @@
+import process from "node:process";
 import { readConfigs } from "@/env";
 import { Command } from "commander";
 import { aggregateAll } from "./aggregate";
@@ -13,8 +14,8 @@ export const newAggregateCommand = () => {
       async () =>
         await aggregateAll(
           readConfigs({
-            // NOTE: 既存のこのコマンドから呼び出すのは現時点ではORGANIZATION_APPのみ
-            GDASH_MODE: "ORGANIZATION_APP",
+            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+            GDASH_MODE: process.env["GDASH_MODE"],
             env: process.env,
           }),
         ),
