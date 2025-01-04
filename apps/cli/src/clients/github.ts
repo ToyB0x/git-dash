@@ -5,20 +5,20 @@ import { throttling } from "@octokit/plugin-throttling";
 import { App, Octokit } from "octokit";
 
 export const getOctokit = async (configs: Configs) => {
-  switch (configs.GDASH_MODE) {
+  const mode = configs.GDASH_MODE;
+  switch (mode) {
     case "ORGANIZATION_APP":
       return await getOctokitApp(configs);
-    // case "SINGLE_REPOSITORY":
-    // throw Error("Not implemented yet");
+    case "SINGLE_REPOSITORY":
+      return await getOctokitWithToken(configs.GITHUB_TOKEN);
     case "PERSONAL":
-      return await getPersonalOctokit();
+      return await getOctokitWithToken(getTokenFromGhCommand());
     case "PERSONAL_SAMPLE":
-      return await getPersonalOctokit();
+      return await getOctokitWithToken(getTokenFromGhCommand());
     // exhaustive check
     default: {
-      throw Error("Invalid GDASH_MODE");
-      // const _exhaustiveCheck: never = configs.GDASH_MODE;
-      // return _exhaustiveCheck;
+      const _exhaustiveCheck: never = mode;
+      return _exhaustiveCheck;
     }
   }
 };
@@ -49,37 +49,39 @@ export const getOctokitApp = async (configs: Configs) => {
   return await octokitApp.getInstallationOctokit(getInstallationResult.id);
 };
 
-export const getPersonalOctokit = async () => {
+export const getOctokitWithToken = async (githubToken: string) => {
+  Octokit.plugin(throttling);
+
+  return new Octokit({
+    auth: githubToken,
+    throttle: {
+      onRateLimit: (retryAfter, options, octokit, retryCount) => {
+        octokit.log.warn(
+          `Request quota exhausted for request ${options.method} ${options.url}`,
+        );
+
+        if (retryCount < 1) {
+          // only retries once
+          octokit.log.info(`Retrying after ${retryAfter} seconds!`);
+          return true;
+        }
+
+        return false;
+      },
+      onSecondaryRateLimit: (retryAfter, options, octokit) => {
+        // does not retry, only logs a warning
+        octokit.log.warn(
+          `SecondaryRateLimit detected for request ${options.method} ${options.url}, retrying after ${retryAfter} seconds!`,
+        );
+      },
+    },
+  });
+};
+
+const getTokenFromGhCommand = () => {
   try {
     const stdout = execSync("gh auth token");
-    const oauthToken = stdout.toString().trim();
-
-    Octokit.plugin(throttling);
-
-    return new Octokit({
-      auth: oauthToken,
-      throttle: {
-        onRateLimit: (retryAfter, options, octokit, retryCount) => {
-          octokit.log.warn(
-            `Request quota exhausted for request ${options.method} ${options.url}`,
-          );
-
-          if (retryCount < 1) {
-            // only retries once
-            octokit.log.info(`Retrying after ${retryAfter} seconds!`);
-            return true;
-          }
-
-          return false;
-        },
-        onSecondaryRateLimit: (retryAfter, options, octokit) => {
-          // does not retry, only logs a warning
-          octokit.log.warn(
-            `SecondaryRateLimit detected for request ${options.method} ${options.url}, retrying after ${retryAfter} seconds!`,
-          );
-        },
-      },
-    });
+    return stdout.toString().trim();
   } catch (e) {
     console.error(e);
     console.error("Please install Github CLI and set it up first.");

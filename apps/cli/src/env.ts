@@ -39,7 +39,43 @@ const envSchemaOrganizationAppMode = v.object({
     v.minValue(1),
     v.maxValue(180),
   ),
-  // GDASH_GITHUB_PERSONAL_ACCESS_TOKEN: string(),
+});
+
+const envSchemaSingleRepositoryMode = v.object({
+  GDASH_MODE: v.literal("SINGLE_REPOSITORY"),
+  GITHUB_TOKEN: v.pipe(v.string(), v.minLength(5)),
+  GDASH_ENV: v.union([
+    v.literal("test"),
+    v.literal("local"),
+    v.literal("dev"),
+    v.literal("stg"),
+    v.literal("prd"),
+  ]),
+  GDASH_WORKSPACE_ID: v.pipe(v.string(), v.minLength(3)),
+  GDASH_WORKSPACE_API_KEY: v.pipe(v.string(), v.minLength(5)),
+  GDASH_GITHUB_ORGANIZATION_NAME: v.pipe(v.string(), v.minLength(3)),
+  GDASH_COLLECT_DAYS_LIGHT_TYPE_ITEMS: v.pipe(
+    v.string(),
+    v.transform((input) => Number(input)),
+    v.number(),
+    v.minValue(1),
+    v.maxValue(180),
+  ),
+  GDASH_COLLECT_DAYS_HEAVY_TYPE_ITEMS: v.pipe(
+    v.string(),
+    v.transform((input) => Number(input)),
+    v.number(),
+    v.minValue(1),
+    v.maxValue(180),
+  ),
+  GDASH_DISCARD_DAYS: v.pipe(
+    v.string(),
+    v.transform((input) => Number(input)),
+    v.number(),
+    v.number(),
+    v.minValue(1),
+    v.maxValue(180),
+  ),
 });
 
 const envSchemaPersonalMode = v.object({
@@ -134,11 +170,7 @@ export const readConfigs = ({
   GDASH_MODE,
   env,
 }: {
-  GDASH_MODE:
-    | "ORGANIZATION_APP"
-    | "SINGLE_REPOSITORY"
-    | "PERSONAL"
-    | "PERSONAL_SAMPLE";
+  GDASH_MODE: string | undefined;
   env: { [key: string]: string | undefined };
 }) => {
   switch (GDASH_MODE) {
@@ -148,7 +180,10 @@ export const readConfigs = ({
         GDASH_MODE: "ORGANIZATION_APP",
       });
     case "SINGLE_REPOSITORY":
-      throw Error("Not implemented yet");
+      return v.parse(envSchemaSingleRepositoryMode, {
+        ...env,
+        GDASH_MODE: "SINGLE_REPOSITORY",
+      });
     case "PERSONAL":
       return v.parse(envSchemaPersonalMode, { ...env, GDASH_MODE: "PERSONAL" });
     case "PERSONAL_SAMPLE":
@@ -156,10 +191,8 @@ export const readConfigs = ({
         ...env,
         GDASH_MODE: "PERSONAL_SAMPLE",
       });
-    // exhaustive check
     default: {
-      const _exhaustiveCheck: never = GDASH_MODE;
-      return _exhaustiveCheck;
+      throw Error(`GDASH_MODE is invalid: ${GDASH_MODE}`);
     }
   }
 };

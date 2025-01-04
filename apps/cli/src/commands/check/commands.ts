@@ -14,7 +14,8 @@ export const newCheckCommand = () => {
 
       // NOTE: 現在 config check は ORGANIZATION_APP のみをサポートしている (Personal mode は対話式で確認するのでチェックコマンド不要)
       readConfigs({
-        GDASH_MODE: "ORGANIZATION_APP",
+        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+        GDASH_MODE: process.env["GDASH_MODE"],
         env: process.env,
       });
 
