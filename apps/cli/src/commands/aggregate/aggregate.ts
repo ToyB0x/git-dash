@@ -3,13 +3,16 @@ import { type Configs, GDASH_MODES } from "@/env";
 import { step } from "@/utils";
 import { scanTbl } from "@git-dash/db";
 import { eq } from "drizzle-orm";
-import { aggregate as aggregateAlert } from "./alert";
+import {
+  aggregate as aggregateAlert,
+  aggregateSingle as aggregateAlertSingleRepository,
+} from "./alert";
 import { aggregate as aggregateCommit } from "./commit";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
 import {
   aggregate as aggregateRepositories,
-  aggregateSingle,
+  aggregateSingle as aggregateRepositorySingle,
 } from "./repositories";
 import { aggregate as aggregateReview } from "./review";
 import { aggregate as aggregateTimeline } from "./timeline";
@@ -41,15 +44,25 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
       : await step({
           configs,
           stepName: "aggregate:repository:signle",
-          callback: aggregateSingle(octokit, sharedDbClient),
+          callback: aggregateRepositorySingle(octokit, sharedDbClient),
         });
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
-    await step({
-      configs,
-      stepName: "aggregate:alert",
-      callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
-    });
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
+    configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP
+      ? await step({
+          configs,
+          stepName: "aggregate:alert",
+          callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
+        })
+      : await step({
+          configs,
+          stepName: "aggregate:alert:single",
+          callback: aggregateAlertSingleRepository(
+            scanId,
+            sharedDbClient,
+            octokit,
+          ),
+        });
   }
 
   const maxOldForRepo = new Date(
