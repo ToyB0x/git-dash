@@ -2,3 +2,5 @@ tmp
 dist
 generated
 
+# Generated DB
+*.db
