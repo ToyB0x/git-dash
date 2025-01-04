@@ -84,7 +84,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
         new Date(repository.updated_at).getTime() > maxOldForRepo),
   );
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -98,7 +98,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: リポジトリ数に応じてQuotaを消費
     await step({
       configs,
@@ -118,7 +118,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
   // });
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: Workflow fileの数に応じてQuotaを消費
     await step({
       configs,
@@ -132,7 +132,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP) {
     // costは1のみ
     await step({
       configs,
@@ -170,7 +170,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     ),
   });
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
     await step({
       configs,
@@ -179,7 +179,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (!["PERSONAL", "PERSONAL_SAMPLE"].includes(configs.GDASH_MODE)) {
+  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
     await step({
       configs,
       stepName: "aggregate:commit",
