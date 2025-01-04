@@ -1,6 +1,5 @@
 name: Stats
-on:
-  push
+on: push
 
 jobs:
   stats-dev:
