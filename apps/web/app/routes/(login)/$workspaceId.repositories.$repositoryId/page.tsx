@@ -1,4 +1,5 @@
 import { auth, getWasmDb } from "@/clients";
+import { Card } from "@/components/Card";
 import {
   Table,
   TableBody,
@@ -13,22 +14,18 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
-import {
-  dataLoaderVulnerabilityCritical,
-  dataLoaderVulnerabilityHigh,
-  dataLoaderVulnerabilityLow,
-} from "@/routes/(login)/$workspaceId/vuln/dataLoaders";
 import type { Route } from "@@/(login)/$workspaceId.repositories.$repositoryId/+types/page";
 import {
   repositoryTbl,
   workflowTbl,
   workflowUsageCurrentCycleTbl,
 } from "@git-dash/db";
-import { startOfToday, subDays } from "date-fns";
+import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
 import { desc, eq } from "drizzle-orm";
-import React from "react";
+import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { redirect, useParams } from "react-router";
+import type { ITimeEntry } from "react-time-heatmap";
 import {
   dataLoaderChangeFailureRate,
   dataLoaderChangeLeadTime,
@@ -163,6 +160,19 @@ const workflowUsageCurrentCyclesDemo = [
   },
 ];
 
+const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
+  time: subHours(endOfToday(), hour),
+  count:
+    subHours(endOfToday(), hour).getDay() <= 1
+      ? Math.floor(Math.random() * 1.1) // 週末は低頻度にする
+      : // 早朝深夜は低頻度にする
+        subHours(endOfToday(), hour).getHours() < 8 ||
+          subHours(endOfToday(), hour).getHours() > 20
+        ? Math.floor(Math.random() * 1.2)
+        : // 平日の昼間は高頻度にする
+          Math.floor(Math.random() * 4),
+}));
+
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   const isDemo = params.workspaceId === "demo";
@@ -173,20 +183,18 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
 
-  const dataVulnerabilityCritical =
-    await dataLoaderVulnerabilityCritical(isDemo);
-  const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
-  const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
+  // const dataVulnerabilityCritical =
+  //   await dataLoaderVulnerabilityCritical(isDemo);
+  // const dataVulnerabilityHigh = await dataLoaderVulnerabilityHigh(isDemo);
+  // const dataVulnerabilityLow = await dataLoaderVulnerabilityLow(isDemo);
 
   if (isDemo) {
     return {
+      entries: demoEntries,
       dataChangeLeadTime,
       dataRelease,
       dataChangeFailureRate,
       dataFailedDeploymentRecoveryTime,
-      dataVulnerabilityCritical,
-      dataVulnerabilityHigh,
-      dataVulnerabilityLow,
       workflowUsageCurrentCycles: workflowUsageCurrentCyclesDemo,
     };
   }
@@ -230,13 +238,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   );
 
   return {
+    entries: demoEntries,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
     workflowUsageCurrentCycles: workflowUsageCurrentCyclesFiltered
       .filter(({ dollar }) => dollar > 0)
       .sort((a, b) => b.dollar - a.dollar),
@@ -248,13 +254,11 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   if (!loadData) return NoDataMessage;
 
   const {
+    entries,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
-    dataVulnerabilityCritical,
-    dataVulnerabilityHigh,
-    dataVulnerabilityLow,
     workflowUsageCurrentCycles,
   } = loadData;
 
@@ -268,6 +272,25 @@ export default function Page({ loaderData }: Route.ComponentProps) {
     to: maxDate,
   });
 
+  const [chart, setChart] = useState<ReactNode | null>(null);
+  useEffect(() => {
+    (async () => {
+      if (typeof window !== "undefined") {
+        const TimeHeatMap = await import("react-time-heatmap");
+        setChart(
+          <TimeHeatMap.TimeHeatMap
+            // TODO: windowサイズに合わせリサイズ
+            // timeEntries={entries.slice(0, 24 * 30)}
+            timeEntries={entries}
+            numberOfGroups={10}
+            flow
+            showGroups={false}
+          />,
+        );
+      }
+    })();
+  }, [entries]);
+
   return (
     <>
       <section aria-labelledby="repository-summary">
@@ -279,7 +302,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <CategoryBarCard
-            title="Time to release (four key)"
+            title="Time to merge"
             change="+1.4"
             value="9.1 days"
             valueDescription="average release time"
@@ -291,7 +314,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           />
 
           <CategoryBarCard
-            title="Time to merge"
+            title="Time until review"
             change="-0.6%"
             value="2.1 days"
             valueDescription="average merge time"
@@ -303,7 +326,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           />
 
           <CategoryBarCard
-            title="Time until review"
+            title="Time until being reviewed"
             change="-1.2%"
             value="1.3 days"
             valueDescription="average review time"
@@ -314,6 +337,25 @@ export default function Page({ loaderData }: Route.ComponentProps) {
             data={data3}
           />
         </div>
+      </section>
+
+      <section aria-labelledby="commits">
+        <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+          People Activity
+        </h1>
+
+        <p className="mt-1 text-gray-500">
+          The heatmap shows the number of commits and reviews by hour of day.
+        </p>
+
+        <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
+          <div className="w-full h-[380px] text-gray-500">{chart}</div>
+          <div className="flex justify-between mt-6 text-sm font-medium text-gray-500">
+            <span>{subDays(Date.now(), 60).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 30).toLocaleDateString()}</span>
+            <span>{subDays(Date.now(), 0).toLocaleDateString()}</span>
+          </div>
+        </Card>
       </section>
 
       <section aria-labelledby="actions-usage">
@@ -373,52 +415,52 @@ export default function Page({ loaderData }: Route.ComponentProps) {
         </dl>
       </section>
 
-      <section aria-labelledby="vulnerabilities-graph">
-        <h1
-          id="vulnerabilities-graph"
-          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
-          Vulnerabilities Stats
-        </h1>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div>
-        <dl
-          className={cx(
-            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-          )}
-        >
-          <ChartCard
-            title="Critical Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityCritical.data}
-          />
-          <ChartCard
-            title="High Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityHigh.data}
-          />
-          <ChartCard
-            title="Low Count"
-            type="vulnerabilities"
-            selectedPeriod="last-year"
-            selectedDates={selectedDates}
-            accumulation={false}
-            data={dataVulnerabilityLow.data}
-          />
-        </dl>
-      </section>
+      {/*<section aria-labelledby="vulnerabilities-graph">*/}
+      {/*  <h1*/}
+      {/*    id="vulnerabilities-graph"*/}
+      {/*    className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"*/}
+      {/*  >*/}
+      {/*    Vulnerabilities Stats*/}
+      {/*  </h1>*/}
+      {/*  <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">*/}
+      {/*    <Filterbar*/}
+      {/*      maxDate={maxDate}*/}
+      {/*      minDate={new Date(2024, 0, 1)}*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      onDatesChange={(dates) => setSelectedDates(dates)}*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*  <dl*/}
+      {/*    className={cx(*/}
+      {/*      "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",*/}
+      {/*    )}*/}
+      {/*  >*/}
+      {/*    <ChartCard*/}
+      {/*      title="Critical Count"*/}
+      {/*      type="vulnerabilities"*/}
+      {/*      selectedPeriod="last-year"*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      accumulation={false}*/}
+      {/*      data={dataVulnerabilityCritical.data}*/}
+      {/*    />*/}
+      {/*    <ChartCard*/}
+      {/*      title="High Count"*/}
+      {/*      type="vulnerabilities"*/}
+      {/*      selectedPeriod="last-year"*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      accumulation={false}*/}
+      {/*      data={dataVulnerabilityHigh.data}*/}
+      {/*    />*/}
+      {/*    <ChartCard*/}
+      {/*      title="Low Count"*/}
+      {/*      type="vulnerabilities"*/}
+      {/*      selectedPeriod="last-year"*/}
+      {/*      selectedDates={selectedDates}*/}
+      {/*      accumulation={false}*/}
+      {/*      data={dataVulnerabilityLow.data}*/}
+      {/*    />*/}
+      {/*  </dl>*/}
+      {/*</section>*/}
 
       <section aria-labelledby="actions-cost">
         <h1
