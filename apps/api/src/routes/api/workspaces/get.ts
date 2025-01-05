@@ -36,7 +36,7 @@ const handlers = factory.createHandlers(async (c) => {
         ): workspace is {
           id: string;
           displayName: string;
-          role: "OWNER" | "ADMIN" | "MEMBER";
+          role: "OWNER" | "MANAGER" | "MEMBER";
           tokenHash: string;
         } => !!workspace.id && !!workspace.role && !!workspace.displayName,
       )
