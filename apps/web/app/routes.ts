@@ -70,6 +70,7 @@ export default [
         "routes/(login)/$workspaceId/settings/members/$userId/page.tsx",
       ),
       route("api-key", "routes/(login)/$workspaceId/settings/api-key/page.tsx"),
+      route("general", "routes/(login)/$workspaceId/settings/general/page.tsx"),
     ]),
   ]),
 

@@ -31,8 +31,15 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   if (!membersResponse.ok) throw Error("Failed to fetch");
 
+  const members = await membersResponse.json();
+
+  const isMeOwner = members.some(
+    (m) => m.email === auth.currentUser?.email && m.role === "OWNER",
+  );
+
   return {
-    members: await membersResponse.json(),
+    members,
+    isMeOwner,
   };
 }
 
@@ -61,7 +68,7 @@ export async function clientAction({ params }: Route.ClientActionArgs) {
 }
 
 export default function Page({ loaderData }: Route.ComponentProps) {
-  const { members } = loaderData;
+  const { members, isMeOwner } = loaderData;
 
   const currentMemberTable = useReactTable({
     data: members.filter((m) => !m.inviting),
@@ -168,9 +175,15 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       </p>
 
       <div className="flex justify-end">
-        <Button asChild className="mt-6">
-          <Link to="new">Add Member</Link>
-        </Button>
+        {isMeOwner ? (
+          <Button asChild className="mt-6" disabled={!isMeOwner}>
+            <Link to="new">Add Member</Link>
+          </Button>
+        ) : (
+          <Button className="mt-6" disabled>
+            Add Member
+          </Button>
+        )}
       </div>
 
       <section className="flex flex-col space-y-2">
