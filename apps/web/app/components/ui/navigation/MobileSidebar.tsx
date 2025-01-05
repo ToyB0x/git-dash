@@ -79,11 +79,11 @@ const shortcuts = [
     href: "settings/members",
     icon: RiLinkM,
   },
-  {
-    name: "Add Analytics",
-    href: "#",
-    icon: RiLinkM,
-  },
+  // {
+  //   name: "Add Analytics",
+  //   href: "#",
+  //   icon: RiLinkM,
+  // },
 ] as const;
 
 export default function MobileSidebar() {
