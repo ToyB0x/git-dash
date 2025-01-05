@@ -1,5 +1,5 @@
 import { auth, hc } from "@/clients";
-import {Button} from "@/components/Button";
+import { Button } from "@/components/Button";
 import { SortableTable } from "@/components/ui/SortableTable";
 import type { Route } from "@@/(login)/$workspaceId/settings/members/+types/page";
 import {
@@ -168,7 +168,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       </p>
 
       <div className="flex justify-end">
-        <Button asChild  className="mt-6">
+        <Button asChild className="mt-6">
           <Link to="new">Add Member</Link>
         </Button>
       </div>
@@ -179,11 +179,11 @@ export default function Page({ loaderData }: Route.ComponentProps) {
       </section>
 
       {members.filter((m) => m.inviting).length > 0 && (
-      <section className="flex flex-col space-y-2 mt-24">
-        <h2 className="text-xl">Inviting</h2>
-        <SortableTable table={invitingUserTable}/>
-      </section>
-        )}
+        <section className="flex flex-col space-y-2 mt-24">
+          <h2 className="text-xl">Inviting</h2>
+          <SortableTable table={invitingUserTable} />
+        </section>
+      )}
     </div>
   );
 }

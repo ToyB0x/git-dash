@@ -55,7 +55,7 @@ export async function clientAction({
 
   if (!res.ok) throw Error("Failed to create a workspace");
 
-  return redirect("../members")
+  return redirect("../members");
 }
 
 export default function Page() {
