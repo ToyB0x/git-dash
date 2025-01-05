@@ -21,6 +21,7 @@ const handlers = factory.createHandlers(async (c) => {
       id: workspaceTbl.id,
       displayName: workspaceTbl.displayName,
       role: usersToWorkspaces.role,
+      tokenHash: workspaceTbl.apiTokenHash,
     })
     .from(usersToWorkspaces)
     .leftJoin(userTbl, eq(usersToWorkspaces.userId, userTbl.id))
@@ -28,15 +29,21 @@ const handlers = factory.createHandlers(async (c) => {
     .where(eq(userTbl.firebaseUid, idToken.uid));
 
   return c.json(
-    belongingWorkspaces.filter(
-      (
-        workspace,
-      ): workspace is {
-        id: string;
-        displayName: string;
-        role: "OWNER" | "ADMIN" | "MEMBER";
-      } => !!workspace.id && !!workspace.role && !!workspace.displayName,
-    ),
+    belongingWorkspaces
+      .filter(
+        (
+          workspace,
+        ): workspace is {
+          id: string;
+          displayName: string;
+          role: "OWNER" | "ADMIN" | "MEMBER";
+          tokenHash: string;
+        } => !!workspace.id && !!workspace.role && !!workspace.displayName,
+      )
+      .map((workspace) => ({
+        ...workspace,
+        hasKey: !!workspace.tokenHash,
+      })),
   );
 });
 
