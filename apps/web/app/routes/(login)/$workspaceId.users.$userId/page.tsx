@@ -540,7 +540,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
                   : timeToReviewed?.improvePercentage &&
                     `${timeToReviewed?.improvePercentage}%`
               }
-              // value="7.1 hours"
               value={
                 isDemo
                   ? "7.1 hours"
