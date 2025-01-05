@@ -28,7 +28,7 @@ import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { redirect, useParams } from "react-router";
 import type { ITimeEntry } from "react-time-heatmap";
-import { dataLoaderTimeToMerge } from "./dataLoaders";
+import { dataLoaderTimeToMerge, dataLoaderTimeToReview } from "./dataLoaders";
 import {
   dataLoaderChangeFailureRate,
   dataLoaderChangeLeadTime,
@@ -280,11 +280,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   );
 
   const timeToMerge = await dataLoaderTimeToMerge(wasmDb, repositoryId);
-  console.warn("timeToMerge", timeToMerge);
+  const timeToReview = await dataLoaderTimeToReview(wasmDb, repositoryId);
 
   return {
     entries,
     timeToMerge,
+    timeToReview,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
@@ -303,6 +304,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
   const {
     entries,
     timeToMerge,
+    timeToReview,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
@@ -372,17 +374,28 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             />
           )}
 
-          <CategoryBarCard
-            title="Time until review"
-            change="-0.6%"
-            value="2.1 days"
-            valueDescription="average merge time"
-            subtitle="last 30 days"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data2}
-          />
+          {(isDemo || Number.isInteger(timeToReview?.averageIn30Days)) && (
+            <CategoryBarCard
+              title="Time until review"
+              change={
+                isDemo
+                  ? "-1.2%"
+                  : timeToReview?.improvePercentage &&
+                    `${timeToReview?.improvePercentage}%`
+              }
+              value={
+                isDemo
+                  ? "4.6 hours"
+                  : `${Math.round((Number(timeToReview?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              }
+              valueDescription="average merge time"
+              subtitle="last 30 days"
+              ctaDescription="About this metrics:"
+              ctaText="reference"
+              ctaLink="#"
+              data={isDemo ? data2 : timeToReview?.bars || []}
+            />
+          )}
 
           <CategoryBarCard
             title="Time until being reviewed"
