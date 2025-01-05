@@ -28,6 +28,7 @@ import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { redirect, useParams } from "react-router";
 import type { ITimeEntry } from "react-time-heatmap";
+import { dataLoaderTimeToMerge } from "./dataLoaders";
 import {
   dataLoaderChangeFailureRate,
   dataLoaderChangeLeadTime,
@@ -278,8 +279,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     })),
   );
 
+  const timeToMerge = await dataLoaderTimeToMerge(wasmDb, repositoryId);
+  console.warn("timeToMerge", timeToMerge);
+
   return {
     entries,
+    timeToMerge,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
@@ -290,12 +295,14 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-export default function Page({ loaderData }: Route.ComponentProps) {
+export default function Page({ loaderData, params }: Route.ComponentProps) {
+  const isDemo = params.workspaceId === "demo";
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
   const {
     entries,
+    timeToMerge,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
@@ -342,17 +349,28 @@ export default function Page({ loaderData }: Route.ComponentProps) {
           {repositoryId}
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
-          <CategoryBarCard
-            title="Time to merge"
-            change="+1.4"
-            value="9.1 days"
-            valueDescription="average release time"
-            subtitle="last 30 days"
-            ctaDescription="About four key:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data}
-          />
+          {(isDemo || Number.isInteger(timeToMerge?.averageIn30Days)) && (
+            <CategoryBarCard
+              title="Time to merge"
+              change={
+                isDemo
+                  ? "+1.4%"
+                  : timeToMerge?.improvePercentage &&
+                    `${timeToMerge?.improvePercentage}%`
+              }
+              value={
+                isDemo
+                  ? "2.1 days"
+                  : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              }
+              valueDescription="average release time"
+              subtitle="last 30 days"
+              ctaDescription="About four key:"
+              ctaText="reference"
+              ctaLink="#"
+              data={isDemo ? data : timeToMerge?.bars || []}
+            />
+          )}
 
           <CategoryBarCard
             title="Time until review"
