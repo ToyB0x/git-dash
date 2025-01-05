@@ -1,7 +1,18 @@
 import { relations } from "drizzle-orm";
-import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  integer,
+  primaryKey,
+  sqliteTable,
+  text,
+} from "drizzle-orm/sqlite-core";
 import { userTbl } from "./userTbl";
 import { workspaceTbl } from "./workspaceTbl";
+
+export const Roles = [
+  "OWNER", // can do anything
+  "MANAGER", // cav view advanced information (can't invite new members?)
+  "MEMBER", // can view basic information
+] as const;
 
 export const usersToWorkspaces = sqliteTable(
   "users_to_workspaces",
@@ -18,7 +29,16 @@ export const usersToWorkspaces = sqliteTable(
         onUpdate: "cascade",
         onDelete: "cascade",
       }),
-    role: text({ enum: ["OWNER", "ADMIN", "MEMBER"] }).notNull(),
+    role: text({
+      enum: Roles,
+    }).notNull(),
+    // TODO: remove not null
+    createdAt: integer({ mode: "timestamp_ms" })
+      // .notNull()
+      .$default(() => new Date()),
+    updatedAt: integer({ mode: "timestamp_ms" })
+      // .notNull()
+      .$onUpdate(() => new Date()),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.userId, t.workspaceId] }),

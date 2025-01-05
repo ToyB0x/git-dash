@@ -13,13 +13,25 @@ const handlers = factory.createHandlers(async (c) => {
 
   const db = drizzle(c.env.DB_API);
 
-  const users = await db
+  const existUsers = await db
     .select()
     .from(userTbl)
-    .where(eq(userTbl.firebaseUid, idToken.uid));
+    .where(eq(userTbl.email, idToken.email));
 
-  // already registered
-  if (users.length > 0) return c.json({ success: true });
+  const existUser = existUsers[0];
+
+  if (existUser) {
+    // already registered
+    if (existUser.firebaseUid === idToken.uid) {
+      return c.json({ success: true });
+    }
+    // user invited, but not registered yet
+    await db
+      .update(userTbl)
+      .set({ firebaseUid: idToken.uid })
+      .where(eq(userTbl.email, idToken.email));
+    return c.json({ success: true });
+  }
 
   // not registered yet, so create a new user
   await db.insert(userTbl).values({

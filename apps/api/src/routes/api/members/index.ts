@@ -4,4 +4,4 @@ import { postHandler } from "./post";
 
 export const memberRoute = new Hono()
   .get(":workspaceId", ...getHandler)
-  .post(":workspaceId/;userId", ...postHandler);
+  .post(":workspaceId", ...postHandler);

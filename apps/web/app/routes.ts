@@ -61,6 +61,14 @@ export default [
     // ]),
     route("settings", "routes/(login)/$workspaceId/settings/page.tsx", [
       route("members", "routes/(login)/$workspaceId/settings/members/page.tsx"),
+      route(
+        "members/new",
+        "routes/(login)/$workspaceId/settings/members/new/page.tsx",
+      ),
+      route(
+        "members/:userId",
+        "routes/(login)/$workspaceId/settings/members/$userId/page.tsx",
+      ),
       route("api-key", "routes/(login)/$workspaceId/settings/api-key/page.tsx"),
     ]),
   ]),
