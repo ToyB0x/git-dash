@@ -15,9 +15,11 @@ function getSubtree(
 
   const firstChild = React.Children.only(children) as React.ReactElement;
   return React.cloneElement(firstChild, {
+    // @ts-ignore
     children:
       typeof content === "function"
-        ? content(firstChild.props.children)
+        ? // @ts-ignore
+          content(firstChild.props.children)
         : content,
   });
 }
