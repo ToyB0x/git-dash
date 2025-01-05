@@ -57,6 +57,13 @@
       "when": 1736112129342,
       "tag": "0007_premium_omega_flight",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1736115764129,
+      "tag": "0008_common_caretaker",
+      "breakpoints": true
     }
   ]
 }
