@@ -34,6 +34,7 @@ import {
   dataLoaderChangeLeadTime,
   dataLoaderFailedDeploymentRecoveryTime,
   dataLoaderRelease,
+  dataLoaderTimeToReviewed,
 } from "./dataLoaders";
 
 type KpiEntry = {
@@ -281,11 +282,13 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   const timeToMerge = await dataLoaderTimeToMerge(wasmDb, repositoryId);
   const timeToReview = await dataLoaderTimeToReview(wasmDb, repositoryId);
+  const timeToReviewed = await dataLoaderTimeToReviewed(wasmDb, repositoryId);
 
   return {
     entries,
     timeToMerge,
     timeToReview,
+    timeToReviewed,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
@@ -305,6 +308,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     entries,
     timeToMerge,
     timeToReview,
+    timeToReviewed,
     dataChangeLeadTime,
     dataRelease,
     dataChangeFailureRate,
@@ -397,17 +401,37 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             />
           )}
 
-          <CategoryBarCard
-            title="Time until being reviewed"
-            change="-1.2%"
-            value="1.3 days"
-            valueDescription="average review time"
-            subtitle="last 30 days"
-            ctaDescription="About this metrics:"
-            ctaText="reference"
-            ctaLink="#"
-            data={data3}
-          />
+          {(isDemo || Number.isInteger(timeToReviewed?.averageIn30Days)) && (
+            <CategoryBarCard
+              title="Time until being reviewed"
+              change={
+                isDemo
+                  ? "+1.4%"
+                  : timeToReviewed?.improvePercentage &&
+                    `${timeToReviewed?.improvePercentage}%`
+              }
+              value={
+                isDemo
+                  ? "7.1 hours"
+                  : `${Math.round((Number(timeToReviewed?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              }
+              valueDescription="average review time"
+              subtitle="last 30 days"
+              ctaDescription="About this metrics:"
+              ctaText="reference"
+              ctaLink="#"
+              data={
+                isDemo
+                  ? data3
+                  : timeToReviewed?.bars.map((bar) => ({
+                      title: bar.title,
+                      percentage: bar.percentage,
+                      value: `${bar.value} PRs`,
+                      color: bar.color,
+                    })) || []
+              }
+            />
+          )}
         </div>
       </section>
 
