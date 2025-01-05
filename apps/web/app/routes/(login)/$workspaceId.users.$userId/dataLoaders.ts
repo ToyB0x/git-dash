@@ -2,7 +2,7 @@ import type { getWasmDb } from "@/clients";
 import { generateDailyData } from "@/lib/generateDailyData";
 import { prTbl, scanTbl, timelineTbl } from "@git-dash/db";
 import { subDays } from "date-fns";
-import { and, desc, eq, gt, gte, inArray, isNotNull } from "drizzle-orm";
+import { and, desc, eq, gt, gte, inArray, isNotNull, not } from "drizzle-orm";
 
 type GraphData = {
   version: "0.1";
@@ -154,20 +154,27 @@ export const dataLoaderTimeToMerge = async (
   const bars = aggregationBase.map((base) => ({
     ...base,
     value: `${
-      mergedPrsWithMsec.filter(
-        (msec) =>
-          msec.elapsedMsec >= base.diffStart && msec.elapsedMsec < base.diffEnd,
-      ).length
+      mergedPrsWithMsec
+        .filter((pr) => pr.createdAt > subDays(new Date(), 30))
+        .filter(
+          (msec) =>
+            msec.elapsedMsec >= base.diffStart &&
+            msec.elapsedMsec < base.diffEnd,
+        ).length
     } PRs`,
     percentage:
       Math.round(
         10 *
-          (mergedPrsWithMsec.filter(
-            (msec) =>
-              msec.elapsedMsec >= base.diffStart &&
-              msec.elapsedMsec < base.diffEnd,
-          ).length /
-            mergedPrsWithMsec.length) *
+          (mergedPrsWithMsec
+            .filter((pr) => pr.createdAt > subDays(new Date(), 30))
+            .filter(
+              (msec) =>
+                msec.elapsedMsec >= base.diffStart &&
+                msec.elapsedMsec < base.diffEnd,
+            ).length /
+            mergedPrsWithMsec.filter(
+              (pr) => pr.createdAt > subDays(new Date(), 30),
+            ).length) *
           100,
       ) / 10,
   }));
@@ -193,6 +200,11 @@ export const dataLoaderTimeToReview = async (
     .from(prTbl)
     .where(and(gte(prTbl.createdAt, subDays(new Date(), 60))));
 
+  const renovateBotId = 29139614;
+
+  // NOTE: このBarグラフ部分のレビュー数と、折れ線グラフ部分のレビュー数が一致しない原因として、
+  // この関数内でのレビュー数は、レビューリクエストをもとに計算しているため、
+  // 回答していないレビューリクエストがある場合、レビュー数がカウントされてしまうため
   const reviewRequests = await db
     .select()
     .from(timelineTbl)
@@ -200,6 +212,7 @@ export const dataLoaderTimeToReview = async (
       and(
         eq(timelineTbl.eventType, "review_requested"),
         eq(timelineTbl.requestedReviewerId, userId),
+        not(eq(timelineTbl.actorId, renovateBotId)),
         inArray(
           timelineTbl.prId,
           recentPrIds.map((pr) => pr.prId),
@@ -207,7 +220,8 @@ export const dataLoaderTimeToReview = async (
       ),
     );
 
-  const renovateBotId = 29139614;
+  let noAnsweredCount = 0;
+
   const reviewResults = await Promise.all(
     reviewRequests
       .filter((request) => request.actorId !== renovateBotId)
@@ -237,6 +251,7 @@ export const dataLoaderTimeToReview = async (
           // レビューされずにマージされた場合は、マージ日時までの差分を待ち時間とする
           const mergedAt = mergedPrs[0]?.mergedAt;
           if (mergedAt) {
+            noAnsweredCount++;
             return {
               ...request,
               elapsedMsec: mergedAt.getTime() - request.createdAt.getTime(),
@@ -265,6 +280,8 @@ export const dataLoaderTimeToReview = async (
         };
       }),
   );
+
+  console.log({ noAnsweredCount });
 
   const sumIn30Days = reviewResults
     .filter((result) => result.createdAt > subDays(new Date(), 30))
@@ -335,20 +352,27 @@ export const dataLoaderTimeToReview = async (
   const bars = aggregationBase.map((base) => ({
     ...base,
     value: `${
-      reviewResults.filter(
-        (msec) =>
-          msec.elapsedMsec >= base.diffStart && msec.elapsedMsec < base.diffEnd,
-      ).length
+      reviewResults
+        .filter((review) => review.createdAt > subDays(new Date(), 30))
+        .filter(
+          (msec) =>
+            msec.elapsedMsec >= base.diffStart &&
+            msec.elapsedMsec < base.diffEnd,
+        ).length
     } Reviews`,
     percentage:
       Math.round(
         10 *
-          (reviewResults.filter(
-            (msec) =>
-              msec.elapsedMsec >= base.diffStart &&
-              msec.elapsedMsec < base.diffEnd,
-          ).length /
-            reviewResults.length) *
+          (reviewResults
+            .filter((review) => review.createdAt > subDays(new Date(), 30))
+            .filter(
+              (msec) =>
+                msec.elapsedMsec >= base.diffStart &&
+                msec.elapsedMsec < base.diffEnd,
+            ).length /
+            reviewResults.filter(
+              (review) => review.createdAt > subDays(new Date(), 30),
+            ).length) *
           100,
       ) / 10,
   }));
@@ -527,20 +551,27 @@ export const dataLoaderTimeToReviewed = async (
   const bars = aggregationBase.map((base) => ({
     ...base,
     value: `${
-      reviewResults.filter(
-        (msec) =>
-          msec.elapsedMsec >= base.diffStart && msec.elapsedMsec < base.diffEnd,
-      ).length
+      reviewResults
+        .filter((review) => review.createdAt > subDays(new Date(), 30))
+        .filter(
+          (msec) =>
+            msec.elapsedMsec >= base.diffStart &&
+            msec.elapsedMsec < base.diffEnd,
+        ).length
     } Reviews`,
     percentage:
       Math.round(
         10 *
-          (reviewResults.filter(
-            (msec) =>
-              msec.elapsedMsec >= base.diffStart &&
-              msec.elapsedMsec < base.diffEnd,
-          ).length /
-            reviewResults.length) *
+          (reviewResults
+            .filter((review) => review.createdAt > subDays(new Date(), 30))
+            .filter(
+              (msec) =>
+                msec.elapsedMsec >= base.diffStart &&
+                msec.elapsedMsec < base.diffEnd,
+            ).length /
+            reviewResults.filter(
+              (review) => review.createdAt > subDays(new Date(), 30),
+            ).length) *
           100,
       ) / 10,
   }));
