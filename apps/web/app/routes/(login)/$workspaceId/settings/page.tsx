@@ -1,8 +1,8 @@
 import { TabNavigation, TabNavigationLink } from "@/components/TabNavigation";
-import type { Route } from "@@/(login)/+types/settings";
+import type { Route } from "@@/(login)/$workspaceId/settings/+types/page";
 import { Outlet } from "react-router";
 
-export default function Page({ matches }: Route.ComponentProps) {
+export default function Page({ params, matches }: Route.ComponentProps) {
   const isActive = (pathEnd: string) =>
     matches.filter((match) => match?.pathname.endsWith(pathEnd)).length > 0;
 
@@ -11,18 +11,25 @@ export default function Page({ matches }: Route.ComponentProps) {
       <section>
         <TabNavigation>
           <TabNavigationLink
-            href="members"
+            href={`/${params.workspaceId}/settings/members`}
             active={isActive("members")}
             className="px-6"
           >
             Members
           </TabNavigationLink>
           <TabNavigationLink
-            href="api-key"
+            href={`/${params.workspaceId}/settings/api-key`}
             active={isActive("api-key")}
             className="px-6"
           >
             API Key
+          </TabNavigationLink>
+          <TabNavigationLink
+            href={`/${params.workspaceId}/settings/general`}
+            active={isActive("general")}
+            className="px-6"
+          >
+            General
           </TabNavigationLink>
         </TabNavigation>
       </section>
