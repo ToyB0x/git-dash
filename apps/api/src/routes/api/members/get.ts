@@ -35,15 +35,23 @@ const handlers = factory.createHandlers(async (c) => {
   if (!isBelongingWorkspace.length) throw Error("User not in workspace");
 
   const workspaceMembers = await db
-    .select({ id: userTbl.id, email: userTbl.email, role: usersToWorkspaces.role, updatedAt: usersToWorkspaces.updatedAt, inviting: userTbl.firebaseUid })
+    .select({
+      id: userTbl.id,
+      email: userTbl.email,
+      role: usersToWorkspaces.role,
+      updatedAt: usersToWorkspaces.updatedAt,
+      inviting: userTbl.firebaseUid,
+    })
     .from(userTbl)
     .leftJoin(usersToWorkspaces, eq(userTbl.id, usersToWorkspaces.userId))
     .where(eq(usersToWorkspaces.workspaceId, workspaceId));
 
-  return c.json(workspaceMembers.map((m) => ({
-    ...m,
-    inviting: !m.inviting, // convert firebaseUid to inviting status (Null means inviting, as user is not registered)
-  })));
+  return c.json(
+    workspaceMembers.map((m) => ({
+      ...m,
+      inviting: !m.inviting, // convert firebaseUid to inviting status (Null means inviting, as user is not registered)
+    })),
+  );
 });
 
 export const getHandler = handlers;

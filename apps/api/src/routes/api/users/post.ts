@@ -26,7 +26,10 @@ const handlers = factory.createHandlers(async (c) => {
       return c.json({ success: true });
     }
     // user invited, but not registered yet
-    await db.update(userTbl).set({ firebaseUid: idToken.uid }).where(eq(userTbl.email, idToken.email));
+    await db
+      .update(userTbl)
+      .set({ firebaseUid: idToken.uid })
+      .where(eq(userTbl.email, idToken.email));
     return c.json({ success: true });
   }
 
