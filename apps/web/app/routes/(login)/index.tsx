@@ -5,8 +5,8 @@ import { redirect, useNavigate, useOutletContext } from "react-router";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { ModalAddWorkspace } from "@/components/ui/navigation/ModalAddWorkspace";
-import type { LoginLayoutData } from "@/routes/(login)/$workspaceId/layout";
 import { useLayoutEffect } from "react";
+import type { LoginLayoutData } from "./layout";
 
 export async function clientLoader() {
   await auth.authStateReady();
