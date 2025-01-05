@@ -76,7 +76,7 @@ const shortcuts = [
   // },
   {
     name: "Settings",
-    href: "settings",
+    href: "settings/members",
     icon: RiLinkM,
   },
   {
