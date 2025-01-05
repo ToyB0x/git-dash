@@ -1,43 +1,19 @@
-import { auth, hc } from "@/clients";
+import { auth } from "@/clients";
 import { Button } from "@/components/Button";
-import type { Route } from "@@/(login)/$workspaceId/settings/general/+types/page";
-import { redirect } from "react-router";
+import type { LoginLayoutData } from "@/routes/(login)/$workspaceId/layout";
+import { redirect, useOutletContext } from "react-router";
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+export async function clientLoader() {
   await auth.authStateReady();
 
   if (!auth.currentUser) {
     throw redirect("/sign-in");
   }
-
-  const membersResponse = await hc.api.members[":workspaceId"].$get(
-    {
-      param: {
-        workspaceId: params.workspaceId,
-      },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${await auth.currentUser.getIdToken()}`,
-      },
-    },
-  );
-
-  if (!membersResponse.ok) throw Error("Failed to fetch");
-
-  const members = await membersResponse.json();
-
-  const isMeOwner = members.some(
-    (m) => m.email === auth.currentUser?.email && m.role === "OWNER",
-  );
-
-  return {
-    isMeOwner,
-  };
 }
 
-export default function Page({ loaderData }: Route.ComponentProps) {
-  const { isMeOwner } = loaderData;
+export default function Page() {
+  const { me } = useOutletContext<LoginLayoutData>();
+  const isMeOwner = me.workspaces.some((w) => w.role === "OWNER");
 
   return (
     <div>

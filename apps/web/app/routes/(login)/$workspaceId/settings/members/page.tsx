@@ -1,13 +1,14 @@
 import { auth, hc } from "@/clients";
 import { Button } from "@/components/Button";
 import { SortableTable } from "@/components/ui/SortableTable";
+import type { LoginLayoutData } from "@/routes/(login)/$workspaceId/layout";
 import type { Route } from "@@/(login)/$workspaceId/settings/members/+types/page";
 import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Link, redirect } from "react-router";
+import { Link, redirect, useOutletContext } from "react-router";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
@@ -33,13 +34,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   const members = await membersResponse.json();
 
-  const isMeOwner = members.some(
-    (m) => m.email === auth.currentUser?.email && m.role === "OWNER",
-  );
-
   return {
     members,
-    isMeOwner,
   };
 }
 
@@ -68,7 +64,9 @@ export async function clientAction({ params }: Route.ClientActionArgs) {
 }
 
 export default function Page({ loaderData }: Route.ComponentProps) {
-  const { members, isMeOwner } = loaderData;
+  const { members } = loaderData;
+  const { me } = useOutletContext<LoginLayoutData>();
+  const isMeOwner = me.workspaces.some((w) => w.role === "OWNER");
 
   const currentMemberTable = useReactTable({
     data: members.filter((m) => !m.inviting),
