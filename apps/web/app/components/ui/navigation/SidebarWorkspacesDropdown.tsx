@@ -69,14 +69,14 @@ export const WorkspacesDropdownDesktop = ({
                     .replace("-", "")
                     .slice(0, 2)
                     .toUpperCase()
-                : " / "}
+                : "DE"}
             </span>
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
               <div className="truncate">
-                <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
+                <p className="truncate whitespace-nowrap text-left text-sm font-medium text-gray-900 dark:text-gray-50">
                   {currentWorkspace
                     ? currentWorkspace.displayName
-                    : "Select workspace"}
+                    : "DEMO WORKSPACE"}
                 </p>
                 <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
                   {currentWorkspace ? currentWorkspace.role : ""}
@@ -205,17 +205,17 @@ export const WorkspacesDropdownMobile = ({
                     .replace("-", "")
                     .slice(0, 2)
                     .toUpperCase()
-                : " / "}
+                : "DE"}
             </span>
             <RiArrowRightSLine
               className="size-4 shrink-0 text-gray-500"
               aria-hidden="true"
             />
             <div className="flex w-full items-center justify-between gap-x-3 truncate">
-              <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
+              <p className="truncate whitespace-nowrap text-left text-sm font-medium text-gray-900 dark:text-gray-50">
                 {currentWorkspace
                   ? currentWorkspace.displayName
-                  : "Select workspace"}
+                  : "DEMO WORKSPACE"}
               </p>
               <RiExpandUpDownLine
                 className="size-4 shrink-0 text-gray-500"

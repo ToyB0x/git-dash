@@ -26,7 +26,7 @@ export const NoDataMessage = (
       </p>
 
       <Button asChild>
-        <Link to="../settings">Move to API Key Setting Page</Link>
+        <Link to="../settings/api-key">Move to API Key Setting Page</Link>
       </Button>
     </Card>
   </div>
