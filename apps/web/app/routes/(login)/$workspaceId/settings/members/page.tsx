@@ -53,7 +53,7 @@ export async function clientAction({ params }: Route.ClientActionArgs) {
   return await res.json();
 }
 
-export default function Page({ params, loaderData }: Route.ComponentProps) {
+export default function Page({ loaderData }: Route.ComponentProps) {
   const { members } = loaderData;
 
   return (
