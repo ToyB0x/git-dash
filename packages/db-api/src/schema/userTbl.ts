@@ -17,9 +17,10 @@ export const userTbl = sqliteTable(
   {
     id: text({ length: idLength }).primaryKey(),
     email: text("email", { length: 256 }).notNull(),
-    firebaseUid: text("firebase_uid", { length: 36 })
-      .unique("uq_user_firebase_uid"),
-      // .notNull(), // null means the user is not signed up yet, but invited by another user (Currently, cloudflare workers doesn't support firebase admin sdk, so we can't create a user from the backend)
+    firebaseUid: text("firebase_uid", { length: 36 }).unique(
+      "uq_user_firebase_uid",
+    ),
+    // .notNull(), // null means the user is not signed up yet, but invited by another user (Currently, cloudflare workers doesn't support firebase admin sdk, so we can't create a user from the backend)
     createdAt: integer({ mode: "timestamp_ms" })
       .notNull()
       .$default(() => new Date()),
