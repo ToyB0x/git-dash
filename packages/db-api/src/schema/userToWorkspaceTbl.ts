@@ -32,12 +32,11 @@ export const usersToWorkspaces = sqliteTable(
     role: text({
       enum: Roles,
     }).notNull(),
-    // TODO: remove not null
     createdAt: integer({ mode: "timestamp_ms" })
-      // .notNull()
+      .notNull()
       .$default(() => new Date()),
     updatedAt: integer({ mode: "timestamp_ms" })
-      // .notNull()
+      .notNull()
       .$onUpdate(() => new Date()),
   },
   (t) => ({
