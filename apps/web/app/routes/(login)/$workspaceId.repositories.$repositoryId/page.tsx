@@ -181,7 +181,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   const isDemo = params.workspaceId === "demo";
 
-  const dataChangeLeadTime = await dataLoaderChangeLeadTime(isDemo);
   const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
@@ -194,7 +193,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (isDemo) {
     return {
       entries: demoEntries,
-      dataChangeLeadTime,
+      dataChangeLeadTime: await dataLoaderChangeLeadTime({ isDemo }),
       dataRelease: await dataLoaderRelease({ isDemo }),
       dataChangeFailureRate,
       dataFailedDeploymentRecoveryTime,
@@ -288,7 +287,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     timeToMerge,
     timeToReview,
     timeToReviewed,
-    dataChangeLeadTime,
+    dataChangeLeadTime: await dataLoaderChangeLeadTime({
+      isDemo,
+      db: wasmDb,
+      repositoryId,
+    }),
     dataRelease: await dataLoaderRelease({ isDemo, db: wasmDb, repositoryId }),
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
@@ -485,10 +488,11 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           <ChartCard
             title="Change Lead Time"
             type="hour"
-            selectedPeriod="last-year"
+            selectedPeriod="last-month"
             selectedDates={selectedDates}
             data={dataChangeLeadTime.data}
-            accumulation={false}
+            accumulation
+            showAverageWithAccumulatedValue
           />
 
           <ChartCard

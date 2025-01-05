@@ -31,6 +31,7 @@ export type CardProps = {
   }[];
   isThumbnail?: boolean;
   accumulation?: boolean; // グラフの積み上げ表示
+  showAverageWithAccumulatedValue?: boolean; // グラフのサマリの数値として積み上げした数値をデータ日数で割って平均値を利用するかどうか
 };
 
 const formattingMap = {
@@ -73,6 +74,7 @@ export function ChartCard({
   selectedPeriod,
   isThumbnail,
   accumulation = true,
+  showAverageWithAccumulatedValue = false,
 }: CardProps) {
   const formatter = formattingMap[type];
   const selectedDatesInterval =
@@ -165,14 +167,23 @@ export function ChartCard({
       <div className="mt-2 flex items-baseline justify-between">
         <dd className="text-xl text-gray-900 dark:text-gray-50">
           {accumulation
-            ? formatter(value)
+            ? !showAverageWithAccumulatedValue
+              ? formatter(value)
+              : // @ts-ignore
+                `${Math.round(value / chartData?.filter((d) => !!d.value).length)} hour (average)`
             : formatter(chartData?.filter((d) => d.value)?.slice(-1)[0]?.value)}
         </dd>
         {selectedPeriod !== "no-comparison" && (
           <dd className="text-sm text-gray-500">
             from{" "}
             {accumulation
-              ? formatter(previousValue)
+              ? !showAverageWithAccumulatedValue
+                ? formatter(previousValue)
+                : // biome-ignore lint/style/useTemplate: <explanation>
+                  Math.round(
+                    // @ts-ignore
+                    previousValue / chartData?.filter((d) => d.value).length,
+                  ) + " hour (average)"
               : formatter(
                   chartData?.filter((d) => d.value)?.slice(-1)[0]
                     ?.previousValue,

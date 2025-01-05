@@ -87,20 +87,101 @@ export const dataLoaderRelease = async (
 };
 
 export const dataLoaderChangeLeadTime = async (
-  _isDemo: boolean,
+  params:
+    | {
+        isDemo: true;
+      }
+    | {
+        isDemo: false;
+        repositoryId: number;
+        db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>;
+      },
 ): Promise<GraphData> => {
+  if (params.isDemo) {
+    return {
+      type: "ChangeLeadTime",
+      version: "0.1",
+      data: generateDailyData({
+        startDate: new Date(
+          Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+        ),
+        endDate: new Date(),
+        min: 10,
+        max: 50,
+        variance: 0.01,
+        weekendReduction: true,
+      }),
+    };
+  }
+
+  const mergedPrs = await params.db
+    .select()
+    .from(prTbl)
+    .where(
+      and(
+        gte(prTbl.createdAt, subDays(new Date(), 60)),
+        eq(prTbl.repositoryId, params.repositoryId),
+        isNotNull(prTbl.mergedAt),
+      ),
+    )
+    .orderBy(asc(prTbl.createdAt));
+
+  const releases = await params.db
+    .select()
+    .from(releaseTbl)
+    .where(
+      and(
+        eq(releaseTbl.repositoryId, params.repositoryId),
+        gte(releaseTbl.publishedAt, subDays(new Date(), 60)),
+      ),
+    )
+    .orderBy(asc(releaseTbl.publishedAt));
+
+  // calculate lead time
+  const leadTimes = mergedPrs.map((pr) => {
+    const release = releases.find(
+      (release) =>
+        pr.mergedAt &&
+        release.publishedAt &&
+        // MainのHeadでリリースしたことが前提
+        release.publishedAt.getTime() > pr.mergedAt.getTime(),
+    );
+
+    if (!release) {
+      return null;
+    }
+
+    return {
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      date: pr.mergedAt!,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      value: release.publishedAt!.getTime() - pr.mergedAt!.getTime(),
+    };
+  });
+
   return {
     type: "ChangeLeadTime",
     version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 10,
-      max: 50,
-      variance: 0.01,
-      weekendReduction: true,
+    data: [...Array(60).keys()].map((i) => {
+      const date = subDays(new Date(), 60 - i);
+      const values = leadTimes.filter(
+        (leadTime): leadTime is NonNullable<typeof leadTime> =>
+          !!leadTime &&
+          leadTime.date.getDate() === date.getDate() &&
+          leadTime.date.getMonth() === date.getMonth() &&
+          leadTime.date.getFullYear() === date.getFullYear(),
+      );
+
+      const dailySumInHour =
+        values.reduce((acc, leadTime) => acc + leadTime.value, 0) /
+        1000 /
+        60 /
+        60;
+
+      // 1日のPRひとつあたりの平均リードタイム
+      const dailyAverage = Math.round(dailySumInHour / values.length);
+
+      return { date, value: dailyAverage };
     }),
   };
 };
