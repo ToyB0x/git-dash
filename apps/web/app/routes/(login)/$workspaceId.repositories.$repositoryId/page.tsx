@@ -181,8 +181,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   const isDemo = params.workspaceId === "demo";
 
-  const dataChangeLeadTime = await dataLoaderChangeLeadTime(isDemo);
-  const dataRelease = await dataLoaderRelease(isDemo);
   const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
@@ -195,8 +193,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (isDemo) {
     return {
       entries: demoEntries,
-      dataChangeLeadTime,
-      dataRelease,
+      dataChangeLeadTime: await dataLoaderChangeLeadTime({ isDemo }),
+      dataRelease: await dataLoaderRelease({ isDemo }),
       dataChangeFailureRate,
       dataFailedDeploymentRecoveryTime,
       workflowUsageCurrentCycles: workflowUsageCurrentCyclesDemo,
@@ -289,8 +287,12 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     timeToMerge,
     timeToReview,
     timeToReviewed,
-    dataChangeLeadTime,
-    dataRelease,
+    dataChangeLeadTime: await dataLoaderChangeLeadTime({
+      isDemo,
+      db: wasmDb,
+      repositoryId,
+    }),
+    dataRelease: await dataLoaderRelease({ isDemo, db: wasmDb, repositoryId }),
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
     workflowUsageCurrentCycles: workflowUsageCurrentCyclesFiltered
@@ -477,22 +479,24 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           <ChartCard
             title="Deployment Frequency"
             type="release"
-            selectedPeriod="last-year"
+            selectedPeriod="last-month"
             selectedDates={selectedDates}
             data={dataRelease.data}
+            accumulation
           />
 
           <ChartCard
             title="Change Lead Time"
             type="hour"
-            selectedPeriod="last-year"
+            selectedPeriod="last-month"
             selectedDates={selectedDates}
             data={dataChangeLeadTime.data}
-            accumulation={false}
+            accumulation
+            showAverageWithAccumulatedValue
           />
 
           <ChartCard
-            title="Change Failure Rate"
+            title="Change Failure Rate (Example)"
             type="percentage"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
@@ -501,7 +505,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           />
 
           <ChartCard
-            title="Failed Deployment Recovery Time"
+            title="Failed Deployment Recovery Time (Example)"
             type="hour"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
