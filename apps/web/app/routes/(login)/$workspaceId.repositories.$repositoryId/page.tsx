@@ -496,7 +496,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           />
 
           <ChartCard
-            title="Change Failure Rate"
+            title="Change Failure Rate (Example)"
             type="percentage"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
@@ -505,7 +505,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           />
 
           <ChartCard
-            title="Failed Deployment Recovery Time"
+            title="Failed Deployment Recovery Time (Example)"
             type="hour"
             selectedPeriod="last-year"
             selectedDates={selectedDates}
