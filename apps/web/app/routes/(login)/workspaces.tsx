@@ -30,5 +30,5 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   if (!res.ok) throw Error("Failed to create a workspace");
 
   const { workspaceId } = await res.json();
-  return redirectDocument(`/${workspaceId}/settings`);
+  return redirectDocument(`/${workspaceId}/settings/api-key`);
 }
