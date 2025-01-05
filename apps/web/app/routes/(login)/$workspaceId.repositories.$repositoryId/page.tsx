@@ -182,7 +182,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const isDemo = params.workspaceId === "demo";
 
   const dataChangeLeadTime = await dataLoaderChangeLeadTime(isDemo);
-  const dataRelease = await dataLoaderRelease(isDemo);
   const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
@@ -196,7 +195,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return {
       entries: demoEntries,
       dataChangeLeadTime,
-      dataRelease,
+      dataRelease: await dataLoaderRelease({ isDemo }),
       dataChangeFailureRate,
       dataFailedDeploymentRecoveryTime,
       workflowUsageCurrentCycles: workflowUsageCurrentCyclesDemo,
@@ -290,7 +289,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     timeToReview,
     timeToReviewed,
     dataChangeLeadTime,
-    dataRelease,
+    dataRelease: await dataLoaderRelease({ isDemo, db: wasmDb, repositoryId }),
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
     workflowUsageCurrentCycles: workflowUsageCurrentCyclesFiltered
@@ -477,9 +476,10 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           <ChartCard
             title="Deployment Frequency"
             type="release"
-            selectedPeriod="last-year"
+            selectedPeriod="last-month"
             selectedDates={selectedDates}
             data={dataRelease.data}
+            accumulation
           />
 
           <ChartCard

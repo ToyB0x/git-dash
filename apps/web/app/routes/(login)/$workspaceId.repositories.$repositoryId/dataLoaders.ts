@@ -1,8 +1,18 @@
 import type { getWasmDb } from "@/clients";
 import { generateDailyData } from "@/lib/generateDailyData";
-import { prTbl, scanTbl, timelineTbl } from "@git-dash/db";
+import { prTbl, releaseTbl, scanTbl, timelineTbl } from "@git-dash/db";
 import { subDays } from "date-fns";
-import { and, desc, eq, gt, gte, inArray, isNotNull, not } from "drizzle-orm";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  gt,
+  gte,
+  inArray,
+  isNotNull,
+  not,
+} from "drizzle-orm";
 
 type GraphData = {
   version: "0.1";
@@ -21,20 +31,57 @@ type GraphData = {
 };
 
 export const dataLoaderRelease = async (
-  _isDemo: boolean,
+  params:
+    | {
+        isDemo: true;
+      }
+    | {
+        isDemo: false;
+        repositoryId: number;
+        db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>;
+      },
 ): Promise<GraphData> => {
+  if (params.isDemo) {
+    return {
+      type: "Release",
+      version: "0.1",
+      data: generateDailyData({
+        startDate: new Date(
+          Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+        ),
+        endDate: new Date(),
+        min: 1,
+        max: 6,
+        variance: 2.5,
+        weekendReduction: true,
+      }),
+    };
+  }
+
+  const releases = await params.db
+    .select()
+    .from(releaseTbl)
+    .orderBy(asc(releaseTbl.publishedAt))
+    .where(
+      and(
+        eq(releaseTbl.repositoryId, params.repositoryId),
+        gte(releaseTbl.publishedAt, subDays(new Date(), 60)),
+      ),
+    );
+
   return {
     type: "Release",
     version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 6,
-      variance: 2.5,
-      weekendReduction: true,
+    data: [...Array(60).keys()].map((i) => {
+      const date = subDays(new Date(), 60 - i);
+      const value = releases.filter(
+        (release) =>
+          release.publishedAt &&
+          release.publishedAt.getDate() === date.getDate() &&
+          release.publishedAt.getMonth() === date.getMonth() &&
+          release.publishedAt.getFullYear() === date.getFullYear(),
+      ).length;
+      return { date, value };
     }),
   };
 };
