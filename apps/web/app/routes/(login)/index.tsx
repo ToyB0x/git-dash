@@ -6,6 +6,7 @@ import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { ModalAddWorkspace } from "@/components/ui/navigation/ModalAddWorkspace";
 import { useLayoutEffect } from "react";
+import type { LoginLayoutData } from "./layout";
 
 export async function clientLoader() {
   await auth.authStateReady();
@@ -16,11 +17,9 @@ export async function clientLoader() {
 
 export default function Page() {
   const navigate = useNavigate();
-  const { workspaces } = useOutletContext<{
-    workspaces: { id: string; displayName: string; role: string }[];
-  }>();
+  const { me } = useOutletContext<LoginLayoutData>();
 
-  const firstWorkspaceId = workspaces[0]?.id;
+  const firstWorkspaceId = me.workspaces[0]?.id;
 
   useLayoutEffect(() => {
     if (firstWorkspaceId) {

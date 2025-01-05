@@ -1,8 +1,9 @@
 import { auth, hc } from "@/clients";
 import { Button } from "@/components/Button";
 import { Callout } from "@/components/Callout";
+import type { LoginLayoutData } from "@/routes/(login)/$workspaceId/layout";
 import type { Route } from "@@/(login)/$workspaceId/settings/api-key/+types/page";
-import { Form, redirect, useActionData } from "react-router";
+import { Form, redirect, useActionData, useOutletContext } from "react-router";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   await auth.authStateReady();
@@ -60,6 +61,8 @@ export async function clientAction({ params }: Route.ClientActionArgs) {
 export default function Page({ params, loaderData }: Route.ComponentProps) {
   const { workspaceId } = params;
   const { workspace } = loaderData;
+  const { me } = useOutletContext<LoginLayoutData>();
+  const meIsOwner = me.workspaces.some((w) => w.role === "OWNER");
 
   const actionData = useActionData();
 
@@ -98,7 +101,7 @@ export default function Page({ params, loaderData }: Route.ComponentProps) {
         </p>
 
         <Form method="POST">
-          <Button type="submit" disabled={workspaceId === "demo"}>
+          <Button type="submit" disabled={workspaceId === "demo" || !meIsOwner}>
             Re create API Key
           </Button>
         </Form>
@@ -114,7 +117,7 @@ export default function Page({ params, loaderData }: Route.ComponentProps) {
         Do you want to create a new API key?
       </div>
       <Form method="POST">
-        <Button type="submit" disabled={workspaceId === "demo"}>
+        <Button type="submit" disabled={workspaceId === "demo" || !meIsOwner}>
           Create API Key
         </Button>
       </Form>
