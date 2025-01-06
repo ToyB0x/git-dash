@@ -39,7 +39,7 @@ export const defaultCommand = async () => {
   });
 
   const configs = readConfigs({
-    GDASH_MODE: "PERSONAL_SAMPLE",
+    GDASH_MODE: "SAMPLE",
     env: {
       // GDASH_ENVが明示されていなければPrdと見なす
       GDASH_ENV: "prd",
