@@ -13,7 +13,6 @@ import { subDays } from "date-fns";
 import { eq } from "drizzle-orm";
 import { checkUserOrOrganization } from "../aggregate/checkUserOrOrganization";
 import { aggregate as aggregateCommit } from "../aggregate/commit";
-import { aggregate as aggregateTimeline } from "../aggregate/timeline";
 
 export const interactiveCommand = async () => {
   logger.level = "silent";
