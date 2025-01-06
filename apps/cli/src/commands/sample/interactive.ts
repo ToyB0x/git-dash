@@ -138,7 +138,7 @@ export const interactiveCommand = async () => {
 
   const scanTimelineDays = await number({
     message:
-      "Do you want to scan PR timeline / each commits ? (max 60 days, default 30 days, 0 to skip)",
+      "Do you want to scan PR's each commits ? (max 60 days, default 30 days, 0 to skip)",
     min: 1,
     max: 60,
     default: 30,
@@ -146,17 +146,19 @@ export const interactiveCommand = async () => {
   });
 
   if (typeof scanTimelineDays === "number" && scanTimelineDays > 0) {
-    await step({
-      configs,
-      stepName: "aggregate:timeline",
-      callback: aggregateTimeline(
-        sharedDbClient,
-        octokit,
-        configs,
-        scanTimelineDays,
-      ),
-    });
+    // NOTE: timelineのスキャンはPR数分だけポイントを消費して負荷が重い & 現状使われていないのでコメントアウト
+    // await step({
+    //   configs,
+    //   stepName: "aggregate:timeline",
+    //   callback: aggregateTimeline(
+    //     sharedDbClient,
+    //     octokit,
+    //     configs,
+    //     scanTimelineDays,
+    //   ),
+    // });
 
+    // NOTE: timelineのスキャンはlistが使えるので効率が良い
     await step({
       configs,
       stepName: "aggregate:commit",
@@ -165,6 +167,7 @@ export const interactiveCommand = async () => {
         octokit,
         configs,
         scanTimelineDays,
+        true,
       ),
     });
   }
