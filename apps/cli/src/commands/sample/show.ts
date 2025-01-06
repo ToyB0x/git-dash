@@ -13,7 +13,7 @@ export const showCommand = async () => {
   });
 
   const configs = readConfigs({
-    GDASH_MODE: "PERSONAL_SAMPLE",
+    GDASH_MODE: "SAMPLE",
     env: {
       ...process.env,
       GDASH_ENV: "dev",
