@@ -10,6 +10,7 @@ env:
   VITE_PUBLIC_FIREBASE_PROJECT_ID: 'local'
   VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: 'local'
   VITE_PUBLIC_API_SERVER_URL: 'http://localhost:8787'
+  VITE_PUBLIC_LOG_ROCKET_ID: 'local'
 
 jobs:
   test:
