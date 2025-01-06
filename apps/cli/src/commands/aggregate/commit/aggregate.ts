@@ -84,8 +84,13 @@ export const aggregate = async (
               repositoryId: pr.repositoryId,
               commitAt: new Date(commitDateString),
             })
-            .onConflictDoNothing({
+            .onConflictDoUpdate({
               target: prCommitTbl.id,
+              set: {
+                message: enableInsertCommitMessage
+                  ? commit.commit.message
+                  : null,
+              },
             });
         });
     });
