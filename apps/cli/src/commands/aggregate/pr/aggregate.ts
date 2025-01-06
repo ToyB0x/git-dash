@@ -4,7 +4,7 @@ import { logger } from "@/utils";
 import { prTbl } from "@git-dash/db";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
-import { desc, lt, notInArray } from "drizzle-orm";
+import { lt } from "drizzle-orm";
 
 export const aggregate = async (
   repositories: { id: number; name: string }[],
