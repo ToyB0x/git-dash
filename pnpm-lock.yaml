@@ -99,6 +99,9 @@ importers:
       '@octokit/plugin-throttling':
         specifier: 9.3.2
         version: 9.3.2(@octokit/core@6.1.2)
+      '@octokit/types':
+        specifier: ^13.6.2
+        version: 13.6.2
       '@supercharge/promise-pool':
         specifier: 3.2.0
         version: 3.2.0
