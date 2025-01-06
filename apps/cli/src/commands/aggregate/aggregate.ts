@@ -7,6 +7,7 @@ import {
   aggregate as aggregateAlert,
   aggregateSingle as aggregateAlertSingleRepository,
 } from "./alert";
+import { checkUserOrOrganization } from "./checkUserOrOrganization";
 import { aggregate as aggregateCommit } from "./commit";
 import { aggregate as aggregatePr } from "./pr";
 import { aggregate as aggregateRelease } from "./release";
@@ -33,13 +34,23 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   const scanId = scan[0]?.id;
   if (!scanId) throw new Error("Failed to create scan");
 
+  const userOrOrg = await checkUserOrOrganization(
+    configs.GDASH_GITHUB_ORGANIZATION_NAME,
+    octokit,
+  );
+
   // NOTE: リポジトリ数 / 100 のQuotaを消費 (100リポジトリあたり1回のリクエスト)
   const repositories =
     configs.GDASH_MODE !== GDASH_MODES.SINGLE_REPOSITORY
       ? await step({
           configs,
           stepName: "aggregate:repository",
-          callback: aggregateRepositories(octokit, sharedDbClient, configs),
+          callback: aggregateRepositories(
+            userOrOrg,
+            octokit,
+            sharedDbClient,
+            configs,
+          ),
         })
       : await step({
           configs,
@@ -132,7 +143,7 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP) {
+  if (configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP && userOrOrg === "Organization") {
     // costは1のみ
     await step({
       configs,
