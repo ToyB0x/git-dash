@@ -14,7 +14,7 @@ import {
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
-if (!location.host.startsWith("localhost")) {
+if (import.meta.env.PROD) {
   LogRocket.init(publicViteEnv.VITE_PUBLIC_LOG_ROCKET_ID);
 
   onAuthStateChanged(auth, (user) => {
