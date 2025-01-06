@@ -40,7 +40,11 @@ export const UserProfileDesktop = ({
   );
 };
 
-export const UserProfileMobile = () => {
+export const UserProfileMobile = ({
+                                      email,
+                                  }: {
+    email: string;
+}) => {
   return (
     <DropdownUserProfile align="end">
       <Button
@@ -54,7 +58,7 @@ export const UserProfileMobile = () => {
           className="flex size-7 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white text-xs text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300"
           aria-hidden="true"
         >
-          ES
+          {email.slice(0,1).toUpperCase()}
         </span>
       </Button>
     </DropdownUserProfile>
