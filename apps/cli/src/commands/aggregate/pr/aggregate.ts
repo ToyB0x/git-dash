@@ -110,25 +110,36 @@ export const aggregate = async (
       lt(prTbl.createdAt, subDays(new Date(), configs.GDASH_DISCARD_DAYS)),
     );
 
-  // TODO: ユーザごとにForで回して最後の10件のみタイトルを残す
-  const latestPrs = await sharedDbClient
-    .select()
-    .from(prTbl)
-    .orderBy(desc(prTbl.mergedAt))
-    .limit(100);
+  // TODO: ユーザごとにForで回して最後の50件のみタイトルを残す
+  // (現在検討中のAIコメント機能のためにタイトルは全て残すためにコメントアウト中)
+  // const latestPrs = await sharedDbClient
+  //   .select()
+  //   .from(prTbl)
+  //   .orderBy(desc(prTbl.mergedAt))
+  //   .limit(100);
+  //
+  // await sharedDbClient
+  //   .update(prTbl)
+  //   .set({
+  //     // DB Sizeを減らすためにTextをnullにする
+  //     title: null,
+  //   })
+  //   .where(
+  //     notInArray(
+  //       prTbl.id,
+  //       latestPrs.map((pr) => pr.id),
+  //     ),
+  //   );
 
-  await sharedDbClient
-    .update(prTbl)
-    .set({
-      // DB Sizeを減らすためにTextをnullにする
-      title: null,
-    })
-    .where(
-      notInArray(
-        prTbl.id,
-        latestPrs.map((pr) => pr.id),
-      ),
-    );
+  // TODO: より詳細な以下のデータが必要な場合は追加でFetchすることを検討(PRが1000個ある場合は1000ポイント消費することに注意)
+  // https://docs.github.com/ja/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
+  // "comments": 10,
+  // "review_comments": 0,
+  // "maintainer_can_modify": true,
+  // "commits": 3,
+  // "additions": 100,
+  // "deletions": 3,
+  // "changed_files": 5
 
   if (errors.length) {
     logger.error(`errors occurred: ${errors.length}`);
