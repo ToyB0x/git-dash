@@ -143,7 +143,10 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     });
   }
 
-  if (configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP && userOrOrg === "Organization") {
+  if (
+    configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP &&
+    userOrOrg === "Organization"
+  ) {
     // costは1のみ
     await step({
       configs,
