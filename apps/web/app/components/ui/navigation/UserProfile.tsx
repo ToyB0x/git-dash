@@ -21,14 +21,15 @@ export const UserProfileDesktop = ({
           "group flex w-full items-center justify-between rounded-md p-2 text-sm font-medium text-gray-900 hover:bg-gray-100 data-[state=open]:bg-gray-100 data-[state=open]:bg-gray-400/10 hover:dark:bg-gray-400/10",
         )}
       >
-        <span className="flex items-center gap-3">
+        <span className="flex items-center gap-3 truncate">
           <span
             className="flex size-8 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white text-xs text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300"
             aria-hidden="true"
           >
             {email.toUpperCase()[0]}
           </span>
-          <span>{email}</span>
+          {/* TODO: use truncate, ellipsis */}
+          <span>{email.length < 26 ? email : `${email.slice(0, 21)}...`}</span>
         </span>
         <RiMore2Fill
           className="size-4 shrink-0 text-gray-500 group-hover:text-gray-700 group-hover:dark:text-gray-400"
@@ -39,7 +40,11 @@ export const UserProfileDesktop = ({
   );
 };
 
-export const UserProfileMobile = () => {
+export const UserProfileMobile = ({
+  email,
+}: {
+  email: string;
+}) => {
   return (
     <DropdownUserProfile align="end">
       <Button
@@ -53,7 +58,7 @@ export const UserProfileMobile = () => {
           className="flex size-7 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white text-xs text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300"
           aria-hidden="true"
         >
-          ES
+          {email.slice(0, 1).toUpperCase()}
         </span>
       </Button>
     </DropdownUserProfile>

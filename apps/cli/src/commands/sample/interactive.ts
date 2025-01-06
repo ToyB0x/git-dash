@@ -11,6 +11,7 @@ import { scanTbl } from "@git-dash/db";
 import { checkbox, confirm, input, number } from "@inquirer/prompts";
 import { subDays } from "date-fns";
 import { eq } from "drizzle-orm";
+import { checkUserOrOrganization } from "../aggregate/checkUserOrOrganization";
 
 export const interactiveCommand = async () => {
   logger.level = "silent";
@@ -58,10 +59,13 @@ export const interactiveCommand = async () => {
     ", this take few minutes, please wait...\n",
   );
 
+  const userOrOrg = await checkUserOrOrganization(githubOrg, octokit);
+
   const repositories = await step({
     configs,
     stepName: "aggregate:repository",
     callback: aggregateRepositories(
+      userOrOrg,
       octokit,
       sharedDbClient,
       configs,
