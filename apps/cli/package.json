@@ -25,6 +25,7 @@
     "@inquirer/prompts": "7.2.1",
     "@libsql/client": "0.14.0",
     "@octokit/plugin-throttling": "9.3.2",
+    "@octokit/types": "13.6.2",
     "@supercharge/promise-pool": "3.2.0",
     "cli-table": "0.3.11",
     "commander": "13.0.0",
