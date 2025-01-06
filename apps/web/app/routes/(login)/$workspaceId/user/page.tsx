@@ -1,4 +1,5 @@
 import { auth, getWasmDb } from "@/clients";
+import { Callout } from "@/components/Callout";
 import { SortableTable } from "@/components/ui/SortableTable";
 import { NoDataMessage } from "@/components/ui/no-data";
 import type { Route } from "@@/(login)/$workspaceId/user/+types/page";
@@ -205,9 +206,11 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     maxOldReview,
   };
 }
-export default function Page({ loaderData }: Route.ComponentProps) {
+export default function Page({ loaderData, params }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
+
+  const isSample = params.workspaceId.startsWith("sample-");
 
   const { users, maxOldPr, maxOldReview } = loadData;
 
@@ -330,18 +333,41 @@ export default function Page({ loaderData }: Route.ComponentProps) {
   });
 
   return (
-    <section aria-labelledby="users-table" className="h-screen">
-      <h1
-        id="users-table"
-        className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-      >
-        Users in repositories
-      </h1>
-      <p className="mt-1 text-gray-500">
-        for more details , click on the user links.
-      </p>
-      <div className="mt-2" />
-      <SortableTable table={table} />
-    </section>
+    <>
+      {isSample && (
+        <Callout
+          title="This is a limited, sample version."
+          variant="success"
+          className="mb-4"
+        >
+          {/*<p>The sample version can only perform limited scans due to Github quota restrictions.</p>*/}
+          <p>
+            This page shows only the number of PRs and reviews, but these are
+            only one of many indicators, and analysis of actual organizations
+            needs to be more comprehensive.
+          </p>
+          <p>
+            If you create an account on our site, you can use{" "}
+            <span className="font-bold">the full version,</span>which allows for
+            more comprehensive analysis,{" "}
+            <span className="font-bold">completely free of charge!!</span>
+          </p>
+        </Callout>
+      )}
+
+      <section aria-labelledby="users-table" className="h-screen">
+        <h1
+          id="users-table"
+          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Users in repositories
+        </h1>
+        <p className="mt-1 text-gray-500">
+          for more details , click on the user links.
+        </p>
+        <div className="mt-2" />
+        <SortableTable table={table} />
+      </section>
+    </>
   );
 }
