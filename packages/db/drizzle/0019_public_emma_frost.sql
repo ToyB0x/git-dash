@@ -1,0 +1,1 @@
+ALTER TABLE `pr_commit` ADD `message` text;

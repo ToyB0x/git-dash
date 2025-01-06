@@ -134,6 +134,13 @@
       "when": 1735703823354,
       "tag": "0018_condemned_gressill",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1736197699303,
+      "tag": "0019_public_emma_frost",
+      "breakpoints": true
     }
   ]
 }
