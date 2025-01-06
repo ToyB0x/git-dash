@@ -14,7 +14,8 @@ import {
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
-if (import.meta.env.PROD) {
+// biome-ignore lint/complexity/useLiteralKeys: <explanation>
+if (import.meta.env.PROD && !import.meta.env["CI"]) {
   LogRocket.init(publicViteEnv.VITE_PUBLIC_LOG_ROCKET_ID);
 
   onAuthStateChanged(auth, (user) => {
