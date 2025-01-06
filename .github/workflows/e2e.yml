@@ -42,6 +42,9 @@ jobs:
             turbo/${{ github.job }}/${{ github.ref_name }}/
             turbo/${{ github.job }}/
 
+      - name: Build check
+        run: pnpm build
+
       - name: Setup Playwright Browsers / Start Monorepo E2E
         run: pnpm e2e:run
 
