@@ -12,6 +12,8 @@ import { checkbox, confirm, input, number } from "@inquirer/prompts";
 import { subDays } from "date-fns";
 import { eq } from "drizzle-orm";
 import { checkUserOrOrganization } from "../aggregate/checkUserOrOrganization";
+import { aggregate as aggregateCommit } from "../aggregate/commit";
+import { aggregate as aggregateTimeline } from "../aggregate/timeline";
 
 export const interactiveCommand = async () => {
   logger.level = "silent";
@@ -127,6 +129,46 @@ export const interactiveCommand = async () => {
     ),
   });
 
+  const points = await octokit.rest.rateLimit.get();
+  console.log(
+    "\nScan completed, you have quota remaining",
+    points.data.rate.remaining,
+    "\n",
+  );
+
+  const scanTimelineDays = await number({
+    message:
+      "Do you want to scan PR timeline / each commits ? (max 60 days, default 30 days, 0 to skip)",
+    min: 1,
+    max: 60,
+    default: 30,
+    required: true,
+  });
+
+  if (typeof scanTimelineDays === "number" && scanTimelineDays > 0) {
+    await step({
+      configs,
+      stepName: "aggregate:timeline",
+      callback: aggregateTimeline(
+        sharedDbClient,
+        octokit,
+        configs,
+        scanTimelineDays,
+      ),
+    });
+
+    await step({
+      configs,
+      stepName: "aggregate:commit",
+      callback: aggregateCommit(
+        sharedDbClient,
+        octokit,
+        configs,
+        scanTimelineDays,
+      ),
+    });
+  }
+
   await step({
     configs,
     stepName: "aggregate:user-from-pr-and-review",
@@ -147,8 +189,6 @@ export const interactiveCommand = async () => {
       file: file,
     },
   });
-
-  const points = await octokit.rest.rateLimit.get();
 
   const result = await res.json();
 
