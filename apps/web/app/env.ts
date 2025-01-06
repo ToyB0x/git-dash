@@ -9,7 +9,8 @@ const publicViteEnvSchema = object({
   MODE: union([literal("development"), literal("production")]), // ref: https://ja.vitejs.dev/guide/env-and-mode
   VITE_PUBLIC_FIREBASE_PROJECT_ID: string(),
   VITE_PUBLIC_FIREBASE_BROWSER_API_KEY: string(), // public browser key
-  VITE_PUBLIC_API_SERVER_URL: string(), // public browser key
+  VITE_PUBLIC_API_SERVER_URL: string(),
+  VITE_PUBLIC_LOG_ROCKET_ID: string(),
 });
 
 export const publicViteEnv = parse(publicViteEnvSchema, import.meta.env);

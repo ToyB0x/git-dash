@@ -1,3 +1,7 @@
+import { auth } from "@/clients";
+import { publicViteEnv } from "@/env";
+import { onAuthStateChanged } from "firebase/auth";
+import LogRocket from "logrocket";
 import { ThemeProvider } from "next-themes";
 import {
   Links,
@@ -9,6 +13,24 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
+
+// biome-ignore lint/complexity/useLiteralKeys: <explanation>
+if (import.meta.env.PROD && !import.meta.env["CI"]) {
+  LogRocket.init(publicViteEnv.VITE_PUBLIC_LOG_ROCKET_ID);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userId = user.email || user.uid;
+      LogRocket.identify(userId, {
+        uid: user.uid,
+        email: user.email || "unknown",
+      });
+    } else {
+      // Maybe log rocket can't de-identify user
+      // LogRocket.identify(null)
+    }
+  });
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
