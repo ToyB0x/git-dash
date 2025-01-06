@@ -7,6 +7,7 @@
     "//generate": "graphql-codegen --config codegen.ts",
     "jobs": "node --enable-source-maps dist/index.js",
     "jobs:with-env": " dotenv -e ../../.env -- node --enable-source-maps dist/index.js",
+    "jobs:dev:migrate:db": "pnpm build && dotenv -e ../../.env -- pnpm jobs db migrate",
     "jobs:dev:aggregate:organization": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate organization",
     "jobs:dev:aggregate:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate workspace",
     "jobs:dev:export:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs export workspace",
