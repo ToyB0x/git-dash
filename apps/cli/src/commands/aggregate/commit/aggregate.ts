@@ -11,6 +11,7 @@ export const aggregate = async (
   octokit: Awaited<ReturnType<typeof getOctokit>>,
   configs: Configs,
   heatmapDaysAgo?: number,
+  enableInsertCommitMessage = false,
 ) => {
   const recentPrs = await sharedDbClient
     .select({
@@ -79,11 +80,17 @@ export const aggregate = async (
               id: commit.sha,
               prId: pr.prId,
               authorId,
+              message: enableInsertCommitMessage ? commit.commit.message : null,
               repositoryId: pr.repositoryId,
               commitAt: new Date(commitDateString),
             })
-            .onConflictDoNothing({
+            .onConflictDoUpdate({
               target: prCommitTbl.id,
+              set: {
+                message: enableInsertCommitMessage
+                  ? commit.commit.message
+                  : null,
+              },
             });
         });
     });
