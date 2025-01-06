@@ -2,9 +2,9 @@ import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
 import { repositoryTbl } from "@git-dash/db";
+import type { GetResponseDataTypeFromEndpointMethod } from "@octokit/types";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
-import type { GetResponseDataTypeFromEndpointMethod } from "@octokit/types";
 
 export const aggregate = async (
   userOrOrg: "User" | "Organization",
