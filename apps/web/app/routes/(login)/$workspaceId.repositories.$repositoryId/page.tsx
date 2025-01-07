@@ -14,6 +14,11 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
+import {
+  dataLoaderActions2Core,
+  dataLoaderActions4Core,
+  dataLoaderActions16Core,
+} from "@/routes/(login)/$workspaceId/cost/dataLoaders";
 import type { Route } from "@@/(login)/$workspaceId.repositories.$repositoryId/+types/page";
 import {
   prCommitTbl,
@@ -22,7 +27,13 @@ import {
   workflowTbl,
   workflowUsageCurrentCycleTbl,
 } from "@git-dash/db";
-import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
+import {
+  endOfToday,
+  startOfToday,
+  startOfTomorrow,
+  subDays,
+  subHours,
+} from "date-fns";
 import { and, count, desc, eq, gte, lt } from "drizzle-orm";
 import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
@@ -50,6 +61,7 @@ type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
   color: string;
 };
 
+// TODO: リポジトリページにActionsのコストグラフを出す
 const data: KpiEntryExtended[] = [
   {
     title: "~1 day",
@@ -181,6 +193,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   const isDemo = params.workspaceId === "demo";
 
+  const dataActions2Core = await dataLoaderActions2Core(isDemo);
+  const dataActions4Core = await dataLoaderActions4Core(isDemo);
+  const dataActions16Core = await dataLoaderActions16Core(isDemo);
+
   const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
@@ -198,6 +214,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       dataChangeFailureRate,
       dataFailedDeploymentRecoveryTime,
       workflowUsageCurrentCycles: workflowUsageCurrentCyclesDemo,
+      dataActions2Core,
+      dataActions4Core,
+      dataActions16Core,
+      usageByWorkflows: [],
     };
   }
 
@@ -282,6 +302,39 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const timeToReview = await dataLoaderTimeToReview(wasmDb, repositoryId);
   const timeToReviewed = await dataLoaderTimeToReviewed(wasmDb, repositoryId);
 
+  const workflowIds = await wasmDb
+    .selectDistinct({ workflowId: workflowUsageCurrentCycleTbl.workflowId })
+    .from(workflowUsageCurrentCycleTbl)
+    .where(
+      and(
+        eq(workflowUsageCurrentCycleTbl.repositoryId, repositoryId),
+        gte(
+          workflowUsageCurrentCycleTbl.updatedAt,
+          subDays(startOfTomorrow(), 60),
+        ),
+        gte(workflowUsageCurrentCycleTbl.dollar, 1),
+      ),
+    );
+
+  const usageByWorkflows = await Promise.all(
+    workflowIds.map(async ({ workflowId }) => ({
+      workflowId,
+      data: await wasmDb
+        .select()
+        .from(workflowUsageCurrentCycleTbl)
+        .where(
+          and(
+            eq(workflowUsageCurrentCycleTbl.workflowId, workflowId),
+            gte(
+              workflowUsageCurrentCycleTbl.updatedAt,
+              subDays(startOfTomorrow(), 60),
+            ),
+          ),
+        )
+        .orderBy(desc(workflowUsageCurrentCycleTbl.updatedAt)),
+    })),
+  );
+
   return {
     entries,
     timeToMerge,
@@ -298,6 +351,64 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     workflowUsageCurrentCycles: workflowUsageCurrentCyclesFiltered
       .filter(({ dollar }) => dollar > 0)
       .sort((a, b) => b.dollar - a.dollar),
+    dataActions2Core,
+    dataActions4Core,
+    dataActions16Core,
+    usageByWorkflows: usageByWorkflows.map((usageByWorkflow) => {
+      const usages = [...Array(60).keys()].map((_, i) => {
+        const currentDate = subDays(startOfTomorrow(), i);
+        const usage = usageByWorkflow.data.find(
+          (usage) =>
+            usage.day === currentDate.getDate() &&
+            usage.month === currentDate.getMonth() + 1,
+        );
+
+        return {
+          value: usage?.dollar || null,
+          date: currentDate,
+        };
+      });
+
+      const workflow = wasmDb
+        .select()
+        .from(workflowTbl)
+        .where(eq(workflowTbl.id, usageByWorkflow.workflowId))
+        .get();
+
+      return {
+        usageByWorkflowId: usageByWorkflow.workflowId,
+        usageByWorkflowName: workflow ? workflow.name : "deleted workflow",
+        data: usages
+          .sort((a, b) => a.date.getTime() - b.date.getTime())
+          .map((usage, index, self) => {
+            // 初日は前日比がないのでコストがわからない
+            if (index === 0) {
+              return { date: usage.date, value: null };
+            }
+
+            // 前日のコストがない場合も差分を計算できない
+            const beforeDayCost = self[index - 1]?.value;
+            const hasBeforeDayCost = !!beforeDayCost && beforeDayCost > 0;
+            if (!hasBeforeDayCost) {
+              return { date: usage.date, value: null };
+            }
+
+            // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
+            const hasResetBillingCycle =
+              Number(usage.value) - beforeDayCost < 0;
+            if (hasResetBillingCycle) {
+              return { date: usage.date, value: usage.value };
+            }
+            return {
+              date: usage.date,
+              value:
+                usage.value === null
+                  ? null // 見計測の未来はnull
+                  : usage.value - beforeDayCost,
+            };
+          }),
+      };
+    }),
   };
 }
 
@@ -316,6 +427,10 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
     workflowUsageCurrentCycles,
+    dataActions2Core,
+    dataActions4Core,
+    dataActions16Core,
+    usageByWorkflows,
   } = loadData;
 
   const { repositoryId } = useParams();
@@ -562,12 +677,68 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
       {/*  </dl>*/}
       {/*</section>*/}
 
+      <section aria-labelledby="actions-usage" className="mt-16">
+        <h1
+          id="actions usage history"
+          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Actions usage{" "}
+          <span className="text-sm text-gray-500">(recent 30 days)</span>
+        </h1>
+        <dl
+          className={cx(
+            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
+          )}
+        >
+          {isDemo ? (
+            <>
+              <ChartCard
+                title="Actions 2core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={selectedDates}
+                data={dataActions2Core.data}
+              />
+
+              <ChartCard
+                title="Actions 4core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={selectedDates}
+                data={dataActions4Core.data}
+              />
+
+              <ChartCard
+                title="Actions 16core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={selectedDates}
+                data={dataActions16Core.data}
+              />
+            </>
+          ) : (
+            usageByWorkflows.map((usageByWorkflow) => (
+              <ChartCard
+                key={usageByWorkflow.usageByWorkflowId}
+                title={usageByWorkflow.usageByWorkflowName}
+                type="currency"
+                selectedPeriod="no-comparison"
+                selectedDates={selectedDates}
+                accumulation
+                data={usageByWorkflow.data}
+              />
+            ))
+          )}
+        </dl>
+      </section>
+
       <section aria-labelledby="actions-cost">
         <h1
           id="actions-cost"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Actions cost (current billing cycle)
+          Latest actions usage{" "}
+          <span className="text-sm text-gray-500">(current billing cycle)</span>
         </h1>
 
         <TableRoot className="mt-8">
