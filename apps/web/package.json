@@ -13,6 +13,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@assistant-ui/react": "0.7.33",
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@git-dash/db-api": "workspace:*",
@@ -56,6 +57,7 @@
     "sql.js": "1.12.0",
     "tailwind-merge": "2.6.0",
     "tailwind-variants": "0.3.0",
+    "tailwindcss-animate": "1.0.7",
     "valibot": "1.0.0-beta.10"
   },
   "devDependencies": {
