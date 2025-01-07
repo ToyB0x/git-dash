@@ -374,7 +374,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         };
       })
       .filter((usage) =>
-        usage.data.every((data) => data.value && data.value < 1),
+        usage.data.every((data) => !data.value || data.value < 1),
       ), // 1ドル未満のデータは除外
   };
 }
