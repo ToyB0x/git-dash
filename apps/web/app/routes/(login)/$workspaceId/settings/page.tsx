@@ -1,7 +1,7 @@
 import { TabNavigation, TabNavigationLink } from "@/components/TabNavigation";
 import type { LoginLayoutData } from "@/routes/(login)/$workspaceId/layout";
 import type { Route } from "@@/(login)/$workspaceId/settings/+types/page";
-import { Outlet, useOutletContext } from "react-router";
+import { Link, Outlet, useOutletContext } from "react-router";
 
 export default function Page({ params, matches }: Route.ComponentProps) {
   const loginLayoutData = useOutletContext<LoginLayoutData>();
@@ -14,25 +14,25 @@ export default function Page({ params, matches }: Route.ComponentProps) {
       <section>
         <TabNavigation>
           <TabNavigationLink
-            href={`/${params.workspaceId}/settings/members`}
+            asChild
+            className="px-6"
             active={isActive("members")}
-            className="px-6"
           >
-            Members
+            <Link to={`/${params.workspaceId}/settings/members`}>Members</Link>
           </TabNavigationLink>
           <TabNavigationLink
-            href={`/${params.workspaceId}/settings/api-key`}
+            asChild
+            className="px-6"
             active={isActive("api-key")}
-            className="px-6"
           >
-            API Key
+            <Link to={`/${params.workspaceId}/settings/api-key`}>API Key</Link>
           </TabNavigationLink>
           <TabNavigationLink
-            href={`/${params.workspaceId}/settings/general`}
-            active={isActive("general")}
+            asChild
             className="px-6"
+            active={isActive("general")}
           >
-            General
+            <Link to={`/${params.workspaceId}/settings/general`}>General</Link>
           </TabNavigationLink>
         </TabNavigation>
       </section>
