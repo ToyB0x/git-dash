@@ -9,7 +9,11 @@ test("can sign up and redirect", async ({ page }) => {
   await expect(page).toHaveTitle("git-dash sign in");
 
   // Confirm SignUp and redirect to dashboard page.
-  await page.getByRole("link", { name: "Sign up" }).click();
+
+  // NOTE: currently, hide sign-up link and disable self sign-up page.
+  // await page.getByRole("link", { name: "Sign up" }).click();
+  // (as workaround directly access to sign-up page)
+  await page.goto("http://localhost:10000/sign-up");
   await page.getByPlaceholder("john@company.com").click();
   await page.getByPlaceholder("john@company.com").fill(testEmail);
   await page.getByPlaceholder("Password").click();
