@@ -77,5 +77,12 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    // belows are for assistant-ui
+    require("tailwindcss-animate"), // make sure to "npm install tailwindcss-animate"
+    require("@assistant-ui/react/tailwindcss")({
+      components: ["assistant-modal"],
+    }),
+  ],
 } satisfies Config;
