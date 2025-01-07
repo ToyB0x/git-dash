@@ -197,6 +197,9 @@ importers:
       '@git-dash/db-api':
         specifier: workspace:*
         version: link:../../packages/db-api
+      '@git-dash/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@internationalized/date':
         specifier: 3.6.0
         version: 3.6.0
