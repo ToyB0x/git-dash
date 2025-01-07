@@ -28,7 +28,7 @@
     "@git-dash/db-api": "workspace:*",
     "drizzle-orm": "0.38.3",
     "hono": "4.6.16",
-    "valibot": "1.0.0-beta.10"
+    "valibot": "1.0.0-beta.11"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20241230.0",

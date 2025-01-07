@@ -59,7 +59,7 @@
     "tailwind-merge": "2.6.0",
     "tailwind-variants": "0.3.0",
     "tailwindcss-animate": "1.0.7",
-    "valibot": "1.0.0-beta.10"
+    "valibot": "1.0.0-beta.11"
   },
   "devDependencies": {
     "@react-router/dev": "7.1.1",
