@@ -375,6 +375,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       })
       .filter((usage) =>
         usage.data.some((data) => data.value && data.value > 5),
+      )
+      .sort((a, b) =>
+        a.usageByWorkflowName.localeCompare(b.usageByWorkflowName),
       ), // 5ドル未満のデータは除外
   };
 }
