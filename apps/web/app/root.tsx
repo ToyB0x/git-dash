@@ -1,8 +1,11 @@
 import { auth } from "@/clients";
 import { publicViteEnv } from "@/env";
+import { AssistantModal, useEdgeRuntime } from "@assistant-ui/react";
+import { sleep } from "@git-dash/utils";
 import { onAuthStateChanged } from "firebase/auth";
 import LogRocket from "logrocket";
 import { ThemeProvider } from "next-themes";
+import { useEffect, useState } from "react";
 import {
   Links,
   Meta,
@@ -52,6 +55,19 @@ export function HydrateFallback() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  // AIボタンのレイアウトシフト防止 (画面右側にスクロールバーが表示されるコンテンテンツでレイアウトシフトが起こるため応急対応)
+  const [showAi, setShowAi] = useState(false);
+  useEffect(() => {
+    (async () => {
+      await sleep(1000);
+      setShowAi(true);
+    })();
+  }, []);
+
+  const runtime = useEdgeRuntime({
+    api: "/api/sample-chat",
+  });
+
   return (
     <html
       lang="en"
@@ -78,6 +94,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
+        {showAi && (
+          <AssistantModal
+            runtime={runtime}
+            welcome={{
+              message:
+                "To use AI, please check your organization's AI policy and set up an API key.",
+              suggestions: [
+                {
+                  prompt: "How to increase development productivity?",
+                },
+              ],
+            }}
+          />
+        )}
       </body>
     </html>
   );

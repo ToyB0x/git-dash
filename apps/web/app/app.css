@@ -15,3 +15,12 @@
 .firebase-emulator-warning {
   display: none;
 }
+
+/* belows are for @assistant-ui/react ai dialog button color */
+.aui-button {
+  background-color: #523cf5;
+}
+
+.aui-button:hover {
+  background-color: #523cf5;
+}
