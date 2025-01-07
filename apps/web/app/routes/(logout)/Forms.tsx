@@ -17,15 +17,15 @@ export default function Forms({
           <h3 className="text-center text-lg font-semibold text-gray-900 dark:text-gray-50">
             {isSignedIn ? "Sign in to your account" : "Create your new account"}
           </h3>
-          <p className="text-xs mt-4 text-center text-gray-500">
-            {isSignedIn ? "Don't have an account?" : "Already have an account?"}
-            <Link
-              to={isSignedIn ? "/sign-up" : "/sign-in"}
-              className="ml-1 underline underline-offset-4"
-            >
-              {isSignedIn ? "Sign up" : "Sign in"}
-            </Link>
-          </p>
+          {/*<p className="text-xs mt-4 text-center text-gray-500">*/}
+          {/*  {isSignedIn ? "Don't have an account?" : "Already have an account?"}*/}
+          {/*  <Link*/}
+          {/*    to={isSignedIn ? "/sign-up" : "/sign-in"}*/}
+          {/*    className="ml-1 underline underline-offset-4"*/}
+          {/*  >*/}
+          {/*    {isSignedIn ? "Sign up" : "Sign in"}*/}
+          {/*  </Link>*/}
+          {/*</p>*/}
           <Form method="post" className="mt-6 space-y-4">
             <div>
               <Label htmlFor="email" className="font-medium">
