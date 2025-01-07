@@ -27,13 +27,7 @@ import {
   workflowTbl,
   workflowUsageCurrentCycleTbl,
 } from "@git-dash/db";
-import {
-  endOfToday,
-  startOfToday,
-  startOfTomorrow,
-  subDays,
-  subHours,
-} from "date-fns";
+import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
 import { and, count, desc, eq, gte, lt } from "drizzle-orm";
 import React, { type ReactNode, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
@@ -217,7 +211,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       dataActions2Core,
       dataActions4Core,
       dataActions16Core,
-      usageByWorkflows: [],
+      usageByWorkflowsDaily: [],
     };
   }
 
@@ -244,6 +238,26 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const repositoryId = repos[0]?.id;
   if (!repositoryId) return null;
 
+  // ワークフローの日々の集計結果を取得
+  const workflowUsageCurrentCyclesDaily = await wasmDb
+    .select()
+    .from(workflowUsageCurrentCycleTbl)
+    .where(
+      and(
+        gte(
+          workflowUsageCurrentCycleTbl.createdAt,
+          subDays(startOfToday(), 60),
+        ),
+        eq(workflowUsageCurrentCycleTbl.repositoryId, repositoryId),
+      ),
+    );
+
+  const repoWorkflows = await wasmDb
+    .select()
+    .from(workflowTbl)
+    .where(eq(workflowTbl.repositoryId, repositoryId));
+
+  // ワークフローの最新の集計結果を取得
   const workflowUsageCurrentCycles = await wasmDb
     .select({
       workflowId: workflowTbl.id,
@@ -302,38 +316,20 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const timeToReview = await dataLoaderTimeToReview(wasmDb, repositoryId);
   const timeToReviewed = await dataLoaderTimeToReviewed(wasmDb, repositoryId);
 
-  const workflowIds = await wasmDb
-    .selectDistinct({ workflowId: workflowUsageCurrentCycleTbl.workflowId })
-    .from(workflowUsageCurrentCycleTbl)
-    .where(
-      and(
-        eq(workflowUsageCurrentCycleTbl.repositoryId, repositoryId),
-        gte(
-          workflowUsageCurrentCycleTbl.updatedAt,
-          subDays(startOfTomorrow(), 60),
-        ),
-        gte(workflowUsageCurrentCycleTbl.dollar, 1),
-      ),
-    );
-
-  const usageByWorkflows = await Promise.all(
-    workflowIds.map(async ({ workflowId }) => ({
-      workflowId,
-      data: await wasmDb
-        .select()
-        .from(workflowUsageCurrentCycleTbl)
-        .where(
-          and(
-            eq(workflowUsageCurrentCycleTbl.workflowId, workflowId),
-            gte(
-              workflowUsageCurrentCycleTbl.updatedAt,
-              subDays(startOfTomorrow(), 60),
-            ),
-          ),
-        )
-        .orderBy(desc(workflowUsageCurrentCycleTbl.updatedAt)),
-    })),
-  );
+  // NOTE: workflowUsageCurrentCycleTblはある日のある時間の集計結果の断片でしかないため、例えば半日分の集計しかできていないことがあり、結果として1ヶ月で2倍のズレが出ることがあるので使わない
+  // const workflowIds = await wasmDb
+  //   .selectDistinct({ workflowId: workflowUsageCurrentCycleTbl.workflowId })
+  //   .from(workflowUsageCurrentCycleTbl)
+  //   .where(
+  //     and(
+  //       eq(workflowUsageCurrentCycleTbl.repositoryId, repositoryId),
+  //       gte(
+  //         workflowUsageCurrentCycleTbl.updatedAt,
+  //         subDays(startOfTomorrow(), 60),
+  //       ),
+  //       gte(workflowUsageCurrentCycleTbl.dollar, 1),
+  //     ),
+  //   );
 
   return {
     entries,
@@ -354,61 +350,32 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     dataActions2Core,
     dataActions4Core,
     dataActions16Core,
-    usageByWorkflows: usageByWorkflows.map((usageByWorkflow) => {
-      const usages = [...Array(60).keys()].map((_, i) => {
-        const currentDate = subDays(startOfTomorrow(), i);
-        const usage = usageByWorkflow.data.find(
-          (usage) =>
-            usage.day === currentDate.getDate() &&
-            usage.month === currentDate.getMonth() + 1,
-        );
+    usageByWorkflowsDaily: repoWorkflows
+      .map((repoWorkflow) => {
+        const usages = [...Array(60).keys()].map((_, i) => {
+          const currentDate = subDays(startOfToday(), i);
+
+          const usage = workflowUsageCurrentCyclesDaily.find(
+            (usage) =>
+              usage.workflowId === repoWorkflow.id &&
+              usage.day === currentDate.getDate() &&
+              usage.month === currentDate.getMonth() + 1,
+          );
+
+          return {
+            value: usage?.dollar || null,
+            date: currentDate,
+          };
+        });
 
         return {
-          value: usage?.dollar || null,
-          date: currentDate,
+          usageByWorkflowName: repoWorkflow.name,
+          data: usages.sort((a, b) => a.date.getTime() - b.date.getTime()),
         };
-      });
-
-      const workflow = wasmDb
-        .select()
-        .from(workflowTbl)
-        .where(eq(workflowTbl.id, usageByWorkflow.workflowId))
-        .get();
-
-      return {
-        usageByWorkflowId: usageByWorkflow.workflowId,
-        usageByWorkflowName: workflow ? workflow.name : "deleted workflow",
-        data: usages
-          .sort((a, b) => a.date.getTime() - b.date.getTime())
-          .map((usage, index, self) => {
-            // 初日は前日比がないのでコストがわからない
-            if (index === 0) {
-              return { date: usage.date, value: null };
-            }
-
-            // 前日のコストがない場合も差分を計算できない
-            const beforeDayCost = self[index - 1]?.value;
-            const hasBeforeDayCost = !!beforeDayCost && beforeDayCost > 0;
-            if (!hasBeforeDayCost) {
-              return { date: usage.date, value: null };
-            }
-
-            // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
-            const hasResetBillingCycle =
-              Number(usage.value) - beforeDayCost < 0;
-            if (hasResetBillingCycle) {
-              return { date: usage.date, value: usage.value };
-            }
-            return {
-              date: usage.date,
-              value:
-                usage.value === null
-                  ? null // 見計測の未来はnull
-                  : usage.value - beforeDayCost,
-            };
-          }),
-      };
-    }),
+      })
+      .filter((usage) =>
+        usage.data.every((data) => data.value && data.value < 1),
+      ), // 1ドル未満のデータは除外
   };
 }
 
@@ -430,12 +397,12 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     dataActions2Core,
     dataActions4Core,
     dataActions16Core,
-    usageByWorkflows,
+    usageByWorkflowsDaily,
   } = loadData;
 
   const { repositoryId } = useParams();
 
-  const maxDate = startOfToday();
+  const maxDate = endOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
     DateRange | undefined
   >({
@@ -683,7 +650,9 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Actions usage{" "}
-          <span className="text-sm text-gray-500">(recent 30 days)</span>
+          <span className="text-sm text-gray-500">
+            (based on billing cycle)
+          </span>
         </h1>
         <dl
           className={cx(
@@ -717,14 +686,14 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
               />
             </>
           ) : (
-            usageByWorkflows.map((usageByWorkflow) => (
+            usageByWorkflowsDaily.map((usageByWorkflow) => (
               <ChartCard
-                key={usageByWorkflow.usageByWorkflowId}
+                key={usageByWorkflow.usageByWorkflowName}
                 title={usageByWorkflow.usageByWorkflowName}
                 type="currency"
                 selectedPeriod="no-comparison"
                 selectedDates={selectedDates}
-                accumulation
+                accumulation={false}
                 data={usageByWorkflow.data}
               />
             ))
