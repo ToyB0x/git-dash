@@ -14,6 +14,11 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
+import {
+  dataLoaderActions2Core,
+  dataLoaderActions4Core,
+  dataLoaderActions16Core,
+} from "@/routes/(login)/$workspaceId/cost/dataLoaders";
 import type { Route } from "@@/(login)/$workspaceId.repositories.$repositoryId/+types/page";
 import {
   prCommitTbl,
@@ -50,6 +55,7 @@ type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
   color: string;
 };
 
+// TODO: リポジトリページにActionsのコストグラフを出す
 const data: KpiEntryExtended[] = [
   {
     title: "~1 day",
@@ -181,6 +187,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   const isDemo = params.workspaceId === "demo";
 
+  const dataActions2Core = await dataLoaderActions2Core(isDemo);
+  const dataActions4Core = await dataLoaderActions4Core(isDemo);
+  const dataActions16Core = await dataLoaderActions16Core(isDemo);
+
   const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
@@ -198,6 +208,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       dataChangeFailureRate,
       dataFailedDeploymentRecoveryTime,
       workflowUsageCurrentCycles: workflowUsageCurrentCyclesDemo,
+      dataActions2Core,
+      dataActions4Core,
+      dataActions16Core,
+      usageByWorkflowsDaily: [],
     };
   }
 
@@ -224,6 +238,26 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const repositoryId = repos[0]?.id;
   if (!repositoryId) return null;
 
+  // ワークフローの日々の集計結果を取得
+  const workflowUsageCurrentCyclesDaily = await wasmDb
+    .select()
+    .from(workflowUsageCurrentCycleTbl)
+    .where(
+      and(
+        gte(
+          workflowUsageCurrentCycleTbl.createdAt,
+          subDays(startOfToday(), 60),
+        ),
+        eq(workflowUsageCurrentCycleTbl.repositoryId, repositoryId),
+      ),
+    );
+
+  const repoWorkflows = await wasmDb
+    .select()
+    .from(workflowTbl)
+    .where(eq(workflowTbl.repositoryId, repositoryId));
+
+  // ワークフローの最新の集計結果を取得
   const workflowUsageCurrentCycles = await wasmDb
     .select({
       workflowId: workflowTbl.id,
@@ -282,6 +316,21 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const timeToReview = await dataLoaderTimeToReview(wasmDb, repositoryId);
   const timeToReviewed = await dataLoaderTimeToReviewed(wasmDb, repositoryId);
 
+  // NOTE: workflowUsageCurrentCycleTblはある日のある時間の集計結果の断片でしかないため、例えば半日分の集計しかできていないことがあり、結果として1ヶ月で2倍のズレが出ることがあるので使わない
+  // const workflowIds = await wasmDb
+  //   .selectDistinct({ workflowId: workflowUsageCurrentCycleTbl.workflowId })
+  //   .from(workflowUsageCurrentCycleTbl)
+  //   .where(
+  //     and(
+  //       eq(workflowUsageCurrentCycleTbl.repositoryId, repositoryId),
+  //       gte(
+  //         workflowUsageCurrentCycleTbl.updatedAt,
+  //         subDays(startOfTomorrow(), 60),
+  //       ),
+  //       gte(workflowUsageCurrentCycleTbl.dollar, 1),
+  //     ),
+  //   );
+
   return {
     entries,
     timeToMerge,
@@ -298,6 +347,38 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     workflowUsageCurrentCycles: workflowUsageCurrentCyclesFiltered
       .filter(({ dollar }) => dollar > 0)
       .sort((a, b) => b.dollar - a.dollar),
+    dataActions2Core,
+    dataActions4Core,
+    dataActions16Core,
+    usageByWorkflowsDaily: repoWorkflows
+      .map((repoWorkflow) => {
+        const usages = [...Array(60).keys()].map((_, i) => {
+          const currentDate = subDays(startOfToday(), i);
+
+          const usage = workflowUsageCurrentCyclesDaily.find(
+            (usage) =>
+              usage.workflowId === repoWorkflow.id &&
+              usage.day === currentDate.getDate() &&
+              usage.month === currentDate.getMonth() + 1,
+          );
+
+          return {
+            value: usage?.dollar || null,
+            date: currentDate,
+          };
+        });
+
+        return {
+          usageByWorkflowName: repoWorkflow.name,
+          data: usages.sort((a, b) => a.date.getTime() - b.date.getTime()),
+        };
+      })
+      .filter((usage) =>
+        usage.data.some((data) => data.value && data.value > 5),
+      )
+      .sort((a, b) =>
+        a.usageByWorkflowName.localeCompare(b.usageByWorkflowName),
+      ), // 5ドル未満のデータは除外
   };
 }
 
@@ -316,11 +397,15 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
     workflowUsageCurrentCycles,
+    dataActions2Core,
+    dataActions4Core,
+    dataActions16Core,
+    usageByWorkflowsDaily,
   } = loadData;
 
   const { repositoryId } = useParams();
 
-  const maxDate = startOfToday();
+  const maxDate = endOfToday();
   const [selectedDates, setSelectedDates] = React.useState<
     DateRange | undefined
   >({
@@ -562,12 +647,70 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
       {/*  </dl>*/}
       {/*</section>*/}
 
+      <section aria-labelledby="actions-usage" className="mt-16">
+        <h1
+          id="actions usage history"
+          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Actions usage{" "}
+          <span className="text-sm text-gray-500">
+            (based on billing cycle)
+          </span>
+        </h1>
+        <dl
+          className={cx(
+            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
+          )}
+        >
+          {isDemo ? (
+            <>
+              <ChartCard
+                title="Actions 2core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={selectedDates}
+                data={dataActions2Core.data}
+              />
+
+              <ChartCard
+                title="Actions 4core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={selectedDates}
+                data={dataActions4Core.data}
+              />
+
+              <ChartCard
+                title="Actions 16core"
+                type="currency"
+                selectedPeriod="last-year"
+                selectedDates={selectedDates}
+                data={dataActions16Core.data}
+              />
+            </>
+          ) : (
+            usageByWorkflowsDaily.map((usageByWorkflow) => (
+              <ChartCard
+                key={usageByWorkflow.usageByWorkflowName}
+                title={usageByWorkflow.usageByWorkflowName}
+                type="currency"
+                selectedPeriod="no-comparison"
+                selectedDates={selectedDates}
+                accumulation={false}
+                data={usageByWorkflow.data}
+              />
+            ))
+          )}
+        </dl>
+      </section>
+
       <section aria-labelledby="actions-cost">
         <h1
           id="actions-cost"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Actions cost (current billing cycle)
+          Latest actions usage{" "}
+          <span className="text-sm text-gray-500">(current billing cycle)</span>
         </h1>
 
         <TableRoot className="mt-8">
