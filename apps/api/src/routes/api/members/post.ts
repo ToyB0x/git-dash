@@ -29,7 +29,7 @@ const handlers = factory.createHandlers(validator, async (c) => {
   const validated = c.req.valid("json");
 
   const workspaceId = c.req.param("workspaceId");
-  const email = validated.email;
+  const invitedUserEmail = validated.email;
   const role = validated.role;
 
   const idToken = getFirebaseToken(c);
@@ -47,25 +47,30 @@ const handlers = factory.createHandlers(validator, async (c) => {
     throw Error("Unauthorized");
   }
 
-  // TODO: crete a new user if it doesn't exist
-  const newMemberUsers = await db
-    .insert(userTbl)
-    .values({
-      id: generateNewUserId(),
-      email,
-    })
-    .onConflictDoNothing({
-      target: [lower(userTbl.email)],
-    })
-    .returning();
+  const invidedUserExist = await db
+    .select()
+    .from(userTbl)
+    .where(eq(userTbl.email, invitedUserEmail.toLowerCase()))
+    .get();
 
-  const newMemberUser = newMemberUsers[0];
-  if (!newMemberUser) {
-    throw Error("Failed to create a user");
+  // NOTE: 既に他ワークスペースに存在するユーザでは無い場合新規作成
+  const newUserId = generateNewUserId();
+  if (!invidedUserExist) {
+    await db
+      .insert(userTbl)
+      .values({
+        id: newUserId,
+        email: invitedUserEmail,
+      })
+      .onConflictDoNothing({
+        target: [lower(userTbl.email)],
+      });
   }
 
+  const newMemberId = invidedUserExist?.id || newUserId;
+
   await db.insert(usersToWorkspaces).values({
-    userId: newMemberUser.id,
+    userId: newMemberId,
     workspaceId,
     role,
   });
