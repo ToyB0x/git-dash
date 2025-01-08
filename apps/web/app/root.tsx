@@ -13,6 +13,7 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
+  useParams,
 } from "react-router";
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
@@ -57,12 +58,13 @@ export function HydrateFallback() {
 export function Layout({ children }: { children: React.ReactNode }) {
   // AIボタンのレイアウトシフト防止 (画面右側にスクロールバーが表示されるコンテンテンツでレイアウトシフトが起こるため応急対応)
   const [showAi, setShowAi] = useState(false);
+  const { workspaceId } = useParams();
   useEffect(() => {
     (async () => {
       await sleep(1000);
-      setShowAi(true);
+      setShowAi(!!workspaceId);
     })();
-  }, []);
+  }, [workspaceId]);
 
   const runtime = useEdgeRuntime({
     api: "/api/sample-chat",
