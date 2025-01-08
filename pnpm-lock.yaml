@@ -54,8 +54,8 @@ importers:
         specifier: 1.4.2
         version: 1.4.2(hono@4.6.16)
       '@hono/valibot-validator':
-        specifier: 0.5.1
-        version: 0.5.1(hono@4.6.16)(valibot@1.0.0-beta.11(typescript@5.7.2))
+        specifier: 0.5.2
+        version: 0.5.2(hono@4.6.16)(valibot@1.0.0-beta.11(typescript@5.7.2))
       drizzle-orm:
         specifier: 0.38.3
         version: 0.38.3(@cloudflare/workers-types@4.20241230.0)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.3)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
@@ -186,8 +186,8 @@ importers:
   apps/web:
     dependencies:
       '@assistant-ui/react':
-        specifier: 0.7.33
-        version: 0.7.33(@types/react-dom@19.0.2(@types/react@19.0.3))(@types/react@19.0.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)
+        specifier: 0.7.34
+        version: 0.7.34(@types/react-dom@19.0.2(@types/react@19.0.3))(@types/react@19.0.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)
       '@git-dash/api':
         specifier: workspace:*
         version: link:../api
@@ -446,8 +446,8 @@ packages:
   '@actions/http-client@2.2.3':
     resolution: {integrity: sha512-mx8hyJi/hjFvbPokCg4uRd4ZX78t+YyRPtnKWwIl+RzNaVuFpQHfmlGVfsKEJN8LwTCvL+DfVgAM04XaHkm6bA==}
 
-  '@ai-sdk/provider@1.0.3':
-    resolution: {integrity: sha512-WiuJEpHTrltOIzv3x2wx4gwksAHW0h6nK3SoDzjqCOJLu/2OJ1yASESTIX+f07ChFykHElVoP80Ol/fe9dw6tQ==}
+  '@ai-sdk/provider@1.0.4':
+    resolution: {integrity: sha512-lJi5zwDosvvZER3e/pB8lj1MN3o3S7zJliQq56BRr4e9V3fcRyFtwP0JRxaRS5vHYX3OJ154VezVoQNrk0eaKw==}
     engines: {node: '>=18'}
 
   '@alloc/quick-lru@5.2.0':
@@ -461,8 +461,8 @@ packages:
   '@apidevtools/json-schema-ref-parser@9.1.2':
     resolution: {integrity: sha512-r1w81DpR+KyRWd3f+rk6TNqMgedmAxZP5v5KWlXQWlgMUUtyEJch0DKEci1SorPMiSeM8XPl7MZ3miJ60JIpQg==}
 
-  '@assistant-ui/react@0.7.33':
-    resolution: {integrity: sha512-vFE8dU8lM/BQ7oeQ00eb0JsA/AC1Xl3WpSm38zRSBRKRlcnoZQUhpT/9WurCFx6BnzKk90fxVZmPs6J+3EOQRg==}
+  '@assistant-ui/react@0.7.34':
+    resolution: {integrity: sha512-swYKzGOLHpr3EvES+nx3ggE7kfEiSP0EL/dlIlQ4dCOkzfSlUncvHOlPh+1u1yg9Mh2y/0ZnNcsX9pLVcMRTgg==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -1799,8 +1799,8 @@ packages:
     peerDependencies:
       hono: '*'
 
-  '@hono/valibot-validator@0.5.1':
-    resolution: {integrity: sha512-TXNFh1jofWNCX9sOX2gyw6qCXuAKr4yk//hOf9Lc8vcdIhQXTRQY6RPkKwL/14EldoIngkLj3iMHTXXhjgMCWg==}
+  '@hono/valibot-validator@0.5.2':
+    resolution: {integrity: sha512-WbTr8PCFNAME0ale62rmmq+E8bGp5a7VPiVNmNT+Ue12GJE3Ax+CWBGtHhR0TzAEiloPvJND3IbjHIgtNtsqhw==}
     peerDependencies:
       hono: '>=3.9.0'
       valibot: ^1.0.0 || ^1.0.0-beta.4 || ^1.0.0-rc
@@ -7136,8 +7136,8 @@ packages:
   zod@3.24.1:
     resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
 
-  zustand@5.0.2:
-    resolution: {integrity: sha512-8qNdnJVJlHlrKXi50LDqqUNmUbuBjoKLrYQBnoChIbVph7vni+sY+YpvdjXG9YLd/Bxr6scMcR+rm5H3aSqPaw==}
+  zustand@5.0.3:
+    resolution: {integrity: sha512-14fwWQtU3pH4dE0dOpdMiWjddcH+QzKIgk1cl8epwSE7yag43k/AD/m4L6+K7DytAOr9gGBe3/EXj9g7cdostg==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=18.0.0'
@@ -7171,7 +7171,7 @@ snapshots:
       tunnel: 0.0.6
       undici: 5.28.4
 
-  '@ai-sdk/provider@1.0.3':
+  '@ai-sdk/provider@1.0.4':
     dependencies:
       json-schema: 0.4.0
 
@@ -7189,9 +7189,9 @@ snapshots:
       call-me-maybe: 1.0.2
       js-yaml: 4.1.0
 
-  '@assistant-ui/react@0.7.33(@types/react-dom@19.0.2(@types/react@19.0.3))(@types/react@19.0.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)':
+  '@assistant-ui/react@0.7.34(@types/react-dom@19.0.2(@types/react@19.0.3))(@types/react@19.0.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)':
     dependencies:
-      '@ai-sdk/provider': 1.0.3
+      '@ai-sdk/provider': 1.0.4
       '@radix-ui/primitive': 1.1.1
       '@radix-ui/react-avatar': 1.1.2(@types/react-dom@19.0.2(@types/react@19.0.3))(@types/react@19.0.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-compose-refs': 1.1.1(@types/react@19.0.3)(react@19.0.0)
@@ -7214,7 +7214,7 @@ snapshots:
       secure-json-parse: 3.0.2
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
-      zustand: 5.0.2(@types/react@19.0.3)(react@19.0.0)
+      zustand: 5.0.3(@types/react@19.0.3)(react@19.0.0)
     optionalDependencies:
       '@types/react': 19.0.3
       '@types/react-dom': 19.0.2(@types/react@19.0.3)
@@ -8475,7 +8475,7 @@ snapshots:
       firebase-auth-cloudflare-workers: 2.0.6
       hono: 4.6.16
 
-  '@hono/valibot-validator@0.5.1(hono@4.6.16)(valibot@1.0.0-beta.11(typescript@5.7.2))':
+  '@hono/valibot-validator@0.5.2(hono@4.6.16)(valibot@1.0.0-beta.11(typescript@5.7.2))':
     dependencies:
       hono: 4.6.16
       valibot: 1.0.0-beta.11(typescript@5.7.2)
@@ -14523,7 +14523,7 @@ snapshots:
 
   zod@3.24.1: {}
 
-  zustand@5.0.2(@types/react@19.0.3)(react@19.0.0):
+  zustand@5.0.3(@types/react@19.0.3)(react@19.0.0):
     optionalDependencies:
       '@types/react': 19.0.3
       react: 19.0.0
