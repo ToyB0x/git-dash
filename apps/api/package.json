@@ -34,7 +34,7 @@
     "@cloudflare/workers-types": "4.20241230.0",
     "@tsconfig/strictest": "2.0.5",
     "wrangler": "3.100.0",
-    "typescript": "5.7.2"
+    "typescript": "5.7.3"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }
