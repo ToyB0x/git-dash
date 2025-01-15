@@ -1,6 +1,11 @@
 import { test } from "@playwright/test";
 
 test("can see demo pages", async ({ page }) => {
+  // TODO: 以下のテストを追加する
+  // ログアウトした状態で利用規約を見れること
+  // ログアウトした状態でプライバシーポリシーを見れること
+
+  // ログアウトした状態でDemoページ全体を見れること
   // overview page
   await page.goto("http://localhost:10000/demo");
   await page.getByText("128").click();

@@ -1,5 +1,9 @@
 # git-dash
 
+## Motivation
+
+Please see [slides](./slides.md) for details.
+
 ## Concept
 
 Peter Drucker said, "If you can't measure it, you can't improve it."  

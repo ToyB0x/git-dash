@@ -1,5 +1,8 @@
 import { expect, test } from "@playwright/test";
 
+// TODO: 以下のテストを追加する
+// ログインした状態で利用規約を見れること
+// ログインした状態でプライバシーポリシーを見れること
 test("can sign up and redirect", async ({ page }) => {
   const testEmail = `test+${crypto.randomUUID()}@example.com`;
 
@@ -32,4 +35,10 @@ test("can sign up and redirect", async ({ page }) => {
   await page.getByPlaceholder("Password").fill("password1234xX");
   await page.getByRole("button", { name: "Sign in" }).click();
   await page.getByRole("button", { name: "User settings" }).click();
+
+  // Confirm User can't see another user workspace.
+  await page.goto("http://localhost:10000/another-user-workspace/overview");
+  await page.on("dialog", async (dialog) => {
+    await expect(dialog.message()).toBe("User not in workspace");
+  });
 });
