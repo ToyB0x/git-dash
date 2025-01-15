@@ -1,38 +1,44 @@
 import { userTbl, usersToWorkspaces } from "@git-dash/db-api/schema";
 import { getFirebaseToken } from "@hono/firebase-auth";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
+import { HttpStatusCode } from "../../../types";
+import { getDbUserFromToken, getIsBelongingWorkspace } from "../lib";
 
 const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
-  const workspaceId = c.req.param("workspaceId");
-
   const idToken = getFirebaseToken(c);
-  if (!idToken) throw Error("Unauthorized");
-
-  const db = drizzle(c.env.DB_API);
-
-  const users = await db
-    .select()
-    .from(userTbl)
-    .where(eq(userTbl.firebaseUid, idToken.uid));
-
-  const user = users[0];
-  if (!user) throw Error("User not found");
-
-  const isBelongingWorkspace = await db
-    .select()
-    .from(usersToWorkspaces)
-    .where(
-      and(
-        eq(usersToWorkspaces.userId, user.id),
-        eq(usersToWorkspaces.workspaceId, workspaceId),
-      ),
+  if (!idToken)
+    return c.json(
+      {
+        message: "id token not found",
+      },
+      HttpStatusCode.UNAUTHORIZED_401,
     );
 
-  if (!isBelongingWorkspace.length) throw Error("User not in workspace");
+  const db = drizzle(c.env.DB_API);
+  const workspaceId = c.req.param("workspaceId");
+
+  const user = await getDbUserFromToken(idToken.uid, db);
+  if (!user)
+    return c.json(
+      { message: "User not found in db" },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
+
+  const isBelongingWorkspace = await getIsBelongingWorkspace({
+    userId: user.id,
+    workspaceId,
+    db,
+  });
+
+  if (!isBelongingWorkspace)
+    return c.json(
+      { message: "User not in workspace" },
+      HttpStatusCode.FORBIDDEN_403,
+    );
 
   const workspaceMembers = await db
     .select({

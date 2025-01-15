@@ -35,8 +35,6 @@ const handlers = factory.createHandlers(async (c) => {
     db,
   });
 
-  console.warn({ isBelongingWorkspace });
-
   if (!isBelongingWorkspace)
     return c.json(
       { message: "User not in workspace" },

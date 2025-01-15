@@ -38,6 +38,7 @@ export async function clientAction({
   const role = formData.get("role");
   if (typeof role !== "string") throw Error("role is invalid");
 
+  // TODO: patchに直す
   const res = await hc.api.members[":workspaceId"].$post(
     {
       param: { workspaceId },
@@ -53,7 +54,7 @@ export async function clientAction({
     },
   );
 
-  if (!res.ok) throw Error("Failed to create a workspace");
+  if (!res.ok) throw Error("Failed to update a member");
 
   return redirect("../members");
 }

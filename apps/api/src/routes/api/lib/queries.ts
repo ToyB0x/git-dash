@@ -13,8 +13,18 @@ export const getIsBelongingWorkspace = async ({
   userId: string;
   workspaceId: string;
   db: DrizzleD1Database;
+}) => !!(await getBelongingWorkspaceRole({ userId, workspaceId, db }));
+
+export const getBelongingWorkspaceRole = async ({
+  userId,
+  workspaceId,
+  db,
+}: {
+  userId: string;
+  workspaceId: string;
+  db: DrizzleD1Database;
 }) =>
-  !!(await db
+  await db
     .select()
     .from(usersToWorkspaces)
     .where(
@@ -23,4 +33,4 @@ export const getIsBelongingWorkspace = async ({
         eq(usersToWorkspaces.workspaceId, workspaceId),
       ),
     )
-    .get());
+    .get();

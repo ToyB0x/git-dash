@@ -10,6 +10,8 @@ import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 import * as v from "valibot";
+import { HttpStatusCode } from "../../../types";
+import { getBelongingWorkspaceRole, getDbUserFromToken } from "../lib";
 
 const factory = createFactory<{ Bindings: Env }>();
 
@@ -28,26 +30,42 @@ const validator = vValidator(
 const handlers = factory.createHandlers(validator, async (c) => {
   const validated = c.req.valid("json");
 
-  const workspaceId = c.req.param("workspaceId");
   const invitedUserEmail = validated.email;
   const role = validated.role;
 
   const idToken = getFirebaseToken(c);
-  if (!idToken) throw Error("Unauthorized");
+  if (!idToken)
+    return c.json(
+      {
+        message: "id token not found",
+      },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
 
   const db = drizzle(c.env.DB_API);
+  const workspaceId = c.req.param("workspaceId");
 
-  // check if the user is an owner of the workspace
-  const creator = await db
-    .select()
-    .from(usersToWorkspaces)
-    .where(eq(usersToWorkspaces.workspaceId, workspaceId));
-  const creatorRole = creator[0]?.role;
-  if (creatorRole !== "OWNER") {
-    throw Error("Unauthorized");
+  const user = await getDbUserFromToken(idToken.uid, db);
+  if (!user)
+    return c.json(
+      { message: "User not found in db" },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
+
+  const creatorRole = await getBelongingWorkspaceRole({
+    userId: user.id,
+    workspaceId,
+    db,
+  });
+
+  if (!creatorRole || creatorRole.role !== "OWNER") {
+    return c.json(
+      { message: "User not in workspace" },
+      HttpStatusCode.FORBIDDEN_403,
+    );
   }
 
-  const invidedUserExist = await db
+  const invitedUserExist = await db
     .select()
     .from(userTbl)
     .where(eq(userTbl.email, invitedUserEmail.toLowerCase()))
@@ -55,7 +73,7 @@ const handlers = factory.createHandlers(validator, async (c) => {
 
   // NOTE: 既に他ワークスペースに存在するユーザでは無い場合新規作成
   const newUserId = generateNewUserId();
-  if (!invidedUserExist) {
+  if (!invitedUserExist) {
     await db
       .insert(userTbl)
       .values({
@@ -67,7 +85,7 @@ const handlers = factory.createHandlers(validator, async (c) => {
       });
   }
 
-  const newMemberId = invidedUserExist?.id || newUserId;
+  const newMemberId = invitedUserExist?.id || newUserId;
 
   await db.insert(usersToWorkspaces).values({
     userId: newMemberId,
