@@ -4,12 +4,19 @@ import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 import { getR2Path } from "../../../constants";
+import { HttpStatusCode } from "../../../types";
 
 const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
   const idToken = getFirebaseToken(c);
-  if (!idToken) throw Error("Unauthorized");
+  if (!idToken)
+    return c.json(
+      {
+        message: "id token not found",
+      },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
 
   const db = drizzle(c.env.DB_API);
   const workspaceId = c.req.param("workspaceId");
@@ -54,7 +61,7 @@ const handlers = factory.createHandlers(async (c) => {
   c.header("Cache-Control", "private, max-age=300");
   c.header("Content-Type", "application/vnd.sqlite3");
   c.header("Content-Encoding", "gzip");
-  return c.body(obj.body);
+  return c.body(obj.body, 200);
 });
 
 export const getHandler = handlers;
