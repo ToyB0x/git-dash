@@ -17,3 +17,13 @@ export const app = new Hono()
   .route("/health", healthRoute)
   .route("/api", apiRoute)
   .route("/public-api", publicApiRoute);
+
+// NOTE: currently, Hono does not support custom error handling typing with RPC (so we cannot use HTTPException)
+// ref: https://github.com/honojs/hono/issues/2719
+// ref: https://hono.dev/docs/api/exception#handling-httpexception
+// app.onError((err, c) => {
+//   if (err instanceof HTTPException) {
+//     // Get the custom response
+//     return err.getResponse();
+//   }
+// });
