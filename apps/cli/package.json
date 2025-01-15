@@ -19,7 +19,6 @@
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@git-dash/utils": "workspace:*",
-    "@inquirer/prompts": "7.2.3",
     "@libsql/client": "0.14.0",
     "@octokit/plugin-throttling": "9.4.0",
     "@octokit/types": "13.7.0",
