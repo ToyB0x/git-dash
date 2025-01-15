@@ -19,7 +19,8 @@ export const apiRoute = new Hono<{ Bindings: Env }>()
       config.firebaseEmulatorHost = "http://127.0.0.1:9099";
     }
 
-    // TODO: add db user in context
+    // NOTE: at this point, the user is "not" verified with database nor firebase token. (because rpc can't type middleware response / error, we handle it in the route handler)
+    // ref: https://github.com/honojs/hono/issues/2719
     return verifyFirebaseAuth(config)(c, next);
   })
   .route("/workspaces", workspaceRoute)
