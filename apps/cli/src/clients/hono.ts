@@ -1,4 +1,4 @@
-import { type Configs, GDASH_MODES } from "@/env";
+import type { Configs } from "@/env";
 import { hcWithType } from "@git-dash/api/hc";
 
 export const getHonoClient = (configs: Configs) => {

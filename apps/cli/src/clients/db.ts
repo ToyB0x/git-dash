@@ -1,5 +1,4 @@
-import { execSync } from "node:child_process";
-import { type Configs, GDASH_MODES } from "@/env";
+import type { Configs } from "@/env";
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
