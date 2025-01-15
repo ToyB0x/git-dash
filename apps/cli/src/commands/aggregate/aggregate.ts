@@ -58,23 +58,21 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
           callback: aggregateRepositorySingle(octokit, sharedDbClient),
         });
 
-  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
-    configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP
-      ? await step({
-          configs,
-          stepName: "aggregate:alert",
-          callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
-        })
-      : await step({
-          configs,
-          stepName: "aggregate:alert:single",
-          callback: aggregateAlertSingleRepository(
-            scanId,
-            sharedDbClient,
-            octokit,
-          ),
-        });
-  }
+  configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP
+    ? await step({
+        configs,
+        stepName: "aggregate:alert",
+        callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
+      })
+    : await step({
+        configs,
+        stepName: "aggregate:alert:single",
+        callback: aggregateAlertSingleRepository(
+          scanId,
+          sharedDbClient,
+          octokit,
+        ),
+      });
 
   const maxOldForRepo = new Date(
     Date.now() -
@@ -95,33 +93,29 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
         new Date(repository.updated_at).getTime() > maxOldForRepo),
   );
 
-  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
-    // NOTE: リポジトリ数に応じてQuotaを消費
-    await step({
+  // NOTE: リポジトリ数に応じてQuotaを消費
+  await step({
+    configs,
+    stepName: "aggregate:release",
+    callback: aggregateRelease(
+      filteredRepositories,
+      sharedDbClient,
+      octokit,
       configs,
-      stepName: "aggregate:release",
-      callback: aggregateRelease(
-        filteredRepositories,
-        sharedDbClient,
-        octokit,
-        configs,
-      ),
-    });
-  }
+    ),
+  });
 
-  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
-    // NOTE: リポジトリ数に応じてQuotaを消費
-    await step({
+  // NOTE: リポジトリ数に応じてQuotaを消費
+  await step({
+    configs,
+    stepName: "aggregate:workflow",
+    callback: aggregateWorkflow(
+      filteredRepositories,
+      sharedDbClient,
+      octokit,
       configs,
-      stepName: "aggregate:workflow",
-      callback: aggregateWorkflow(
-        filteredRepositories,
-        sharedDbClient,
-        octokit,
-        configs,
-      ),
-    });
-  }
+    ),
+  });
 
   // // NOTE: Workflowの実行数に応じてQuotaを消費
   // await step({
@@ -129,19 +123,17 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
   //   callback: aggregateWorkflowRunAndEachRunCost(filteredRepositories),
   // });
 
-  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
-    // NOTE: Workflow fileの数に応じてQuotaを消費
-    await step({
+  // NOTE: Workflow fileの数に応じてQuotaを消費
+  await step({
+    configs,
+    stepName: "aggregate:workflow-usage-current-cycle",
+    callback: workflowUsageCurrentCycle(
+      scanId,
+      sharedDbClient,
+      octokit,
       configs,
-      stepName: "aggregate:workflow-usage-current-cycle",
-      callback: workflowUsageCurrentCycle(
-        scanId,
-        sharedDbClient,
-        octokit,
-        configs,
-      ),
-    });
-  }
+    ),
+  });
 
   if (
     configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP &&
@@ -184,22 +176,18 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     ),
   });
 
-  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
-    // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
-    await step({
-      configs,
-      stepName: "aggregate:timeline",
-      callback: aggregateTimeline(sharedDbClient, octokit, configs),
-    });
-  }
+  // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
+  await step({
+    configs,
+    stepName: "aggregate:timeline",
+    callback: aggregateTimeline(sharedDbClient, octokit, configs),
+  });
 
-  if (configs.GDASH_MODE !== GDASH_MODES.SAMPLE) {
-    await step({
-      configs,
-      stepName: "aggregate:commit",
-      callback: aggregateCommit(sharedDbClient, octokit, configs),
-    });
-  }
+  await step({
+    configs,
+    stepName: "aggregate:commit",
+    callback: aggregateCommit(sharedDbClient, octokit, configs),
+  });
 
   await step({
     configs,

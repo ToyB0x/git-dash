@@ -12,9 +12,6 @@
     "jobs:dev:aggregate:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs aggregate workspace",
     "jobs:dev:export:workspace": "pnpm build && dotenv -e ../../.env -- pnpm jobs export workspace",
     "jobs:dev:check": "pnpm build && dotenv -e ../../.env -- pnpm jobs check config",
-    "jobs:sample": "pnpm build && pnpm jobs sample",
-    "jobs:sample:show": "pnpm build && pnpm jobs sample show",
-    "jobs:sample:interactive": "pnpm build && pnpm jobs sample interactive",
     "jobs:all": "pnpm jobs:dev:aggregate:organization && dotenv -e ../../.env -- pnpm jobs export workspace",
     "typecheck": "tsc --noEmit"
   },

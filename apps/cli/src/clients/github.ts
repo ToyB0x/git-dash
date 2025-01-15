@@ -1,4 +1,3 @@
-import { execSync } from "node:child_process";
 import { type Configs, GDASH_MODES } from "@/env";
 import { logger } from "@/utils";
 import { throttling } from "@octokit/plugin-throttling";
@@ -11,8 +10,6 @@ export const getOctokit = async (configs: Configs) => {
       return await getOctokitApp(configs);
     case GDASH_MODES.SINGLE_REPOSITORY:
       return await getOctokitWithToken(configs.GITHUB_TOKEN);
-    case GDASH_MODES.SAMPLE:
-      return await getOctokitWithToken(getTokenFromGhCommand());
     // exhaustive check
     default: {
       const _exhaustiveCheck: never = mode;
@@ -74,17 +71,6 @@ export const getOctokitWithToken = async (githubToken: string) => {
       },
     },
   });
-};
-
-const getTokenFromGhCommand = () => {
-  try {
-    const stdout = execSync("gh auth token");
-    return stdout.toString().trim();
-  } catch (e) {
-    console.error(e);
-    console.error("Please install Github CLI and set it up first.");
-    process.exit(1);
-  }
 };
 
 // NOTE: if you need graphql client

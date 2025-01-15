@@ -1,4 +1,4 @@
-import { type Configs, GDASH_MODES } from "@/env";
+import type { Configs } from "@/env";
 import { hcWithType } from "@git-dash/api/hc";
 
 export const getHonoClient = (configs: Configs) => {
@@ -6,10 +6,6 @@ export const getHonoClient = (configs: Configs) => {
     configs.GDASH_ENV === "local"
       ? "http://localhost:8787"
       : `https://gdash-api-${configs.GDASH_ENV}.xxxxxxxxxxxxxxxxx.workers.dev`;
-
-  if (configs.GDASH_MODE === GDASH_MODES.SAMPLE) {
-    return hcWithType(apiUrl);
-  }
 
   const { GDASH_WORKSPACE_ID, GDASH_WORKSPACE_API_KEY } = configs;
 

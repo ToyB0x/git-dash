@@ -15,22 +15,24 @@ export const getWasmDb = async ({
     locateFile: (file) => `https://sql.js.org/dist/${file}`,
   });
 
-  const dbResponsePromise = firebaseToken
-    ? hc.api.db[":workspaceId"].$get(
-        {
-          param: { workspaceId },
-        },
-        {
-          headers: { Authorization: `Bearer ${firebaseToken}` },
-        },
-      )
-    : hc["sample-api"].db[":sampleWorkspaceId"].$get({
-        param: { sampleWorkspaceId: workspaceId },
-      });
+  if (!firebaseToken) {
+    console.warn("firebaseToken is null");
+    return null;
+  }
+
+  const dbResponsePromise = hc.api.db[":workspaceId"].$get(
+    {
+      param: { workspaceId },
+    },
+    {
+      headers: { Authorization: `Bearer ${firebaseToken}` },
+    },
+  );
 
   const [sql, dbResponse] = await Promise.all([sqlPromise, dbResponsePromise]);
 
   if (!dbResponse.ok) {
+    alert((await dbResponse.json()).message);
     return null;
   }
 
