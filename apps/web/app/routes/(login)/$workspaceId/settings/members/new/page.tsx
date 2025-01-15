@@ -53,7 +53,7 @@ export async function clientAction({
     },
   );
 
-  if (!res.ok) throw Error("Failed to create a workspace");
+  if (!res.ok) throw Error("Failed to create a member");
 
   return redirect("../members");
 }
