@@ -26,9 +26,9 @@
     "@hono/firebase-auth": "1.4.2",
     "@hono/valibot-validator": "0.5.2",
     "@git-dash/db-api": "workspace:*",
-    "drizzle-orm": "0.38.3",
+    "drizzle-orm": "0.38.4",
     "hono": "4.6.16",
-    "valibot": "1.0.0-beta.11"
+    "valibot": "1.0.0-beta.12"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20250109.0",
