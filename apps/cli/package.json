@@ -27,16 +27,16 @@
     "commander": "13.0.0",
     "date-fns": "4.1.0",
     "dotenv-cli": "8.0.0",
-    "drizzle-orm": "0.38.3",
+    "drizzle-orm": "0.38.4",
     "octokit": "4.1.0",
     "pino": "9.6.0",
     "pino-pretty": "13.0.0",
-    "valibot": "1.0.0-beta.11"
+    "valibot": "1.0.0-beta.12"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/cli-table": "0.3.4",
-    "@types/node": "22.10.6",
+    "@types/node": "22.10.7",
     "tsup": "8.3.5",
     "typescript": "5.7.3"
   },
