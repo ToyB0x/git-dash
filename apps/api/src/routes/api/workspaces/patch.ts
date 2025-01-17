@@ -10,6 +10,7 @@ import { vValidator } from "@hono/valibot-validator";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
+import { HttpStatusCode } from "../../../types";
 import { generateHash } from "../../../utils";
 
 const factory = createFactory<{ Bindings: Env }>();
@@ -18,19 +19,29 @@ const validator = vValidator("json", patchWorkspaceApiTokenSchema);
 
 const handlers = factory.createHandlers(validator, async (c) => {
   const idToken = getFirebaseToken(c);
-  if (!idToken) throw Error("Unauthorized");
+  if (!idToken)
+    return c.json(
+      {
+        message: "id token not found",
+      },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
 
   const validated = c.req.valid("json");
 
   const db = drizzle(c.env.DB_API);
 
-  const users = await db
+  const matchedUser = await db
     .select()
     .from(userTbl)
-    .where(eq(userTbl.firebaseUid, idToken.uid));
+    .where(eq(userTbl.firebaseUid, idToken.uid))
+    .get();
 
-  const matchedUser = users[0];
-  if (!matchedUser) throw Error("User not found");
+  if (!matchedUser)
+    return c.json(
+      { message: "User not found in db" },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
 
   const workspaceRoles = await db
     .select()
@@ -43,10 +54,20 @@ const handlers = factory.createHandlers(validator, async (c) => {
     );
 
   const matchedWorkspaceRole = workspaceRoles[0];
-  if (!matchedWorkspaceRole) throw Error("Workspace not found");
+  if (!matchedWorkspaceRole)
+    return c.json(
+      { message: "Workspace not found" },
+      HttpStatusCode.NOT_FOUND_404,
+    );
 
   // TODO: UIに権限機能を反映する(ボタンの非活性化など)
-  if (matchedWorkspaceRole.role !== "OWNER") throw Error("Permission denied");
+  if (matchedWorkspaceRole.role !== "OWNER")
+    return c.json(
+      {
+        message: "You are not the owner of this workspace",
+      },
+      HttpStatusCode.FORBIDDEN_403,
+    );
 
   const newApiToken = generateNewWorkspaceApiToken();
 

@@ -12,6 +12,7 @@ export const download = async (configs: Configs) => {
 
   if (!res.ok) {
     logger.warn("Failed to download database, creating a new database file");
+    logger.warn((await res.json()).message);
     return;
   }
 
