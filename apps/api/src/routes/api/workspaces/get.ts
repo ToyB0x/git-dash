@@ -7,12 +7,19 @@ import { getFirebaseToken } from "@hono/firebase-auth";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
+import { HttpStatusCode } from "../../../types";
 
 const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
   const idToken = getFirebaseToken(c);
-  if (!idToken) throw Error("Unauthorized");
+  if (!idToken)
+    return c.json(
+      {
+        message: "id token not found",
+      },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
 
   const db = drizzle(c.env.DB_API);
 

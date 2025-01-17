@@ -10,6 +10,7 @@ import { vValidator } from "@hono/valibot-validator";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
+import { HttpStatusCode } from "../../../types";
 
 const factory = createFactory<{ Bindings: Env }>();
 
@@ -17,19 +18,29 @@ const validator = vValidator("json", postWorkspaceSchema);
 
 const handlers = factory.createHandlers(validator, async (c) => {
   const idToken = getFirebaseToken(c);
-  if (!idToken) throw Error("Unauthorized");
+  if (!idToken)
+    return c.json(
+      {
+        message: "id token not found",
+      },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
 
   const validated = c.req.valid("json");
 
   const db = drizzle(c.env.DB_API);
 
-  const users = await db
+  const matchedUser = await db
     .select()
     .from(userTbl)
-    .where(eq(userTbl.firebaseUid, idToken.uid));
+    .where(eq(userTbl.firebaseUid, idToken.uid))
+    .get();
 
-  const matchedUser = users[0];
-  if (!matchedUser) throw Error("User not found");
+  if (!matchedUser)
+    return c.json(
+      { message: "User not found in db" },
+      HttpStatusCode.UNAUTHORIZED_401,
+    );
 
   const generatedWorkspaceId = generateNewWorkspaceId();
 
