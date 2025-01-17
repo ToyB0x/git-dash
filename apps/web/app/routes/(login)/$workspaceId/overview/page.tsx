@@ -826,12 +826,9 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
           {releases.map(
             (release) =>
               release?.releaseUrl && (
-                <Card
-                  className="mt-6 h-64 overflow-y-hidden relative p-0"
-                  key={release.id}
-                >
-                  <div className="bg-gradient-to-t from-white via-white/50 to-transparent w-full h-12 absolute bottom-0 z-0" />
-                  <div className="p-6">
+                <Card className="mt-6 relative p-0 py-4" key={release.id}>
+                  {/*<div className="bg-gradient-to-t from-white via-white/50 to-transparent w-full h-20 absolute bottom-0 z-0" />*/}
+                  <div className="px-6 max-h-[14.5rem] overflow-y-hidden ">
                     <h3 className="flex font-semibold text-gray-900 dark:text-gray-50">
                       {release.authorAvatarUrl && (
                         <img
