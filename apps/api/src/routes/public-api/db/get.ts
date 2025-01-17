@@ -3,6 +3,7 @@ import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 import { getR2Path } from "../../../constants";
+import { HttpStatusCode } from "../../../types";
 
 const factory = createFactory<{
   Bindings: Env;
@@ -23,17 +24,29 @@ const handlers = factory.createHandlers(async (c) => {
     .limit(1);
 
   const lastReport = reports[0];
-  if (!lastReport) throw Error("Not Found");
+  if (!lastReport)
+    return c.json(
+      {
+        message: "last report not found",
+      },
+      HttpStatusCode.NOT_FOUND_404,
+    );
 
   const obj = await c.env.BUCKET_DB_REPORT.get(getR2Path({ workspaceId }));
 
-  if (!obj) throw Error("Not Found");
+  if (!obj)
+    return c.json(
+      {
+        message: "last report file not found",
+      },
+      HttpStatusCode.INTERNAL_SERVER_ERROR_500,
+    );
 
   // NOTE: ブラウザのキャッシュを5分間有効にすることによりファイル転送を防止しつつ、5分以上経過した場合には最新のデータを取得する
   c.header("Cache-Control", "private, max-age=300");
   c.header("Content-Type", "application/vnd.sqlite3");
   c.header("Content-Encoding", "gzip");
-  return c.body(obj.body);
+  return c.body(obj.body, 200);
 });
 
 export const getHandler = handlers;

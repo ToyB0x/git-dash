@@ -5,6 +5,7 @@ import { bodyLimit } from "hono/body-limit";
 import { createFactory } from "hono/factory";
 import * as v from "valibot";
 import { getR2Path } from "../../../constants";
+import { HttpStatusCode } from "../../../types";
 
 const factory = createFactory<{
   Bindings: Env;
@@ -40,7 +41,12 @@ const handlers = factory.createHandlers(
     const returnData = result[0];
 
     if (!returnData) {
-      throw new Error("Failed to create report");
+      return c.json(
+        {
+          message: "Failed to create report",
+        },
+        HttpStatusCode.INTERNAL_SERVER_ERROR_500,
+      );
     }
 
     await c.env.BUCKET_DB_REPORT.put(
