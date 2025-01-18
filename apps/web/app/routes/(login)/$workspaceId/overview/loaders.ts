@@ -1,6 +1,13 @@
 import type { getWasmDb } from "@/clients";
 import { renovateBotId } from "@/constants";
-import { alertTbl, prTbl, releaseTbl, scanTbl } from "@git-dash/db";
+import {
+  alertTbl,
+  prTbl,
+  releaseTbl,
+  repositoryTbl,
+  scanTbl,
+  userTbl,
+} from "@git-dash/db";
 import { subDays } from "date-fns";
 import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 
@@ -180,4 +187,27 @@ export const loaderStatVuln = async (
         ? "positive"
         : "negative",
   };
+};
+
+export const loaderReleases = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+) => {
+  return await db
+    .select({
+      id: releaseTbl.id,
+      title: releaseTbl.title,
+      body: releaseTbl.body,
+      publishedAt: releaseTbl.publishedAt,
+      repositoryId: releaseTbl.repositoryId,
+      repositoryName: repositoryTbl.name,
+      releaseUrl: releaseTbl.url,
+      authorId: releaseTbl.authorId,
+      authorName: userTbl.name,
+      authorAvatarUrl: userTbl.avatarUrl,
+    })
+    .from(releaseTbl)
+    .leftJoin(repositoryTbl, eq(releaseTbl.repositoryId, repositoryTbl.id))
+    .leftJoin(userTbl, eq(releaseTbl.authorId, userTbl.id))
+    .orderBy(desc(releaseTbl.publishedAt))
+    .limit(5);
 };

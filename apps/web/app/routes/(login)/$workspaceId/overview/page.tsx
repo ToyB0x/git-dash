@@ -11,9 +11,6 @@ import {
   billingCycleTbl,
   prCommitTbl,
   prTbl,
-  releaseTbl,
-  repositoryTbl,
-  userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@git-dash/db";
 import { RiQuestionLine } from "@remixicon/react";
@@ -25,6 +22,7 @@ import { Link, redirect } from "react-router";
 import type { ITimeEntry } from "react-time-heatmap";
 import {
   type StatCardData,
+  loaderReleases,
   loaderStatPr,
   loaderStatRelease,
   loaderStatVuln,
@@ -70,25 +68,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   });
 
   if (!wasmDb) return null;
-
-  const releases = await wasmDb
-    .select({
-      id: releaseTbl.id,
-      title: releaseTbl.title,
-      body: releaseTbl.body,
-      publishedAt: releaseTbl.publishedAt,
-      repositoryId: releaseTbl.repositoryId,
-      repositoryName: repositoryTbl.name,
-      releaseUrl: releaseTbl.url,
-      authorId: releaseTbl.authorId,
-      authorName: userTbl.name,
-      authorAvatarUrl: userTbl.avatarUrl,
-    })
-    .from(releaseTbl)
-    .leftJoin(repositoryTbl, eq(releaseTbl.repositoryId, repositoryTbl.id))
-    .leftJoin(userTbl, eq(releaseTbl.authorId, userTbl.id))
-    .orderBy(desc(releaseTbl.publishedAt))
-    .limit(5);
 
   const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
@@ -167,7 +146,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   return {
     entries,
-    releases,
+    releases: await loaderReleases(wasmDb),
     costs: data.map((item, index, self) => {
       // 前日のコストがない場合は差分を計算できない
       const beforeDayCost = self[index - 1]?.value;
