@@ -34,34 +34,35 @@ import { type ReactNode, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
 import type { ITimeEntry } from "react-time-heatmap";
+import { type StatCardData, loaderStatRelease, sampleData } from "./loaders";
 
-type Stat = {
-  name: string;
-  stat: string | number;
-  change?: number | null;
-  changeType?: "positive" | "negative";
-};
+// type Stat = {
+//   name: string;
+//   stat: string | number;
+//   change?: number | null;
+//   changeType?: "positive" | "negative";
+// };
 
-const dataStats = [
-  {
-    name: "Releases / month",
-    stat: "42",
-    change: 12.5,
-    changeType: "negative",
-  },
-  {
-    name: "Change Failure Rate",
-    stat: "1.9%",
-    change: 0.4,
-    changeType: "positive",
-  },
-  {
-    name: "Vulnerabilities (critical)",
-    stat: "29",
-    change: 19.7,
-    changeType: "negative",
-  },
-] satisfies Stat[];
+// const dataStats = [
+//   {
+//     name: "Releases / month",
+//     stat: "42",
+//     change: 12.5,
+//     changeType: "negative",
+//   },
+//   {
+//     name: "Change Failure Rate",
+//     stat: "1.9%",
+//     change: 0.4,
+//     changeType: "positive",
+//   },
+//   {
+//     name: "Vulnerabilities (critical)",
+//     stat: "29",
+//     change: 19.7,
+//     changeType: "negative",
+//   },
+// ] satisfies Stat[];
 
 const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
   time: subHours(endOfToday(), hour),
@@ -79,7 +80,7 @@ const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
-      dataStats,
+      dataStats: sampleData,
       entries: demoEntries,
       costs: dataChart,
       releases: [],
@@ -145,21 +146,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         lt(prTbl.createdAt, subDays(new Date(), 30)),
         isNotNull(prTbl.mergedAt),
         not(eq(prTbl.authorId, renovateBotId)),
-      ),
-    );
-
-  const releaseCountLast30days = await wasmDb
-    .select({ count: count() })
-    .from(releaseTbl)
-    .where(and(gte(releaseTbl.publishedAt, subDays(new Date(), 30))));
-
-  const releaseCountLastPeriod = await wasmDb
-    .select({ count: count() })
-    .from(releaseTbl)
-    .where(
-      and(
-        gte(releaseTbl.publishedAt, subDays(new Date(), 60)),
-        lt(releaseTbl.publishedAt, subDays(new Date(), 30)),
       ),
     );
 
@@ -315,21 +301,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     prCountLast30days: prCountLast30days[0]?.count || 0,
     prCountLastPeriod: prCountLastPeriod[0]?.count || 0,
     dataStats: [
-      {
-        name: "Releases / month",
-        stat: (releaseCountLast30days[0]?.count || 0).toString(),
-        change:
-          Math.round(
-            ((releaseCountLast30days[0]?.count || 0) /
-              (releaseCountLastPeriod[0]?.count || 0)) *
-              10,
-          ) / 10,
-        changeType:
-          (releaseCountLast30days[0]?.count || 0) >
-          (releaseCountLastPeriod[0]?.count || 0)
-            ? "positive"
-            : "negative",
-      },
+      await loaderStatRelease(wasmDb),
       {
         name: "Change Failure Rate",
         stat: "-",
@@ -348,7 +320,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
             ? "positive"
             : "negative",
       },
-    ] satisfies Stat[],
+    ] satisfies StatCardData[],
     daysInCurrentCycle: (
       await wasmDb
         .select()
@@ -891,3 +863,5 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     </>
   );
 }
+
+// TODO: 全体的なリファクタを行う
