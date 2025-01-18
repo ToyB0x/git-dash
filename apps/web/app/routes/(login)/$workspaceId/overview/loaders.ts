@@ -1,7 +1,7 @@
 import type { getWasmDb } from "@/clients";
-import { releaseTbl } from "@git-dash/db";
+import { alertTbl, releaseTbl, scanTbl } from "@git-dash/db";
 import { subDays } from "date-fns";
-import { and, count, gte, lt } from "drizzle-orm";
+import { and, count, desc, eq, gte, lt } from "drizzle-orm";
 
 export type StatCardData = {
   name: string;
@@ -61,6 +61,75 @@ export const loaderStatRelease = async (
     changeType:
       (releaseCountLast30days[0]?.count || 0) >
       (releaseCountLastPeriod[0]?.count || 0)
+        ? "positive"
+        : "negative",
+  };
+};
+
+export const loaderStatVuln = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+): Promise<StatCardData> => {
+  const latestScan = await db
+    .select()
+    .from(scanTbl)
+    .orderBy(desc(scanTbl.updatedAt))
+    .limit(1);
+  const latestScanId = latestScan[0]?.id;
+  if (!latestScanId) {
+    return {
+      name: "Vulnerabilities (critical)",
+      stat: "-",
+      change: null,
+      changeType: "positive",
+    };
+  }
+
+  const alertsToday = await db
+    .select()
+    .from(alertTbl)
+    .where(eq(alertTbl.scanId, latestScanId));
+
+  const scan30DayAgo = await db
+    .select()
+    .from(scanTbl)
+    .where(
+      and(
+        gte(scanTbl.updatedAt, subDays(new Date(), 30)),
+        lt(scanTbl.updatedAt, subDays(new Date(), 29)),
+      ),
+    )
+    .orderBy(desc(scanTbl.updatedAt))
+    .limit(1);
+
+  const scan30DayAgoId = scan30DayAgo[0]?.id;
+
+  const alerts30DayAgo = scan30DayAgoId
+    ? await db
+        .select()
+        .from(alertTbl)
+        .where(and(eq(alertTbl.scanId, scan30DayAgoId)))
+    : [];
+
+  const criticalAlertsToday = alertsToday.reduce(
+    (acc, item) => item.countCritical + acc,
+    0,
+  );
+
+  const criticalAlerts30DayAgo = alerts30DayAgo.reduce(
+    (acc, item) => item.countCritical + acc,
+    0,
+  );
+
+  return {
+    name: "Vulnerabilities (critical)",
+    stat: criticalAlertsToday,
+    change:
+      criticalAlerts30DayAgo !== 0
+        ? (Math.round(criticalAlertsToday - criticalAlerts30DayAgo * 10) / 10) *
+          100
+        : null,
+    changeType:
+      criticalAlertsToday - criticalAlerts30DayAgo > 0
         ? "positive"
         : "negative",
   };

@@ -7,13 +7,11 @@ import { NoDataMessage } from "@/components/ui/no-data";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
 import {
-  alertTbl,
   billingCycleTbl,
   prCommitTbl,
   prTbl,
   releaseTbl,
   repositoryTbl,
-  scanTbl,
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@git-dash/db";
@@ -34,7 +32,12 @@ import { type ReactNode, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
 import type { ITimeEntry } from "react-time-heatmap";
-import { type StatCardData, loaderStatRelease, sampleData } from "./loaders";
+import {
+  type StatCardData,
+  loaderStatRelease,
+  loaderStatVuln,
+  sampleData,
+} from "./loaders";
 
 // type Stat = {
 //   name: string;
@@ -149,42 +152,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       ),
     );
 
-  const latestScan = await wasmDb
-    .select()
-    .from(scanTbl)
-    .orderBy(desc(scanTbl.updatedAt))
-    .limit(1);
-  const latestScanId = latestScan[0]?.id;
-  if (!latestScanId) {
-    return null;
-  }
-
-  const alertsToday = await wasmDb
-    .select()
-    .from(alertTbl)
-    .where(eq(alertTbl.scanId, latestScanId));
-
-  const scan30DayAgo = await wasmDb
-    .select()
-    .from(scanTbl)
-    .where(
-      and(
-        gte(scanTbl.updatedAt, subDays(new Date(), 30)),
-        lt(scanTbl.updatedAt, subDays(new Date(), 29)),
-      ),
-    )
-    .orderBy(desc(scanTbl.updatedAt))
-    .limit(1);
-
-  const scan30DayAgoId = scan30DayAgo[0]?.id;
-
-  const alerts30DayAgo = scan30DayAgoId
-    ? await wasmDb
-        .select()
-        .from(alertTbl)
-        .where(and(eq(alertTbl.scanId, scan30DayAgoId)))
-    : [];
-
   const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
     .from(workflowUsageCurrentCycleOrgTbl)
@@ -260,16 +227,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     })),
   );
 
-  const criticalAlertsToday = alertsToday.reduce(
-    (acc, item) => item.countCritical + acc,
-    0,
-  );
-
-  const criticalAlerts30DayAgo = alerts30DayAgo.reduce(
-    (acc, item) => item.countCritical + acc,
-    0,
-  );
-
   return {
     entries,
     releases,
@@ -306,20 +263,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         name: "Change Failure Rate",
         stat: "-",
       },
-      {
-        name: "Vulnerabilities (critical)",
-        stat: criticalAlertsToday,
-        change:
-          criticalAlerts30DayAgo !== 0
-            ? (Math.round(criticalAlertsToday - criticalAlerts30DayAgo * 10) /
-                10) *
-              100
-            : null,
-        changeType:
-          criticalAlertsToday - criticalAlerts30DayAgo > 0
-            ? "positive"
-            : "negative",
-      },
+      await loaderStatVuln(wasmDb),
     ] satisfies StatCardData[],
     daysInCurrentCycle: (
       await wasmDb
