@@ -1,7 +1,8 @@
 import type { getWasmDb } from "@/clients";
-import { alertTbl, releaseTbl, scanTbl } from "@git-dash/db";
+import { renovateBotId } from "@/constants";
+import { alertTbl, prTbl, releaseTbl, scanTbl } from "@git-dash/db";
 import { subDays } from "date-fns";
-import { and, count, desc, eq, gte, lt } from "drizzle-orm";
+import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
 
 export type StatCardData = {
   name: string;
@@ -11,6 +12,12 @@ export type StatCardData = {
 };
 
 export const sampleData: StatCardData[] = [
+  {
+    name: "Pull requests / month",
+    stat: "128",
+    change: 3.6,
+    changeType: "positive",
+  },
   {
     name: "Releases / month",
     stat: "42",
@@ -30,6 +37,48 @@ export const sampleData: StatCardData[] = [
     changeType: "negative",
   },
 ];
+
+export const loaderStatPr = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+): Promise<StatCardData> => {
+  const prCountLast30days = await db
+    .select({ count: count() })
+    .from(prTbl)
+    .where(
+      and(
+        gte(prTbl.createdAt, subDays(new Date(), 30)),
+        isNotNull(prTbl.mergedAt),
+        not(eq(prTbl.authorId, renovateBotId)),
+      ),
+    );
+
+  const prCountLastPeriod = await db
+    .select({ count: count() })
+    .from(prTbl)
+    .where(
+      and(
+        gte(prTbl.createdAt, subDays(new Date(), 60)),
+        lt(prTbl.createdAt, subDays(new Date(), 30)),
+        isNotNull(prTbl.mergedAt),
+        not(eq(prTbl.authorId, renovateBotId)),
+      ),
+    );
+
+  return {
+    name: "Pull requests / month",
+    stat: (prCountLast30days[0]?.count || 0).toString(),
+    change:
+      Math.round(
+        ((prCountLast30days[0]?.count || 0) /
+          (prCountLastPeriod[0]?.count || 0)) *
+          10,
+      ) / 10,
+    changeType:
+      (prCountLast30days[0]?.count || 0) > (prCountLastPeriod[0]?.count || 0)
+        ? "positive"
+        : "negative",
+  };
+};
 
 export const loaderStatRelease = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
@@ -79,8 +128,6 @@ export const loaderStatVuln = async (
     return {
       name: "Vulnerabilities (critical)",
       stat: "-",
-      change: null,
-      changeType: "positive",
     };
   }
 

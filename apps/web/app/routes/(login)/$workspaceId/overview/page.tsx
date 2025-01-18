@@ -4,6 +4,7 @@ import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { Tooltip } from "@/components/Tooltip";
 import { NoDataMessage } from "@/components/ui/no-data";
+import { renovateBotId } from "@/constants";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
 import {
@@ -17,55 +18,18 @@ import {
 } from "@git-dash/db";
 import { RiQuestionLine } from "@remixicon/react";
 import { endOfToday, subDays, subHours } from "date-fns";
-import {
-  and,
-  asc,
-  count,
-  desc,
-  eq,
-  gte,
-  isNotNull,
-  lt,
-  not,
-} from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, lt, not } from "drizzle-orm";
 import { type ReactNode, useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
 import type { ITimeEntry } from "react-time-heatmap";
 import {
   type StatCardData,
+  loaderStatPr,
   loaderStatRelease,
   loaderStatVuln,
   sampleData,
 } from "./loaders";
-
-// type Stat = {
-//   name: string;
-//   stat: string | number;
-//   change?: number | null;
-//   changeType?: "positive" | "negative";
-// };
-
-// const dataStats = [
-//   {
-//     name: "Releases / month",
-//     stat: "42",
-//     change: 12.5,
-//     changeType: "negative",
-//   },
-//   {
-//     name: "Change Failure Rate",
-//     stat: "1.9%",
-//     change: 0.4,
-//     changeType: "positive",
-//   },
-//   {
-//     name: "Vulnerabilities (critical)",
-//     stat: "29",
-//     change: 19.7,
-//     changeType: "negative",
-//   },
-// ] satisfies Stat[];
 
 const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
   time: subHours(endOfToday(), hour),
@@ -88,8 +52,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       costs: dataChart,
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
-      prCountLast30days: 128,
-      prCountLastPeriod: 116,
       daysInCurrentCycle: 21,
     };
   }
@@ -127,30 +89,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     .leftJoin(userTbl, eq(releaseTbl.authorId, userTbl.id))
     .orderBy(desc(releaseTbl.publishedAt))
     .limit(5);
-
-  const renovateBotId = 29139614;
-  const prCountLast30days = await wasmDb
-    .select({ count: count() })
-    .from(prTbl)
-    .where(
-      and(
-        gte(prTbl.createdAt, subDays(new Date(), 30)),
-        isNotNull(prTbl.mergedAt),
-        not(eq(prTbl.authorId, renovateBotId)),
-      ),
-    );
-
-  const prCountLastPeriod = await wasmDb
-    .select({ count: count() })
-    .from(prTbl)
-    .where(
-      and(
-        gte(prTbl.createdAt, subDays(new Date(), 60)),
-        lt(prTbl.createdAt, subDays(new Date(), 30)),
-        isNotNull(prTbl.mergedAt),
-        not(eq(prTbl.authorId, renovateBotId)),
-      ),
-    );
 
   const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
@@ -255,15 +193,15 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       return { ...item, value: item.value - beforeDayCost };
     }),
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
-    prCountLast30days: prCountLast30days[0]?.count || 0,
-    prCountLastPeriod: prCountLastPeriod[0]?.count || 0,
+
     dataStats: [
+      await loaderStatPr(wasmDb),
       await loaderStatRelease(wasmDb),
+      await loaderStatVuln(wasmDb),
       {
         name: "Change Failure Rate",
         stat: "-",
       },
-      await loaderStatVuln(wasmDb),
     ] satisfies StatCardData[],
     daysInCurrentCycle: (
       await wasmDb
@@ -354,8 +292,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
-    prCountLast30days,
-    prCountLastPeriod,
     dataStats,
     daysInCurrentCycle,
   } = loadData;
@@ -400,30 +336,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         </p>
 
         <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-          <Card className="py-4 pr-4">
-            <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
-              <div>Pull requests / month</div>
-              <Tooltip content="Aggregated values for the last 30 days (compared to the same period last month)">
-                <RiQuestionLine size={18} />
-              </Tooltip>
-            </dt>
-            <dd className="mt-2 flex items-baseline space-x-2.5">
-              <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
-                {prCountLast30days}
-              </span>
-              <span
-                className={cx(
-                  prCountLast30days - prCountLastPeriod > 0
-                    ? "text-emerald-700 dark:text-emerald-500"
-                    : "text-red-700 dark:text-red-500",
-                  "text-sm font-medium",
-                )}
-              >
-                {Math.round((prCountLast30days / prCountLastPeriod) * 10) / 10}%
-              </span>
-            </dd>
-          </Card>
-
           {dataStats.map((item) => (
             <Card key={item.name} className="py-4 pr-4">
               <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
@@ -807,5 +719,3 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     </>
   );
 }
-
-// TODO: 全体的なリファクタを行う
