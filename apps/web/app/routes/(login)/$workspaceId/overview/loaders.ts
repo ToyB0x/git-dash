@@ -2,15 +2,27 @@ import type { getWasmDb } from "@/clients";
 import { renovateBotId } from "@/constants";
 import {
   alertTbl,
+  billingCycleTbl,
   prCommitTbl,
   prTbl,
   releaseTbl,
   repositoryTbl,
   scanTbl,
   userTbl,
+  workflowUsageCurrentCycleOrgTbl,
 } from "@git-dash/db";
 import { endOfToday, subDays, subHours } from "date-fns";
-import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  gte,
+  isNotNull,
+  lt,
+  not,
+} from "drizzle-orm";
 import type { ITimeEntry } from "react-time-heatmap";
 
 export type StatCardData = {
@@ -20,7 +32,7 @@ export type StatCardData = {
   changeType?: "positive" | "negative";
 };
 
-export const sampleData: StatCardData[] = [
+export const sampleStats: StatCardData[] = [
   {
     name: "Pull requests / month",
     stat: "128",
@@ -61,6 +73,59 @@ export const sampleHeatMaps: ITimeEntry[] = [...Array(24 * 60).keys()].map(
             Math.floor(Math.random() * 5),
   }),
 );
+
+export const sampleWorkflowUsageOrg = [
+  {
+    runnerType: "Ubuntu 16 core",
+    dollar: 6730,
+  },
+  {
+    runnerType: "Ubuntu 2 core",
+    dollar: 4120,
+  },
+  {
+    runnerType: "Windows 8 core",
+    dollar: 3920,
+  },
+  {
+    runnerType: "Windows 32 core",
+    dollar: 2120,
+  },
+];
+
+export const sampleCosts = [
+  { date: "1", value: Math.random() * 100 },
+  { date: "2", value: Math.random() * 100 },
+  { date: "3", value: Math.random() * 100 },
+  { date: "4", value: Math.random() * 100 },
+  { date: "5", value: Math.random() * 100 },
+  { date: "6", value: Math.random() * 100 },
+  { date: "7", value: Math.random() * 100 },
+  { date: "8", value: Math.random() * 100 },
+  { date: "9", value: Math.random() * 100 },
+  { date: "10", value: Math.random() * 100 },
+  { date: "11", value: Math.random() * 100 },
+  { date: "12", value: Math.random() * 100 },
+  { date: "13", value: Math.random() * 100 },
+  { date: "14", value: Math.random() * 100 },
+  { date: "15", value: Math.random() * 100 },
+  { date: "16", value: Math.random() * 100 },
+  { date: "17", value: Math.random() * 100 },
+  { date: "18", value: Math.random() * 100 },
+  { date: "19", value: Math.random() * 100 },
+  { date: "20", value: Math.random() * 100 },
+  { date: "21", value: Math.random() * 100 },
+  { date: "22", value: Math.random() * 100 },
+  { date: "23", value: Math.random() * 100 },
+  { date: "24", value: Math.random() * 100 },
+  { date: "25", value: Math.random() * 100 },
+  { date: "26", value: Math.random() * 100 },
+  { date: "27", value: Math.random() * 100 },
+  { date: "28", value: Math.random() * 100 },
+  { date: "29", value: Math.random() * 100 },
+  { date: "30", value: Math.random() * 100 },
+  { date: "31", value: Math.random() * 100 },
+];
 
 export const loaderStatPr = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
@@ -229,6 +294,82 @@ export const loaderReleases = async (
     .limit(5);
 };
 
+export const loaderWorkflowUsageCurrentCycleOrg = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+) => {
+  const workflowUsageCurrentCycleOrg = await db
+    .select()
+    .from(workflowUsageCurrentCycleOrgTbl)
+    // NOTE: 今日の集計結果があるとは限らないためWhere句を削除
+    // .where(
+    //   and(
+    //     gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
+    //     gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1),
+    //     gte(workflowUsageCurrentCycleOrgTbl.day, now.getUTCDate()),
+    //   ),
+    // )
+    .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt))
+    .limit(100); // limit today 1 * 100 runnerType
+
+  // 最新の集計結果だけにフィルタリング
+  return workflowUsageCurrentCycleOrg.filter(
+    (item, index, self) =>
+      index === self.findIndex((t) => t.runnerType === item.runnerType),
+  );
+};
+
+export const loaderCosts = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+) => {
+  const now = new Date();
+  const dailyWorkflowUsageOrgCurrentMonth = await db
+    .select()
+    .from(workflowUsageCurrentCycleOrgTbl)
+    .where(gte(workflowUsageCurrentCycleOrgTbl.createdAt, subDays(now, 30)))
+    .orderBy(asc(workflowUsageCurrentCycleOrgTbl.createdAt));
+
+  const data = [...Array(31).keys()]
+    .map((dayBefore) => {
+      const targetDate = subDays(now, dayBefore);
+      const matchedData = dailyWorkflowUsageOrgCurrentMonth.filter(
+        (run) => run.day === targetDate.getDate(),
+      );
+
+      return {
+        date: targetDate.getDate(),
+        value: matchedData.length
+          ? matchedData.reduce((acc, run) => acc + run.dollar, 0)
+          : null,
+      };
+    })
+    .reverse();
+
+  return data.map((item, index, self) => {
+    // 前日のコストがない場合は差分を計算できない
+    const beforeDayCost = self[index - 1]?.value;
+    if (beforeDayCost === null) {
+      return { ...item, value: null };
+    }
+
+    const hasBeforeDayCost = beforeDayCost !== undefined && beforeDayCost > 0;
+    if (!hasBeforeDayCost) {
+      return { ...item, value: null };
+    }
+
+    // コストがない場合は差分を計算できない
+    if (item.value === null) {
+      return { ...item, value: null };
+    }
+
+    // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
+    const hasResetBillingCycle = item.value - beforeDayCost < 0;
+    if (hasResetBillingCycle) {
+      return { ...item, value: item.value };
+    }
+    return { ...item, value: item.value - beforeDayCost };
+  });
+};
+
 export const loaderHeatMaps = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
 ): Promise<ITimeEntry[]> => {
@@ -262,4 +403,16 @@ export const loaderHeatMaps = async (
         )[0]?.count || 0),
     })),
   );
+};
+
+export const loaderDaysInCurrentCycle = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+) => {
+  return (
+    await db
+      .select()
+      .from(billingCycleTbl)
+      .orderBy(desc(billingCycleTbl.createdAt))
+      .limit(1)
+  )[0]?.daysLeft;
 };
