@@ -14,11 +14,7 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
 import { cx } from "@/lib/utils";
-import {
-  dataLoaderActions2Core,
-  dataLoaderActions4Core,
-  dataLoaderActions16Core,
-} from "@/routes/(login)/$workspaceId/cost/dataLoaders";
+import { sampleActions } from "@/routes/(login)/$workspaceId/cost/loaders";
 import type { Route } from "@@/(login)/$workspaceId.repositories.$repositoryId/+types/page";
 import {
   prCommitTbl,
@@ -187,10 +183,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   // layoutルートではparamsを扱いにくいため、paramsが絡むリダイレクトはlayoutファイルでは行わない
   const isDemo = params.workspaceId === "demo";
 
-  const dataActions2Core = await dataLoaderActions2Core(isDemo);
-  const dataActions4Core = await dataLoaderActions4Core(isDemo);
-  const dataActions16Core = await dataLoaderActions16Core(isDemo);
-
   const dataChangeFailureRate = await dataLoaderChangeFailureRate(isDemo);
   const dataFailedDeploymentRecoveryTime =
     await dataLoaderFailedDeploymentRecoveryTime(isDemo);
@@ -208,10 +200,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       dataChangeFailureRate,
       dataFailedDeploymentRecoveryTime,
       workflowUsageCurrentCycles: workflowUsageCurrentCyclesDemo,
-      dataActions2Core,
-      dataActions4Core,
-      dataActions16Core,
-      usageByWorkflowsDaily: [],
+      usageByWorkflowsDaily: sampleActions.map((action) => ({
+        usageByWorkflowName: action.runnerType,
+        ...action,
+      })),
     };
   }
 
@@ -347,9 +339,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     workflowUsageCurrentCycles: workflowUsageCurrentCyclesFiltered
       .filter(({ dollar }) => dollar > 0)
       .sort((a, b) => b.dollar - a.dollar),
-    dataActions2Core,
-    dataActions4Core,
-    dataActions16Core,
     usageByWorkflowsDaily: repoWorkflows
       .map((repoWorkflow) => {
         const usages = [...Array(60).keys()].map((_, i) => {
@@ -397,9 +386,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     dataChangeFailureRate,
     dataFailedDeploymentRecoveryTime,
     workflowUsageCurrentCycles,
-    dataActions2Core,
-    dataActions4Core,
-    dataActions16Core,
     usageByWorkflowsDaily,
   } = loadData;
 
@@ -662,45 +648,17 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
             "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
           )}
         >
-          {isDemo ? (
-            <>
-              <ChartCard
-                title="Actions 2core"
-                type="currency"
-                selectedPeriod="last-year"
-                selectedDates={selectedDates}
-                data={dataActions2Core.data}
-              />
-
-              <ChartCard
-                title="Actions 4core"
-                type="currency"
-                selectedPeriod="last-year"
-                selectedDates={selectedDates}
-                data={dataActions4Core.data}
-              />
-
-              <ChartCard
-                title="Actions 16core"
-                type="currency"
-                selectedPeriod="last-year"
-                selectedDates={selectedDates}
-                data={dataActions16Core.data}
-              />
-            </>
-          ) : (
-            usageByWorkflowsDaily.map((usageByWorkflow) => (
-              <ChartCard
-                key={usageByWorkflow.usageByWorkflowName}
-                title={usageByWorkflow.usageByWorkflowName}
-                type="currency"
-                selectedPeriod="no-comparison"
-                selectedDates={selectedDates}
-                accumulation={false}
-                data={usageByWorkflow.data}
-              />
-            ))
-          )}
+          {usageByWorkflowsDaily.map((usageByWorkflow) => (
+            <ChartCard
+              key={usageByWorkflow?.usageByWorkflowName}
+              title={usageByWorkflow?.usageByWorkflowName}
+              type="currency"
+              selectedPeriod="no-comparison"
+              selectedDates={selectedDates}
+              accumulation={false}
+              data={usageByWorkflow.data}
+            />
+          ))}
         </dl>
       </section>
 

@@ -9,14 +9,10 @@ import {
   TableRow,
 } from "@/components/Table";
 import { NoDataMessage } from "@/components/ui/no-data";
-import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
-import { cx } from "@/lib/utils";
 import {
-  dataLoaderActions2Core,
-  dataLoaderActions4Core,
-  dataLoaderActions16Core,
-} from "@/routes/(login)/$workspaceId/cost/dataLoaders";
-import { loaderDaysInCurrentCycle } from "@/routes/(login)/$workspaceId/cost/loaders";
+  loaderDaysInCurrentCycle,
+  sampleActions,
+} from "@/routes/(login)/$workspaceId/cost/loaders";
 import type { Route } from "@@/(login)/$workspaceId/cost/+types/page";
 import {
   repositoryTbl,
@@ -28,7 +24,7 @@ import {
 import { startOfTomorrow, subDays } from "date-fns";
 import { and, desc, eq, gte } from "drizzle-orm";
 import { Link, redirect } from "react-router";
-import { Stats } from "./components";
+import { Actions, Stats } from "./components";
 
 export type KpiEntry = {
   title: string;
@@ -72,17 +68,10 @@ const dataTable = [
 ];
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const dataActions2Core = await dataLoaderActions2Core(true);
-  const dataActions4Core = await dataLoaderActions4Core(true);
-  const dataActions16Core = await dataLoaderActions16Core(true);
-
   if (params.workspaceId === "demo") {
     return {
-      dataActions2Core,
-      dataActions4Core,
-      dataActions16Core,
       workflows: dataTable,
-      usageByRunnerTypes: [],
+      usageByRunnerTypes: sampleActions,
       daysInCurrentCycle: 21,
     };
   }
@@ -170,9 +159,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
   return {
     daysInCurrentCycle: await loaderDaysInCurrentCycle(wasmDb),
-    dataActions2Core,
-    dataActions4Core,
-    dataActions16Core,
     workflows: workflows
       ? workflows
           .map((workflow) => ({
@@ -235,91 +221,17 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   };
 }
 
-export default function Page({ loaderData, params }: Route.ComponentProps) {
+export default function Page({ loaderData }: Route.ComponentProps) {
   const loadData = loaderData;
   if (!loadData) return NoDataMessage;
 
-  const isDemo = params.workspaceId === "demo";
-
-  const {
-    dataActions2Core,
-    dataActions4Core,
-    dataActions16Core,
-    workflows,
-    usageByRunnerTypes,
-    daysInCurrentCycle,
-  } = loadData;
-
-  const endDate = startOfTomorrow();
-  const span = {
-    from: subDays(endDate, 30),
-    to: endDate,
-  };
+  const { workflows, usageByRunnerTypes, daysInCurrentCycle } = loadData;
 
   return (
     <>
       {daysInCurrentCycle && <Stats daysInCurrentCycle={daysInCurrentCycle} />}
 
-      <section aria-labelledby="actions-usage" className="mt-16">
-        <h1
-          id="actions-usage"
-          className="scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
-          Actions usage{" "}
-          {!isDemo && (
-            <span className="text-gray-500 text-sm">
-              Based on billing cycle
-            </span>
-          )}
-        </h1>
-        <dl
-          className={cx(
-            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-          )}
-        >
-          {isDemo ? (
-            <>
-              <ChartCard
-                title="Actions 2core"
-                type="currency"
-                selectedPeriod="last-year"
-                selectedDates={span}
-                data={dataActions2Core.data}
-              />
-
-              <ChartCard
-                title="Actions 4core"
-                type="currency"
-                selectedPeriod="last-year"
-                selectedDates={span}
-                data={dataActions4Core.data}
-              />
-
-              <ChartCard
-                title="Actions 16core"
-                type="currency"
-                selectedPeriod="last-year"
-                selectedDates={span}
-                data={dataActions16Core.data}
-              />
-            </>
-          ) : (
-            usageByRunnerTypes.map((usageByRunnerType) => (
-              <ChartCard
-                key={usageByRunnerType.runnerType}
-                title={usageByRunnerType.runnerType
-                  .toUpperCase()
-                  .replaceAll("_", " ")}
-                type="currency"
-                selectedPeriod="no-comparison"
-                selectedDates={span}
-                accumulation
-                data={usageByRunnerType.data}
-              />
-            ))
-          )}
-        </dl>
-      </section>
+      <Actions usageByRunnerTypes={usageByRunnerTypes} />
 
       <section aria-labelledby="high-cost-actions">
         <h1
