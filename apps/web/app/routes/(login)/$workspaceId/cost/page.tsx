@@ -1,69 +1,48 @@
 import { auth, getWasmDb } from "@/clients";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableRoot,
-  TableRow,
-} from "@/components/Table";
 import { NoDataMessage } from "@/components/ui/no-data";
+import { ActionsTable } from "@/routes/(login)/$workspaceId/cost/components/table";
 import {
   loaderDaysInCurrentCycle,
+  loaderWorkflowsCost,
   sampleActions,
 } from "@/routes/(login)/$workspaceId/cost/loaders";
 import type { Route } from "@@/(login)/$workspaceId/cost/+types/page";
-import {
-  repositoryTbl,
-  scanTbl,
-  workflowTbl,
-  workflowUsageCurrentCycleOrgTbl,
-  workflowUsageCurrentCycleTbl,
-} from "@git-dash/db";
+import { workflowUsageCurrentCycleOrgTbl } from "@git-dash/db";
 import { startOfTomorrow, subDays } from "date-fns";
 import { and, desc, eq, gte } from "drizzle-orm";
-import { Link, redirect } from "react-router";
+import { redirect } from "react-router";
 import { Actions, Stats } from "./components";
-
-export type KpiEntry = {
-  title: string;
-  percentage: number;
-  current: number;
-  allowed: number;
-  unit?: string;
-};
 
 const dataTable = [
   {
     repoName: "org/api",
     workflowName: "unit test",
     workflowPath: "test.yml",
-    cost: "3,509",
+    cost: 3509,
   },
   {
     repoName: "org/frontend",
     workflowName: "visual regression test",
     workflowPath: "ui-test.yml",
-    cost: "5,720",
+    cost: 5720,
   },
   {
     repoName: "org/payment",
     workflowName: "build",
     workflowPath: "build.yml",
-    cost: "5,720",
+    cost: 5720,
   },
   {
     repoName: "org/backend",
     workflowName: "unit test",
     workflowPath: "test.yml",
-    cost: "4,210",
+    cost: 4210,
   },
   {
     repoName: "org/serviceX",
     workflowName: "E2E test",
     workflowPath: "e2e.yml",
-    cost: "2,101",
+    cost: 2101,
   },
 ];
 
@@ -123,52 +102,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       })),
   );
 
-  const lastScans = await wasmDb
-    .select()
-    .from(scanTbl)
-    .orderBy(desc(scanTbl.createdAt))
-    .limit(1);
-
-  const lastScan = lastScans[0];
-
-  const workflows = lastScan
-    ? await wasmDb
-        .select({
-          workflowId: workflowTbl.id,
-          workflowName: workflowTbl.name,
-          workflowPath: workflowTbl.path,
-          dollar: workflowUsageCurrentCycleTbl.dollar,
-          repositoryName: repositoryTbl.name,
-        })
-        .from(workflowUsageCurrentCycleTbl)
-        .where(
-          and(
-            eq(workflowUsageCurrentCycleTbl.scanId, lastScan.id),
-            gte(workflowUsageCurrentCycleTbl.dollar, 1),
-          ),
-        )
-        .innerJoin(
-          workflowTbl,
-          eq(workflowUsageCurrentCycleTbl.workflowId, workflowTbl.id),
-        )
-        .innerJoin(
-          repositoryTbl,
-          eq(workflowTbl.repositoryId, repositoryTbl.id),
-        )
-    : null;
-
   return {
     daysInCurrentCycle: await loaderDaysInCurrentCycle(wasmDb),
-    workflows: workflows
-      ? workflows
-          .map((workflow) => ({
-            repoName: workflow.repositoryName,
-            workflowName: workflow.workflowName,
-            workflowPath: workflow.workflowPath,
-            cost: workflow.dollar,
-          }))
-          .sort((a, b) => b.cost - a.cost)
-      : [],
+    workflows: await loaderWorkflowsCost(wasmDb),
 
     usageByRunnerTypes: usageByRunnerTypes.map((usageByRunnerType) => {
       const usages = [...Array(60).keys()].map((_, i) => {
@@ -233,55 +169,7 @@ export default function Page({ loaderData }: Route.ComponentProps) {
 
       <Actions usageByRunnerTypes={usageByRunnerTypes} />
 
-      <section aria-labelledby="high-cost-actions">
-        <h1
-          id="high-cost-actions"
-          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
-        >
-          Expensive Actions (Current billing cycle)
-        </h1>
-        <p className="mt-1 text-gray-500">
-          for more details, click on the repository links.
-        </p>
-
-        <TableRoot className="mt-8">
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableHeaderCell>Repository</TableHeaderCell>
-                <TableHeaderCell>Action</TableHeaderCell>
-                <TableHeaderCell>File</TableHeaderCell>
-                {/*<TableHeaderCell>Time(min)</TableHeaderCell>*/}
-                <TableHeaderCell className="text-right">Costs</TableHeaderCell>
-                {/*<TableHeaderCell className="text-right">*/}
-                {/*  Last run*/}
-                {/*</TableHeaderCell>*/}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {workflows.map((item) => (
-                <TableRow key={item.repoName + item.workflowPath}>
-                  <TableCell className="font-medium text-gray-900 dark:text-gray-50">
-                    <Link
-                      to={`../repositories/${item.repoName}`}
-                      className="underline underline-offset-4"
-                    >
-                      {item.repoName}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{item.workflowName}</TableCell>
-                  <TableCell>
-                    {item.workflowPath.replace(".github/workflows/", "")}
-                  </TableCell>
-                  {/*<TableCell>{item.time}</TableCell>*/}
-                  <TableCell className="text-right">${item.cost}</TableCell>
-                  {/*<TableCell className="text-right">{item.lastRun}</TableCell>*/}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableRoot>
-      </section>
+      <ActionsTable workflows={workflows} />
     </>
   );
 }
