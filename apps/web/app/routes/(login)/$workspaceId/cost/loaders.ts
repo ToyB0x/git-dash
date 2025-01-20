@@ -46,7 +46,7 @@ export const sampleWorkflows = [
 
 export const sampleActions = [
   {
-    runnerType: "Actions2Core",
+    runnerType: "Actions 2Core",
     data: generateDailyData({
       startDate: new Date(
         Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
@@ -59,7 +59,7 @@ export const sampleActions = [
     }),
   },
   {
-    runnerType: "Actions4Core",
+    runnerType: "Actions 4Core",
     data: generateDailyData({
       startDate: new Date(
         Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
@@ -72,7 +72,7 @@ export const sampleActions = [
     }),
   },
   {
-    runnerType: "Actions16Core",
+    runnerType: "Actions 16Core",
     data: generateDailyData({
       startDate: new Date(
         Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
