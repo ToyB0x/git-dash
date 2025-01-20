@@ -4,64 +4,30 @@ import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { Tooltip } from "@/components/Tooltip";
 import { NoDataMessage } from "@/components/ui/no-data";
+import { renovateBotId } from "@/constants";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
 import {
-  alertTbl,
   billingCycleTbl,
   prCommitTbl,
   prTbl,
-  releaseTbl,
-  repositoryTbl,
-  scanTbl,
-  userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@git-dash/db";
 import { RiQuestionLine } from "@remixicon/react";
 import { endOfToday, subDays, subHours } from "date-fns";
-import {
-  and,
-  asc,
-  count,
-  desc,
-  eq,
-  gte,
-  isNotNull,
-  lt,
-  not,
-} from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, lt, not } from "drizzle-orm";
 import { type ReactNode, useEffect, useState } from "react";
-import Markdown from "react-markdown";
 import { Link, redirect } from "react-router";
 import type { ITimeEntry } from "react-time-heatmap";
-
-type Stat = {
-  name: string;
-  stat: string | number;
-  change?: number | null;
-  changeType?: "positive" | "negative";
-};
-
-const dataStats = [
-  {
-    name: "Releases / month",
-    stat: "42",
-    change: 12.5,
-    changeType: "negative",
-  },
-  {
-    name: "Change Failure Rate",
-    stat: "1.9%",
-    change: 0.4,
-    changeType: "positive",
-  },
-  {
-    name: "Vulnerabilities (critical)",
-    stat: "29",
-    change: 19.7,
-    changeType: "negative",
-  },
-] satisfies Stat[];
+import { Releases } from "./components";
+import {
+  type StatCardData,
+  loaderReleases,
+  loaderStatPr,
+  loaderStatRelease,
+  loaderStatVuln,
+  sampleData,
+} from "./loaders";
 
 const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
   time: subHours(endOfToday(), hour),
@@ -79,13 +45,11 @@ const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
-      dataStats,
+      dataStats: sampleData,
       entries: demoEntries,
       costs: dataChart,
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
-      prCountLast30days: 128,
-      prCountLastPeriod: 116,
       daysInCurrentCycle: 21,
     };
   }
@@ -104,100 +68,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   });
 
   if (!wasmDb) return null;
-
-  const releases = await wasmDb
-    .select({
-      id: releaseTbl.id,
-      title: releaseTbl.title,
-      body: releaseTbl.body,
-      publishedAt: releaseTbl.publishedAt,
-      repositoryId: releaseTbl.repositoryId,
-      repositoryName: repositoryTbl.name,
-      releaseUrl: releaseTbl.url,
-      authorId: releaseTbl.authorId,
-      authorName: userTbl.name,
-      authorAvatarUrl: userTbl.avatarUrl,
-    })
-    .from(releaseTbl)
-    .leftJoin(repositoryTbl, eq(releaseTbl.repositoryId, repositoryTbl.id))
-    .leftJoin(userTbl, eq(releaseTbl.authorId, userTbl.id))
-    .orderBy(desc(releaseTbl.publishedAt))
-    .limit(5);
-
-  const renovateBotId = 29139614;
-  const prCountLast30days = await wasmDb
-    .select({ count: count() })
-    .from(prTbl)
-    .where(
-      and(
-        gte(prTbl.createdAt, subDays(new Date(), 30)),
-        isNotNull(prTbl.mergedAt),
-        not(eq(prTbl.authorId, renovateBotId)),
-      ),
-    );
-
-  const prCountLastPeriod = await wasmDb
-    .select({ count: count() })
-    .from(prTbl)
-    .where(
-      and(
-        gte(prTbl.createdAt, subDays(new Date(), 60)),
-        lt(prTbl.createdAt, subDays(new Date(), 30)),
-        isNotNull(prTbl.mergedAt),
-        not(eq(prTbl.authorId, renovateBotId)),
-      ),
-    );
-
-  const releaseCountLast30days = await wasmDb
-    .select({ count: count() })
-    .from(releaseTbl)
-    .where(and(gte(releaseTbl.publishedAt, subDays(new Date(), 30))));
-
-  const releaseCountLastPeriod = await wasmDb
-    .select({ count: count() })
-    .from(releaseTbl)
-    .where(
-      and(
-        gte(releaseTbl.publishedAt, subDays(new Date(), 60)),
-        lt(releaseTbl.publishedAt, subDays(new Date(), 30)),
-      ),
-    );
-
-  const latestScan = await wasmDb
-    .select()
-    .from(scanTbl)
-    .orderBy(desc(scanTbl.updatedAt))
-    .limit(1);
-  const latestScanId = latestScan[0]?.id;
-  if (!latestScanId) {
-    return null;
-  }
-
-  const alertsToday = await wasmDb
-    .select()
-    .from(alertTbl)
-    .where(eq(alertTbl.scanId, latestScanId));
-
-  const scan30DayAgo = await wasmDb
-    .select()
-    .from(scanTbl)
-    .where(
-      and(
-        gte(scanTbl.updatedAt, subDays(new Date(), 30)),
-        lt(scanTbl.updatedAt, subDays(new Date(), 29)),
-      ),
-    )
-    .orderBy(desc(scanTbl.updatedAt))
-    .limit(1);
-
-  const scan30DayAgoId = scan30DayAgo[0]?.id;
-
-  const alerts30DayAgo = scan30DayAgoId
-    ? await wasmDb
-        .select()
-        .from(alertTbl)
-        .where(and(eq(alertTbl.scanId, scan30DayAgoId)))
-    : [];
 
   const workflowUsageCurrentCycleOrg = await wasmDb
     .select()
@@ -274,19 +144,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     })),
   );
 
-  const criticalAlertsToday = alertsToday.reduce(
-    (acc, item) => item.countCritical + acc,
-    0,
-  );
-
-  const criticalAlerts30DayAgo = alerts30DayAgo.reduce(
-    (acc, item) => item.countCritical + acc,
-    0,
-  );
-
   return {
     entries,
-    releases,
+    releases: await loaderReleases(wasmDb),
     costs: data.map((item, index, self) => {
       // 前日のコストがない場合は差分を計算できない
       const beforeDayCost = self[index - 1]?.value;
@@ -312,43 +172,16 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       return { ...item, value: item.value - beforeDayCost };
     }),
     workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
-    prCountLast30days: prCountLast30days[0]?.count || 0,
-    prCountLastPeriod: prCountLastPeriod[0]?.count || 0,
+
     dataStats: [
-      {
-        name: "Releases / month",
-        stat: (releaseCountLast30days[0]?.count || 0).toString(),
-        change:
-          Math.round(
-            ((releaseCountLast30days[0]?.count || 0) /
-              (releaseCountLastPeriod[0]?.count || 0)) *
-              10,
-          ) / 10,
-        changeType:
-          (releaseCountLast30days[0]?.count || 0) >
-          (releaseCountLastPeriod[0]?.count || 0)
-            ? "positive"
-            : "negative",
-      },
+      await loaderStatPr(wasmDb),
+      await loaderStatRelease(wasmDb),
+      await loaderStatVuln(wasmDb),
       {
         name: "Change Failure Rate",
         stat: "-",
       },
-      {
-        name: "Vulnerabilities (critical)",
-        stat: criticalAlertsToday,
-        change:
-          criticalAlerts30DayAgo !== 0
-            ? (Math.round(criticalAlertsToday - criticalAlerts30DayAgo * 10) /
-                10) *
-              100
-            : null,
-        changeType:
-          criticalAlertsToday - criticalAlerts30DayAgo > 0
-            ? "positive"
-            : "negative",
-      },
-    ] satisfies Stat[],
+    ] satisfies StatCardData[],
     daysInCurrentCycle: (
       await wasmDb
         .select()
@@ -438,8 +271,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
-    prCountLast30days,
-    prCountLastPeriod,
     dataStats,
     daysInCurrentCycle,
   } = loadData;
@@ -484,30 +315,6 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         </p>
 
         <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-          <Card className="py-4 pr-4">
-            <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
-              <div>Pull requests / month</div>
-              <Tooltip content="Aggregated values for the last 30 days (compared to the same period last month)">
-                <RiQuestionLine size={18} />
-              </Tooltip>
-            </dt>
-            <dd className="mt-2 flex items-baseline space-x-2.5">
-              <span className="text-3xl font-semibold text-gray-900 dark:text-gray-50">
-                {prCountLast30days}
-              </span>
-              <span
-                className={cx(
-                  prCountLast30days - prCountLastPeriod > 0
-                    ? "text-emerald-700 dark:text-emerald-500"
-                    : "text-red-700 dark:text-red-500",
-                  "text-sm font-medium",
-                )}
-              >
-                {Math.round((prCountLast30days / prCountLastPeriod) * 10) / 10}%
-              </span>
-            </dd>
-          </Card>
-
           {dataStats.map((item) => (
             <Card key={item.name} className="py-4 pr-4">
               <dt className="flex justify-between items-center text-sm font-medium text-gray-500 dark:text-gray-500">
@@ -745,149 +552,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         </Card>
       </section>
 
-      {isDemo && (
-        <section aria-labelledby="releases">
-          <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
-            Recent Releases
-          </h1>
-
-          <p className="mt-1 text-gray-500">
-            for more details, click on the repository links.
-          </p>
-
-          <Card className="mt-6">
-            <h3 className="flex font-semibold text-gray-900 dark:text-gray-50">
-              <img
-                src="https://i.pravatar.cc/300"
-                alt="repository"
-                className="w-12 h-12 rounded-full"
-              />
-              <div className="flex justify-center flex-col pl-4">
-                <p>Release v2.1.3 🎉</p>
-                <Link
-                  to="../repositories/org/frontend"
-                  className="underline underline-offset-4 text-sm"
-                >
-                  org/frontend
-                </Link>
-              </div>
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-900 dark:text-gray-50">
-              What's Changed
-            </p>
-            <ul className="hidden text-sm leading-6 text-gray-900 sm:block dark:text-gray-50 list-disc pl-6">
-              <li>chore(deps): upgrade remix to v2 by @user in #1212</li>
-              <li>fix(ui): fix minor UI bug in the app by @user in #1211</li>
-              <li>
-                feat(ui): add new UI component to the app by @user in #1210
-              </li>
-            </ul>
-          </Card>
-
-          <Card className="mt-6">
-            <h3 className="flex font-semibold text-gray-900 dark:text-gray-50">
-              <img
-                src="https://i.pravatar.cc/301"
-                alt="repository"
-                className="w-12 h-12 rounded-full"
-              />
-              <div className="flex justify-center flex-col pl-4">
-                <p>Release v9.5.4 🎉</p>
-                <Link
-                  to="../repositories/org/api"
-                  className="underline underline-offset-4 text-sm"
-                >
-                  org/api
-                </Link>
-              </div>
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-900 dark:text-gray-50">
-              What's Changed
-            </p>
-            <ul className="hidden text-sm leading-6 text-gray-900 sm:block dark:text-gray-50 list-disc pl-6">
-              <li>feat(app): add new feature to the app by @user in #941</li>
-              <li>fix(app): fix minor bug in the app by @user in #940</li>
-              <li>fix(deps): fix broken dependency by @renovate in #939</li>
-            </ul>
-          </Card>
-        </section>
-      )}
-
-      {!isDemo && (
-        <section aria-labelledby="releases">
-          <h1 className="mt-8 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
-            Recent Releases
-          </h1>
-
-          <p className="mt-1 text-gray-500">
-            for more details, click on the links.
-          </p>
-
-          {releases.map(
-            (release) =>
-              release?.releaseUrl && (
-                <Card className="mt-6 relative p-0 py-4" key={release.id}>
-                  {/*<div className="bg-gradient-to-t from-white via-white/50 to-transparent w-full h-20 absolute bottom-0 z-0" />*/}
-                  <div className="px-6 max-h-[14.5rem] overflow-y-hidden ">
-                    <h3 className="flex font-semibold text-gray-900 dark:text-gray-50">
-                      {release.authorAvatarUrl && (
-                        <img
-                          src={release.authorAvatarUrl}
-                          alt="repository"
-                          className="w-12 h-12 rounded-full"
-                        />
-                      )}
-
-                      <div className="flex justify-center flex-col pl-4">
-                        <p>
-                          <a
-                            href={release.releaseUrl}
-                            className="underline underline-offset-4 text-lg"
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {release.title}
-                          </a>
-                        </p>
-                        <Link
-                          to={`../repositories/${release.repositoryName}`}
-                          className="underline underline-offset-4 text-sm text-gray-500"
-                        >
-                          {release.repositoryName}
-                        </Link>
-                      </div>
-                    </h3>
-
-                    <div className="mt-4 text-sm leading-6 text-gray-900 dark:text-gray-50">
-                      <Markdown
-                        components={{
-                          h1: ({ children }) => (
-                            <h1 className="text-lg font-bold">{children}</h1>
-                          ),
-                          h2: ({ children }) => (
-                            <h2 className="text-md font-bold">{children}</h2>
-                          ),
-                          h3: ({ children }) => (
-                            <h3 className="text-md font-bold">{children}</h3>
-                          ),
-                          ul: ({ children }) => (
-                            <ul className="list-disc pl-6">{children}</ul>
-                          ),
-                          strong: ({ children }) => (
-                            <span className="font-semibold">{children}</span>
-                          ),
-                        }}
-                      >
-                        {/* remove html comment */}
-                        {release.body?.replaceAll(/<!--[\s\S]*?-->/g, "")}
-                      </Markdown>
-                    </div>
-                  </div>
-                </Card>
-              ),
-          )}
-        </section>
-      )}
+      {isDemo ? <Releases isDemo /> : <Releases releases={releases} />}
     </>
   );
 }
