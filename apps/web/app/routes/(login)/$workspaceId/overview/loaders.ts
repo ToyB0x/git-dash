@@ -94,37 +94,37 @@ export const sampleWorkflowUsageOrg = [
 ];
 
 export const sampleCosts = [
-  { date: "1", value: Math.random() * 100 },
-  { date: "2", value: Math.random() * 100 },
-  { date: "3", value: Math.random() * 100 },
-  { date: "4", value: Math.random() * 100 },
-  { date: "5", value: Math.random() * 100 },
-  { date: "6", value: Math.random() * 100 },
-  { date: "7", value: Math.random() * 100 },
-  { date: "8", value: Math.random() * 100 },
-  { date: "9", value: Math.random() * 100 },
-  { date: "10", value: Math.random() * 100 },
-  { date: "11", value: Math.random() * 100 },
-  { date: "12", value: Math.random() * 100 },
-  { date: "13", value: Math.random() * 100 },
-  { date: "14", value: Math.random() * 100 },
-  { date: "15", value: Math.random() * 100 },
-  { date: "16", value: Math.random() * 100 },
-  { date: "17", value: Math.random() * 100 },
-  { date: "18", value: Math.random() * 100 },
-  { date: "19", value: Math.random() * 100 },
-  { date: "20", value: Math.random() * 100 },
-  { date: "21", value: Math.random() * 100 },
-  { date: "22", value: Math.random() * 100 },
-  { date: "23", value: Math.random() * 100 },
-  { date: "24", value: Math.random() * 100 },
-  { date: "25", value: Math.random() * 100 },
-  { date: "26", value: Math.random() * 100 },
-  { date: "27", value: Math.random() * 100 },
-  { date: "28", value: Math.random() * 100 },
-  { date: "29", value: Math.random() * 100 },
-  { date: "30", value: Math.random() * 100 },
-  { date: "31", value: Math.random() * 100 },
+  { date: 1, value: Math.random() * 100 },
+  { date: 2, value: Math.random() * 100 },
+  { date: 3, value: Math.random() * 100 },
+  { date: 4, value: Math.random() * 100 },
+  { date: 5, value: Math.random() * 100 },
+  { date: 6, value: Math.random() * 100 },
+  { date: 7, value: Math.random() * 100 },
+  { date: 8, value: Math.random() * 100 },
+  { date: 9, value: Math.random() * 100 },
+  { date: 10, value: Math.random() * 100 },
+  { date: 11, value: Math.random() * 100 },
+  { date: 12, value: Math.random() * 100 },
+  { date: 13, value: Math.random() * 100 },
+  { date: 14, value: Math.random() * 100 },
+  { date: 15, value: Math.random() * 100 },
+  { date: 16, value: Math.random() * 100 },
+  { date: 17, value: Math.random() * 100 },
+  { date: 18, value: Math.random() * 100 },
+  { date: 19, value: Math.random() * 100 },
+  { date: 20, value: Math.random() * 100 },
+  { date: 21, value: Math.random() * 100 },
+  { date: 22, value: Math.random() * 100 },
+  { date: 23, value: Math.random() * 100 },
+  { date: 24, value: Math.random() * 100 },
+  { date: 25, value: Math.random() * 100 },
+  { date: 26, value: Math.random() * 100 },
+  { date: 27, value: Math.random() * 100 },
+  { date: 28, value: Math.random() * 100 },
+  { date: 29, value: Math.random() * 100 },
+  { date: 30, value: Math.random() * 100 },
+  { date: 31, value: Math.random() * 100 },
 ];
 
 export const loaderStatPr = async (
@@ -312,10 +312,15 @@ export const loaderWorkflowUsageCurrentCycleOrg = async (
     .limit(100); // limit today 1 * 100 runnerType
 
   // 最新の集計結果だけにフィルタリング
-  return workflowUsageCurrentCycleOrg.filter(
-    (item, index, self) =>
-      index === self.findIndex((t) => t.runnerType === item.runnerType),
-  );
+  return workflowUsageCurrentCycleOrg
+    .filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.runnerType === item.runnerType),
+    )
+    .map((item) => ({
+      runnerType: item.runnerType,
+      dollar: item.dollar,
+    }));
 };
 
 export const loaderCosts = async (
