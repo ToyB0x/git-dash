@@ -4,49 +4,31 @@ import { Card } from "@/components/Card";
 import { DonutChart } from "@/components/DonutChart";
 import { Tooltip } from "@/components/Tooltip";
 import { NoDataMessage } from "@/components/ui/no-data";
-import { renovateBotId } from "@/constants";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
-import {
-  billingCycleTbl,
-  prCommitTbl,
-  prTbl,
-  workflowUsageCurrentCycleOrgTbl,
-} from "@git-dash/db";
+import { billingCycleTbl, workflowUsageCurrentCycleOrgTbl } from "@git-dash/db";
 import { RiQuestionLine } from "@remixicon/react";
-import { endOfToday, subDays, subHours } from "date-fns";
-import { and, asc, count, desc, eq, gte, lt, not } from "drizzle-orm";
+import { subDays } from "date-fns";
+import { asc, desc, gte } from "drizzle-orm";
 import { type ReactNode, useEffect, useState } from "react";
 import { Link, redirect } from "react-router";
-import type { ITimeEntry } from "react-time-heatmap";
 import { Releases } from "./components";
 import {
   type StatCardData,
+  loaderHeatMaps,
   loaderReleases,
   loaderStatPr,
   loaderStatRelease,
   loaderStatVuln,
   sampleData,
+  sampleHeatMaps,
 } from "./loaders";
-
-const demoEntries: ITimeEntry[] = [...Array(24 * 60).keys()].map((hour) => ({
-  time: subHours(endOfToday(), hour),
-  count:
-    subHours(endOfToday(), hour).getDay() <= 1
-      ? Math.floor(Math.random() * 1.2) // 週末は低頻度にする
-      : // 早朝深夜は低頻度にする
-        subHours(endOfToday(), hour).getHours() < 7 ||
-          subHours(endOfToday(), hour).getHours() > 20
-        ? Math.floor(Math.random() * 1.2)
-        : // 平日の昼間は高頻度にする
-          Math.floor(Math.random() * 5),
-}));
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
       dataStats: sampleData,
-      entries: demoEntries,
+      heatMaps: sampleHeatMaps,
       costs: dataChart,
       releases: [],
       workflowUsageCurrentCycleOrg: dataDonut,
@@ -113,39 +95,8 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     })
     .reverse();
 
-  const entries: ITimeEntry[] = await Promise.all(
-    [...Array(24 * 60).keys()].map(async (hour) => ({
-      time: subHours(endOfToday(), hour),
-      count:
-        ((
-          await wasmDb
-            .select({ count: count() })
-            .from(prCommitTbl)
-            .where(
-              and(
-                gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
-                lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
-                not(eq(prCommitTbl.authorId, renovateBotId)),
-              ),
-            )
-        )[0]?.count || 0) +
-        ((
-          await wasmDb
-            .select({ count: count() })
-            .from(prTbl)
-            .where(
-              and(
-                gte(prTbl.createdAt, subHours(endOfToday(), hour)),
-                lt(prTbl.createdAt, subHours(endOfToday(), hour - 1)),
-                not(eq(prTbl.authorId, renovateBotId)),
-              ),
-            )
-        )[0]?.count || 0),
-    })),
-  );
-
   return {
-    entries,
+    heatMaps: await loaderHeatMaps(wasmDb),
     releases: await loaderReleases(wasmDb),
     costs: data.map((item, index, self) => {
       // 前日のコストがない場合は差分を計算できない
@@ -267,7 +218,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
   const isDemo = params.workspaceId === "demo";
 
   const {
-    entries,
+    heatMaps,
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
@@ -284,8 +235,8 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         setChart(
           <TimeHeatMap.TimeHeatMap
             // TODO: windowサイズに合わせリサイズ
-            // timeEntries={entries.slice(0, 24 * 30)}
-            timeEntries={entries}
+            // timeEntries={heatMaps.slice(0, 24 * 30)}
+            timeEntries={heatMaps}
             numberOfGroups={10}
             flow
             showGroups={false}
@@ -293,7 +244,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         );
       }
     })();
-  }, [entries]);
+  }, [heatMaps]);
 
   return (
     <>

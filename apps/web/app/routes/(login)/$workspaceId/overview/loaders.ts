@@ -2,14 +2,16 @@ import type { getWasmDb } from "@/clients";
 import { renovateBotId } from "@/constants";
 import {
   alertTbl,
+  prCommitTbl,
   prTbl,
   releaseTbl,
   repositoryTbl,
   scanTbl,
   userTbl,
 } from "@git-dash/db";
-import { subDays } from "date-fns";
+import { endOfToday, subDays, subHours } from "date-fns";
 import { and, count, desc, eq, gte, isNotNull, lt, not } from "drizzle-orm";
+import type { ITimeEntry } from "react-time-heatmap";
 
 export type StatCardData = {
   name: string;
@@ -44,6 +46,21 @@ export const sampleData: StatCardData[] = [
     changeType: "negative",
   },
 ];
+
+export const sampleHeatMaps: ITimeEntry[] = [...Array(24 * 60).keys()].map(
+  (hour) => ({
+    time: subHours(endOfToday(), hour),
+    count:
+      subHours(endOfToday(), hour).getDay() <= 1
+        ? Math.floor(Math.random() * 1.2) // 週末は低頻度にする
+        : // 早朝深夜は低頻度にする
+          subHours(endOfToday(), hour).getHours() < 7 ||
+            subHours(endOfToday(), hour).getHours() > 20
+          ? Math.floor(Math.random() * 1.2)
+          : // 平日の昼間は高頻度にする
+            Math.floor(Math.random() * 5),
+  }),
+);
 
 export const loaderStatPr = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
@@ -210,4 +227,39 @@ export const loaderReleases = async (
     .leftJoin(userTbl, eq(releaseTbl.authorId, userTbl.id))
     .orderBy(desc(releaseTbl.publishedAt))
     .limit(5);
+};
+
+export const loaderHeatMaps = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+): Promise<ITimeEntry[]> => {
+  return await Promise.all(
+    [...Array(24 * 60).keys()].map(async (hour) => ({
+      time: subHours(endOfToday(), hour),
+      count:
+        ((
+          await db
+            .select({ count: count() })
+            .from(prCommitTbl)
+            .where(
+              and(
+                gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
+                lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+                not(eq(prCommitTbl.authorId, renovateBotId)),
+              ),
+            )
+        )[0]?.count || 0) +
+        ((
+          await db
+            .select({ count: count() })
+            .from(prTbl)
+            .where(
+              and(
+                gte(prTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(prTbl.createdAt, subHours(endOfToday(), hour - 1)),
+                not(eq(prTbl.authorId, renovateBotId)),
+              ),
+            )
+        )[0]?.count || 0),
+    })),
+  );
 };
