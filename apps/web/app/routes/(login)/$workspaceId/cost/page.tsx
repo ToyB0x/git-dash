@@ -16,9 +16,9 @@ import {
   dataLoaderActions4Core,
   dataLoaderActions16Core,
 } from "@/routes/(login)/$workspaceId/cost/dataLoaders";
+import { loaderDaysInCurrentCycle } from "@/routes/(login)/$workspaceId/cost/loaders";
 import type { Route } from "@@/(login)/$workspaceId/cost/+types/page";
 import {
-  billingCycleTbl,
   repositoryTbl,
   scanTbl,
   workflowTbl,
@@ -169,13 +169,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     : null;
 
   return {
-    daysInCurrentCycle: (
-      await wasmDb
-        .select()
-        .from(billingCycleTbl)
-        .orderBy(desc(billingCycleTbl.createdAt))
-        .limit(1)
-    )[0]?.daysLeft,
+    daysInCurrentCycle: await loaderDaysInCurrentCycle(wasmDb),
     dataActions2Core,
     dataActions4Core,
     dataActions16Core,
@@ -264,7 +258,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
 
   return (
     <>
-      <Stats daysInCurrentCycle={daysInCurrentCycle} />
+      {daysInCurrentCycle && <Stats daysInCurrentCycle={daysInCurrentCycle} />}
 
       <section aria-labelledby="actions-usage" className="mt-16">
         <h1
