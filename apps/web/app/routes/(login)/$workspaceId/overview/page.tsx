@@ -6,124 +6,58 @@ import { Tooltip } from "@/components/Tooltip";
 import { NoDataMessage } from "@/components/ui/no-data";
 import { cx } from "@/lib/utils";
 import type { Route } from "@@/(login)/$workspaceId/overview/+types/page";
-import { billingCycleTbl, workflowUsageCurrentCycleOrgTbl } from "@git-dash/db";
 import { RiQuestionLine } from "@remixicon/react";
 import { subDays } from "date-fns";
-import { asc, desc, gte } from "drizzle-orm";
 import { type ReactNode, useEffect, useState } from "react";
 import { Link, redirect } from "react-router";
 import { Releases } from "./components";
 import {
   type StatCardData,
+  loaderCosts,
+  loaderDaysInCurrentCycle,
   loaderHeatMaps,
   loaderReleases,
   loaderStatPr,
   loaderStatRelease,
   loaderStatVuln,
-  sampleData,
+  loaderWorkflowUsageCurrentCycleOrg,
+  sampleCosts,
   sampleHeatMaps,
+  sampleStats,
+  sampleWorkflowUsageOrg,
 } from "./loaders";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
-      dataStats: sampleData,
+      dataStats: sampleStats,
       heatMaps: sampleHeatMaps,
-      costs: dataChart,
+      costs: sampleCosts,
       releases: [],
-      workflowUsageCurrentCycleOrg: dataDonut,
+      workflowUsageCurrentCycleOrg: sampleWorkflowUsageOrg,
       daysInCurrentCycle: 21,
     };
   }
 
   await auth.authStateReady();
-
   if (!auth.currentUser) {
     throw redirect("/sign-in");
   }
 
   const token = await auth.currentUser.getIdToken();
-
   const wasmDb = await getWasmDb({
     workspaceId: params.workspaceId,
     firebaseToken: token,
   });
-
   if (!wasmDb) return null;
-
-  const workflowUsageCurrentCycleOrg = await wasmDb
-    .select()
-    .from(workflowUsageCurrentCycleOrgTbl)
-    // NOTE: 今日の集計結果があるとは限らないためWhere句を削除
-    // .where(
-    //   and(
-    //     gte(workflowUsageCurrentCycleOrgTbl.year, now.getUTCFullYear()),
-    //     gte(workflowUsageCurrentCycleOrgTbl.month, now.getUTCMonth() + 1),
-    //     gte(workflowUsageCurrentCycleOrgTbl.day, now.getUTCDate()),
-    //   ),
-    // )
-    .orderBy(desc(workflowUsageCurrentCycleOrgTbl.updatedAt))
-    .limit(100); // limit today 1 * 100 runnerType
-
-  // 最新の集計結果だけにフィルタリング
-  const workflowUsageCurrentCycleOrgFiltered =
-    workflowUsageCurrentCycleOrg.filter(
-      (item, index, self) =>
-        index === self.findIndex((t) => t.runnerType === item.runnerType),
-    );
-
-  const now = new Date();
-  const dailyWorkflowUsageOrgCurrentMonth = await wasmDb
-    .select()
-    .from(workflowUsageCurrentCycleOrgTbl)
-    .where(gte(workflowUsageCurrentCycleOrgTbl.createdAt, subDays(now, 30)))
-    .orderBy(asc(workflowUsageCurrentCycleOrgTbl.createdAt));
-
-  const data = [...Array(31).keys()]
-    .map((dayBefore) => {
-      const targetDate = subDays(now, dayBefore);
-      const matchedData = dailyWorkflowUsageOrgCurrentMonth.filter(
-        (run) => run.day === targetDate.getDate(),
-      );
-
-      return {
-        date: targetDate.getDate(),
-        value: matchedData.length
-          ? matchedData.reduce((acc, run) => acc + run.dollar, 0)
-          : null,
-      };
-    })
-    .reverse();
 
   return {
     heatMaps: await loaderHeatMaps(wasmDb),
     releases: await loaderReleases(wasmDb),
-    costs: data.map((item, index, self) => {
-      // 前日のコストがない場合は差分を計算できない
-      const beforeDayCost = self[index - 1]?.value;
-      if (beforeDayCost === null) {
-        return { ...item, value: null };
-      }
-
-      const hasBeforeDayCost = beforeDayCost !== undefined && beforeDayCost > 0;
-      if (!hasBeforeDayCost) {
-        return { ...item, value: null };
-      }
-
-      // コストがない場合は差分を計算できない
-      if (item.value === null) {
-        return { ...item, value: null };
-      }
-
-      // コストが前日よりも小さい場合は、新しい請求サイクルが始まったとみなす
-      const hasResetBillingCycle = item.value - beforeDayCost < 0;
-      if (hasResetBillingCycle) {
-        return { ...item, value: item.value };
-      }
-      return { ...item, value: item.value - beforeDayCost };
-    }),
-    workflowUsageCurrentCycleOrg: workflowUsageCurrentCycleOrgFiltered,
-
+    costs: await loaderCosts(wasmDb),
+    daysInCurrentCycle: loaderDaysInCurrentCycle(wasmDb),
+    workflowUsageCurrentCycleOrg:
+      await loaderWorkflowUsageCurrentCycleOrg(wasmDb),
     dataStats: [
       await loaderStatPr(wasmDb),
       await loaderStatRelease(wasmDb),
@@ -133,13 +67,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         stat: "-",
       },
     ] satisfies StatCardData[],
-    daysInCurrentCycle: (
-      await wasmDb
-        .select()
-        .from(billingCycleTbl)
-        .orderBy(desc(billingCycleTbl.createdAt))
-        .limit(1)
-    )[0]?.daysLeft,
   };
 }
 
@@ -155,61 +82,8 @@ function valueFormatter(number: number) {
   return formatter.format(number);
 }
 
-const dataChart = [
-  { date: "1", value: Math.random() * 100 },
-  { date: "2", value: Math.random() * 100 },
-  { date: "3", value: Math.random() * 100 },
-  { date: "4", value: Math.random() * 100 },
-  { date: "5", value: Math.random() * 100 },
-  { date: "6", value: Math.random() * 100 },
-  { date: "7", value: Math.random() * 100 },
-  { date: "8", value: Math.random() * 100 },
-  { date: "9", value: Math.random() * 100 },
-  { date: "10", value: Math.random() * 100 },
-  { date: "11", value: Math.random() * 100 },
-  { date: "12", value: Math.random() * 100 },
-  { date: "13", value: Math.random() * 100 },
-  { date: "14", value: Math.random() * 100 },
-  { date: "15", value: Math.random() * 100 },
-  { date: "16", value: Math.random() * 100 },
-  { date: "17", value: Math.random() * 100 },
-  { date: "18", value: Math.random() * 100 },
-  { date: "19", value: Math.random() * 100 },
-  { date: "20", value: Math.random() * 100 },
-  { date: "21", value: Math.random() * 100 },
-  { date: "22", value: Math.random() * 100 },
-  { date: "23", value: Math.random() * 100 },
-  { date: "24", value: Math.random() * 100 },
-  { date: "25", value: Math.random() * 100 },
-  { date: "26", value: Math.random() * 100 },
-  { date: "27", value: Math.random() * 100 },
-  { date: "28", value: Math.random() * 100 },
-  { date: "29", value: Math.random() * 100 },
-  { date: "30", value: Math.random() * 100 },
-  { date: "31", value: Math.random() * 100 },
-];
-
 const currencyFormatter = (number: number) =>
   `$${Intl.NumberFormat("us").format(number).toString()}`;
-
-const dataDonut = [
-  {
-    runnerType: "Ubuntu 16 core",
-    dollar: 6730,
-  },
-  {
-    runnerType: "Ubuntu 2 core",
-    dollar: 4120,
-  },
-  {
-    runnerType: "Windows 8 core",
-    dollar: 3920,
-  },
-  {
-    runnerType: "Windows 32 core",
-    dollar: 2120,
-  },
-];
 
 export default function Page({ loaderData, params }: Route.ComponentProps) {
   const loadData = loaderData;
