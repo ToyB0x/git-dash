@@ -20,9 +20,6 @@ export default [
     route("overview", "routes/(login)/$workspaceId/overview/page.tsx"),
     // リポジトリ横断の4key table
     route("fourkeys", "routes/(login)/$workspaceId/fourkey/page.tsx"),
-    // 分析バー: マージまでの時間の平均の階層をCategoryBarCardで表示？
-    // 分析バー: レビューの平均待ち時間をCategoryBarCardで表示？
-    route("prs", "routes/(login)/$workspaceId/pr/page.tsx"),
     // グラフ: TOP10 リポジトリごとのGithub Actions費用の前月比グラフ (Overviewページには全リポジトリ横断のコストを表示)
     route("cost", "routes/(login)/$workspaceId/cost/page.tsx"),
     // グラフ: TOP10 リポジトリごとのPRの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
