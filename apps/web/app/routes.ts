@@ -22,16 +22,6 @@ export default [
     route("fourkeys", "routes/(login)/$workspaceId/fourkey/page.tsx"),
     // グラフ: TOP10 リポジトリごとのGithub Actions費用の前月比グラフ (Overviewページには全リポジトリ横断のコストを表示)
     route("cost", "routes/(login)/$workspaceId/cost/page.tsx"),
-    // グラフ: TOP10 リポジトリごとのPRの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
-    // リスト: TOP10 リポジトリごとのPRの最新の5件
-    // ランキング: リポジトリ横断のPR数が多いユーザランキング
-    // グラフ: リポジトリごとのReviewの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
-    // リスト: リポジトリごとのReviewの最新の5件
-    // ランキング: リポジトリ横断のPR数が多いユーザランキング
-    route("reviews", "routes/(login)/$workspaceId/review/page.tsx"),
-    // グラフ: リポジトリごとのReleasesの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
-    // リスト: リポジトリごとのReleasesの最新の5件
-    route("releases", "routes/(login)/$workspaceId/release/page.tsx"),
     // グラフ: リポジトリごとのVulnsの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // グラフ: リポジトリごとのVulnsの危険度がCRITICALの前月比グラフ (Overviewページには全リポジトリ横断のPRを表示)
     // リスト: リポジトリごとのVulnsの最新の5件
