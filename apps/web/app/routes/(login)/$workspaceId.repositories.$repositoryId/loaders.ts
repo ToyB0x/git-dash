@@ -1,36 +1,132 @@
 import type { getWasmDb } from "@/clients";
+import { renovateBotId } from "@/constants";
 import { generateDailyData } from "@/lib/generateDailyData";
-import { prTbl, releaseTbl, scanTbl, timelineTbl } from "@git-dash/db";
-import { subDays } from "date-fns";
+import {
+  prCommitTbl,
+  prTbl,
+  releaseTbl,
+  repositoryTbl,
+  reviewTbl,
+  scanTbl,
+  timelineTbl,
+  workflowTbl,
+  workflowUsageCurrentCycleTbl,
+} from "@git-dash/db";
+import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
 import {
   and,
   asc,
+  count,
   desc,
   eq,
   gt,
   gte,
   inArray,
   isNotNull,
+  lt,
   not,
 } from "drizzle-orm";
+import type { ITimeEntry } from "react-time-heatmap";
 
 type GraphData = {
-  version: "0.1";
   type:
     | "Release"
     | "ChangeLeadTime"
     | "ChangeFailureRate"
-    | "FailedDeploymentRecoveryTime"
-    | "Critical"
-    | "High"
-    | "Low";
+    | "FailedDeploymentRecoveryTime";
   data: {
     date: Date;
     value: number;
   }[];
 };
 
-export const dataLoaderRelease = async (
+export const workflowUsageCurrentCyclesDemo = [
+  {
+    workflowId: 1,
+    workflowName: "unit test",
+    dollar: 1509.21,
+    workflowPath: "unit.yml",
+  },
+  {
+    workflowId: 2,
+    workflowName: "visual regression test",
+    dollar: 720.42,
+    workflowPath: "visual-regression.yml",
+  },
+  {
+    workflowId: 3,
+    workflowName: "build",
+    dollar: 532.2,
+    workflowPath: "build.yml",
+  },
+  {
+    workflowId: 4,
+    workflowName: "type check",
+    dollar: 341.01,
+    workflowPath: "typecheck.yml",
+  },
+  {
+    workflowId: 5,
+    workflowName: "E2E test",
+    dollar: 21.1,
+    workflowPath: "e2e.yml",
+  },
+];
+
+export const demoHeatMap: ITimeEntry[] = [...Array(24 * 60).keys()].map(
+  (hour) => ({
+    time: subHours(endOfToday(), hour),
+    count:
+      subHours(endOfToday(), hour).getDay() <= 1
+        ? Math.floor(Math.random() * 1.1) // 週末は低頻度にする
+        : // 早朝深夜は低頻度にする
+          subHours(endOfToday(), hour).getHours() < 8 ||
+            subHours(endOfToday(), hour).getHours() > 20
+          ? Math.floor(Math.random() * 1.2)
+          : // 平日の昼間は高頻度にする
+            Math.floor(Math.random() * 4),
+  }),
+);
+
+export const loaderHeatMap = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  repositoryId: number,
+) => {
+  const entries: ITimeEntry[] = await Promise.all(
+    [...Array(24 * 60).keys()].map(async (hour) => ({
+      time: subHours(endOfToday(), hour),
+      count:
+        ((
+          await db
+            .select({ count: count() })
+            .from(prCommitTbl)
+            .where(
+              and(
+                eq(prCommitTbl.repositoryId, repositoryId),
+                gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
+                lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0) +
+        ((
+          await db
+            .select({ count: count() })
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.repositoryId, repositoryId),
+                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0),
+    })),
+  );
+
+  return entries;
+};
+
+export const loaderReleases = async (
   params:
     | {
         isDemo: true;
@@ -44,7 +140,6 @@ export const dataLoaderRelease = async (
   if (params.isDemo) {
     return {
       type: "Release",
-      version: "0.1",
       data: generateDailyData({
         startDate: new Date(
           Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
@@ -71,7 +166,6 @@ export const dataLoaderRelease = async (
 
   return {
     type: "Release",
-    version: "0.1",
     data: [...Array(60).keys()].map((i) => {
       const date = subDays(new Date(), 60 - i);
       const value = releases.filter(
@@ -86,7 +180,43 @@ export const dataLoaderRelease = async (
   };
 };
 
-export const dataLoaderChangeLeadTime = async (
+export const loaderChangeFailureRate = async (
+  _isDemo: boolean,
+): Promise<GraphData> => {
+  return {
+    type: "ChangeFailureRate",
+    data: generateDailyData({
+      startDate: new Date(
+        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+      ),
+      endDate: new Date(),
+      min: 1,
+      max: 8,
+      variance: 0.3,
+      weekendReduction: true,
+    }),
+  };
+};
+
+export const loaderFailedDeploymentRecoveryTime = async (
+  _isDemo: boolean,
+): Promise<GraphData> => {
+  return {
+    type: "FailedDeploymentRecoveryTime",
+    data: generateDailyData({
+      startDate: new Date(
+        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
+      ),
+      endDate: new Date(),
+      min: 1,
+      max: 6,
+      variance: 2.5,
+      weekendReduction: true,
+    }),
+  };
+};
+
+export const loaderChangeLeadTime = async (
   params:
     | {
         isDemo: true;
@@ -100,7 +230,6 @@ export const dataLoaderChangeLeadTime = async (
   if (params.isDemo) {
     return {
       type: "ChangeLeadTime",
-      version: "0.1",
       data: generateDailyData({
         startDate: new Date(
           Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
@@ -161,7 +290,6 @@ export const dataLoaderChangeLeadTime = async (
 
   return {
     type: "ChangeLeadTime",
-    version: "0.1",
     data: [...Array(60).keys()].map((i) => {
       const date = subDays(new Date(), 60 - i);
       const values = leadTimes.filter(
@@ -186,104 +314,7 @@ export const dataLoaderChangeLeadTime = async (
   };
 };
 
-export const dataLoaderChangeFailureRate = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "ChangeFailureRate",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 8,
-      variance: 0.3,
-      weekendReduction: true,
-    }),
-  };
-};
-
-export const dataLoaderFailedDeploymentRecoveryTime = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "FailedDeploymentRecoveryTime",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 6,
-      variance: 2.5,
-      weekendReduction: true,
-    }),
-  };
-};
-
-export const dataLoaderVulnerabilityCritical = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "Critical",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 10,
-      max: 30,
-      variance: 0.05,
-      weekendReduction: false,
-    }),
-  };
-};
-
-export const dataLoaderVulnerabilityHigh = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "High",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 10,
-      max: 50,
-      variance: 0.05,
-      weekendReduction: false,
-    }),
-  };
-};
-
-export const dataLoaderVulnerabilityLow = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "Low",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 50,
-      max: 120,
-      variance: 0.5,
-      weekendReduction: false,
-    }),
-  };
-};
-
-const renovateBotId = 29139614;
-
-export const dataLoaderTimeToMerge = async (
+export const loaderTimeToMerge = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   repositoryId: number,
 ) => {
@@ -405,7 +436,7 @@ export const dataLoaderTimeToMerge = async (
   };
 };
 
-export const dataLoaderTimeToReview = async (
+export const loaderTimeToReview = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   repositoryId: number,
 ) => {
@@ -616,7 +647,7 @@ export const dataLoaderTimeToReview = async (
 };
 
 // NOTE: リポジトリ全体で見れば、レビューするまでの時間と、レビューされるまでの時間は同じになる？
-export const dataLoaderTimeToReviewed = async (
+export const loaderTimeToReviewed = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   repositoryId: number,
 ) => {
@@ -818,4 +849,86 @@ export const dataLoaderTimeToReviewed = async (
         ),
     bars,
   };
+};
+
+export const loaderWorkflowUsageCurrentCycles = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  repositoryId: number,
+) => {
+  // ワークフローの最新の集計結果を取得
+  const workflowUsageCurrentCycles = await db
+    .select({
+      workflowId: workflowTbl.id,
+      workflowName: workflowTbl.name,
+      workflowPath: workflowTbl.path,
+      dollar: workflowUsageCurrentCycleTbl.dollar,
+    })
+    .from(workflowUsageCurrentCycleTbl)
+    .orderBy(desc(workflowUsageCurrentCycleTbl.createdAt))
+    .innerJoin(
+      workflowTbl,
+      eq(workflowTbl.id, workflowUsageCurrentCycleTbl.workflowId),
+    )
+    .innerJoin(repositoryTbl, eq(workflowTbl.repositoryId, repositoryTbl.id))
+    .where(eq(repositoryTbl.id, repositoryId));
+
+  // 最新の集計結果だけにフィルタリング
+  const workflowUsageCurrentCyclesFiltered = workflowUsageCurrentCycles.filter(
+    (item, index, self) =>
+      index === self.findIndex((t) => t.workflowId === item.workflowId),
+  );
+
+  return workflowUsageCurrentCyclesFiltered
+    .filter(({ dollar }) => dollar > 0)
+    .sort((a, b) => b.dollar - a.dollar);
+};
+
+export const loaderUsageByWorkflowsDaily = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  repositoryId: number,
+) => {
+  // ワークフローの日々の集計結果を取得
+  const workflowUsageCurrentCyclesDaily = await db
+    .select()
+    .from(workflowUsageCurrentCycleTbl)
+    .where(
+      and(
+        gte(
+          workflowUsageCurrentCycleTbl.createdAt,
+          subDays(startOfToday(), 60),
+        ),
+        eq(workflowUsageCurrentCycleTbl.repositoryId, repositoryId),
+      ),
+    );
+
+  const repoWorkflows = await db
+    .select()
+    .from(workflowTbl)
+    .where(eq(workflowTbl.repositoryId, repositoryId));
+
+  return repoWorkflows
+    .map((repoWorkflow) => {
+      const usages = [...Array(60).keys()].map((_, i) => {
+        const currentDate = subDays(startOfToday(), i);
+
+        const usage = workflowUsageCurrentCyclesDaily.find(
+          (usage) =>
+            usage.workflowId === repoWorkflow.id &&
+            usage.day === currentDate.getDate() &&
+            usage.month === currentDate.getMonth() + 1,
+        );
+
+        return {
+          value: usage?.dollar || null,
+          date: currentDate,
+        };
+      });
+
+      return {
+        usageByWorkflowName: repoWorkflow.name,
+        data: usages.sort((a, b) => a.date.getTime() - b.date.getTime()),
+      };
+    })
+    .filter((usage) => usage.data.some((data) => data.value && data.value > 5))
+    .sort((a, b) => a.usageByWorkflowName.localeCompare(b.usageByWorkflowName)); // 5ドル未満のデータは除外
 };
