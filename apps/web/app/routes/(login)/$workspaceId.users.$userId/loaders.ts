@@ -1,76 +1,297 @@
 import type { getWasmDb } from "@/clients";
-import { generateDailyData } from "@/lib/generateDailyData";
-import { prTbl, scanTbl, timelineTbl } from "@git-dash/db";
-import { subDays } from "date-fns";
-import { and, desc, eq, gt, gte, inArray, isNotNull, not } from "drizzle-orm";
+import {
+  prCommitTbl,
+  prTbl,
+  repositoryTbl,
+  reviewTbl,
+  scanTbl,
+  timelineTbl,
+  userTbl,
+} from "@git-dash/db";
+import { endOfToday, startOfToday, subDays, subHours } from "date-fns";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  gt,
+  gte,
+  inArray,
+  isNotNull,
+  lt,
+  not,
+} from "drizzle-orm";
+import type { ITimeEntry } from "react-time-heatmap";
 
-type GraphData = {
-  version: "0.1";
-  type: "PrOpen" | "PrMerge" | "Reviews";
-  data: {
-    date: Date;
-    value: number;
-  }[];
+export const loaderMaxOldPr = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+) => await db.select().from(prTbl).orderBy(asc(prTbl.createdAt)).get();
+
+export const loaderMaxOldReview = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+) => await db.select().from(reviewTbl).orderBy(asc(reviewTbl.createdAt)).get();
+
+export const loaderPrOpen = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  userId: number,
+) => {
+  const prs = await db
+    .select()
+    .from(prTbl)
+    .where(eq(prTbl.authorId, userId))
+    .orderBy(desc(prTbl.createdAt));
+
+  return [...Array(300).keys()].map((_, i) => {
+    return {
+      date: subDays(startOfToday(), i),
+      value: prs.filter(
+        (pr) =>
+          pr.createdAt >= subDays(startOfToday(), i) &&
+          pr.createdAt < subDays(startOfToday(), i - 1),
+      ).length,
+    };
+  });
 };
 
-export const dataLoaderPrOpen = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "PrOpen",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 5,
-      variance: 1,
-      weekendReduction: true,
+export const loaderPrMerge = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  userId: number,
+) => {
+  const prs = await db
+    .select()
+    .from(prTbl)
+    .where(eq(prTbl.authorId, userId))
+    .orderBy(desc(prTbl.createdAt));
+
+  return [...Array(300).keys()].map((_, i) => {
+    return {
+      date: subDays(startOfToday(), i),
+      value: prs.filter(
+        (pr) =>
+          pr.mergedAt &&
+          pr.mergedAt >= subDays(startOfToday(), i) &&
+          pr.mergedAt < subDays(startOfToday(), i - 1),
+      ).length,
+    };
+  });
+};
+
+export const loaderReviews = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  userId: number,
+) => {
+  const reviews = await db
+    .select({
+      id: reviewTbl.id,
+      prId: reviewTbl.prId,
+      prNumber: prTbl.number,
+      createdAt: reviewTbl.createdAt,
+      repoName: repositoryTbl.name,
+      repoOwner: repositoryTbl.owner,
+    })
+    .from(reviewTbl)
+    .innerJoin(userTbl, eq(userTbl.id, reviewTbl.reviewerId))
+    .innerJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+    .innerJoin(repositoryTbl, eq(repositoryTbl.id, prTbl.repositoryId))
+    .where(eq(userTbl.id, userId))
+    .orderBy(desc(reviewTbl.createdAt));
+
+  return [...Array(300).keys()].map((_, i) => {
+    return {
+      date: subDays(startOfToday(), i),
+      value: reviews.filter(
+        (reviews) =>
+          reviews.createdAt >= subDays(startOfToday(), i) &&
+          reviews.createdAt < subDays(startOfToday(), i - 1),
+      ).length,
+    };
+  });
+};
+
+export type Activity = {
+  repository: string;
+  prs: number;
+  reviews: number;
+  lastActivity: Date | string | undefined;
+};
+
+export const sampleActivity = [
+  {
+    repository: "org/api",
+    prs: 124,
+    reviews: 21,
+    lastActivity: "23/09/2023 13:00",
+  },
+  {
+    repository: "org/frontend",
+    prs: 91,
+    reviews: 12,
+    lastActivity: "22/09/2023 10:45",
+  },
+  {
+    repository: "org/payment",
+    prs: 61,
+    reviews: 9,
+    lastActivity: "22/09/2023 10:45",
+  },
+  {
+    repository: "org/backend",
+    prs: 21,
+    reviews: 3,
+    lastActivity: "21/09/2023 14:30",
+  },
+  {
+    repository: "org/serviceX",
+    prs: 6,
+    reviews: 1,
+    lastActivity: "24/09/2023 09:15",
+  },
+  {
+    repository: "org/serviceY",
+    prs: 2,
+    reviews: 1,
+    lastActivity: "23/09/2024 21:42",
+  },
+  {
+    repository: "org/serviceZ",
+    prs: 1,
+    reviews: 1,
+    lastActivity: "21/09/2024 11:32",
+  },
+] satisfies Activity[];
+
+export const loaderActivity = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  userId: number,
+) => {
+  const hasPrRepository = await db
+    .selectDistinct({
+      repositoryId: prTbl.repositoryId,
+    })
+    .from(prTbl)
+    .where(eq(prTbl.authorId, userId))
+    .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
+
+  const hasReviewRepository = await db
+    .selectDistinct({
+      repositoryId: prTbl.repositoryId,
+    })
+    .from(reviewTbl)
+    .innerJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+    .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id))
+    .where(eq(reviewTbl.reviewerId, userId));
+
+  const relatedRepositoryIds = [
+    ...new Set([
+      ...hasPrRepository.map((pr) => pr.repositoryId),
+      ...hasReviewRepository.map((review) => review.repositoryId),
+    ]),
+  ];
+
+  return (await Promise.all(
+    relatedRepositoryIds.map(async (repositoryId) => {
+      const prs = await db
+        .select()
+        .from(prTbl)
+        .where(
+          and(
+            eq(prTbl.authorId, userId),
+            eq(prTbl.repositoryId, repositoryId),
+            gte(prTbl.createdAt, subDays(startOfToday(), 180)),
+          ),
+        )
+        .orderBy(desc(prTbl.createdAt));
+
+      const reviews = await db
+        .select({ createdAt: reviewTbl.createdAt })
+        .from(reviewTbl)
+        .leftJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+        .where(
+          and(
+            eq(reviewTbl.reviewerId, userId),
+            eq(prTbl.repositoryId, repositoryId),
+            gte(reviewTbl.createdAt, subDays(startOfToday(), 180)),
+          ),
+        )
+        .orderBy(desc(reviewTbl.createdAt));
+
+      const repositoryNames = await db
+        .select()
+        .from(repositoryTbl)
+        .where(eq(repositoryTbl.id, repositoryId));
+
+      const repositoryName = repositoryNames[0]?.name;
+
+      return {
+        repository: repositoryName || "Unknown",
+        prs: prs.length,
+        reviews: reviews.length,
+        lastActivity:
+          prs[0]?.createdAt && reviews[0]?.createdAt
+            ? prs[0]?.createdAt > reviews[0]?.createdAt
+              ? prs[0]?.createdAt
+              : reviews[0]?.createdAt
+            : prs[0]?.createdAt || reviews[0]?.createdAt,
+      };
     }),
-  };
+  )) satisfies Activity[];
 };
 
-export const dataLoaderPrMerge = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "PrMerge",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 5,
-      variance: 1,
-      weekendReduction: true,
-    }),
-  };
+export const sampleHeatMap: ITimeEntry[] = [...Array(24 * 60).keys()].map(
+  (hour) => ({
+    time: subHours(endOfToday(), hour),
+    count:
+      subHours(endOfToday(), hour).getDay() <= 1
+        ? Math.floor(Math.random() * 1.1) // 週末は低頻度にする
+        : // 早朝深夜は低頻度にする
+          subHours(endOfToday(), hour).getHours() < 8 ||
+            subHours(endOfToday(), hour).getHours() > 20
+          ? Math.floor(Math.random() * 1.1)
+          : // 平日の昼間は高頻度にする
+            Math.floor(Math.random() * 10),
+  }),
+);
+
+export const loaderHeatMap = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  userId: number,
+) => {
+  const heatmap: ITimeEntry[] = await Promise.all(
+    [...Array(24 * 60).keys()].map(async (hour) => ({
+      time: subHours(endOfToday(), hour),
+      count:
+        ((
+          await db
+            .select({ count: count() })
+            .from(prCommitTbl)
+            .where(
+              and(
+                eq(prCommitTbl.authorId, userId),
+                gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
+                lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0) +
+        ((
+          await db
+            .select({ count: count() })
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.reviewerId, userId),
+                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0),
+    })),
+  );
+
+  return heatmap;
 };
 
-export const dataLoaderReviews = async (
-  _isDemo: boolean,
-): Promise<GraphData> => {
-  return {
-    type: "Reviews",
-    version: "0.1",
-    data: generateDailyData({
-      startDate: new Date(
-        Date.now() - 800 /* 2years ago */ * 24 * 60 * 60 * 1000,
-      ),
-      endDate: new Date(),
-      min: 1,
-      max: 15,
-      variance: 1,
-      weekendReduction: true,
-    }),
-  };
-};
-
-export const dataLoaderTimeToMerge = async (
+export const loaderTimeToMerge = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   userId: number,
 ) => {
@@ -191,7 +412,7 @@ export const dataLoaderTimeToMerge = async (
   };
 };
 
-export const dataLoaderTimeToReview = async (
+export const loaderTimeToReview = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   userId: number,
 ) => {
@@ -390,7 +611,7 @@ export const dataLoaderTimeToReview = async (
   };
 };
 
-export const dataLoaderTimeToReviewed = async (
+export const loaderTimeToReviewed = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   userId: number,
 ) => {
