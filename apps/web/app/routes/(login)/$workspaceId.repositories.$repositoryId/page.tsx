@@ -5,7 +5,7 @@ import type { Route } from "@@/(login)/$workspaceId.repositories.$repositoryId/+
 import { repositoryTbl } from "@git-dash/db";
 import { endOfToday, subDays } from "date-fns";
 import { eq } from "drizzle-orm";
-import React from "react";
+import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { redirect } from "react-router";
 
@@ -119,9 +119,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
   } = loadData;
 
   const maxDate = endOfToday();
-  const [selectedDates, setSelectedDates] = React.useState<
-    DateRange | undefined
-  >({
+  const [selectedDates, setSelectedDates] = useState<DateRange | undefined>({
     from: subDays(maxDate, 30),
     to: maxDate,
   });
