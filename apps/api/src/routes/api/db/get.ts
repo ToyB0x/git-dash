@@ -21,6 +21,11 @@ const handlers = factory.createHandlers(async (c) => {
 
   const db = drizzle(c.env.DB_API);
   const workspaceId = c.req.param("workspaceId");
+  if (!workspaceId)
+    return c.json(
+      { message: "Workspace id not found" },
+      HttpStatusCode.BAD_REQUEST_400,
+    );
 
   const user = await getDbUserFromToken(idToken.uid, db);
   if (!user)
