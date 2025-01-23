@@ -21,11 +21,6 @@ jobs:
     secrets: inherit
 
   deploy-github-action:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Update stg tag
-        run: pnpm run:update-tag stg
-        working-directory: apps/cli-admin
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: ./.github/workflows/update-tag-base.yml
+    with:
+      tag: stg
