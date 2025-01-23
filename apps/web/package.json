@@ -13,7 +13,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@assistant-ui/react": "0.7.45",
+    "@assistant-ui/react": "0.7.46",
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@git-dash/db-api": "workspace:*",
@@ -65,7 +65,7 @@
     "@react-router/dev": "7.1.3",
     "@tailwindcss/forms": "0.5.10",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "22.10.7",
+    "@types/node": "22.10.8",
     "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3",
     "@types/sql.js": "1.4.9",
