@@ -25,6 +25,11 @@ import { Link, useLocation } from "react-router";
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   {
+    name: "Cost",
+    href: siteConfig.baseLinks.cost,
+    icon: RiCoinLine,
+  },
+  {
     name: "Users",
     href: siteConfig.baseLinks.users,
     icon: RiAccountCircleLine,
@@ -54,11 +59,6 @@ const navigation = [
     name: "Four Keys",
     href: siteConfig.baseLinks.fourkeys,
     icon: RiKey2Line,
-  },
-  {
-    name: "Payments",
-    href: siteConfig.baseLinks.cost,
-    icon: RiCoinLine,
   },
   { name: "Vulnerability", href: siteConfig.baseLinks.vulns, icon: RiBugLine },
   // {

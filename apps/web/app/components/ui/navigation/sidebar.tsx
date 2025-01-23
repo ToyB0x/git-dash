@@ -36,6 +36,11 @@ const navigation = [
   //   icon: RiArrowUpCircleLine,
   // },
   {
+    name: "Cost",
+    href: siteConfig.baseLinks.cost,
+    icon: RiCoinLine,
+  },
+  {
     name: "Users",
     href: siteConfig.baseLinks.users,
     icon: RiAccountCircleLine,
@@ -49,11 +54,6 @@ const navigation = [
     name: "Four Keys",
     href: siteConfig.baseLinks.fourkeys,
     icon: RiKey2Line,
-  },
-  {
-    name: "Payments",
-    href: siteConfig.baseLinks.cost,
-    icon: RiCoinLine,
   },
   {
     name: "Vulnerabilities",
