@@ -2,11 +2,11 @@ name: deploy-stg
 on:
   release:
     types:
+      - published
       # NOTE
       # ref: https://docs.github.com/ja/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows
       # > The prereleased type will not trigger for pre-releases published from draft releases, but the published type will trigger. If you want a workflow to run when stable and pre-releases publish, subscribe to published instead of released and prereleased
-      - published
-      - prereleased
+      # - prereleased
 
 permissions:
   contents: read # for checkout repository
