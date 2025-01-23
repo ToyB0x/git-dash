@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { redirect } from "react-router";
-import { ActivityTable, Bars, HeatMap, Stats } from "./components";
+import { ActivityTable, Bars, HeatMap, PrTable, Stats } from "./components";
 import {
   loaderActivity,
   loaderHeatMap,
@@ -16,12 +16,14 @@ import {
   loaderMaxOldReview,
   loaderPrMerge,
   loaderPrOpen,
+  loaderRecentPrs,
   loaderReviews,
   loaderTimeToMerge,
   loaderTimeToReview,
   loaderTimeToReviewed,
   sampleActivity,
   sampleHeatMap,
+  sampleRecentPRs,
 } from "./loaders";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -64,6 +66,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
       }),
       activity: sampleActivity,
       heatmap: sampleHeatMap,
+      recentPrs: sampleRecentPRs,
     };
   }
 
@@ -100,6 +103,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     dataPrOpen: await loaderPrOpen(wasmDb, user.id),
     dataPrMerge: await loaderPrMerge(wasmDb, user.id),
     dataReviews: await loaderReviews(wasmDb, user.id),
+    recentPrs: await loaderRecentPrs(wasmDb, user.id),
     activity: await loaderActivity(wasmDb, user.id),
   };
 }
@@ -115,6 +119,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     dataPrOpen,
     dataPrMerge,
     dataReviews,
+    recentPrs,
     activity,
     heatmap,
     timeToMerge,
@@ -157,6 +162,8 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         maxOldPr={maxOldPr}
         maxOldReview={maxOldReview}
       />
+
+      <PrTable prs={recentPrs} />
     </>
   );
 }
