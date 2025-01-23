@@ -2,7 +2,7 @@
 
 ## Motivation
 
-Please see [slides](./slides.md) for details.
+Please see [slides](https://slides.git-dash.com/) for details.
 
 ## Concept
 
