@@ -2,7 +2,7 @@ name: deploy-prd
 on:
   release:
     types:
-      - published
+      - released
 
 permissions:
   contents: read # for checkout repository
