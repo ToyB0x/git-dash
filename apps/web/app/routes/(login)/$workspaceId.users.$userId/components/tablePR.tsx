@@ -128,7 +128,7 @@ export const PrTable: FC<Props> = ({ prs }) => {
     initialState: {
       sorting: [
         {
-          id: "timeToMerge",
+          id: "lastActivity",
           desc: true,
         },
       ],
