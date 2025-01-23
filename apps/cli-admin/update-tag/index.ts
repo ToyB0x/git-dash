@@ -1,6 +1,11 @@
 import * as github from "@actions/github";
 
-const tagName = "dev";
+const tagName = process.argv[2];
+if (!tagName) throw Error("Missing tag name");
+if (!["dev", "stg", "prd"].includes(tagName)) throw Error("Invalid tag name");
+
+console.log(`Updating tag: ${tagName}`);
+
 const { GITHUB_SHA, GITHUB_TOKEN } = process.env;
 
 if (!GITHUB_SHA || !GITHUB_TOKEN)

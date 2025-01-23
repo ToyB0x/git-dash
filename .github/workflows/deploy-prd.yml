@@ -5,13 +5,23 @@ on:
       - released
 
 permissions:
-  contents: read # for checkout repository
+  contents: write # for checkout repository and updating tag
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  deploy:
+  deploy-cloudflare:
     uses: ./.github/workflows/deploy-base.yml
     with:
       environment: production
     secrets: inherit
+
+  deploy-github-action:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Update prd tag
+        run: pnpm run:update-tag prd
+        working-directory: apps/cli-admin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
