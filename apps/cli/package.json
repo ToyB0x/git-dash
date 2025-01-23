@@ -36,7 +36,7 @@
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/cli-table": "0.3.4",
-    "@types/node": "22.10.9",
+    "@types/node": "22.10.10",
     "tsup": "8.3.5",
     "typescript": "5.7.3"
   },
