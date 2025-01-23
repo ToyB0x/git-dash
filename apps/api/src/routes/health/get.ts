@@ -2,7 +2,7 @@ import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { createFactory } from "hono/factory";
 
-const factory = createFactory();
+const factory = createFactory<{ Bindings: Env }>();
 
 const handlers = factory.createHandlers(async (c) => {
   const db = drizzle(c.env.DB_API);
