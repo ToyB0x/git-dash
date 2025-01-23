@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "run:setup": "tsx ./setup/index.ts",
-    "run:update-tag:dev": "tsx ./update-tag/dev.ts",
+    "run:update-tag": "tsx ./update-tag/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
