@@ -7,7 +7,7 @@ on:
         type: string
 
 jobs:
-  dev:
+  update-tag:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
