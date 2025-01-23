@@ -27,7 +27,7 @@ jobs:
       - name: Install all packages
         run: pnpm install --frozen-lockfile
 
-      - name: Update dev tag
+      - name: Update tag
         run: pnpm run:update-tag ${{ inputs.tag }}
         working-directory: apps/cli-admin
         env:
