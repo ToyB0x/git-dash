@@ -23,6 +23,7 @@ import {
   not,
 } from "drizzle-orm";
 import type { ITimeEntry } from "react-time-heatmap";
+import type { PR } from "./components";
 
 export const loaderMaxOldPr = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
@@ -31,6 +32,109 @@ export const loaderMaxOldPr = async (
 export const loaderMaxOldReview = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
 ) => await db.select().from(reviewTbl).orderBy(asc(reviewTbl.createdAt)).get();
+
+export const sampleRecentPRs: PR[] = [
+  {
+    owner: "org",
+    repository: "api",
+    number: 1234,
+    title: "Add new feature",
+    numReview: 3,
+    numCommit: 5,
+    timeToMerge: 1000 * 60 * 60 * 24 * 3,
+    // timeToReady: 1000 * 60 * 60 * 24 * 1,
+    mergedAt: new Date("2024-09-23T13:00:00"),
+    lastActivity: new Date("2024-09-23T13:00:00"),
+  },
+  {
+    owner: "org",
+    repository: "api",
+    number: 1233,
+    title: "Fix bug",
+    numReview: 2,
+    numCommit: 3,
+    timeToMerge: 1000 * 60 * 60 * 24 * 2,
+    // timeToReady: 1000 * 60 * 60 * 24 * 1,
+    mergedAt: new Date("2024-09-22T10:45:00"),
+    lastActivity: new Date("2024-09-22T10:45:00"),
+  },
+  {
+    owner: "org",
+    repository: "frontend",
+    number: 1232,
+    title: "Refactor",
+    numReview: 1,
+    numCommit: 2,
+    timeToMerge: 1000 * 60 * 60 * 24 * 1,
+    // timeToReady: 1000 * 60 * 60 * 24 * 1,
+    mergedAt: new Date("2024-09-22T10:45:00"),
+    lastActivity: new Date("2024-09-22T10:45:00"),
+  },
+  {
+    owner: "org",
+    repository: "frontend",
+    number: 1231,
+    title: "Add new feature",
+    numReview: 1,
+    numCommit: 2,
+    timeToMerge: 1000 * 60 * 60 * 24 * 1,
+    // timeToReady: 1000 * 60 * 60 * 24 * 1,
+    mergedAt: new Date("2024-09-21T14:30:00"),
+    lastActivity: new Date("2024-09-21 14:30:00"),
+  },
+];
+
+export const loaderRecentPrs = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+  userId: number,
+): Promise<PR[]> => {
+  const prs = await db
+    .select({
+      id: prTbl.id,
+      owner: repositoryTbl.owner,
+      repository: repositoryTbl.name,
+      number: prTbl.number,
+      title: prTbl.title,
+      createdAt: prTbl.createdAt,
+      mergedAt: prTbl.mergedAt,
+      lastActivity: prTbl.updatedAt,
+    })
+    .from(prTbl)
+    .where(eq(prTbl.authorId, userId))
+    .orderBy(desc(prTbl.createdAt))
+    .limit(30)
+    .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id));
+
+  return await Promise.all(
+    prs.map(async (pr) => {
+      const numReview = await db
+        .select({ count: count() })
+        .from(reviewTbl)
+        .where(eq(reviewTbl.prId, pr.id))
+        .get();
+
+      const numCommit = await db
+        .select({ count: count() })
+        .from(prCommitTbl)
+        .where(eq(prCommitTbl.prId, pr.id))
+        .get();
+
+      const timeToMerge = pr.mergedAt
+        ? pr.mergedAt.getTime() - pr.createdAt.getTime()
+        : null;
+
+      // const timeToReady = pr.updatedAt.getTime() - pr.createdAt.getTime();
+
+      return {
+        ...pr,
+        numReview: numReview?.count || 0,
+        numCommit: numCommit?.count || 0,
+        timeToMerge,
+        // timeToReady,
+      };
+    }),
+  );
+};
 
 export const loaderPrOpen = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
@@ -121,31 +225,31 @@ export const sampleActivity = [
     repository: "org/api",
     prs: 124,
     reviews: 21,
-    lastActivity: "23/09/2023 13:00",
+    lastActivity: "23/09/2024 13:00",
   },
   {
     repository: "org/frontend",
     prs: 91,
     reviews: 12,
-    lastActivity: "22/09/2023 10:45",
+    lastActivity: "22/09/2024 10:45",
   },
   {
     repository: "org/payment",
     prs: 61,
     reviews: 9,
-    lastActivity: "22/09/2023 10:45",
+    lastActivity: "22/09/2024 10:45",
   },
   {
     repository: "org/backend",
     prs: 21,
     reviews: 3,
-    lastActivity: "21/09/2023 14:30",
+    lastActivity: "21/09/2024 14:30",
   },
   {
     repository: "org/serviceX",
     prs: 6,
     reviews: 1,
-    lastActivity: "24/09/2023 09:15",
+    lastActivity: "24/09/2024 09:15",
   },
   {
     repository: "org/serviceY",
