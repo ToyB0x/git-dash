@@ -11,7 +11,7 @@ test("can see demo pages", async ({ page }) => {
   await page.getByText("128").click();
 
   // cost page
-  await page.getByRole("link", { name: "Payments", exact: true }).click();
+  await page.getByRole("link", { name: "Cost", exact: true }).click();
   await page.getByText("Actions 2core").click();
 
   // vulns page
