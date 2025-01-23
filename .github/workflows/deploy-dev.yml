@@ -1,0 +1,17 @@
+name: deploy-dev
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read # for checkout repository
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-base.yml
+    with:
+      environment: development
+    secrets: inherit

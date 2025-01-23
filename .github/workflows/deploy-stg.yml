@@ -1,0 +1,17 @@
+name: deploy-stg
+on:
+  release:
+    types:
+      - created
+
+permissions:
+  contents: read # for checkout repository
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-base.yml
+    with:
+      environment: staging
+    secrets: inherit
