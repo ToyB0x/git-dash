@@ -47,7 +47,7 @@ export const Bars: FC<Props> = ({
               : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
           }
           valueDescription="average merge time"
-          subtitle="last 30 days"
+          subtitle="last 7 days"
           ctaDescription="About this metrics:"
           ctaText="reference"
           ctaLink="#"
@@ -70,7 +70,7 @@ export const Bars: FC<Props> = ({
               : `${Math.round((Number(timeToReview?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
           }
           valueDescription="average review time"
-          subtitle="last 30 days"
+          subtitle="last 7 days"
           ctaDescription="About this metrics:"
           ctaText="reference"
           ctaLink="#"
@@ -93,7 +93,7 @@ export const Bars: FC<Props> = ({
               : `${Math.round((Number(timeToReviewed?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
           }
           valueDescription="average reviewed time"
-          subtitle="last 30 days"
+          subtitle="last 7 days"
           ctaDescription="About four key:"
           ctaText="reference"
           ctaLink="#"
