@@ -416,11 +416,11 @@ export const loaderTimeToMerge = async (
   }));
 
   const sumIn30Days = mergedPrsWithMsec
-    .filter((pr) => pr.createdAt > subDays(new Date(), 30))
+    .filter((pr) => pr.createdAt > subDays(new Date(), 7))
     .reduce((acc, pr) => acc + pr.elapsedMsec, 0);
   const averageIn30Days = Math.round(
     sumIn30Days /
-      mergedPrsWithMsec.filter((pr) => pr.createdAt > subDays(new Date(), 30))
+      mergedPrsWithMsec.filter((pr) => pr.createdAt > subDays(new Date(), 7))
         .length,
   );
 
@@ -609,7 +609,7 @@ export const loaderTimeToReview = async (
   console.log({ noAnsweredCount });
 
   const sumIn30Days = reviewResults
-    .filter((result) => result.createdAt > subDays(new Date(), 30))
+    .filter((result) => result.createdAt > subDays(new Date(), 7))
     // NOTE: 5日以上かかった外れ値を除外する例
     // .filter((result) => result.elapsedMsec < 5 * 60 * 60 * 24 * 1000)
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
@@ -617,7 +617,7 @@ export const loaderTimeToReview = async (
   const averageIn30Days = Math.round(
     sumIn30Days /
       reviewResults.filter(
-        (result) => result.createdAt > subDays(new Date(), 30),
+        (result) => result.createdAt > subDays(new Date(), 7),
       ).length,
   );
 
@@ -808,7 +808,7 @@ export const loaderTimeToReviewed = async (
   );
 
   const sumIn30Days = reviewResults
-    .filter((result) => result.createdAt > subDays(new Date(), 30))
+    .filter((result) => result.createdAt > subDays(new Date(), 7))
     // NOTE: 5日以上かかった外れ値を除外する例
     // .filter((result) => result.elapsedMsec < 5 * 60 * 60 * 24 * 1000)
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
@@ -816,7 +816,7 @@ export const loaderTimeToReviewed = async (
   const averageIn30Days = Math.round(
     sumIn30Days /
       reviewResults.filter(
-        (result) => result.createdAt > subDays(new Date(), 30),
+        (result) => result.createdAt > subDays(new Date(), 7),
       ).length,
   );
 
