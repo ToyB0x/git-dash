@@ -15,7 +15,7 @@ import {
   aggregate as aggregateRepositories,
   aggregateSingle as aggregateRepositorySingle,
 } from "./repositories";
-import { aggregate as aggregateReview } from "./review";
+import { aggregate as aggregateReview } from "./reviewComment";
 import { aggregate as aggregateTimeline } from "./timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
 import { aggregate as aggregateWorkflow } from "./workflow";
