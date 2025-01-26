@@ -35,7 +35,7 @@ export const aggregate = async (
       );
 
       // ref: https://docs.github.com/ja/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-in-a-repository
-      const reviews = await octokit.paginate(
+      const reviewComments = await octokit.paginate(
         octokit.rest.pulls.listReviewCommentsForRepo,
         {
           owner: configs.GDASH_GITHUB_ORGANIZATION_NAME,
@@ -83,13 +83,15 @@ export const aggregate = async (
         },
       );
 
-      await PromisePool.for(reviews)
+      await PromisePool.for(reviewComments)
         // ref: https://docs.github.com/ja/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#about-secondary-rate-limits
         .withConcurrency(1)
-        .process(async (review) => {
-          if (!review.pull_request_url) return;
+        .process(async (reviewComment) => {
+          if (!reviewComment.pull_request_url) return;
 
-          const prNumber = review.pull_request_url.split("/").slice(-1)[0];
+          const prNumber = reviewComment.pull_request_url
+            .split("/")
+            .slice(-1)[0];
           if (!prNumber) return;
 
           const prs = await sharedDbClient
@@ -103,7 +105,7 @@ export const aggregate = async (
             );
 
           // Skip self review
-          if (prs.find((pr) => pr.authorId === review.user.id)) return;
+          if (prs.find((pr) => pr.authorId === reviewComment.user.id)) return;
           const prId = prs[0]?.id;
 
           if (!prId) return;
@@ -111,18 +113,18 @@ export const aggregate = async (
           await sharedDbClient
             .insert(reviewTbl)
             .values({
-              id: review.id,
-              reviewerId: review.user.id,
+              id: reviewComment.id,
+              reviewerId: reviewComment.user.id,
               prId,
               repositoryId: repository.id,
-              createdAt: new Date(review.created_at),
+              createdAt: new Date(reviewComment.created_at),
             })
             .onConflictDoUpdate({
               target: reviewTbl.id,
               set: {
-                reviewerId: review.user.id,
+                reviewerId: reviewComment.user.id,
                 prId,
-                createdAt: new Date(review.created_at),
+                createdAt: new Date(reviewComment.created_at),
               },
             });
         });
