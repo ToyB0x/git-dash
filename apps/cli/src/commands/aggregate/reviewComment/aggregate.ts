@@ -31,7 +31,7 @@ export const aggregate = async (
     .withConcurrency(8)
     .process(async (repository, i) => {
       logger.info(
-        `Start aggregate:review ${repository.name} (${i + 1}/${repositories.length})`,
+        `Start aggregate:review-comment ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
       // ref: https://docs.github.com/ja/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-in-a-repository
