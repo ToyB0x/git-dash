@@ -116,6 +116,7 @@ export const aggregate = async (
               id: reviewComment.id,
               reviewerId: reviewComment.user.id,
               prId,
+              pullRequestReviewId: reviewComment.pull_request_review_id,
               repositoryId: repository.id,
               createdAt: new Date(reviewComment.created_at),
             })
@@ -124,6 +125,7 @@ export const aggregate = async (
               set: {
                 reviewerId: reviewComment.user.id,
                 prId,
+                pullRequestReviewId: reviewComment.pull_request_review_id,
                 createdAt: new Date(reviewComment.created_at),
               },
             });
