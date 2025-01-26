@@ -3,7 +3,7 @@ import {
   prCommitTbl,
   prTbl,
   repositoryTbl,
-  reviewTbl,
+  reviewCommentTbl,
   scanTbl,
   timelineTbl,
   userTbl,
@@ -31,7 +31,12 @@ export const loaderMaxOldPr = async (
 
 export const loaderMaxOldReview = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
-) => await db.select().from(reviewTbl).orderBy(asc(reviewTbl.createdAt)).get();
+) =>
+  await db
+    .select()
+    .from(reviewCommentTbl)
+    .orderBy(asc(reviewCommentTbl.createdAt))
+    .get();
 
 export const sampleRecentPRs: PR[] = [
   {
@@ -109,8 +114,8 @@ export const loaderRecentPrs = async (
     prs.map(async (pr) => {
       const numReview = await db
         .select({ count: count() })
-        .from(reviewTbl)
-        .where(eq(reviewTbl.prId, pr.id))
+        .from(reviewCommentTbl)
+        .where(eq(reviewCommentTbl.prId, pr.id))
         .get();
 
       const numCommit = await db
@@ -187,19 +192,19 @@ export const loaderReviews = async (
 ) => {
   const reviews = await db
     .select({
-      id: reviewTbl.id,
-      prId: reviewTbl.prId,
+      id: reviewCommentTbl.id,
+      prId: reviewCommentTbl.prId,
       prNumber: prTbl.number,
-      createdAt: reviewTbl.createdAt,
+      createdAt: reviewCommentTbl.createdAt,
       repoName: repositoryTbl.name,
       repoOwner: repositoryTbl.owner,
     })
-    .from(reviewTbl)
-    .innerJoin(userTbl, eq(userTbl.id, reviewTbl.reviewerId))
-    .innerJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+    .from(reviewCommentTbl)
+    .innerJoin(userTbl, eq(userTbl.id, reviewCommentTbl.reviewerId))
+    .innerJoin(prTbl, eq(prTbl.id, reviewCommentTbl.prId))
     .innerJoin(repositoryTbl, eq(repositoryTbl.id, prTbl.repositoryId))
     .where(eq(userTbl.id, userId))
-    .orderBy(desc(reviewTbl.createdAt));
+    .orderBy(desc(reviewCommentTbl.createdAt));
 
   return [...Array(300).keys()].map((_, i) => {
     return {
@@ -281,10 +286,10 @@ export const loaderActivity = async (
     .selectDistinct({
       repositoryId: prTbl.repositoryId,
     })
-    .from(reviewTbl)
-    .innerJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+    .from(reviewCommentTbl)
+    .innerJoin(prTbl, eq(prTbl.id, reviewCommentTbl.prId))
     .innerJoin(repositoryTbl, eq(prTbl.repositoryId, repositoryTbl.id))
-    .where(eq(reviewTbl.reviewerId, userId));
+    .where(eq(reviewCommentTbl.reviewerId, userId));
 
   const relatedRepositoryIds = [
     ...new Set([
@@ -308,17 +313,17 @@ export const loaderActivity = async (
         .orderBy(desc(prTbl.createdAt));
 
       const reviews = await db
-        .select({ createdAt: reviewTbl.createdAt })
-        .from(reviewTbl)
-        .leftJoin(prTbl, eq(prTbl.id, reviewTbl.prId))
+        .select({ createdAt: reviewCommentTbl.createdAt })
+        .from(reviewCommentTbl)
+        .leftJoin(prTbl, eq(prTbl.id, reviewCommentTbl.prId))
         .where(
           and(
-            eq(reviewTbl.reviewerId, userId),
+            eq(reviewCommentTbl.reviewerId, userId),
             eq(prTbl.repositoryId, repositoryId),
-            gte(reviewTbl.createdAt, subDays(startOfToday(), 180)),
+            gte(reviewCommentTbl.createdAt, subDays(startOfToday(), 180)),
           ),
         )
-        .orderBy(desc(reviewTbl.createdAt));
+        .orderBy(desc(reviewCommentTbl.createdAt));
 
       const repositoryNames = await db
         .select()
@@ -380,12 +385,15 @@ export const loaderHeatMap = async (
         ((
           await db
             .select({ count: count() })
-            .from(reviewTbl)
+            .from(reviewCommentTbl)
             .where(
               and(
-                eq(reviewTbl.reviewerId, userId),
-                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
-                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
+                eq(reviewCommentTbl.reviewerId, userId),
+                gte(reviewCommentTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(
+                  reviewCommentTbl.createdAt,
+                  subHours(endOfToday(), hour - 1),
+                ),
               ),
             )
         )[0]?.count || 0),
