@@ -4,7 +4,7 @@ import {
   prCommitTbl,
   prTbl,
   releaseTbl,
-  reviewTbl,
+  reviewCommentTbl,
   timelineTbl,
   userTbl,
 } from "@git-dash/db";
@@ -20,8 +20,8 @@ export const aggregate = async (
     .from(prTbl);
 
   const reviews = await sharedDbClient
-    .selectDistinct({ authorId: reviewTbl.reviewerId })
-    .from(reviewTbl);
+    .selectDistinct({ authorId: reviewCommentTbl.reviewerId })
+    .from(reviewCommentTbl);
 
   const releases = await sharedDbClient
     .selectDistinct({ authorId: releaseTbl.authorId })

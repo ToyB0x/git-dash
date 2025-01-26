@@ -1,7 +1,7 @@
 import type { getDbClient, getOctokit } from "@/clients";
 import type { Configs } from "@/env";
 import { logger } from "@/utils";
-import { prTbl, reviewTbl } from "@git-dash/db";
+import { prTbl, reviewCommentTbl } from "@git-dash/db";
 import { PromisePool } from "@supercharge/promise-pool";
 import { subDays } from "date-fns";
 import { and, eq, lt } from "drizzle-orm";
@@ -31,7 +31,7 @@ export const aggregate = async (
     .withConcurrency(8)
     .process(async (repository, i) => {
       logger.info(
-        `Start aggregate:review ${repository.name} (${i + 1}/${repositories.length})`,
+        `Start aggregate:review-comment ${repository.name} (${i + 1}/${repositories.length})`,
       );
 
       // ref: https://docs.github.com/ja/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-in-a-repository
@@ -111,19 +111,21 @@ export const aggregate = async (
           if (!prId) return;
 
           await sharedDbClient
-            .insert(reviewTbl)
+            .insert(reviewCommentTbl)
             .values({
               id: reviewComment.id,
               reviewerId: reviewComment.user.id,
               prId,
+              pullRequestReviewId: reviewComment.pull_request_review_id,
               repositoryId: repository.id,
               createdAt: new Date(reviewComment.created_at),
             })
             .onConflictDoUpdate({
-              target: reviewTbl.id,
+              target: reviewCommentTbl.id,
               set: {
                 reviewerId: reviewComment.user.id,
                 prId,
+                pullRequestReviewId: reviewComment.pull_request_review_id,
                 createdAt: new Date(reviewComment.created_at),
               },
             });
@@ -132,9 +134,12 @@ export const aggregate = async (
 
   // delete old reviews
   await sharedDbClient
-    .delete(reviewTbl)
+    .delete(reviewCommentTbl)
     .where(
-      lt(reviewTbl.createdAt, subDays(new Date(), configs.GDASH_DISCARD_DAYS)),
+      lt(
+        reviewCommentTbl.createdAt,
+        subDays(new Date(), configs.GDASH_DISCARD_DAYS),
+      ),
     );
 
   if (errors.length) {

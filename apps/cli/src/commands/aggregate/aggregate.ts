@@ -15,7 +15,8 @@ import {
   aggregate as aggregateRepositories,
   aggregateSingle as aggregateRepositorySingle,
 } from "./repositories";
-import { aggregate as aggregateReview } from "./reviewComment";
+import { aggregate as aggregateReview } from "./review";
+import { aggregate as aggregateReviewComment } from "./reviewComment";
 import { aggregate as aggregateTimeline } from "./timeline";
 import { aggregate as aggregateUserFromPrAndReview } from "./user";
 import { aggregate as aggregateWorkflow } from "./workflow";
@@ -164,11 +165,17 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
     ),
   });
 
-  // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
   await step({
     configs,
     stepName: "aggregate:review",
-    callback: aggregateReview(
+    callback: aggregateReview(sharedDbClient, octokit, configs),
+  });
+
+  // NOTE: リポジトリ数に応じてQuotaを消費 + Reviewが多い場合はリポジトリ毎のページング分のQuotaを消費 (300 Repo + 2 paging = 600 Points)
+  await step({
+    configs,
+    stepName: "aggregate:review-comment",
+    callback: aggregateReviewComment(
       filteredRepositories,
       sharedDbClient,
       octokit,

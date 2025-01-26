@@ -1,5 +1,5 @@
 import type { getWasmDb } from "@/clients";
-import { prTbl, reviewTbl, userTbl } from "@git-dash/db";
+import { prTbl, reviewCommentTbl, userTbl } from "@git-dash/db";
 import { and, asc, eq, gte, sql } from "drizzle-orm";
 
 export type User = {
@@ -140,12 +140,12 @@ export const loaderUsers = async (
   // ref: https://www.answeroverflow.com/m/1095781782856675368
   const reviews = await db
     .select({
-      userId: reviewTbl.reviewerId,
-      count: sql<number>`cast(count(${reviewTbl.id}) as int)`,
+      userId: reviewCommentTbl.reviewerId,
+      count: sql<number>`cast(count(${reviewCommentTbl.id}) as int)`,
     })
-    .from(reviewTbl)
-    .where(gte(reviewTbl.createdAt, halfYearAgo))
-    .groupBy(reviewTbl.reviewerId);
+    .from(reviewCommentTbl)
+    .where(gte(reviewCommentTbl.createdAt, halfYearAgo))
+    .groupBy(reviewCommentTbl.reviewerId);
 
   return users
     .filter((user) => !user.login.startsWith("renovate"))
@@ -164,4 +164,9 @@ export const loaderMaxOldPr = async (
 
 export const loaderMaxOldReview = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
-) => await db.select().from(reviewTbl).orderBy(asc(reviewTbl.createdAt)).get();
+) =>
+  await db
+    .select()
+    .from(reviewCommentTbl)
+    .orderBy(asc(reviewCommentTbl.createdAt))
+    .get();

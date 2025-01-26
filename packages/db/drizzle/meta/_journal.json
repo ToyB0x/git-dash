@@ -141,6 +141,20 @@
       "when": 1736197699303,
       "tag": "0019_public_emma_frost",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1737852309670,
+      "tag": "0020_uneven_blue_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1737855975395,
+      "tag": "0021_uneven_falcon",
+      "breakpoints": true
     }
   ]
 }
