@@ -129,9 +129,29 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
     maxOldReview,
   } = loadData;
 
+  console.warn(`以下は　ユーザ ${userName} の直近のGithubの活動データです。
+このユーザが属するチームは毎日14時頃にデイリースタンドアップMTGを開催しています。
+このユーザが今日のデイリーMTGで共有すべき内容を簡単にまとめてください。
+
+- 以下のrecentPrsを利用した上で、日本の土日祝日が考慮された、直近の１営業日以内のデータのみを利用してください (日時はrecentPrsのlastActivityのフィールドを利用してください)
+- 具体的なPRについて言及する場合はPRのNumberとタイトルに、GithubのPRに対するリンクをマークダウン的に含める形で記載してください (PRのowner/repository/numberを利用してGithubのPRのURLを合成して下さい)
+- やったこと、今日の予定、困っていることの3つのセクションを作ってください
+
+--------------------------
+recentPrs: ${JSON.stringify(
+    recentPrs.filter(
+      ({ lastActivity }) => subDays(new Date(), 4) < lastActivity,
+    ),
+    null,
+    2,
+  )},
+--------------------------
+${" ".repeat(10000)}`);
+
   console.log(`以下は　ユーザ ${userName} の直近のGithubの活動データです。
 あなたは優しく経験豊富で前向きなAIのEMとして以下点を考慮しつつ、このユーザやチームにFBを伝えてください。
 
+- timeToMerge, timeToReview, timeToReviewedはそれぞれPRのマージ迄の時間、レビューしてあげる迄の待ち時間、レビューして貰う迄の待ち時間のデータです。(先週比の増減についてはimprovePercentageで示されていますが、増減の影響が1時間未満である場合は誤差として増減に触れないでください)
 - FBは直近7日分をスコープとする(さらにマージまでの時間やレビュー待ち時間は日本時間の土日や深夜早朝を考慮する)
 - 具体的なPRについて言及する場合はPRのNumberとタイトルに、GithubのPRに対するリンクをマークダウン的に含める形で記載してください (PRのowner/repository/numberを利用してGithubのPRのURLを合成して下さい)
 - このチームはGoogleが提唱するトランクベース開発を行っており、なるべく適切な粒度と頻度で細かくマージしていくことを目標としていることを考慮する
@@ -166,25 +186,6 @@ timeToReviewed: ${JSON.stringify(timeToReviewed, null, 2)},
 recentPrs: ${JSON.stringify(recentPrs, null, 2)},
 --------------------------
 `);
-
-  console.log(`以下は　ユーザ ${userName} の直近のGithubの活動データです。
-このユーザが属するチームは毎日14時頃にデイリースタンドアップMTGを開催しています。
-このユーザが今日のデイリーMTGで共有すべき内容を簡単にまとめてください。
-
-- 以下のrecentPrsを利用した上で、日本の土日祝日が考慮された、直近の１営業日以内のデータのみを利用してください (日時はrecentPrsのlastActivityのフィールドを利用してください)
-- 具体的なPRについて言及する場合はPRのNumberとタイトルに、GithubのPRに対するリンクをマークダウン的に含める形で記載してください (PRのowner/repository/numberを利用してGithubのPRのURLを合成して下さい)
-- やったこと、今日の予定、困っていることの3つのセクションを作ってください
-
---------------------------
-recentPrs: ${JSON.stringify(
-    recentPrs.filter(
-      ({ lastActivity }) => subDays(new Date(), 4) < lastActivity,
-    ),
-    null,
-    2,
-  )},
---------------------------
-${" ".repeat(10000)}`);
 
   const maxDate = startOfToday();
   const [selectedDates, setSelectedDates] = useState<DateRange | undefined>({

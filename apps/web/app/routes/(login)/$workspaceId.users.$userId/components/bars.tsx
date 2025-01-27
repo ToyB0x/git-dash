@@ -32,7 +32,7 @@ export const Bars: FC<Props> = ({
       {userName}
     </h1>
     <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
-      {(isDemo || Number.isInteger(timeToMerge?.averageIn30Days)) && (
+      {(isDemo || Number.isInteger(timeToMerge?.averageIn7Days)) && (
         <CategoryBarCard
           title="Time to merge"
           change={
@@ -44,7 +44,7 @@ export const Bars: FC<Props> = ({
           value={
             isDemo
               ? "2.1 days"
-              : `${Math.round((Number(timeToMerge?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              : `${Math.round((Number(timeToMerge?.averageIn7Days) * 10) / (60 * 60 * 1000)) / 10} hours`
           }
           valueDescription="average merge time"
           subtitle="last 7 days"
@@ -55,7 +55,7 @@ export const Bars: FC<Props> = ({
         />
       )}
 
-      {(isDemo || Number.isInteger(timeToReview?.averageIn30Days)) && (
+      {(isDemo || Number.isInteger(timeToReview?.averageIn7Days)) && (
         <CategoryBarCard
           title="Time until review"
           change={
@@ -67,7 +67,7 @@ export const Bars: FC<Props> = ({
           value={
             isDemo
               ? "4.6 hours"
-              : `${Math.round((Number(timeToReview?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              : `${Math.round((Number(timeToReview?.averageIn7Days) * 10) / (60 * 60 * 1000)) / 10} hours`
           }
           valueDescription="average review time"
           subtitle="last 7 days"
@@ -78,7 +78,7 @@ export const Bars: FC<Props> = ({
         />
       )}
 
-      {(isDemo || Number.isInteger(timeToReviewed?.averageIn30Days)) && (
+      {(isDemo || Number.isInteger(timeToReviewed?.averageIn7Days)) && (
         <CategoryBarCard
           title="Time until being reviewed"
           change={
@@ -90,7 +90,7 @@ export const Bars: FC<Props> = ({
           value={
             isDemo
               ? "7.1 hours"
-              : `${Math.round((Number(timeToReviewed?.averageIn30Days) * 10) / (60 * 60 * 1000)) / 10} hours`
+              : `${Math.round((Number(timeToReviewed?.averageIn7Days) * 10) / (60 * 60 * 1000)) / 10} hours`
           }
           valueDescription="average reviewed time"
           subtitle="last 7 days"
