@@ -7,6 +7,7 @@ import {
   releaseTbl,
   repositoryTbl,
   reviewCommentTbl,
+  reviewTbl,
   scanTbl,
   timelineTbl,
   workflowTbl,
@@ -99,6 +100,19 @@ export const loaderHeatMap = async (
         ((
           await db
             .select({ count: count() })
+            .from(prTbl)
+            .where(
+              and(
+                eq(prTbl.repositoryId, repositoryId),
+                gte(prTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(prTbl.createdAt, subHours(endOfToday(), hour - 1)),
+                not(eq(prTbl.authorId, renovateBotId)),
+              ),
+            )
+        )[0]?.count || 0) +
+        ((
+          await db
+            .select({ count: count() })
             .from(prCommitTbl)
             .where(
               and(
@@ -108,6 +122,19 @@ export const loaderHeatMap = async (
               ),
             )
         )[0]?.count || 0) +
+        ((
+          await db
+            .select({ count: count() })
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.repositoryId, repositoryId),
+                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0) +
+        // NOTE: heatmap上ではreview日時とreviewComment日時が同じため、マス目の埋まり方はreviewCommentを含めても変わらないが、reviewComment分の活動数が追加されるので見た目が濃くなる
         ((
           await db
             .select({ count: count() })

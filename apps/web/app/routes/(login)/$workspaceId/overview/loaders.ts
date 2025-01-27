@@ -7,6 +7,7 @@ import {
   prTbl,
   releaseTbl,
   repositoryTbl,
+  reviewTbl,
   scanTbl,
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
@@ -385,6 +386,18 @@ export const loaderHeatMaps = async (
         ((
           await db
             .select({ count: count() })
+            .from(prTbl)
+            .where(
+              and(
+                gte(prTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(prTbl.createdAt, subHours(endOfToday(), hour - 1)),
+                not(eq(prTbl.authorId, renovateBotId)),
+              ),
+            )
+        )[0]?.count || 0) +
+        ((
+          await db
+            .select({ count: count() })
             .from(prCommitTbl)
             .where(
               and(
@@ -397,12 +410,11 @@ export const loaderHeatMaps = async (
         ((
           await db
             .select({ count: count() })
-            .from(prTbl)
+            .from(reviewTbl)
             .where(
               and(
-                gte(prTbl.createdAt, subHours(endOfToday(), hour)),
-                lt(prTbl.createdAt, subHours(endOfToday(), hour - 1)),
-                not(eq(prTbl.authorId, renovateBotId)),
+                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
               ),
             )
         )[0]?.count || 0),
