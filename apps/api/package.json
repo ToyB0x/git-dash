@@ -26,7 +26,7 @@
     "@hono/firebase-auth": "1.4.2",
     "@hono/valibot-validator": "0.5.2",
     "@git-dash/db-api": "workspace:*",
-    "drizzle-orm": "0.38.4",
+    "drizzle-orm": "0.39.0",
     "hono": "4.6.19",
     "valibot": "1.0.0-beta.14"
   },

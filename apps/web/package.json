@@ -43,7 +43,7 @@
     "@tanstack/react-table": "8.20.6",
     "clsx": "2.1.1",
     "date-fns": "4.1.0",
-    "drizzle-orm": "0.38.4",
+    "drizzle-orm": "0.39.0",
     "firebase": "11.2.0",
     "isbot": "5.1.21",
     "logrocket": "9.0.2",
