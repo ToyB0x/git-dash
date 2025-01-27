@@ -1,5 +1,5 @@
 import type { getWasmDb } from "@/clients";
-import { prTbl, reviewCommentTbl, userTbl } from "@git-dash/db";
+import { prTbl, reviewCommentTbl, reviewTbl, userTbl } from "@git-dash/db";
 import { and, asc, eq, gte, sql } from "drizzle-orm";
 
 export type User = {
@@ -137,8 +137,17 @@ export const loaderUsers = async (
     .leftJoin(prTbl, eq(userTbl.id, prTbl.authorId))
     .groupBy(prTbl.authorId);
 
-  // ref: https://www.answeroverflow.com/m/1095781782856675368
   const reviews = await db
+    .select({
+      userId: reviewTbl.reviewerId,
+      count: sql<number>`cast(count(${reviewTbl.id}) as int)`,
+    })
+    .from(reviewTbl)
+    .where(gte(reviewTbl.createdAt, halfYearAgo))
+    .groupBy(reviewTbl.reviewerId);
+
+  // ref: https://www.answeroverflow.com/m/1095781782856675368
+  const reviewComments = await db
     .select({
       userId: reviewCommentTbl.reviewerId,
       count: sql<number>`cast(count(${reviewCommentTbl.id}) as int)`,
@@ -150,10 +159,18 @@ export const loaderUsers = async (
   return users
     .filter((user) => !user.login.startsWith("renovate"))
     .map((user) => {
-      const review = reviews.find((review) => review.userId === user.id);
+      const reviewCount = reviews.find(
+        (review) => review.userId === user.id,
+      )?.count;
+      const reviewCommentCount = reviewComments.find(
+        (reviewComment) => reviewComment.userId === user.id,
+      )?.count;
+
+      const reviewAndCommentCount =
+        (reviewCount ?? 0) + (reviewCommentCount ?? 0);
       return {
         ...user,
-        reviews: review?.count ?? 0,
+        reviews: reviewAndCommentCount,
       };
     }) satisfies User[];
 };
