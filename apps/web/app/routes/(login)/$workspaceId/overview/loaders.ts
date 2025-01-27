@@ -39,6 +39,12 @@ export const sampleStats: StatCardData[] = [
     changeType: "positive",
   },
   {
+    name: "Reviews / month",
+    stat: "231",
+    change: 2.3,
+    changeType: "positive",
+  },
+  {
     name: "Releases / month",
     stat: "42",
     change: 12.5,
@@ -157,6 +163,41 @@ export const loaderStatPr = async (
       ) / 10,
     changeType:
       (prCountLast30days[0]?.count || 0) > (prCountLastPeriod[0]?.count || 0)
+        ? "positive"
+        : "negative",
+  };
+};
+
+export const loaderStatReview = async (
+  db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
+): Promise<StatCardData> => {
+  const reviewCountLast30days = await db
+    .select({ count: count() })
+    .from(reviewTbl)
+    .where(and(gte(reviewTbl.createdAt, subDays(new Date(), 30))));
+
+  const reviewCountLastPeriod = await db
+    .select({ count: count() })
+    .from(reviewTbl)
+    .where(
+      and(
+        gte(reviewTbl.createdAt, subDays(new Date(), 60)),
+        lt(reviewTbl.createdAt, subDays(new Date(), 30)),
+      ),
+    );
+
+  return {
+    name: "Reviews / month",
+    stat: (reviewCountLast30days[0]?.count || 0).toString(),
+    change:
+      Math.round(
+        ((reviewCountLast30days[0]?.count || 0) /
+          (reviewCountLastPeriod[0]?.count || 0)) *
+          10,
+      ) / 10,
+    changeType:
+      (reviewCountLast30days[0]?.count || 0) >
+      (reviewCountLastPeriod[0]?.count || 0)
         ? "positive"
         : "negative",
   };
