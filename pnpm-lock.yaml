@@ -57,8 +57,8 @@ importers:
         specifier: 0.5.2
         version: 0.5.2(hono@4.6.19)(valibot@1.0.0-beta.14(typescript@5.7.3))
       drizzle-orm:
-        specifier: 0.38.4
-        version: 0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.39.0
+        version: 0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       hono:
         specifier: 4.6.19
         version: 4.6.19
@@ -115,8 +115,8 @@ importers:
         specifier: 8.0.0
         version: 8.0.0
       drizzle-orm:
-        specifier: 0.38.4
-        version: 0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.39.0
+        version: 0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       octokit:
         specifier: 4.1.0
         version: 4.1.0
@@ -168,8 +168,8 @@ importers:
         specifier: 22.10.10
         version: 22.10.10
       drizzle-orm:
-        specifier: 0.38.4
-        version: 0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.39.0
+        version: 0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       firebase-admin:
         specifier: 13.0.2
         version: 13.0.2(encoding@0.1.13)
@@ -273,8 +273,8 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
       drizzle-orm:
-        specifier: 0.38.4
-        version: 0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.39.0
+        version: 0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       firebase:
         specifier: 11.2.0
         version: 11.2.0
@@ -370,8 +370,8 @@ importers:
   packages/db:
     dependencies:
       drizzle-orm:
-        specifier: 0.38.4
-        version: 0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.39.0
+        version: 0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -392,11 +392,11 @@ importers:
   packages/db-api:
     dependencies:
       drizzle-orm:
-        specifier: 0.38.4
-        version: 0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        specifier: 0.39.0
+        version: 0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       drizzle-valibot:
-        specifier: 0.3.1
-        version: 0.3.1(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.14(typescript@5.7.3))
+        specifier: 0.4.0
+        version: 0.4.0(drizzle-orm@0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.14(typescript@5.7.3))
       nanoid:
         specifier: 5.0.9
         version: 5.0.9
@@ -3872,8 +3872,8 @@ packages:
     resolution: {integrity: sha512-kT8sgyC2hZrtOh5okhEBiwgx8jx+EjLUFoANFVVkBbxIjcb8XjaUorZ0rwCEUEd7THclI3ZARR64pmxloMW3Aw==}
     hasBin: true
 
-  drizzle-orm@0.38.4:
-    resolution: {integrity: sha512-s7/5BpLKO+WJRHspvpqTydxFob8i1vo2rEx4pY6TGY7QSMuUfWUuzaY0DIpXCkgHOo37BaFC+SJQb99dDUXT3Q==}
+  drizzle-orm@0.39.0:
+    resolution: {integrity: sha512-kkZwo3Jvht0fdJD/EWGx0vYcEK0xnGrlNVaY07QYluRZA9N21B9VFbY+54bnb/1xvyzcg97tE65xprSAP/fFGQ==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -3964,8 +3964,8 @@ packages:
       sqlite3:
         optional: true
 
-  drizzle-valibot@0.3.1:
-    resolution: {integrity: sha512-oIIPrzR1uDB+KyyuSf9uyeY479iSMYLfu/yBLFz9tSI7l131mwwDxersEHgbz3DQtM1nnALIB/P3Mt+/XD6aPA==}
+  drizzle-valibot@0.4.0:
+    resolution: {integrity: sha512-0K90Ko1l5uRFNMN/3RwVQy+6biEHiXA/thxq+ZsEDuHqevpiY1Yy8qQEzx9eshv3HEtFlaulAoV0POZJ0bcdJg==}
     peerDependencies:
       drizzle-orm: '>=0.36.0'
       valibot: '>=1.0.0-beta.7'
@@ -10621,7 +10621,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0):
+  drizzle-orm@0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0):
     optionalDependencies:
       '@cloudflare/workers-types': 4.20250124.3
       '@electric-sql/pglite': 0.2.15
@@ -10633,9 +10633,9 @@ snapshots:
       react: 19.0.0
       sql.js: 1.12.0
 
-  drizzle-valibot@0.3.1(drizzle-orm@0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.14(typescript@5.7.3)):
+  drizzle-valibot@0.4.0(drizzle-orm@0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.14(typescript@5.7.3)):
     dependencies:
-      drizzle-orm: 0.38.4(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+      drizzle-orm: 0.39.0(@cloudflare/workers-types@4.20250124.3)(@electric-sql/pglite@0.2.15)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       valibot: 1.0.0-beta.14(typescript@5.7.3)
 
   dunder-proto@1.0.1:
