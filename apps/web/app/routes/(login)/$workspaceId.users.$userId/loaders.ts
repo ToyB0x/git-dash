@@ -4,6 +4,7 @@ import {
   prTbl,
   repositoryTbl,
   reviewCommentTbl,
+  reviewTbl,
   scanTbl,
   timelineTbl,
   userTbl,
@@ -379,6 +380,18 @@ export const loaderHeatMap = async (
                 eq(prCommitTbl.authorId, userId),
                 gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
                 lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+              ),
+            )
+        )[0]?.count || 0) +
+        ((
+          await db
+            .select({ count: count() })
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.reviewerId, userId),
+                gte(reviewTbl.createdAt, subHours(endOfToday(), hour)),
+                lt(reviewTbl.createdAt, subHours(endOfToday(), hour - 1)),
               ),
             )
         )[0]?.count || 0) +
