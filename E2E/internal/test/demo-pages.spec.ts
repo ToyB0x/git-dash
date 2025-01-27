@@ -14,10 +14,6 @@ test("can see demo pages", async ({ page }) => {
   await page.getByRole("link", { name: "Cost", exact: true }).click();
   await page.getByText("Actions 2core").click();
 
-  // vulns page
-  await page.getByRole("link", { name: "Vulnerabilities" }).click();
-  await page.getByText("141").click();
-
   // four keys page
   await page.getByRole("link", { name: "Four Keys" }).click();
   await page.getByRole("link", { name: "api" }).click();

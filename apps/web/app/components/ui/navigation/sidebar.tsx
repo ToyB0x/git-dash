@@ -2,7 +2,6 @@ import { cx, focusRing } from "@/lib/utils";
 import { siteConfig } from "@/siteConfig";
 import {
   RiAccountCircleLine,
-  RiBugLine,
   RiCoinLine,
   RiGitRepositoryLine,
   RiHome2Line,
@@ -54,11 +53,6 @@ const navigation = [
     name: "Four Keys",
     href: siteConfig.baseLinks.fourkeys,
     icon: RiKey2Line,
-  },
-  {
-    name: "Vulnerabilities",
-    href: siteConfig.baseLinks.vulns,
-    icon: RiBugLine,
   },
   // {
   //   name: "Settings",

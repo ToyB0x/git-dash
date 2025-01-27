@@ -3,10 +3,6 @@ import { type Configs, GDASH_MODES } from "@/env";
 import { step } from "@/utils";
 import { scanTbl } from "@git-dash/db";
 import { eq } from "drizzle-orm";
-import {
-  aggregate as aggregateAlert,
-  aggregateSingle as aggregateAlertSingleRepository,
-} from "./alert";
 import { checkUserOrOrganization } from "./checkUserOrOrganization";
 import { aggregate as aggregateCommit } from "./commit";
 import { aggregate as aggregatePr } from "./pr";
@@ -58,22 +54,6 @@ export const aggregateAll = async (configs: Configs): Promise<void> => {
           stepName: "aggregate:repository:signle",
           callback: aggregateRepositorySingle(octokit, sharedDbClient),
         });
-
-  configs.GDASH_MODE === GDASH_MODES.ORGANIZATION_APP
-    ? await step({
-        configs,
-        stepName: "aggregate:alert",
-        callback: aggregateAlert(scanId, sharedDbClient, octokit, configs),
-      })
-    : await step({
-        configs,
-        stepName: "aggregate:alert:single",
-        callback: aggregateAlertSingleRepository(
-          scanId,
-          sharedDbClient,
-          octokit,
-        ),
-      });
 
   const maxOldForRepo = new Date(
     Date.now() -
