@@ -5,7 +5,6 @@ export const siteConfig = {
   baseLinks: {
     overview: "overview",
     cost: "cost",
-    vulns: "vulns",
     fourkeys: "fourkeys",
     // releases: "releases",
     // prs: "prs",

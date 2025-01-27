@@ -11,7 +11,6 @@ import {
   loaderReleases,
   loaderStatPr,
   loaderStatRelease,
-  loaderStatVuln,
   loaderWorkflowUsageCurrentCycleOrg,
   sampleCosts,
   sampleHeatMaps,
@@ -53,7 +52,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     dataStats: [
       await loaderStatPr(wasmDb),
       await loaderStatRelease(wasmDb),
-      await loaderStatVuln(wasmDb),
       {
         name: "Change Failure Rate",
         stat: "-",
