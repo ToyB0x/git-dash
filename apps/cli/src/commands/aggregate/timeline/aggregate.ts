@@ -65,10 +65,11 @@ export const aggregate = async (
       await PromisePool.for(timelines)
         .withConcurrency(1)
         .process(async (timeline) => {
-          // commit eventの場合
+          // 以下の時は"author", "committer" が存在する (actorもuserも存在しない)
+          // - "event": "committed"
+          // NOTE: Timeline中のcommit event は userId が含まれておらず userId と突合できない、偽造可能な displayName や email しかないので別途 list commits で取得する
           const isCommitEvent = "tree" in timeline;
           if (isCommitEvent) {
-            // NOTE: Timeline中のcommit event は userId が含まれておらず userId と突合できない displayName や email しかないので別途 list commits で取得する
             return;
           }
 
@@ -78,7 +79,21 @@ export const aggregate = async (
             return;
           }
 
-          const actorId = "actor" in timeline && timeline.actor.id;
+          // NOTE:
+          // 以下の時はuserのみ存在 (actorもauthorも存在しない)
+          // - "event": "reviewed"
+          // ("state": "commented", "state": "approved", "state": "changes_requested" なども持つ)
+          //
+          // 以下の時はactorのみ存在 (authorもuserも存在しない)
+          // - "event": "review_requested",
+          // - "event": "commented",
+          // - "event": "merged",
+          // - "event": "assigned",
+          // - "event": "deployed",
+          // - "event": "renamed",
+          const actorId =
+            ("actor" in timeline && timeline.actor.id) ||
+            ("user" in timeline && timeline.user.id);
           if (!actorId) {
             return;
           }
@@ -100,7 +115,13 @@ export const aggregate = async (
                   : null,
               eventType: eventType as never,
               repositoryId: pr.repositoryId,
-              createdAt: new Date(timeline.created_at),
+              createdAt:
+                "created_at" in timeline
+                  ? new Date(timeline.created_at) // event reviewed 以外
+                  : "submitted_at" in timeline
+                    ? // event reviewed の場合
+                      new Date(timeline.submitted_at)
+                    : new Date(), // 日時が取得できない場合は集計日時で代用
             })
             .onConflictDoNothing({
               target: timelineTbl.id,
