@@ -4,6 +4,7 @@ import {
   releaseTbl,
   repositoryTbl,
   reviewCommentTbl,
+  reviewTbl,
   scanTbl,
   workflowUsageCurrentCycleTbl,
 } from "@git-dash/db";
@@ -108,17 +109,29 @@ export const loaderRepositories = async (
             ),
           )
       ).length,
-      reviews: (
-        await db
-          .select()
-          .from(reviewCommentTbl)
-          .where(
-            and(
-              eq(reviewCommentTbl.repositoryId, repo.id),
-              gte(reviewCommentTbl.createdAt, subDays(new Date(), 30)),
-            ),
-          )
-      ).length,
+      reviews:
+        (
+          await db
+            .select()
+            .from(reviewTbl)
+            .where(
+              and(
+                eq(reviewTbl.repositoryId, repo.id),
+                gte(reviewTbl.createdAt, subDays(new Date(), 30)),
+              ),
+            )
+        ).length +
+        (
+          await db
+            .select()
+            .from(reviewCommentTbl)
+            .where(
+              and(
+                eq(reviewCommentTbl.repositoryId, repo.id),
+                gte(reviewCommentTbl.createdAt, subDays(new Date(), 30)),
+              ),
+            )
+        ).length,
       releases: (
         await db
           .select()
