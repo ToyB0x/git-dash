@@ -440,7 +440,7 @@ export const loaderTimeToMerge = async (
     .from(prTbl)
     .where(
       and(
-        gte(prTbl.createdAt, subDays(new Date(), 60)),
+        gte(prTbl.createdAt, subDays(new Date(), 14)),
         eq(prTbl.authorId, userId),
         isNotNull(prTbl.mergedAt),
       ),
@@ -451,11 +451,11 @@ export const loaderTimeToMerge = async (
     elapsedMsec: pr.mergedAt!.getTime() - pr.createdAt.getTime(),
   }));
 
-  const sumIn30Days = mergedPrsWithMsec
+  const sumIn7Days = mergedPrsWithMsec
     .filter((pr) => pr.createdAt > subDays(new Date(), 7))
     .reduce((acc, pr) => acc + pr.elapsedMsec, 0);
-  const averageIn30Days = Math.round(
-    sumIn30Days /
+  const averageIn7Days = Math.round(
+    sumIn7Days /
       mergedPrsWithMsec.filter((pr) => pr.createdAt > subDays(new Date(), 7))
         .length,
   );
@@ -463,16 +463,16 @@ export const loaderTimeToMerge = async (
   const sumInPrevSpan = mergedPrsWithMsec
     .filter(
       (pr) =>
-        pr.createdAt <= subDays(new Date(), 30) &&
-        pr.createdAt > subDays(new Date(), 60),
+        pr.createdAt <= subDays(new Date(), 7) &&
+        pr.createdAt > subDays(new Date(), 14),
     )
     .reduce((acc, pr) => acc + pr.elapsedMsec, 0);
   const averageInPrevSpan = Math.round(
     sumInPrevSpan /
       mergedPrsWithMsec.filter(
         (pr) =>
-          pr.createdAt <= subDays(new Date(), 30) &&
-          pr.createdAt > subDays(new Date(), 60),
+          pr.createdAt <= subDays(new Date(), 7) &&
+          pr.createdAt > subDays(new Date(), 14),
       ).length,
   );
 
@@ -516,7 +516,7 @@ export const loaderTimeToMerge = async (
     ...base,
     value: `${
       mergedPrsWithMsec
-        .filter((pr) => pr.createdAt > subDays(new Date(), 30))
+        .filter((pr) => pr.createdAt > subDays(new Date(), 14))
         .filter(
           (msec) =>
             msec.elapsedMsec >= base.diffStart &&
@@ -527,26 +527,26 @@ export const loaderTimeToMerge = async (
       Math.round(
         10 *
           (mergedPrsWithMsec
-            .filter((pr) => pr.createdAt > subDays(new Date(), 30))
+            .filter((pr) => pr.createdAt > subDays(new Date(), 14))
             .filter(
               (msec) =>
                 msec.elapsedMsec >= base.diffStart &&
                 msec.elapsedMsec < base.diffEnd,
             ).length /
             mergedPrsWithMsec.filter(
-              (pr) => pr.createdAt > subDays(new Date(), 30),
+              (pr) => pr.createdAt > subDays(new Date(), 14),
             ).length) *
           100,
       ) / 10,
   }));
 
   return {
-    averageIn30Days,
+    averageIn7Days,
     averageInPrevSpan,
     improvePercentage:
-      (averageInPrevSpan - averageIn30Days > 0 ? "+" : "") +
+      (averageInPrevSpan - averageIn7Days > 0 ? "+" : "") +
       Math.round(
-        ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
+        ((averageInPrevSpan - averageIn7Days) / averageInPrevSpan) * 100,
       ),
     bars,
   };
@@ -559,7 +559,7 @@ export const loaderTimeToReview = async (
   const recentPrIds = await db
     .selectDistinct({ prId: prTbl.id })
     .from(prTbl)
-    .where(and(gte(prTbl.createdAt, subDays(new Date(), 60))));
+    .where(and(gte(prTbl.createdAt, subDays(new Date(), 14))));
 
   const renovateBotId = 29139614;
 
@@ -644,14 +644,14 @@ export const loaderTimeToReview = async (
 
   console.log({ noAnsweredCount });
 
-  const sumIn30Days = reviewResults
+  const sumIn7Days = reviewResults
     .filter((result) => result.createdAt > subDays(new Date(), 7))
     // NOTE: 5日以上かかった外れ値を除外する例
     // .filter((result) => result.elapsedMsec < 5 * 60 * 60 * 24 * 1000)
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
   // TODO: この部分が必ずレビューを返した全体の計算になっているので修正
-  const averageIn30Days = Math.round(
-    sumIn30Days /
+  const averageIn7Days = Math.round(
+    sumIn7Days /
       reviewResults.filter(
         (result) => result.createdAt > subDays(new Date(), 7),
       ).length,
@@ -660,8 +660,8 @@ export const loaderTimeToReview = async (
   const sumInPrevSpan = reviewResults
     .filter(
       (result) =>
-        result.createdAt <= subDays(new Date(), 30) &&
-        result.createdAt > subDays(new Date(), 60),
+        result.createdAt <= subDays(new Date(), 7) &&
+        result.createdAt > subDays(new Date(), 14),
     )
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
 
@@ -669,8 +669,8 @@ export const loaderTimeToReview = async (
     sumInPrevSpan /
       reviewResults.filter(
         (result) =>
-          result.createdAt <= subDays(new Date(), 30) &&
-          result.createdAt > subDays(new Date(), 60),
+          result.createdAt <= subDays(new Date(), 7) &&
+          result.createdAt > subDays(new Date(), 14),
       ).length,
   );
 
@@ -714,7 +714,7 @@ export const loaderTimeToReview = async (
     ...base,
     value: `${
       reviewResults
-        .filter((review) => review.createdAt > subDays(new Date(), 30))
+        .filter((review) => review.createdAt > subDays(new Date(), 7))
         .filter(
           (msec) =>
             msec.elapsedMsec >= base.diffStart &&
@@ -725,27 +725,27 @@ export const loaderTimeToReview = async (
       Math.round(
         10 *
           (reviewResults
-            .filter((review) => review.createdAt > subDays(new Date(), 30))
+            .filter((review) => review.createdAt > subDays(new Date(), 7))
             .filter(
               (msec) =>
                 msec.elapsedMsec >= base.diffStart &&
                 msec.elapsedMsec < base.diffEnd,
             ).length /
             reviewResults.filter(
-              (review) => review.createdAt > subDays(new Date(), 30),
+              (review) => review.createdAt > subDays(new Date(), 7),
             ).length) *
           100,
       ) / 10,
   }));
 
   return {
-    averageIn30Days,
+    averageIn7Days,
     averageInPrevSpan,
-    improvePercentage: Number.isNaN(averageInPrevSpan - averageIn30Days)
+    improvePercentage: Number.isNaN(averageInPrevSpan - averageIn7Days)
       ? null
-      : (averageInPrevSpan - averageIn30Days > 0 ? "+" : "") +
+      : (averageInPrevSpan - averageIn7Days > 0 ? "+" : "") +
         Math.round(
-          ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
+          ((averageInPrevSpan - averageIn7Days) / averageInPrevSpan) * 100,
         ),
     bars,
   };
@@ -758,7 +758,7 @@ export const loaderTimeToReviewed = async (
   const recentPrIds = await db
     .selectDistinct({ prId: prTbl.id })
     .from(prTbl)
-    .where(and(gte(prTbl.createdAt, subDays(new Date(), 60))));
+    .where(and(gte(prTbl.createdAt, subDays(new Date(), 14))));
 
   const reviewRequests = await db
     .select()
@@ -843,14 +843,14 @@ export const loaderTimeToReviewed = async (
       }),
   );
 
-  const sumIn30Days = reviewResults
+  const sumIn7Days = reviewResults
     .filter((result) => result.createdAt > subDays(new Date(), 7))
     // NOTE: 5日以上かかった外れ値を除外する例
     // .filter((result) => result.elapsedMsec < 5 * 60 * 60 * 24 * 1000)
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
 
-  const averageIn30Days = Math.round(
-    sumIn30Days /
+  const averageIn7Days = Math.round(
+    sumIn7Days /
       reviewResults.filter(
         (result) => result.createdAt > subDays(new Date(), 7),
       ).length,
@@ -859,8 +859,8 @@ export const loaderTimeToReviewed = async (
   const sumInPrevSpan = reviewResults
     .filter(
       (result) =>
-        result.createdAt <= subDays(new Date(), 30) &&
-        result.createdAt > subDays(new Date(), 60),
+        result.createdAt <= subDays(new Date(), 7) &&
+        result.createdAt > subDays(new Date(), 14),
     )
     .reduce((acc, result) => acc + result.elapsedMsec, 0);
 
@@ -868,8 +868,8 @@ export const loaderTimeToReviewed = async (
     sumInPrevSpan /
       reviewResults.filter(
         (result) =>
-          result.createdAt <= subDays(new Date(), 30) &&
-          result.createdAt > subDays(new Date(), 60),
+          result.createdAt <= subDays(new Date(), 7) &&
+          result.createdAt > subDays(new Date(), 14),
       ).length,
   );
 
@@ -913,7 +913,7 @@ export const loaderTimeToReviewed = async (
     ...base,
     value: `${
       reviewResults
-        .filter((review) => review.createdAt > subDays(new Date(), 30))
+        .filter((review) => review.createdAt > subDays(new Date(), 7))
         .filter(
           (msec) =>
             msec.elapsedMsec >= base.diffStart &&
@@ -924,27 +924,27 @@ export const loaderTimeToReviewed = async (
       Math.round(
         10 *
           (reviewResults
-            .filter((review) => review.createdAt > subDays(new Date(), 30))
+            .filter((review) => review.createdAt > subDays(new Date(), 7))
             .filter(
               (msec) =>
                 msec.elapsedMsec >= base.diffStart &&
                 msec.elapsedMsec < base.diffEnd,
             ).length /
             reviewResults.filter(
-              (review) => review.createdAt > subDays(new Date(), 30),
+              (review) => review.createdAt > subDays(new Date(), 7),
             ).length) *
           100,
       ) / 10,
   }));
 
   return {
-    averageIn30Days,
+    averageIn7Days,
     averageInPrevSpan,
-    improvePercentage: Number.isNaN(averageInPrevSpan - averageIn30Days)
+    improvePercentage: Number.isNaN(averageInPrevSpan - averageIn7Days)
       ? null
-      : (averageInPrevSpan - averageIn30Days > 0 ? "+" : "") +
+      : (averageInPrevSpan - averageIn7Days > 0 ? "+" : "") +
         Math.round(
-          ((averageInPrevSpan - averageIn30Days) / averageInPrevSpan) * 100,
+          ((averageInPrevSpan - averageIn7Days) / averageInPrevSpan) * 100,
         ),
     bars,
   };
