@@ -27,6 +27,8 @@ export const RepositoryTable: FC<Props> = ({ repositories }) => {
         cell: ({ row }) => (
           <div className="font-medium text-gray-900 dark:text-gray-50">
             <Link
+              // SPA Mode + ダブルタップでリンクを開こうとした場合に相対パスが二重に追加され404になってしまう現象の応急対策としてreloadDocumentを追加
+              reloadDocument
               to={`../repositories/${row.original.name}`}
               className="underline underline-offset-4"
             >
