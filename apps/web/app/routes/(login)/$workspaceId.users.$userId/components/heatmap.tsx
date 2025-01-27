@@ -1,4 +1,5 @@
 import { Card } from "@/components/Card";
+import { TimeHeatMap } from "@/components/ui/heatmap";
 import { subDays } from "date-fns";
 import { type FC, type ReactNode, useEffect, useState } from "react";
 import type { loaderHeatMap } from "../loaders";
@@ -13,9 +14,8 @@ export const HeatMap: FC<Props> = ({ heatMap }) => {
   useEffect(() => {
     (async () => {
       if (typeof window !== "undefined") {
-        const TimeHeatMap = await import("react-time-heatmap");
         setChart(
-          <TimeHeatMap.TimeHeatMap
+          <TimeHeatMap
             // TODO: windowサイズに合わせリサイズ
             // timeEntries={heatMap.slice(0, 24 * 30)}
             timeEntries={heatMap}
