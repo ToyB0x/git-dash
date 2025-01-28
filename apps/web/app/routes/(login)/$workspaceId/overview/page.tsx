@@ -23,7 +23,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (params.workspaceId === "demo") {
     return {
       dataStats: sampleStats,
-      heatMaps: sampleHeatMaps,
+      heatMapPromise: (async () => await sampleHeatMaps)(),
       costs: sampleCosts,
       releases: [],
       workflowUsageCurrentCycleOrg: sampleWorkflowUsageOrg,
@@ -44,7 +44,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (!wasmDb) return null;
 
   return {
-    heatMaps: await loaderHeatMaps(wasmDb),
+    heatMapPromise: loaderHeatMaps(wasmDb),
     releases: await loaderReleases(wasmDb),
     costs: await loaderCosts(wasmDb),
     daysInCurrentCycle: await loaderDaysInCurrentCycle(wasmDb),
@@ -69,7 +69,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
   const isDemo = params.workspaceId === "demo";
 
   const {
-    heatMaps,
+    heatMapPromise,
     costs,
     releases,
     workflowUsageCurrentCycleOrg,
@@ -87,7 +87,7 @@ export default function Page({ loaderData, params }: Route.ComponentProps) {
         workflowUsageCurrentCycleOrg={workflowUsageCurrentCycleOrg}
       />
 
-      <HeatMap heatMaps={heatMaps} />
+      <HeatMap heatMapPromise={heatMapPromise} />
 
       {isDemo ? <Releases isDemo /> : <Releases releases={releases} />}
     </>

@@ -6,21 +6,22 @@ import { Link } from "react-router";
 import type { loaderHeatMaps } from "../loaders";
 
 type Props = {
-  heatMaps: Awaited<ReturnType<typeof loaderHeatMaps>>;
+  heatMapPromise: ReturnType<typeof loaderHeatMaps>;
 };
 
-export const HeatMap: FC<Props> = ({ heatMaps }) => {
+export const HeatMap: FC<Props> = ({ heatMapPromise }) => {
   // ref: https://zenn.dev/harukii/articles/a8b0b085b63244
   const [chart, setChart] = useState<ReactNode | null>(null);
 
   useEffect(() => {
     (async () => {
+      const heatMap = await heatMapPromise;
       if (typeof window !== "undefined") {
         setChart(
           <TimeHeatMap
             // TODO: windowサイズに合わせリサイズ
             // timeEntries={heatMaps.slice(0, 24 * 30)}
-            timeEntries={heatMaps}
+            timeEntries={heatMap}
             numberOfGroups={10}
             flow
             showGroups={false}
@@ -28,7 +29,7 @@ export const HeatMap: FC<Props> = ({ heatMaps }) => {
         );
       }
     })();
-  }, [heatMaps]);
+  }, [heatMapPromise]);
 
   return (
     <section aria-labelledby="commits">
@@ -45,7 +46,13 @@ export const HeatMap: FC<Props> = ({ heatMaps }) => {
       </p>
 
       <Card className="py-4 mt-4 sm:mt-4 lg:mt-6">
-        <div className="w-full h-[380px] text-gray-500">{chart}</div>
+        <div className="w-full h-[380px] text-gray-500">
+          {chart ? (
+            chart
+          ) : (
+            <div className="w-full h-[380px] animate-pulse rounded bg-gray-300 dark:bg-gray-700" />
+          )}
+        </div>
         <div className="flex justify-between mt-6 text-sm font-medium text-gray-500">
           <span>{subDays(Date.now(), 60).toLocaleDateString()}</span>
           <span>{subDays(Date.now(), 30).toLocaleDateString()}</span>

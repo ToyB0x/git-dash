@@ -12,6 +12,7 @@ import {
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
 } from "@git-dash/db";
+import { sleep } from "@git-dash/utils";
 import { endOfToday, subDays, subHours } from "date-fns";
 import {
   and,
@@ -347,6 +348,7 @@ export const loaderCosts = async (
 export const loaderHeatMaps = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
 ): Promise<ITimeEntry[]> => {
+  await sleep(1000); // NOTE: 処理が重いため、初期描画を遅延させる
   return await Promise.all(
     [...Array(24 * 60).keys()].map(async (hour) => ({
       time: subHours(endOfToday(), hour),
