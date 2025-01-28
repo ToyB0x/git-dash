@@ -1,4 +1,5 @@
 import type { getWasmDb } from "@/clients";
+import type { ITimeEntry } from "@/components/ui/heatmap";
 import { renovateBotId } from "@/constants";
 import {
   prCommitTbl,
@@ -24,7 +25,6 @@ import {
   lt,
   not,
 } from "drizzle-orm";
-import type { ITimeEntry } from "react-time-heatmap";
 import type { PR } from "./components";
 
 export const loaderMaxOldPr = async (
@@ -352,6 +352,7 @@ export const loaderActivity = async (
 export const sampleHeatMap: ITimeEntry[] = [...Array(24 * 60).keys()].map(
   (hour) => ({
     time: subHours(endOfToday(), hour),
+    users: ["user1"],
     count:
       subHours(endOfToday(), hour).getDay() <= 1
         ? Math.floor(Math.random() * 1.1) // 週末は低頻度にする
@@ -368,9 +369,18 @@ export const loaderHeatMap = async (
   db: NonNullable<Awaited<ReturnType<typeof getWasmDb>>>,
   userId: number,
 ) => {
+  const user = await db
+    .select()
+    .from(userTbl)
+    .where(eq(userTbl.id, userId))
+    .get();
+
+  if (!user) return [];
+
   const heatmap: ITimeEntry[] = await Promise.all(
     [...Array(24 * 60).keys()].map(async (hour) => ({
       time: subHours(endOfToday(), hour),
+      users: [user.login],
       count:
         ((
           await db

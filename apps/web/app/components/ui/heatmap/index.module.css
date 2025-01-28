@@ -1,0 +1,55 @@
+.timeHeatMap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.timeHeatMap:not(.flow) {
+  max-width: 15em;
+}
+.timeHeatMap .mapContainer {
+  display: flex;
+  flex: 1;
+}
+.timeHeatMap .mapContainer .map {
+  display: grid;
+  column-gap: 0.3em;
+  row-gap: 0.3em;
+  flex: 1;
+}
+.timeHeatMap .mapContainer .map .timeEntry {
+  background-color: #dbdcdb;
+  text-align: center;
+  padding: 0.1em;
+  border-radius: 0.1em;
+  cursor: pointer;
+  transition: opacity 161ms linear;
+}
+.timeHeatMap .mapContainer .map .timeEntry.hasValue {
+  background-color: #0044aa;
+}
+.timeHeatMap .mapContainer .hours {
+  padding-left: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+}
+.timeHeatMap .mapContainer .hours div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.timeHeatMap .legend {
+  display: grid;
+  column-gap: 0.3em;
+  margin-right: 2em;
+  margin-top: 1em;
+  border-radius: 0.1em;
+}
+.timeHeatMap .legend div {
+  text-align: right;
+}
+.timeHeatMap .legend div .legendEntry {
+  background-color: #0044aa;
+  height: .5rem;
+}

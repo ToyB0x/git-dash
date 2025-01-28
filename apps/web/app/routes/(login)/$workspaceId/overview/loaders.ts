@@ -1,4 +1,5 @@
 import type { getWasmDb } from "@/clients";
+import type { ITimeEntry } from "@/components/ui/heatmap";
 import { renovateBotId } from "@/constants";
 import {
   billingCycleTbl,
@@ -6,6 +7,7 @@ import {
   prTbl,
   releaseTbl,
   repositoryTbl,
+  reviewCommentTbl,
   reviewTbl,
   userTbl,
   workflowUsageCurrentCycleOrgTbl,
@@ -22,7 +24,6 @@ import {
   lt,
   not,
 } from "drizzle-orm";
-import type { ITimeEntry } from "react-time-heatmap";
 
 export type StatCardData = {
   name: string;
@@ -61,6 +62,7 @@ export const sampleStats: StatCardData[] = [
 export const sampleHeatMaps: ITimeEntry[] = [...Array(24 * 60).keys()].map(
   (hour) => ({
     time: subHours(endOfToday(), hour),
+    users: ["user1", "user2", "user3"],
     count:
       subHours(endOfToday(), hour).getDay() <= 1
         ? Math.floor(Math.random() * 1.2) // 週末は低頻度にする
@@ -348,6 +350,50 @@ export const loaderHeatMaps = async (
   return await Promise.all(
     [...Array(24 * 60).keys()].map(async (hour) => ({
       time: subHours(endOfToday(), hour),
+      users: [
+        ...new Set([
+          ...(
+            await db
+              .select({ login: userTbl.login })
+              .from(prTbl)
+              .where(
+                and(
+                  gte(prTbl.createdAt, subHours(endOfToday(), hour)),
+                  lt(prTbl.createdAt, subHours(endOfToday(), hour - 1)),
+                  not(eq(prTbl.authorId, renovateBotId)),
+                ),
+              )
+              .innerJoin(userTbl, eq(prTbl.authorId, userTbl.id))
+          ).map((pr) => pr.login),
+          ...(
+            await db
+              .select({ login: userTbl.login })
+              .from(prCommitTbl)
+              .where(
+                and(
+                  gte(prCommitTbl.commitAt, subHours(endOfToday(), hour)),
+                  lt(prCommitTbl.commitAt, subHours(endOfToday(), hour - 1)),
+                ),
+              )
+              .innerJoin(userTbl, eq(prCommitTbl.authorId, userTbl.id))
+          ).map((pr) => pr.login),
+          ...(
+            await db
+              .select({ login: userTbl.login })
+              .from(reviewCommentTbl)
+              .where(
+                and(
+                  gte(reviewCommentTbl.createdAt, subHours(endOfToday(), hour)),
+                  lt(
+                    reviewCommentTbl.createdAt,
+                    subHours(endOfToday(), hour - 1),
+                  ),
+                ),
+              )
+              .innerJoin(userTbl, eq(reviewCommentTbl.reviewerId, userTbl.id))
+          ).map((pr) => pr.login),
+        ]),
+      ],
       count:
         ((
           await db
