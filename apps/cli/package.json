@@ -21,7 +21,7 @@
     "@git-dash/utils": "workspace:*",
     "@libsql/client": "0.14.0",
     "@octokit/plugin-throttling": "9.4.0",
-    "@octokit/types": "13.7.0",
+    "@octokit/types": "13.8.0",
     "@supercharge/promise-pool": "3.2.0",
     "cli-table": "0.3.11",
     "commander": "13.1.0",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/cli-table": "0.3.4",
-    "@types/node": "22.12.0",
+    "@types/node": "22.13.0",
     "tsup": "8.3.6",
     "typescript": "5.7.3"
   },
