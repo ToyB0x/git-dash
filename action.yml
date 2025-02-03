@@ -52,7 +52,7 @@ runs:
         repository: 'ToyB0x/git-dash'
 
     - name: Enable corepack for pnpm
-      run: corepack enable pnpm
+      run: npm install -g corepack@latest && corepack enable pnpm
       shell: bash
 
     - name: Setup & Restore Node cache
