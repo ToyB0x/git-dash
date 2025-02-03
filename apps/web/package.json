@@ -13,7 +13,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@assistant-ui/react": "0.7.64",
+    "@assistant-ui/react": "0.7.65",
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@git-dash/db-api": "workspace:*",
