@@ -15,8 +15,8 @@ importers:
         specifier: 2.27.12
         version: 2.27.12
       firebase-tools:
-        specifier: 13.29.3
-        version: 13.29.3(encoding@0.1.13)
+        specifier: 13.30.0
+        version: 13.30.0(encoding@0.1.13)
       turbo:
         specifier: 2.4.0
         version: 2.4.0
@@ -58,7 +58,7 @@ importers:
         version: 0.5.2(hono@4.6.20)(valibot@1.0.0-beta.15(typescript@5.7.3))
       drizzle-orm:
         specifier: 0.39.1
-        version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        version: 0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       hono:
         specifier: 4.6.20
         version: 4.6.20
@@ -67,8 +67,8 @@ importers:
         version: 1.0.0-beta.15(typescript@5.7.3)
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: 4.20250129.0
-        version: 4.20250129.0
+        specifier: 4.20250204.0
+        version: 4.20250204.0
       '@tsconfig/strictest':
         specifier: 2.0.5
         version: 2.0.5
@@ -77,7 +77,7 @@ importers:
         version: 5.7.3
       wrangler:
         specifier: 3.107.3
-        version: 3.107.3(@cloudflare/workers-types@4.20250129.0)
+        version: 3.107.3(@cloudflare/workers-types@4.20250204.0)
 
   apps/cli:
     dependencies:
@@ -116,7 +116,7 @@ importers:
         version: 8.0.0
       drizzle-orm:
         specifier: 0.39.1
-        version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        version: 0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       octokit:
         specifier: 4.1.0
         version: 4.1.0
@@ -169,7 +169,7 @@ importers:
         version: 22.13.1
       drizzle-orm:
         specifier: 0.39.1
-        version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        version: 0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       firebase-admin:
         specifier: 13.0.2
         version: 13.0.2(encoding@0.1.13)
@@ -274,7 +274,7 @@ importers:
         version: 4.1.0
       drizzle-orm:
         specifier: 0.39.1
-        version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        version: 0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       firebase:
         specifier: 11.2.0
         version: 11.2.0
@@ -323,7 +323,7 @@ importers:
     devDependencies:
       '@react-router/dev':
         specifier: 7.1.5
-        version: 7.1.5(@react-router/serve@7.1.5(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3))(@types/node@22.13.1)(jiti@2.4.2)(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.11(@types/node@22.13.1)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.6.1))(wrangler@3.107.3(@cloudflare/workers-types@4.20250129.0))(yaml@2.6.1)
+        version: 7.1.5(@react-router/serve@7.1.5(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3))(@types/node@22.13.1)(jiti@2.4.2)(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.11(@types/node@22.13.1)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.6.1))(wrangler@3.107.3(@cloudflare/workers-types@4.20250204.0))(yaml@2.6.1)
       '@tailwindcss/forms':
         specifier: 0.5.10
         version: 0.5.10(tailwindcss@3.4.17)
@@ -362,13 +362,13 @@ importers:
         version: 5.1.4(typescript@5.7.3)(vite@6.0.11(@types/node@22.13.1)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.6.1))
       wrangler:
         specifier: 3.107.3
-        version: 3.107.3(@cloudflare/workers-types@4.20250129.0)
+        version: 3.107.3(@cloudflare/workers-types@4.20250204.0)
 
   packages/db:
     dependencies:
       drizzle-orm:
         specifier: 0.39.1
-        version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        version: 0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -390,10 +390,10 @@ importers:
     dependencies:
       drizzle-orm:
         specifier: 0.39.1
-        version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+        version: 0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       drizzle-valibot:
         specifier: 0.4.0
-        version: 0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.15(typescript@5.7.3))
+        version: 0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.15(typescript@5.7.3))
       nanoid:
         specifier: 5.0.9
         version: 5.0.9
@@ -415,7 +415,7 @@ importers:
         version: 5.7.3
       wrangler:
         specifier: 3.107.3
-        version: 3.107.3(@cloudflare/workers-types@4.20250129.0)
+        version: 3.107.3(@cloudflare/workers-types@4.20250204.0)
 
   packages/utils:
     devDependencies:
@@ -748,8 +748,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workers-types@4.20250129.0':
-    resolution: {integrity: sha512-H7g/sDB9GaV+fIPf3utNEYncFhryIvDThiBbfZtu0bZmVXcVd9ApP3OMqUYhNV8MShWQASvgWletKKBZGT9/oA==}
+  '@cloudflare/workers-types@4.20250204.0':
+    resolution: {integrity: sha512-mWoQbYaP+nYztx9I7q9sgaiNlT54Cypszz0RfzMxYnT5W3NXDuwGcjGB+5B5H5VB8tEC2dYnBRpa70lX94ueaQ==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -4266,8 +4266,8 @@ packages:
   firebase-auth-cloudflare-workers@2.0.6:
     resolution: {integrity: sha512-KYfI3eM3/gDxEIGgN6lVUDhDruKnnRDaCMlN8HR5kRg7SppFTmktlrjxXHoTEEbkEC7yH721gyZ+ZUm8Z+675A==}
 
-  firebase-tools@13.29.3:
-    resolution: {integrity: sha512-P3d5+RjkhEmYhBP+5CGYD+Zi+eA5lLny/Ph5vGHAPUiJ7VKooiVtWf7fHw7LoXenlkCGPNaGfYVKqFz514+d7A==}
+  firebase-tools@13.30.0:
+    resolution: {integrity: sha512-YJ2eGqDNAyJwlw3b1t5d9yaY8a3yas732g9p72cMnO0q8bOhsq30B2spm/Y5YKnNM/xL5DT1KChqlxLEkloc+Q==}
     engines: {node: '>=18.0.0 || >=20.0.0'}
     hasBin: true
 
@@ -7502,7 +7502,7 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20250129.0':
     optional: true
 
-  '@cloudflare/workers-types@4.20250129.0': {}
+  '@cloudflare/workers-types@4.20250204.0': {}
 
   '@colors/colors@1.5.0':
     optional: true
@@ -9476,7 +9476,7 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  '@react-router/dev@7.1.5(@react-router/serve@7.1.5(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3))(@types/node@22.13.1)(jiti@2.4.2)(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.11(@types/node@22.13.1)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.6.1))(wrangler@3.107.3(@cloudflare/workers-types@4.20250129.0))(yaml@2.6.1)':
+  '@react-router/dev@7.1.5(@react-router/serve@7.1.5(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3))(@types/node@22.13.1)(jiti@2.4.2)(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.11(@types/node@22.13.1)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.6.1))(wrangler@3.107.3(@cloudflare/workers-types@4.20250204.0))(yaml@2.6.1)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/generator': 7.26.3
@@ -9512,7 +9512,7 @@ snapshots:
     optionalDependencies:
       '@react-router/serve': 7.1.5(react-router@7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.7.3)
       typescript: 5.7.3
-      wrangler: 3.107.3(@cloudflare/workers-types@4.20250129.0)
+      wrangler: 3.107.3(@cloudflare/workers-types@4.20250204.0)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -10605,9 +10605,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0):
+  drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0):
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250129.0
+      '@cloudflare/workers-types': 4.20250204.0
       '@electric-sql/pglite': 0.2.16
       '@libsql/client': 0.14.0
       '@opentelemetry/api': 1.9.0
@@ -10617,9 +10617,9 @@ snapshots:
       react: 19.0.0
       sql.js: 1.12.0
 
-  drizzle-valibot@0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.15(typescript@5.7.3)):
+  drizzle-valibot@0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.15(typescript@5.7.3)):
     dependencies:
-      drizzle-orm: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
+      drizzle-orm: 0.39.1(@cloudflare/workers-types@4.20250204.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       valibot: 1.0.0-beta.15(typescript@5.7.3)
 
   dunder-proto@1.0.1:
@@ -11088,7 +11088,7 @@ snapshots:
 
   firebase-auth-cloudflare-workers@2.0.6: {}
 
-  firebase-tools@13.29.3(encoding@0.1.13):
+  firebase-tools@13.30.0(encoding@0.1.13):
     dependencies:
       '@electric-sql/pglite': 0.2.16
       '@google-cloud/cloud-sql-connector': 1.5.0(encoding@0.1.13)
@@ -14180,7 +14180,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20250129.0
       '@cloudflare/workerd-windows-64': 1.20250129.0
 
-  wrangler@3.107.3(@cloudflare/workers-types@4.20250129.0):
+  wrangler@3.107.3(@cloudflare/workers-types@4.20250204.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
@@ -14192,7 +14192,7 @@ snapshots:
       unenv: 2.0.0-rc.1
       workerd: 1.20250129.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250129.0
+      '@cloudflare/workers-types': 4.20250204.0
       fsevents: 2.3.3
     transitivePeerDependencies:
       - bufferutil
