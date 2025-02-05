@@ -55,7 +55,7 @@ importers:
         version: 1.4.2(hono@4.6.20)
       '@hono/valibot-validator':
         specifier: 0.5.2
-        version: 0.5.2(hono@4.6.20)(valibot@1.0.0-beta.14(typescript@5.7.3))
+        version: 0.5.2(hono@4.6.20)(valibot@1.0.0-beta.15(typescript@5.7.3))
       drizzle-orm:
         specifier: 0.39.1
         version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
@@ -63,8 +63,8 @@ importers:
         specifier: 4.6.20
         version: 4.6.20
       valibot:
-        specifier: 1.0.0-beta.14
-        version: 1.0.0-beta.14(typescript@5.7.3)
+        specifier: 1.0.0-beta.15
+        version: 1.0.0-beta.15(typescript@5.7.3)
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20250129.0
@@ -127,8 +127,8 @@ importers:
         specifier: 13.0.0
         version: 13.0.0
       valibot:
-        specifier: 1.0.0-beta.14
-        version: 1.0.0-beta.14(typescript@5.7.3)
+        specifier: 1.0.0-beta.15
+        version: 1.0.0-beta.15(typescript@5.7.3)
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -318,8 +318,8 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.4.17)
       valibot:
-        specifier: 1.0.0-beta.14
-        version: 1.0.0-beta.14(typescript@5.7.3)
+        specifier: 1.0.0-beta.15
+        version: 1.0.0-beta.15(typescript@5.7.3)
     devDependencies:
       '@react-router/dev':
         specifier: 7.1.5
@@ -393,13 +393,13 @@ importers:
         version: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
       drizzle-valibot:
         specifier: 0.4.0
-        version: 0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.14(typescript@5.7.3))
+        version: 0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.15(typescript@5.7.3))
       nanoid:
         specifier: 5.0.9
         version: 5.0.9
       valibot:
-        specifier: 1.0.0-beta.14
-        version: 1.0.0-beta.14(typescript@5.7.3)
+        specifier: 1.0.0-beta.15
+        version: 1.0.0-beta.15(typescript@5.7.3)
     devDependencies:
       '@tsconfig/strictest':
         specifier: 2.0.5
@@ -6764,8 +6764,8 @@ packages:
       typescript:
         optional: true
 
-  valibot@1.0.0-beta.14:
-    resolution: {integrity: sha512-tLyV2rE5QL6U29MFy3xt4AqMrn+/HErcp2ZThASnQvPMwfSozjV1uBGKIGiegtZIGjinJqn0SlBdannf18wENA==}
+  valibot@1.0.0-beta.15:
+    resolution: {integrity: sha512-BKy8XosZkDHWmYC+cJG74LBzP++Gfntwi33pP3D3RKztz2XV9jmFWnkOi21GoqARP8wAWARwhV6eTr1JcWzjGw==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -8398,10 +8398,10 @@ snapshots:
       firebase-auth-cloudflare-workers: 2.0.6
       hono: 4.6.20
 
-  '@hono/valibot-validator@0.5.2(hono@4.6.20)(valibot@1.0.0-beta.14(typescript@5.7.3))':
+  '@hono/valibot-validator@0.5.2(hono@4.6.20)(valibot@1.0.0-beta.15(typescript@5.7.3))':
     dependencies:
       hono: 4.6.20
-      valibot: 1.0.0-beta.14(typescript@5.7.3)
+      valibot: 1.0.0-beta.15(typescript@5.7.3)
 
   '@internationalized/date@3.7.0':
     dependencies:
@@ -10617,10 +10617,10 @@ snapshots:
       react: 19.0.0
       sql.js: 1.12.0
 
-  drizzle-valibot@0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.14(typescript@5.7.3)):
+  drizzle-valibot@0.4.0(drizzle-orm@0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0))(valibot@1.0.0-beta.15(typescript@5.7.3)):
     dependencies:
       drizzle-orm: 0.39.1(@cloudflare/workers-types@4.20250129.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/react@19.0.8)(@types/sql.js@1.4.9)(pg@8.13.1)(react@19.0.0)(sql.js@1.12.0)
-      valibot: 1.0.0-beta.14(typescript@5.7.3)
+      valibot: 1.0.0-beta.15(typescript@5.7.3)
 
   dunder-proto@1.0.1:
     dependencies:
@@ -14008,7 +14008,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.3
 
-  valibot@1.0.0-beta.14(typescript@5.7.3):
+  valibot@1.0.0-beta.15(typescript@5.7.3):
     optionalDependencies:
       typescript: 5.7.3
 
