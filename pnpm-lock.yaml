@@ -183,8 +183,8 @@ importers:
   apps/web:
     dependencies:
       '@assistant-ui/react':
-        specifier: 0.7.72
-        version: 0.7.72(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)
+        specifier: 0.7.74
+        version: 0.7.74(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)
       '@git-dash/api':
         specifier: workspace:*
         version: link:../api
@@ -455,14 +455,14 @@ packages:
   '@apidevtools/json-schema-ref-parser@9.1.2':
     resolution: {integrity: sha512-r1w81DpR+KyRWd3f+rk6TNqMgedmAxZP5v5KWlXQWlgMUUtyEJch0DKEci1SorPMiSeM8XPl7MZ3miJ60JIpQg==}
 
-  '@assistant-ui/react@0.7.72':
-    resolution: {integrity: sha512-t4HD9ONeb0OLY9QhxcTtwyf5ln4QhOsb9HwPENRNiFfAhHDYbtWUtMCB6LgYTfdcd8/nPQvGern64WqwoVX6Ig==}
+  '@assistant-ui/react@0.7.74':
+    resolution: {integrity: sha512-dfw+GN0L5f8mngIoX3URH7VdidOWV3yTWG4BkpjS/+NUKHL/iXDJhV9yKQY3nHnVcYSmO6poaCAyyleFrADz1A==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
       react: ^18 || ^19 || ^19.0.0-rc
       react-dom: ^18 || ^19 || ^19.0.0-rc
-      tailwindcss: ^3.4.4
+      tailwindcss: '*'
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -7170,7 +7170,7 @@ snapshots:
       call-me-maybe: 1.0.2
       js-yaml: 4.1.0
 
-  '@assistant-ui/react@0.7.72(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)':
+  '@assistant-ui/react@0.7.74(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@3.4.17)':
     dependencies:
       '@ai-sdk/provider': 1.0.7
       '@radix-ui/primitive': 1.1.1
