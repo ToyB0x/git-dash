@@ -13,7 +13,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@assistant-ui/react": "0.7.75",
+    "@assistant-ui/react": "0.7.76",
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@git-dash/db-api": "workspace:*",
@@ -43,7 +43,7 @@
     "@tanstack/react-table": "8.20.6",
     "clsx": "2.1.1",
     "date-fns": "4.1.0",
-    "drizzle-orm": "0.39.2",
+    "drizzle-orm": "0.39.3",
     "firebase": "11.3.0",
     "isbot": "5.1.22",
     "logrocket": "9.0.2",
@@ -58,7 +58,7 @@
     "tailwind-merge": "2.6.0",
     "tailwind-variants": "0.3.1",
     "tailwindcss-animate": "1.0.7",
-    "valibot": "1.0.0-beta.15"
+    "valibot": "1.0.0-rc.0"
   },
   "devDependencies": {
     "@react-router/dev": "7.1.5",
@@ -69,7 +69,7 @@
     "@types/react-dom": "19.0.3",
     "@types/sql.js": "1.4.9",
     "autoprefixer": "10.4.20",
-    "postcss": "8.5.1",
+    "postcss": "8.5.2",
     "tailwindcss": "3.4.17",
     "typescript": "5.7.3",
     "vite": "6.1.0",

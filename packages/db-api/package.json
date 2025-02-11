@@ -20,10 +20,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "0.39.2",
+    "drizzle-orm": "0.39.3",
     "drizzle-valibot": "0.4.0",
     "nanoid": "5.0.9",
-    "valibot": "1.0.0-beta.15"
+    "valibot": "1.0.0-rc.0"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
