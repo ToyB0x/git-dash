@@ -15,8 +15,8 @@ importers:
         specifier: 2.27.12
         version: 2.27.12
       firebase-tools:
-        specifier: 13.30.0
-        version: 13.30.0(encoding@0.1.13)
+        specifier: 13.31.0
+        version: 13.31.0(encoding@0.1.13)
       turbo:
         specifier: 2.4.1
         version: 2.4.1
@@ -4397,9 +4397,6 @@ packages:
   fast-uri@3.0.3:
     resolution: {integrity: sha512-aLrHthzCjH5He4Z2H9YZ+v6Ujb9ocRuW6ZzkJQOrTxleEijANq4v1TsaPaVG1PZcuurEzrLcWRyYBYXD5cEiaw==}
 
-  fast-url-parser@1.1.3:
-    resolution: {integrity: sha512-5jOCVXADYNuRkKFzNJ0dCCewsZiYo0dz8QNYljkOpFC6r2U4OBmKtvm/Tsuh4w1YYdDqDb31a8TVhBJ2OJKdqQ==}
-
   fast-xml-parser@4.5.1:
     resolution: {integrity: sha512-y655CeyUQ+jj7KBbYMc4FG01V8ZQqjN+gDYGJ50RtfsUB8iG9AmwmwoAgeKLJdmueKKMrH1RJ7yXHTSoczdv5w==}
     hasBin: true
@@ -4457,9 +4454,9 @@ packages:
   firebase-auth-cloudflare-workers@2.0.6:
     resolution: {integrity: sha512-KYfI3eM3/gDxEIGgN6lVUDhDruKnnRDaCMlN8HR5kRg7SppFTmktlrjxXHoTEEbkEC7yH721gyZ+ZUm8Z+675A==}
 
-  firebase-tools@13.30.0:
-    resolution: {integrity: sha512-YJ2eGqDNAyJwlw3b1t5d9yaY8a3yas732g9p72cMnO0q8bOhsq30B2spm/Y5YKnNM/xL5DT1KChqlxLEkloc+Q==}
-    engines: {node: '>=18.0.0 || >=20.0.0'}
+  firebase-tools@13.31.0:
+    resolution: {integrity: sha512-bLnS9d2HLjPb1OFJICa2f0AJjBu8mclo7MOeiUhTAIv0j22g+GpLTPyfglsxvy5UWQ/XuWP6xx/51zqTutVH0Q==}
+    engines: {node: '>=18.0.0 || >=20.0.0 || >=22.0.0'}
     hasBin: true
 
   firebase@11.3.1:
@@ -6011,9 +6008,6 @@ packages:
   pumpify@1.5.1:
     resolution: {integrity: sha512-oClZI37HvuUJJxSKKrC17bZ9Cu0ZYhEAGPsPUy9KlMUmv9dKX2o77RUmq7f3XjIxbwyGwYzbzQ1L2Ks8sIradQ==}
 
-  punycode@1.4.1:
-    resolution: {integrity: sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==}
-
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -6561,8 +6555,8 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
 
-  superstatic@9.1.0:
-    resolution: {integrity: sha512-1PcxGREb5My6iX/DL9x+3+XFY5lM2nOiPBQV45RwbpM5bHGsStz+Lduts7y8W+xo68pHa7F8atTF52+dwfwxcw==}
+  superstatic@9.2.0:
+    resolution: {integrity: sha512-QrJAJIpAij0jJT1nEwYTB0SzDi4k0wYygu6GxK0ko8twiQgfgaOAZ7Hu99p02MTAsGho753zhzSvsw8We4PBEQ==}
     engines: {node: 18 || 20 || 22}
     hasBin: true
 
@@ -11334,10 +11328,6 @@ snapshots:
 
   fast-uri@3.0.3: {}
 
-  fast-url-parser@1.1.3:
-    dependencies:
-      punycode: 1.4.1
-
   fast-xml-parser@4.5.1:
     dependencies:
       strnum: 1.0.5
@@ -11422,7 +11412,7 @@ snapshots:
 
   firebase-auth-cloudflare-workers@2.0.6: {}
 
-  firebase-tools@13.30.0(encoding@0.1.13):
+  firebase-tools@13.31.0(encoding@0.1.13):
     dependencies:
       '@electric-sql/pglite': 0.2.16
       '@google-cloud/cloud-sql-connector': 1.5.0(encoding@0.1.13)
@@ -11435,7 +11425,7 @@ snapshots:
       body-parser: 1.20.3
       chokidar: 3.6.0
       cjson: 0.3.3
-      cli-table: 0.3.11
+      cli-table3: 0.6.5
       colorette: 2.0.20
       commander: 5.1.0
       configstore: 5.0.1
@@ -11480,7 +11470,7 @@ snapshots:
       sql-formatter: 15.4.8
       stream-chain: 2.2.5
       stream-json: 1.9.1
-      superstatic: 9.1.0(encoding@0.1.13)
+      superstatic: 9.2.0(encoding@0.1.13)
       tar: 6.2.1
       tcp-port-used: 1.0.2
       tmp: 0.2.3
@@ -13276,8 +13266,6 @@ snapshots:
       inherits: 2.0.4
       pump: 2.0.1
 
-  punycode@1.4.1: {}
-
   punycode@2.3.1: {}
 
   pupa@2.1.1:
@@ -13961,14 +13949,13 @@ snapshots:
       pirates: 4.0.6
       ts-interface-checker: 0.1.13
 
-  superstatic@9.1.0(encoding@0.1.13):
+  superstatic@9.2.0(encoding@0.1.13):
     dependencies:
       basic-auth-connect: 1.1.0
       commander: 10.0.1
       compression: 1.7.5
       connect: 3.7.0
       destroy: 1.2.0
-      fast-url-parser: 1.1.3
       glob-slasher: 1.0.1
       is-url: 1.2.4
       join-path: 1.1.1
