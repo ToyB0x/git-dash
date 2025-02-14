@@ -74,7 +74,7 @@
     "typescript": "5.7.3",
     "vite": "6.1.0",
     "vite-tsconfig-paths": "5.1.4",
-    "wrangler": "3.108.1"
+    "wrangler": "3.109.0"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }
