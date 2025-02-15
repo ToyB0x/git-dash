@@ -17,13 +17,13 @@
     "firebase-tools": "13.29.3",
     "turbo": "2.4.0"
   },
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.4.0",
   "engines": {
     "node": "22.13.1"
   },
   "volta": {
     "node": "22.13.1",
-    "pnpm": "9.15.4"
+    "pnpm": "10.4.0"
   },
   "author": "ToyB0x",
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
