@@ -14,15 +14,15 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@changesets/cli": "2.27.12",
-    "firebase-tools": "13.29.3",
-    "turbo": "2.4.0"
+    "firebase-tools": "13.31.1",
+    "turbo": "2.4.2"
   },
   "packageManager": "pnpm@10.4.0",
   "engines": {
-    "node": "22.13.1"
+    "node": "22.14.0"
   },
   "volta": {
-    "node": "22.13.1",
+    "node": "22.14.0",
     "pnpm": "10.4.0"
   },
   "author": "ToyB0x",
