@@ -13,7 +13,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@assistant-ui/react": "0.7.84",
+    "@assistant-ui/react": "0.7.85",
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@git-dash/db-api": "workspace:*",
@@ -74,7 +74,7 @@
     "typescript": "5.7.3",
     "vite": "6.1.0",
     "vite-tsconfig-paths": "5.1.4",
-    "wrangler": "3.109.1"
+    "wrangler": "3.109.2"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }
