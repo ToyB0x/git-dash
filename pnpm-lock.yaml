@@ -183,8 +183,8 @@ importers:
   apps/web:
     dependencies:
       '@assistant-ui/react':
-        specifier: 0.7.82
-        version: 0.7.82(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 0.7.84
+        version: 0.7.84(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@git-dash/api':
         specifier: workspace:*
         version: link:../api
@@ -455,8 +455,8 @@ packages:
   '@apidevtools/json-schema-ref-parser@9.1.2':
     resolution: {integrity: sha512-r1w81DpR+KyRWd3f+rk6TNqMgedmAxZP5v5KWlXQWlgMUUtyEJch0DKEci1SorPMiSeM8XPl7MZ3miJ60JIpQg==}
 
-  '@assistant-ui/react@0.7.82':
-    resolution: {integrity: sha512-0PXaOlAl3XPCUIc2KAl5S7q2wcsW143ABD8/dHHGlaFtxNIVdfTwElQv9d+INAa6pum+SZVasIco9rLoHCJnXg==}
+  '@assistant-ui/react@0.7.84':
+    resolution: {integrity: sha512-eNYPkM0dg+XKrHjKBiZE+/zAwlwr/KySg13LM/OHU4ZzC4KWxm6cev+B/BxM45tcV86jDKerHriNdzyIQYAn/w==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -3410,8 +3410,8 @@ packages:
   as-table@1.0.55:
     resolution: {integrity: sha512-xvsWESUJn0JN421Xb9MQw6AsMHRCUknCe0Wjlxvjud80mU4E6hQf1A6NzQKcYNmYw62MfzEtXc+badstZP3JpQ==}
 
-  assistant-stream@0.0.20:
-    resolution: {integrity: sha512-xg8+DKnhLz7mIjFOIK/C7hoaaxXS4LWecGG6eUiK2K7pS86rYn92ECymYYZkNFie5FB9PJw8Mf1m8Ia01vq5rg==}
+  assistant-stream@0.0.21:
+    resolution: {integrity: sha512-tQuGIuTGtmNnHSc6hxANVjO23LPmwFBjZnOt0xOhoBQBqW3vBv6DK2QOObgT9wnfLY8i2DRDwDbw8fSvYVzdMA==}
 
   ast-types@0.13.4:
     resolution: {integrity: sha512-x1FCFnFifvYDDzTaLII71vG5uvDwgtmDTEVWAxrgeiR8VjMONcCXJx7E+USjDtHlwFmt9MysbqgF9b9Vjr6w+w==}
@@ -7279,7 +7279,7 @@ snapshots:
       call-me-maybe: 1.0.2
       js-yaml: 4.1.0
 
-  '@assistant-ui/react@0.7.82(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@assistant-ui/react@0.7.84(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@ai-sdk/provider': 1.0.7
       '@radix-ui/primitive': 1.1.1
@@ -7293,12 +7293,12 @@ snapshots:
       '@radix-ui/react-tooltip': 1.1.8(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-use-callback-ref': 1.1.0(@types/react@19.0.10)(react@19.0.0)
       '@radix-ui/react-use-escape-keydown': 1.1.0(@types/react@19.0.10)(react@19.0.0)
-      assistant-stream: 0.0.20
+      assistant-stream: 0.0.21
       class-variance-authority: 0.7.1
       classnames: 2.5.1
       json-schema: 0.4.0
       lucide-react: 0.475.0(react@19.0.0)
-      nanoid: 5.1.0
+      nanoid: 3.3.8
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       react-textarea-autosize: 8.5.7(@types/react@19.0.10)(react@19.0.0)
@@ -10311,9 +10311,9 @@ snapshots:
     dependencies:
       printable-characters: 1.0.42
 
-  assistant-stream@0.0.20:
+  assistant-stream@0.0.21:
     dependencies:
-      nanoid: 5.1.0
+      nanoid: 3.3.8
       secure-json-parse: 3.0.2
 
   ast-types@0.13.4:
