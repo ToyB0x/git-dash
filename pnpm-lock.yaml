@@ -15,8 +15,8 @@ importers:
         specifier: 2.28.0
         version: 2.28.0
       firebase-tools:
-        specifier: 13.31.1
-        version: 13.31.1(encoding@0.1.13)
+        specifier: 13.31.2
+        version: 13.31.2(encoding@0.1.13)
       turbo:
         specifier: 2.4.2
         version: 2.4.2
@@ -183,8 +183,8 @@ importers:
   apps/web:
     dependencies:
       '@assistant-ui/react':
-        specifier: 0.7.85
-        version: 0.7.85(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 0.7.86
+        version: 0.7.86(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@git-dash/api':
         specifier: workspace:*
         version: link:../api
@@ -455,8 +455,9 @@ packages:
   '@apidevtools/json-schema-ref-parser@9.1.2':
     resolution: {integrity: sha512-r1w81DpR+KyRWd3f+rk6TNqMgedmAxZP5v5KWlXQWlgMUUtyEJch0DKEci1SorPMiSeM8XPl7MZ3miJ60JIpQg==}
 
-  '@assistant-ui/react@0.7.85':
-    resolution: {integrity: sha512-FwZ7ouFNOonAbJDwn3xfPT/YetE2HgURIeElRmbRX12ZvNsgfuY4KnwOGdUuX2sg3bCfWR8fChw9HWXZxdqLwA==}
+  '@assistant-ui/react@0.7.86':
+    resolution: {integrity: sha512-0xlfWInM9cWs7yCYh20LxSFA98itrI+C0bLUtrY7XaIgEkdc8nT8IiUlJb0b1lSeb8l4S9oCm3cBJch5LL8pgw==}
+    engines: {node: '>=20.10.0'}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -4460,8 +4461,8 @@ packages:
   firebase-auth-cloudflare-workers@2.0.6:
     resolution: {integrity: sha512-KYfI3eM3/gDxEIGgN6lVUDhDruKnnRDaCMlN8HR5kRg7SppFTmktlrjxXHoTEEbkEC7yH721gyZ+ZUm8Z+675A==}
 
-  firebase-tools@13.31.1:
-    resolution: {integrity: sha512-CzQsIwa7sh/0/bNhmg0lYxf4xltMA8nRX665ATpFSuzSyb3j7m5iQjI1og/gjBSTgGfXU7e/ULWkr8wDdbFqoQ==}
+  firebase-tools@13.31.2:
+    resolution: {integrity: sha512-y88vAQ8L2Bm5kkYKUyiXmUlvOs/kikE7pbVgEsoX/0CiwFqqoN8+TAi7ZwsOkB/dRlNlR4WztAa7Od6LQ0GhuQ==}
     engines: {node: '>=18.0.0 || >=20.0.0 || >=22.0.0'}
     hasBin: true
 
@@ -7289,7 +7290,7 @@ snapshots:
       call-me-maybe: 1.0.2
       js-yaml: 4.1.0
 
-  '@assistant-ui/react@0.7.85(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@assistant-ui/react@0.7.86(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@ai-sdk/provider': 1.0.7
       '@radix-ui/primitive': 1.1.1
@@ -11427,7 +11428,7 @@ snapshots:
 
   firebase-auth-cloudflare-workers@2.0.6: {}
 
-  firebase-tools@13.31.1(encoding@0.1.13):
+  firebase-tools@13.31.2(encoding@0.1.13):
     dependencies:
       '@electric-sql/pglite': 0.2.16
       '@google-cloud/cloud-sql-connector': 1.5.0(encoding@0.1.13)
