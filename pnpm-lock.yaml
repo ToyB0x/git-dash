@@ -183,8 +183,8 @@ importers:
   apps/web:
     dependencies:
       '@assistant-ui/react':
-        specifier: 0.7.86
-        version: 0.7.86(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 0.7.87
+        version: 0.7.87(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@git-dash/api':
         specifier: workspace:*
         version: link:../api
@@ -455,8 +455,8 @@ packages:
   '@apidevtools/json-schema-ref-parser@9.1.2':
     resolution: {integrity: sha512-r1w81DpR+KyRWd3f+rk6TNqMgedmAxZP5v5KWlXQWlgMUUtyEJch0DKEci1SorPMiSeM8XPl7MZ3miJ60JIpQg==}
 
-  '@assistant-ui/react@0.7.86':
-    resolution: {integrity: sha512-0xlfWInM9cWs7yCYh20LxSFA98itrI+C0bLUtrY7XaIgEkdc8nT8IiUlJb0b1lSeb8l4S9oCm3cBJch5LL8pgw==}
+  '@assistant-ui/react@0.7.87':
+    resolution: {integrity: sha512-tctQGUDa07h8J2A91vfRJPnARr4UqewZxcAlUuUUdd0ijVTEjqreUdqoMc1EPulwzJbCVZQ89x1WQc/J10OOxg==}
     engines: {node: '>=20.10.0'}
     peerDependencies:
       '@types/react': '*'
@@ -7290,7 +7290,7 @@ snapshots:
       call-me-maybe: 1.0.2
       js-yaml: 4.1.0
 
-  '@assistant-ui/react@0.7.86(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@assistant-ui/react@0.7.87(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@ai-sdk/provider': 1.0.7
       '@radix-ui/primitive': 1.1.1
