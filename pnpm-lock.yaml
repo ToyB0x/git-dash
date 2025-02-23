@@ -395,8 +395,8 @@ importers:
         specifier: 0.4.0
         version: 0.4.0(drizzle-orm@0.39.3(@cloudflare/workers-types@4.20250214.0)(@electric-sql/pglite@0.2.16)(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/sql.js@1.4.9)(pg@8.13.1)(sql.js@1.12.0))(valibot@1.0.0-rc.1(typescript@5.7.3))
       nanoid:
-        specifier: 5.1.0
-        version: 5.1.0
+        specifier: 5.1.2
+        version: 5.1.2
       valibot:
         specifier: 1.0.0-rc.1
         version: 1.0.0-rc.1(typescript@5.7.3)
@@ -5490,8 +5490,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanoid@5.1.0:
-    resolution: {integrity: sha512-zDAl/llz8Ue/EblwSYwdxGBYfj46IM1dhjVi8dyp9LQffoIGxJEAHj2oeZ4uNcgycSRcQ83CnfcZqEJzVDLcDw==}
+  nanoid@5.1.2:
+    resolution: {integrity: sha512-b+CiXQCNMUGe0Ri64S9SXFcP9hogjAJ2Rd6GdVxhPLRm7mhGaM7VgOvCAJ1ZshfHbqVDI3uqTI5C8/GaKuLI7g==}
     engines: {node: ^18 || >=20}
     hasBin: true
 
@@ -12744,7 +12744,7 @@ snapshots:
 
   nanoid@3.3.8: {}
 
-  nanoid@5.1.0: {}
+  nanoid@5.1.2: {}
 
   nearley@2.20.1:
     dependencies:
