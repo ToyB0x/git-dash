@@ -118,6 +118,15 @@ export function DropdownUserProfile({
                 aria-hidden="true"
               />
             </DropdownMenuItem>
+            <DropdownMenuItem>
+              <a href="https://github.com/ToyB0x/git-dash" target="_blank" rel="noopener noreferrer" className="w-full flex items-center">
+                Contribution             
+                <RiArrowRightUpLine
+                  className="mb-1 ml-1 size-2.5 shrink-0 text-gray-500"
+                  aria-hidden="true"
+                />
+              </a>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
