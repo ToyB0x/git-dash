@@ -725,7 +725,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
               animationDuration={100}
               cursor={{ stroke: "#d1d5db", strokeWidth: 1 }}
               offset={20}
-              position={{ y: 0 }}
+              position={{ y: 100 }}
               content={
                 showTooltip ? (
                   ({ active, payload, label }) =>
