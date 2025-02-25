@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "0.39.3",
+    "drizzle-orm": "0.40.0",
     "drizzle-valibot": "0.4.0",
     "nanoid": "5.1.2",
     "valibot": "1.0.0-rc.1"
@@ -30,7 +30,7 @@
     "@types/node": "22.13.5",
     "drizzle-kit": "0.30.4",
     "typescript": "5.7.3",
-    "wrangler": "3.109.3"
+    "wrangler": "3.110.0"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }

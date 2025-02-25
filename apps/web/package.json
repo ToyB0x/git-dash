@@ -43,7 +43,7 @@
     "@tanstack/react-table": "8.21.2",
     "clsx": "2.1.1",
     "date-fns": "4.1.0",
-    "drizzle-orm": "0.39.3",
+    "drizzle-orm": "0.40.0",
     "firebase": "11.3.1",
     "isbot": "5.1.23",
     "logrocket": "9.0.2",
@@ -74,7 +74,7 @@
     "typescript": "5.7.3",
     "vite": "6.2.0",
     "vite-tsconfig-paths": "5.1.4",
-    "wrangler": "3.109.3"
+    "wrangler": "3.110.0"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }
