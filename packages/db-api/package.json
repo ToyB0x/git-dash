@@ -23,12 +23,12 @@
     "drizzle-orm": "0.40.0",
     "drizzle-valibot": "0.4.0",
     "nanoid": "5.1.2",
-    "valibot": "1.0.0-rc.1"
+    "valibot": "1.0.0-rc.2"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "22.13.5",
-    "drizzle-kit": "0.30.4",
+    "drizzle-kit": "0.30.5",
     "typescript": "5.7.3",
     "wrangler": "3.110.0"
   },
