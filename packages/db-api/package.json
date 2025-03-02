@@ -23,7 +23,7 @@
     "drizzle-orm": "0.40.0",
     "drizzle-valibot": "0.4.0",
     "nanoid": "5.1.2",
-    "valibot": "1.0.0-rc.2"
+    "valibot": "1.0.0-rc.3"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
