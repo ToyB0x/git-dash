@@ -27,7 +27,7 @@
     "@hono/valibot-validator": "0.5.2",
     "@git-dash/db-api": "workspace:*",
     "drizzle-orm": "0.40.0",
-    "hono": "4.7.2",
+    "hono": "4.7.4",
     "valibot": "1.0.0-rc.3"
   },
   "devDependencies": {
