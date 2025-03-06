@@ -29,8 +29,8 @@
     "@tsconfig/strictest": "2.0.5",
     "@types/node": "22.13.9",
     "drizzle-kit": "0.30.5",
-    "typescript": "5.7.3",
-    "wrangler": "3.110.0"
+    "typescript": "5.8.2",
+    "wrangler": "3.113.0"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }
