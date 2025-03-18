@@ -21,7 +21,7 @@
     "@git-dash/utils": "workspace:*",
     "@libsql/client": "0.14.0",
     "@octokit/plugin-throttling": "9.4.0",
-    "@octokit/types": "13.8.0",
+    "@octokit/types": "13.8.1",
     "@supercharge/promise-pool": "3.2.0",
     "cli-table": "0.3.11",
     "commander": "13.1.0",
