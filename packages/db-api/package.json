@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "0.40.0",
+    "drizzle-orm": "0.40.1",
     "drizzle-valibot": "0.4.0",
     "nanoid": "5.1.4",
     "valibot": "1.0.0-rc.4"
