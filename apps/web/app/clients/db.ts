@@ -15,7 +15,8 @@ export const getWasmDb = async ({
 
     // workaround for sql.js latest version brake app
     // ref: https://github.com/sql-js/sql.js/issues/605#issuecomment-2727051917
-    locateFile: (file) => `https://sql.js.org/dist/1.12.0/${file}`,
+    locateFile: (file) =>
+      `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${file}`,
   });
 
   if (!firebaseToken) {
