@@ -12,7 +12,10 @@ export const getWasmDb = async ({
   const sqlPromise = initSqlJs({
     // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
     // You can omit locateFile completely when running in node
-    locateFile: (file) => `https://sql.js.org/dist/${file}`,
+
+    // workaround for sql.js latest version brake app
+    // ref: https://github.com/sql-js/sql.js/issues/605#issuecomment-2727051917
+    locateFile: (file) => `https://sql.js.org/dist/1.12.0/${file}`,
   });
 
   if (!firebaseToken) {
