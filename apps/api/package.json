@@ -24,10 +24,10 @@
   },
   "dependencies": {
     "@hono/firebase-auth": "1.4.2",
-    "@hono/valibot-validator": "0.5.2",
+    "@hono/valibot-validator": "0.5.3",
     "@git-dash/db-api": "workspace:*",
     "drizzle-orm": "0.40.1",
-    "hono": "4.7.4",
+    "hono": "4.7.11",
     "valibot": "1.0.0"
   },
   "devDependencies": {

@@ -17,9 +17,9 @@
     "drizzle-orm": "0.40.1"
   },
   "devDependencies": {
-    "@types/node": "22.13.10",
+    "@types/node": "22.13.17",
     "@tsconfig/strictest": "2.0.5",
-    "drizzle-kit": "0.30.5",
+    "drizzle-kit": "0.30.6",
     "typescript": "5.7.3",
     "tsup": "8.4.0"
   },
