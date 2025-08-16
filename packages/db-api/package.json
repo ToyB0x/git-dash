@@ -20,17 +20,17 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "0.40.1",
+    "drizzle-orm": "0.44.4",
     "drizzle-valibot": "0.4.2",
     "nanoid": "5.1.5",
-    "valibot": "1.0.0"
+    "valibot": "1.1.0"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "22.13.17",
-    "drizzle-kit": "0.30.6",
-    "typescript": "5.7.3",
-    "wrangler": "3.110.0"
+    "@types/node": "22.17.2",
+    "drizzle-kit": "0.31.4",
+    "typescript": "5.9.2",
+    "wrangler": "3.114.13"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }

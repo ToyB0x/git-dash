@@ -14,14 +14,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "0.40.1"
+    "drizzle-orm": "0.44.4"
   },
   "devDependencies": {
-    "@types/node": "22.13.17",
+    "@types/node": "22.17.2",
     "@tsconfig/strictest": "2.0.5",
-    "drizzle-kit": "0.30.6",
-    "typescript": "5.7.3",
-    "tsup": "8.4.0"
+    "drizzle-kit": "0.31.4",
+    "typescript": "5.9.2",
+    "tsup": "8.5.0"
   },
   "license": "https://github.com/ToyB0x/git-dash/blob/main/LICENSE"
 }
