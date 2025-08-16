@@ -19,26 +19,26 @@
     "@git-dash/api": "workspace:*",
     "@git-dash/db": "workspace:*",
     "@git-dash/utils": "workspace:*",
-    "@libsql/client": "0.14.0",
-    "@octokit/plugin-throttling": "9.4.0",
-    "@octokit/types": "13.8.1",
+    "@libsql/client": "0.15.11",
+    "@octokit/plugin-throttling": "9.6.1",
+    "@octokit/types": "13.10.0",
     "@supercharge/promise-pool": "3.2.0",
     "cli-table": "0.3.11",
     "commander": "13.1.0",
     "date-fns": "4.1.0",
     "dotenv-cli": "8.0.0",
-    "drizzle-orm": "0.40.1",
+    "drizzle-orm": "0.44.4",
     "octokit": "4.1.4",
-    "pino": "9.6.0",
-    "pino-pretty": "13.0.0",
-    "valibot": "1.0.0"
+    "pino": "9.9.0",
+    "pino-pretty": "13.1.1",
+    "valibot": "1.1.0"
   },
   "devDependencies": {
     "@tsconfig/strictest": "2.0.5",
     "@types/cli-table": "0.3.4",
-    "@types/node": "22.13.17",
-    "tsup": "8.4.0",
-    "typescript": "5.7.3"
+    "@types/node": "22.17.2",
+    "tsup": "8.5.0",
+    "typescript": "5.9.2"
   },
   "volta": {
     "extends": "../../package.json"
